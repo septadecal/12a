@@ -713,14 +713,14 @@
             alert(`${plan.label}: +${plan.xp} XP${gained?` and ${gained} level-up${gained>1?'s':''}!`:''}`);
         }
 
-        function getCookieScaledStats(cookieId, overrideLevel = null) {
+        function getCookieScaledStats(cookieId, overrideLevel = null, toppingBonusesOverride = null) {
             const template = COOKIES_DB.find(c => c.id === cookieId);
             if (!template) return null;
             const unlockData = gameState.unlockedCookies[cookieId] || { level: 1.0 };
             const lvl = overrideLevel !== null ? overrideLevel : unlockData.level;
             const boost = 1 + (lvl - 1) * 0.08;
             const baseHp=Math.round(template.baseHp*boost), baseAtk=Math.round(template.baseAtk*boost), baseDef=Math.round(template.baseDef*boost);
-            const topBonuses=getCookieToppingBonuses(cookieId);
+            const topBonuses=toppingBonusesOverride || getCookieToppingBonuses(cookieId);
             const hp=Math.round(baseHp*(1+topBonuses.hp)), atk=Math.round(baseAtk*(1+topBonuses.atk)), def=Math.round(baseDef*(1+topBonuses.def));
             const power=Math.round((baseAtk+baseHp*.2+baseDef*.5)*(1+topBonuses.power));
             return { ...template, level:lvl, hp, atk, def, power, toppingBonuses:topBonuses };
@@ -817,9 +817,54 @@
             return stats.reduce((sum, c) => sum + (Number(c.power) || 0), 0);
         }
 
+        function makeEnemyToppingBonuses(mode = null) {
+            const bonus = {atk:0,def:0,hp:0,resist:0,crit:0,cooldown:0,power:0};
+            const types=Object.keys(TOPPING_TYPES);
+            const count=mode ? 5 : 1+Math.floor(Math.random()*3);
+            for(let i=0;i<count;i++){
+                const type=mode || types[Math.floor(Math.random()*types.length)];
+                const level=mode ? 12 : 3+Math.floor(Math.random()*7);
+                const value=(TOPPING_TYPES[type]?.values[0]||.006)*level;
+                bonus[type]+=value;
+                if(type==='atk')bonus.power+=value*.55;
+                else if(type==='def')bonus.power+=value*.55;
+                else if(type==='hp')bonus.power+=value*.55;
+                else if(type==='cooldown')bonus.power+=value*.22;
+                else if(type==='resist')bonus.power+=value*.30;
+                else if(type==='crit')bonus.power+=value*.40;
+            }
+            return bonus;
+        }
+
+        function chooseStrategicOpponentCookies(pool, index) {
+            // Different archetypes create visibly different team plans. Some deliberately
+            // trade healing for extra pressure, while others protect a carry or double-front.
+            const plans = [
+                {front:1,heal:1,support:1,damage:2},
+                {front:2,heal:0,support:1,damage:2},
+                {front:1,heal:0,support:0,damage:4},
+                {front:2,heal:1,support:0,damage:2},
+                {front:1,heal:1,support:2,damage:1}
+            ];
+            const plan=plans[index%plans.length];
+            const buckets={
+                front:pool.filter(c=>['Charge','Defense'].includes(c.role)),
+                heal:pool.filter(c=>c.role==='Healer'),
+                support:pool.filter(c=>c.role==='Support'),
+                damage:pool.filter(c=>['Magic','Bomber','Ranged','Ambush'].includes(c.role))
+            };
+            const chosen=[];
+            const take=(key,count)=>{
+                const available=buckets[key].filter(c=>!chosen.some(x=>x.id===c.id)).sort(()=>Math.random()-.5);
+                for(let i=0;i<count && available.length;i++) chosen.push(available[i]);
+            };
+            take('front',plan.front);take('heal',plan.heal);take('support',plan.support);take('damage',plan.damage);
+            const fallback=pool.slice().sort(()=>Math.random()-.5);
+            for(const c of fallback){if(chosen.length>=5)break;if(!chosen.some(x=>x.id===c.id))chosen.push(c);}
+            return chosen.slice(0,5);
+        }
+
         function makeOpponentOffer(index) {
-            // Opponent strength is based on the player's ACTUAL equipped squad power,
-            // not arbitrary level bands. This keeps early-game opponents beatable.
             const tiers = [
                 {name:'Rookie', ratio:0.55, rarities:['Common','Rare']},
                 {name:'Intermediate', ratio:0.72, rarities:['Common','Rare','Epic']},
@@ -832,32 +877,31 @@
             const targetPower = playerPower * tier.ratio;
             let pool = COOKIES_DB.filter(c => tier.rarities.includes(c.rarity));
             if (pool.length < 5) pool = COOKIES_DB.slice();
-
-            // Pick five distinct Cookies, then solve their levels from the same power
-            // formula used by the roster and team-power display.
-            const shuffled = pool.slice().sort(() => Math.random() - 0.5);
-            const chosenTemplates = shuffled.slice(0, 5);
-            while (chosenTemplates.length < 5) chosenTemplates.push(COOKIES_DB[Math.floor(Math.random()*COOKIES_DB.length)]);
+            const chosenTemplates = chooseStrategicOpponentCookies(pool,index);
             const perCookieTarget = targetPower / 5;
-            // Master opponents have a rare 10% chance to be a fully max-level squad.
+            // Master opponents retain their rare max-level squad roll. Every max-level
+            // squad receives five focused level-12 toppings per Cookie: half ATK, half CD.
             const masterMaxed = tier.name === 'Master' && Math.random() < 0.10;
+            const maxedToppingType = Math.random() < 0.5 ? 'atk' : 'cooldown';
             const team = chosenTemplates.map(template => {
-                if (masterMaxed) return {id:template.id, level:100};
                 const basePower = Math.max(1, template.baseAtk + template.baseHp * 0.2 + template.baseDef * 0.5);
-                const rawLevel = 1 + ((perCookieTarget / basePower) - 1) / 0.08;
-                const level = Math.max(1, Math.min(100, Math.round(rawLevel)));
-                return {id:template.id, level};
+                const level = masterMaxed ? 100 : Math.max(1, Math.min(100, Math.round(1 + ((perCookieTarget / basePower) - 1) / 0.08)));
+                const toppingBonuses = makeEnemyToppingBonuses(masterMaxed ? maxedToppingType : null);
+                return {id:template.id,level,toppingBonuses, toppingLabel:masterMaxed ? (maxedToppingType==='atk'?'5× ATK Lv.12':'5× Cooldown Lv.12') : ''};
             });
             const power = team.reduce((sum, x) => {
-                const stats = getCookieScaledStats(x.id, x.level);
+                const stats = getCookieScaledStats(x.id, x.level, x.toppingBonuses);
                 return sum + (stats ? stats.power : 0);
             }, 0);
+            const hasHealer=team.some(x=>COOKIES_DB.find(c=>c.id===x.id)?.role==='Healer');
             return {
                 name:tier.name,
                 level:`Lv. ${Math.min(...team.map(x=>x.level))}–${Math.max(...team.map(x=>x.level))}`,
                 power,
                 targetPower: power,
                 maxedMaster: masterMaxed,
+                toppingLabel:masterMaxed ? `FULL TOPPINGS · ${maxedToppingType.toUpperCase()}` : '',
+                strategy:!hasHealer?'Aggressive · No healer':(team.filter(x=>['Charge','Defense'].includes(COOKIES_DB.find(c=>c.id===x.id)?.role)).length>=2?'Double frontline · Sustain':'Balanced · Healer'),
                 team
             };
         }
@@ -880,9 +924,10 @@
                 const title=document.createElement('div');title.className='flex justify-between items-center gap-1 text-xs font-black text-amber-300';title.innerHTML=`<span>TEAM ${i+1} · ${offer.name}${offer.maxedMaster?' ✨ MAXED':''}</span><span class="text-[9px] text-slate-300">${offer.level}</span>`;
                 const lineup=document.createElement('div');lineup.className='grid grid-cols-5 gap-1 my-2';
                 offer.team.forEach(x=>{const c=COOKIES_DB.find(z=>z.id===x.id);const tile=document.createElement('div');tile.className='rounded-lg bg-slate-800 border border-slate-700 p-1 text-center min-w-0';tile.innerHTML=`<div class="text-lg leading-6">${(c.name.match(/[\u{1F300}-\u{1FAFF}]/u)||['🍪'])[0]}</div><div class="text-[8px] text-slate-200 truncate">${c.name.replace(/^[^A-Za-z0-9]+/,'').split(' ')[0]}</div><div class="text-[8px] text-amber-300">${x.level}</div>`;lineup.appendChild(tile);});
+                const strategy=document.createElement('div');strategy.className='text-[9px] text-violet-300 font-bold';strategy.textContent=`${offer.strategy}${offer.toppingLabel?' · '+offer.toppingLabel:''}`;
                 const power=document.createElement('div');power.className='text-[10px] text-slate-300 font-bold';power.textContent=`⚔️ ${Math.round(offer.power).toLocaleString()} Power`;
                 const action=document.createElement('div');action.className='mt-2 text-center rounded-lg py-1.5 text-[10px] font-black '+(selectedOpponentIndex===i?'bg-amber-400 text-slate-950':'bg-sky-800 text-white');action.textContent=selectedOpponentIndex===i?'✓ SELECTED — READY':'CHALLENGE THIS TEAM';
-                card.append(title,lineup,power,action);card.onclick=()=>{selectedOpponentIndex=i;document.getElementById('enemy-tier-select').value='intermediate';renderBattleTeamPresets();};root.appendChild(card);
+                card.append(title,lineup,strategy,power,action);card.onclick=()=>{selectedOpponentIndex=i;document.getElementById('enemy-tier-select').value='intermediate';renderBattleTeamPresets();};root.appendChild(card);
             });
         }
 
@@ -1166,7 +1211,7 @@
                 if (!candidates.length) return null;
                 const template = candidates[Math.floor(Math.random() * candidates.length)];
                 const randomLvl = Math.floor(minLvl + Math.random() * (maxLvl - minLvl + 1));
-                const stats = getCookieScaledStats(template.id, randomLvl);
+                const stats = getCookieScaledStats(template.id, randomLvl, makeEnemyToppingBonuses());
                 // Use the same complete combat-unit initializer as the player's team.
                 // The previous enemy object omitted effects and basicTimer, which could
                 // stop enemy basic attacks and crash skills that apply status effects.
@@ -1193,7 +1238,7 @@
             let generatedEnemies;
             if (selectedOpponentIndex >= 0 && opponentOffers[selectedOpponentIndex]) {
                 const offer=opponentOffers[selectedOpponentIndex];
-                generatedEnemies=offer.team.map((entry,index)=>initCombatUnit(getCookieScaledStats(entry.id,entry.level),`enemy_${index}`));
+                generatedEnemies=offer.team.map((entry,index)=>initCombatUnit(getCookieScaledStats(entry.id,entry.level,entry.toppingBonuses),`enemy_${index}`));
             } else generatedEnemies = generateEnemyTeamByTier(tier);
             if (!generatedEnemies) return;
 

@@ -2037,13 +2037,13 @@
             row.dataset.group=group;
             row.innerHTML=`<div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
               <label class="text-[10px]">Effect<select class="be-stat w-full bg-slate-950 rounded p-2 text-xs">${BUILDER_STATUS_NAMES.map(k=>`<option>${k}</option>`).join('')}<option value="Custom Status">🧬 Custom Status</option></select></label>
-              <label class="text-[10px]">Target<select class="be-target w-full bg-slate-950 rounded p-2 text-xs"><option value="team">All allies</option><option value="self">Self</option><option value="enemy">All enemies</option><option value="single">Weakest enemy</option><option value="ally">Weakest ally</option><option value="strong">Strongest enemy</option><option value="weakest2">Two weakest enemies</option><option value="random2">Two random enemies</option><option value="random3">Three random enemies</option><option value="random">Random N enemies</option><option value="count">Weakest N enemies</option><option value="weakestallies">Weakest N allies</option><option value="randomallies">Random N allies</option></select></label>
+              <label class="text-[10px] be-target-wrap">Target<select class="be-target w-full bg-slate-950 rounded p-2 text-xs"><option value="team">All allies</option><option value="self">Self</option><option value="enemy">All enemies</option><option value="single">Weakest enemy</option><option value="ally">Weakest ally</option><option value="strong">Strongest enemy</option><option value="weakest2">Two weakest enemies</option><option value="random2">Two random enemies</option><option value="random3">Three random enemies</option><option value="random">Random N enemies</option><option value="count">Weakest N enemies</option><option value="weakestallies">Weakest N allies</option><option value="randomallies">Random N allies</option></select></label>
               <label class="text-[10px] be-target-count-wrap">Target count N<input class="be-target-count w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="5" value="2"></label>
-              ${passive?`<label class="text-[10px]">Trigger<select class="be-trigger w-full bg-slate-950 rounded p-2 text-xs"><option value="start">Battle start</option><option value="interval">Every N seconds</option><option value="basic">Every N basic attacks</option><option value="skill">When using skill</option><option value="lowhp">Once below HP threshold</option></select></label>`:''}
+              ${passive?`<label class="text-[10px] be-trigger-wrap">Trigger<select class="be-trigger w-full bg-slate-950 rounded p-2 text-xs"><option value="start">Battle start</option><option value="interval">Every N seconds</option><option value="basic">Every N basic attacks</option><option value="skill">When using skill</option><option value="lowhp">Once below HP threshold</option></select></label>`:''}
               <label class="text-[10px] be-amount-wrap"><span class="be-amount-label">Strength (%)</span><input class="be-amount w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0" max="500" value="20"></label>
               <label class="text-[10px] be-duration-wrap"><span class="be-duration-label">Duration (seconds)</span><input class="be-duration w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0.25" max="180" value="8" step="0.25"></label>
               <label class="text-[10px] be-charges-wrap hidden">Revive charges (per battle)<input class="be-charges w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="3" value="1"></label><label class="text-[10px] be-stacks-wrap">Max stacks<input class="be-stacks w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="20" value="2"></label>
-              ${passive?`<label class="text-[10px]">Trigger N / HP %<input class="be-every w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="100" value="5"></label>`:''}
+              ${passive?`<label class="text-[10px] be-every-wrap">Trigger N / HP %<input class="be-every w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="100" value="5"></label>`:''}
               <label class="text-[10px] be-custom-wrap">Named custom status<input class="be-custom w-full bg-slate-950 rounded p-2 text-xs" placeholder="e.g. Void Rot" maxlength="45"></label>
               <label class="text-[10px] be-element-wrap">Element for Element ATK Up<select class="be-element w-full bg-slate-950 rounded p-2 text-xs">${ELEMENTS.map(e=>`<option>${e}</option>`).join('')}</select></label>
               </div><p class="be-help text-[11px] text-cyan-300"></p><button onclick="this.closest('.builder-effect').remove()" class="text-rose-300 text-xs">✕ Remove effect</button>`;
@@ -2081,10 +2081,14 @@
             amountWrap?.classList.toggle('hidden',hideAmount);
             durationWrap?.classList.toggle('hidden',isInstant||stat==='Custom Status');
             row.querySelector('.be-charges-wrap')?.classList.toggle('hidden',stat!=='Revive');
+            row.querySelector('.be-target-wrap')?.classList.toggle('hidden',stat==='Revive');
+            row.querySelector('.be-trigger-wrap')?.classList.toggle('hidden',stat==='Revive');
+            row.querySelector('.be-every-wrap')?.classList.toggle('hidden',stat==='Revive');
+            if(stat==='Revive'){row.querySelector('.be-target').value='team';if(row.querySelector('.be-trigger'))row.querySelector('.be-trigger').value='start';}
             if(stat==='Invulnerability'){const d=row.querySelector('.be-duration');d.max='3';if(Number(d.value)>3)d.value='3';}else row.querySelector('.be-duration').max='180';
             if(label)label.textContent=stat==='Cooldown Increase'?'Added cooldown (seconds)':stat==='Cooldown Recovery'?'Cooldown reduction (seconds)':stat==='Instant Healing'?'Healing (% of caster ATK)':stat==='HP Shield'?'Shield (% of target max HP)':'Strength (%)';
             if(stat==='Cooldown Increase'||stat==='Cooldown Recovery'){amount.max='15';if(Number(amount.value)>15)amount.value='3';}else amount.max='500';
-            if(help)help.textContent=stat==='Revive'?'Passive only: restores a fallen ally at 25% HP. Maximum 3 charges per battle. Does not revive Ethereal Cookies.':stat==='Invulnerability'?'Maximum 3 seconds per application; each Cookie can receive at most 6 seconds total custom invulnerability per battle.':stat==='Cooldown Increase'?'Instantly adds seconds to remaining skill cooldown. Duration is not used.':stat==='Cooldown Recovery'?'Instantly reduces remaining skill cooldown. Duration is not used.':stat==='Instant Healing'?'Heals immediately; no duration.':stat==='Custom Status'?'Enter a named status below; configure its component effects in the Named Status section.':isInstant?'Applies instantly.':hideAmount?'Duration controls how long this status lasts.':'Strength and duration both apply.';
+            if(help)help.textContent=stat==='Revive'?'AUTOMATIC: When any ally (including another Revive Cookie) falls, this living Cookie spends 1 charge to revive them at 75% HP, reset their skill cooldown, and grant 1 second of invulnerability. No trigger, duration, strength, or stacks needed.':stat==='Invulnerability'?'Maximum 3 seconds per application; each Cookie can receive at most 6 seconds total custom invulnerability per battle.':stat==='Cooldown Increase'?'Instantly adds seconds to remaining skill cooldown. Duration is not used.':stat==='Cooldown Recovery'?'Instantly reduces remaining skill cooldown. Duration is not used.':stat==='Instant Healing'?'Heals immediately; no duration.':stat==='Custom Status'?'Enter a named status below; configure its component effects in the Named Status section.':isInstant?'Applies instantly.':hideAmount?'Duration controls how long this status lasts.':'Strength and duration both apply.';
             if(!composite){
                 row.querySelector('.be-target-count-wrap')?.classList.toggle('hidden',!['random','count','weakestallies','randomallies'].includes(row.querySelector('.be-target')?.value));
                 row.querySelector('.be-stacks-wrap')?.classList.toggle('hidden',isInstant||stat==='Custom Status');
@@ -2370,7 +2374,7 @@
             if(cookie.custom){
                 add('Custom Skill',`${cookie.customDamage||0}% ATK`,`${(cookie.customEffects||[]).length} skill components`);
                 (cookie.customEffects||[]).forEach((e,i)=>add(`Skill ${i+1} · ${e.stat}`,`${e.amount}% · ${e.duration}s · max ${e.stacks} stacks`,e.stat==='Custom Status'?'Custom status: '+e.customName:'Target: '+e.target));
-                (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,`${e.amount}% · ${e.duration}s`,`${e.trigger} trigger · ${e.every||5}`));
+                (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,e.stat==='Revive'?`${e.charges||1} charges · 75% HP · 1s immune`:`${e.amount}% · ${e.duration}s`,e.stat==='Revive'?'Automatic on ally KO':`${e.trigger} trigger · ${e.every||5}`));
                 (cookie.customComposites||[]).forEach(e=>add('🧬 '+e.name,`${e.components.length} effects`,e.components.map(c=>`${c.stat} (${c.amount||0}${['Cooldown Increase','Cooldown Recovery'].includes(c.stat)?'s':'%'})`).join(', ')));
             }
             if(cookie.id==='et15'){
@@ -2856,6 +2860,8 @@
                 runSide(enemyUnits,playerUnits,false);
             }
 
+            // Handle lethal damage from DOT, reflect, or special skills as well.
+            [...playerUnits,...enemyUnits].filter(u=>u.currentHp<=0).forEach(tryCustomRevive);
             if (enemyUnits.every(u=>u.currentHp<=0 || u.role==='Ethereal')) { endBattle(true,'VICTORY!'); return; }
             if (playerUnits.every(u=>u.currentHp<=0 || u.role==='Ethereal')) { endBattle(false,'DEFEAT!'); return; }
             if(!leagueMode){
@@ -2958,32 +2964,31 @@
             spawnFloatingText(target.uid,'✦ LAST STAND','text-amber-200 text-xs');return true;
         }
         function tryCustomRevive(fallen){
-            if(!fallen||fallen.currentHp>0||fallen.role==='Ethereal')return false;
+            if(!fallen || fallen.currentHp>0 || fallen.role==='Ethereal')return false;
             const team=playerUnits.includes(fallen)?playerUnits:enemyUnits;
-            for(const healer of team){
-                if(healer.currentHp<=0)continue;
-                const passives=healer.customPassives||[];
-                healer._revivePassiveUsed=healer._revivePassiveUsed||{};
+            if(!team || !team.includes(fallen))return false;
+            for(const reviver of team){
+                if(reviver===fallen || reviver.currentHp<=0)continue;
+                const passives=reviver.customPassives||[];
+                reviver._revivePassiveUsed=reviver._revivePassiveUsed||{};
                 for(let i=0;i<passives.length;i++){
-                    const p=passives[i];
-                    if(p.stat!=='Revive')continue;
-                    const maxCharges=Math.min(3,Math.max(1,Number(p.charges)||1));
-                    if((healer._revivePassiveUsed[i]||0)>=maxCharges)continue;
-                    // A Cookie carrying Revive may itself be revived by another living reviver.
-                    // Revive can target allies, but not enemy units or the caster's opponents.
-                    if(['enemy','single','strong','weakest2','random2','random3','random','count'].includes(p.target))continue;
-                    healer._revivePassiveUsed[i]=(healer._revivePassiveUsed[i]||0)+1;
-                    fallen.currentHp=Math.max(1,Math.round(fallen.maxHp*.25));
+                    const passive=passives[i];
+                    if(passive.stat!=='Revive')continue;
+                    const limit=Math.min(3,Math.max(1,Math.floor(Number(passive.charges)||1)));
+                    if((reviver._revivePassiveUsed[i]||0)>=limit)continue;
+                    reviver._revivePassiveUsed[i]=(reviver._revivePassiveUsed[i]||0)+1;
+                    fallen.currentHp=Math.max(1,Math.round(fallen.maxHp*.75));
                     fallen.shield=0;
+                    // Clear harmful status effects from before the knockout.
                     fallen.effects.stun=0;fallen.effects.sleep=0;fallen.effects.freeze=0;
-                    fallen.effects._customStatus={};recomputeCustomStatus(fallen);
-                    // A revived Cookie starts its skill cooldown over from the beginning.
+                    fallen.effects.fear=0;fallen.effects.charm=0;fallen.effects.silence=0;
+                    fallen.effects._customStatus={};
+                    recomputeCustomStatus(fallen);
                     fallen.cdTimer=Math.max(0,Number(fallen.maxCD)||3);
-                    // Brief protection after revival; other sources can extend it.
                     fallen.effects.invulnerable=1;
                     fallen.effects.invulnerableTimer=Math.max(1,Number(fallen.effects.invulnerableTimer)||0);
-                    spawnFloatingText(fallen.uid,'REVIVED · 25% HP · 1s IMMUNE','text-emerald-300 text-xs');
-                    if(!leagueMode)logBattleEvent('✦ '+healer.name+' revived '+fallen.name+' ('+healer._revivePassiveUsed[i]+'/'+maxCharges+' charges)');
+                    spawnFloatingText(fallen.uid,'REVIVED · 75% HP · 1s IMMUNE','text-emerald-300 text-xs');
+                    if(!leagueMode)logBattleEvent('✦ '+reviver.name+' revived '+fallen.name+' ('+reviver._revivePassiveUsed[i]+'/'+limit+' charges)');
                     return true;
                 }
             }
@@ -3051,7 +3056,7 @@
             const hitNode=document.getElementById(`unit-node-${target.uid}`); if(hitNode){hitNode.classList.remove('hit-flash'); void hitNode.offsetWidth; hitNode.classList.add('hit-flash');}
             if(attacker && target.effects?.reflect>0 && hpDamage>0) {
                 const reflected=Math.round(hpDamage*target.effects.reflect);
-                attacker.currentHp=Math.max(0,attacker.currentHp-reflected); attacker.dmgRecv+=reflected;
+                attacker.currentHp=Math.max(0,attacker.currentHp-reflected); if(attacker.currentHp<=0)tryCustomRevive(attacker); attacker.dmgRecv+=reflected;
                 spawnFloatingText(attacker.uid,`-${reflected} ↩`,'text-sky-300 text-xs');
             }
             return hpDamage;

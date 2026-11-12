@@ -2011,7 +2011,7 @@
         let builderUnlocked=false;
         const BUILT_COOKIE_KEY='CRK_V23_BUILT_COOKIES';
         const BUILDER_STATUS_CATALOG = [
-          ['ATK Up','buff'],['DEF Up','buff'],['HP Shield','buff'],['DMG Resist Up','buff'],['CRIT Chance Up','buff'],['CRIT DMG Up','buff'],['ATK Speed Up','buff'],['Move Speed Up','buff'],['Cooldown Recovery','buff'],['Amplify Buff','buff'],['Debuff Resist Up','buff'],['Element ATK Up','buff'],['Invulnerability','buff'],['Debuff Immunity','buff'],['CC Immunity','buff'],['Healing Over Time','buff'],['Instant Healing','buff'],
+          ['ATK Up','buff'],['DEF Up','buff'],['HP Shield','buff'],['DMG Resist Up','buff'],['CRIT Chance Up','buff'],['CRIT DMG Up','buff'],['ATK Speed Up','buff'],['Move Speed Up','buff'],['Cooldown Recovery','buff'],['Amplify Buff','buff'],['Debuff Resist Up','buff'],['Element ATK Up','buff'],['Invulnerability','buff'],['Revive','buff'],['Debuff Immunity','buff'],['CC Immunity','buff'],['Healing Over Time','buff'],['Instant Healing','buff'],
           ['ATK Down','debuff'],['DEF Down','debuff'],['DMG Resist Down','debuff'],['CRIT Chance Down','debuff'],['CRIT DMG Down','debuff'],['ATK Speed Down','debuff'],['Move Speed Down','debuff'],['Healing Received Down','debuff'],['Cooldown Increase','debuff'],['Cooldown Pause','debuff'],['Injury','debuff'],['Buff Prohibited','debuff'],['Amplify Debuff','debuff'],
           ['Burn','debuff'],['Solar Burn','debuff'],['Zap','debuff'],['Overcurrent','debuff'],['Bleed','debuff'],['Tear','debuff'],['Poison','debuff'],['Infection','debuff'],['Frost','debuff'],['Corruption','debuff'],['Decay','debuff'],
           ['Stun','debuff'],['Freeze','debuff'],['Silence','debuff'],['Charm','debuff'],['Fear','debuff'],['Shackles','debuff'],['Sleep','debuff'],['Knockback','debuff'],['Airborne','debuff'],['Cyclone','debuff']
@@ -2042,7 +2042,7 @@
               ${passive?`<label class="text-[10px]">Trigger<select class="be-trigger w-full bg-slate-950 rounded p-2 text-xs"><option value="start">Battle start</option><option value="interval">Every N seconds</option><option value="basic">Every N basic attacks</option><option value="skill">When using skill</option><option value="lowhp">Once below HP threshold</option></select></label>`:''}
               <label class="text-[10px] be-amount-wrap"><span class="be-amount-label">Strength (%)</span><input class="be-amount w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0" max="500" value="20"></label>
               <label class="text-[10px] be-duration-wrap"><span class="be-duration-label">Duration (seconds)</span><input class="be-duration w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0.25" max="180" value="8" step="0.25"></label>
-              <label class="text-[10px] be-stacks-wrap">Max stacks<input class="be-stacks w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="20" value="2"></label>
+              <label class="text-[10px] be-charges-wrap hidden">Revive charges (per battle)<input class="be-charges w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="3" value="1"></label><label class="text-[10px] be-stacks-wrap">Max stacks<input class="be-stacks w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="20" value="2"></label>
               ${passive?`<label class="text-[10px]">Trigger N / HP %<input class="be-every w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="100" value="5"></label>`:''}
               <label class="text-[10px] be-custom-wrap">Named custom status<input class="be-custom w-full bg-slate-950 rounded p-2 text-xs" placeholder="e.g. Void Rot" maxlength="45"></label>
               <label class="text-[10px] be-element-wrap">Element for Element ATK Up<select class="be-element w-full bg-slate-950 rounded p-2 text-xs">${ELEMENTS.map(e=>`<option>${e}</option>`).join('')}</select></label>
@@ -2050,7 +2050,7 @@
             (mount||document.getElementById(passive?'cb-passives':'cb-effects')).appendChild(row);
             row.querySelector('.be-stat').addEventListener('change',()=>updateBuilderEffectFields(row));
             row.querySelector('.be-target').addEventListener('change',()=>updateBuilderEffectFields(row));
-            if(initial){for(const [cls,key] of [['be-stat','stat'],['be-target','target'],['be-target-count','targetCount'],['be-trigger','trigger'],['be-amount','amount'],['be-duration','duration'],['be-stacks','stacks'],['be-every','every'],['be-custom','customName'],['be-element','element']]){const el=row.querySelector('.'+cls);if(el&&initial[key]!=null)el.value=initial[key];}}
+            if(initial){for(const [cls,key] of [['be-stat','stat'],['be-target','target'],['be-target-count','targetCount'],['be-trigger','trigger'],['be-amount','amount'],['be-duration','duration'],['be-stacks','stacks'],['be-charges','charges'],['be-every','every'],['be-custom','customName'],['be-element','element']]){const el=row.querySelector('.'+cls);if(el&&initial[key]!=null)el.value=initial[key];}}
             updateBuilderEffectFields(row);
         }
         function addBuilderComposite(initial=null){if(!builderUnlocked)return;
@@ -2076,13 +2076,15 @@
             const amountWrap=row.querySelector('.'+pre+'-amount-wrap'),durationWrap=row.querySelector('.'+pre+'-duration-wrap');
             const amount=row.querySelector('.'+pre+'-amount'),label=row.querySelector('.'+pre+'-amount-label'),help=row.querySelector('.'+pre+'-help');
             const instant=['Instant Healing','Cooldown Increase','Cooldown Recovery','Knockback','Airborne','Cyclone','Cleanse','Dispel'];
-            const noPower=['Stun','Silence','Sleep','Freeze','Root','Shackle','Charm','Fear','Taunt','Invulnerability','Debuff Immunity','CC Immunity','Buff Prohibited','Cooldown Pause'];
-            const isInstant=instant.includes(stat),hideAmount=noPower.includes(stat)||stat==='Custom Status';
+            const noPower=['Stun','Silence','Sleep','Freeze','Root','Shackle','Charm','Fear','Taunt','Invulnerability','Debuff Immunity','CC Immunity','Buff Prohibited','Cooldown Pause','Revive'];
+            const isInstant=instant.includes(stat)||stat==='Revive',hideAmount=noPower.includes(stat)||stat==='Custom Status';
             amountWrap?.classList.toggle('hidden',hideAmount);
             durationWrap?.classList.toggle('hidden',isInstant||stat==='Custom Status');
+            row.querySelector('.be-charges-wrap')?.classList.toggle('hidden',stat!=='Revive');
+            if(stat==='Invulnerability'){const d=row.querySelector('.be-duration');d.max='3';if(Number(d.value)>3)d.value='3';}else row.querySelector('.be-duration').max='180';
             if(label)label.textContent=stat==='Cooldown Increase'?'Added cooldown (seconds)':stat==='Cooldown Recovery'?'Cooldown reduction (seconds)':stat==='Instant Healing'?'Healing (% of caster ATK)':stat==='HP Shield'?'Shield (% of target max HP)':'Strength (%)';
             if(stat==='Cooldown Increase'||stat==='Cooldown Recovery'){amount.max='15';if(Number(amount.value)>15)amount.value='3';}else amount.max='500';
-            if(help)help.textContent=stat==='Cooldown Increase'?'Instantly adds seconds to remaining skill cooldown. Duration is not used.':stat==='Cooldown Recovery'?'Instantly reduces remaining skill cooldown. Duration is not used.':stat==='Instant Healing'?'Heals immediately; no duration.':stat==='Custom Status'?'Enter a named status below; configure its component effects in the Named Status section.':isInstant?'Applies instantly.':hideAmount?'Duration controls how long this status lasts.':'Strength and duration both apply.';
+            if(help)help.textContent=stat==='Revive'?'Passive only: restores a fallen ally at 25% HP. Maximum 3 charges per battle. Does not revive Ethereal Cookies.':stat==='Invulnerability'?'Maximum 3 seconds per application; each Cookie can receive at most 6 seconds total custom invulnerability per battle.':stat==='Cooldown Increase'?'Instantly adds seconds to remaining skill cooldown. Duration is not used.':stat==='Cooldown Recovery'?'Instantly reduces remaining skill cooldown. Duration is not used.':stat==='Instant Healing'?'Heals immediately; no duration.':stat==='Custom Status'?'Enter a named status below; configure its component effects in the Named Status section.':isInstant?'Applies instantly.':hideAmount?'Duration controls how long this status lasts.':'Strength and duration both apply.';
             if(!composite){
                 row.querySelector('.be-target-count-wrap')?.classList.toggle('hidden',!['random','count','weakestallies','randomallies'].includes(row.querySelector('.be-target')?.value));
                 row.querySelector('.be-stacks-wrap')?.classList.toggle('hidden',isInstant||stat==='Custom Status');
@@ -2090,7 +2092,7 @@
                 row.querySelector('.be-element-wrap')?.classList.toggle('hidden',stat!=='Element ATK Up');
             }
         }
-        function collectBuilderEffect(row){return {stat:row.querySelector('.be-stat').value,target:row.querySelector('.be-target').value,targetCount:Math.max(1,Math.min(5,Number(row.querySelector('.be-target-count')?.value)||2)),amount:Math.max(0,Math.min(500,Number(row.querySelector('.be-amount').value)||0)),duration:Math.max(.25,Math.min(180,Number(row.querySelector('.be-duration').value)||8)),stacks:Math.max(1,Math.min(20,Math.round(Number(row.querySelector('.be-stacks').value)||1))),trigger:row.querySelector('.be-trigger')?.value||'skill',every:Math.max(1,Math.min(100,Number(row.querySelector('.be-every')?.value)||5)),customName:row.querySelector('.be-custom').value.trim().slice(0,45),element:row.querySelector('.be-element').value};}
+        function collectBuilderEffect(row){return {stat:row.querySelector('.be-stat').value,target:row.querySelector('.be-target').value,targetCount:Math.max(1,Math.min(5,Number(row.querySelector('.be-target-count')?.value)||2)),amount:Math.max(0,Math.min(500,Number(row.querySelector('.be-amount').value)||0)),duration:Math.max(.25,Math.min(180,Number(row.querySelector('.be-duration').value)||8)),stacks:Math.max(1,Math.min(20,Math.round(Number(row.querySelector('.be-stacks').value)||1))),charges:Math.max(1,Math.min(3,Math.round(Number(row.querySelector('.be-charges')?.value)||1))),trigger:row.querySelector('.be-trigger')?.value||'skill',every:Math.max(1,Math.min(100,Number(row.querySelector('.be-every')?.value)||5)),customName:row.querySelector('.be-custom').value.trim().slice(0,45),element:row.querySelector('.be-element').value};}
         function builderClearForm(){
             editingBuiltCookieId=null;
             for(const id of ['cb-name','cb-emoji','cb-visual-emoji'])document.getElementById(id).value=id==='cb-emoji'?'🍪':id==='cb-visual-emoji'?'✨':'';
@@ -2128,7 +2130,9 @@
             if(role==='Ethereal' && Number(document.getElementById('cb-damage').value)>0)document.getElementById('cb-damage').value=0;
             const effects=[...document.querySelectorAll('#cb-effects .builder-effect')].map(collectBuilderEffect);
             const passives=[...document.querySelectorAll('#cb-passives .builder-effect')].map(collectBuilderEffect);
+            if(effects.some(x=>x.stat==='Revive')){alert('Revive is a passive effect. Add it under Passives instead.');return;}
             const composites=[...document.querySelectorAll('#cb-composites .builder-composite')].map(row=>({name:row.querySelector('.bc-name').value.trim().slice(0,45),components:[...row.querySelectorAll('.bc-component')].map(collectBuilderEffect)})).filter(x=>x.name&&x.components.length);
+            if(composites.some(x=>x.components.some(e=>e.stat==='Revive'))){alert('Revive must be a direct passive, not inside a named status.');return;}
             if(effects.length>30||passives.length>20||composites.length>15){alert('Limit: 30 skill effects, 20 passives, 15 custom statuses.');return;}
             const id=editingBuiltCookieId||('user_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7));
             const avg=role==='Ethereal'?[2800,650,1000]:(ROLE_RARITY_AVERAGES[rarity]?.[role]||[3000,800,900]);
@@ -2179,9 +2183,10 @@
         function customApplyStatus(source,target,entry,key,depth=0,context=null){
             if(!target||target.currentHp<=0||depth>2)return;
             const stat=entry.stat,amount=Math.max(0,Math.min(500,Number(entry.amount)||0))/100;
-            const duration=Math.max(.25,Math.min(180,Number(entry.duration)||5));
-            const stacks=Math.max(1,Math.min(20,Number(entry.stacks)||1));
+            const duration=Math.max(.25,Math.min(stat==='Invulnerability'?3:180,Number(entry.duration)||5));
+            const stacks=Math.max(1,Math.min(stat==='Invulnerability'?1:20,Number(entry.stacks)||1));
             const e=target.effects;
+            if(stat==='Revive')return; // Revive is handled only by the fatal-damage passive handler.
             if(stat==='Custom Status'){
                 const composite=(source.customComposites||[]).find(x=>x.name===entry.customName);
                 if(composite)composite.components.slice(0,15).forEach((component,i)=>{
@@ -2205,7 +2210,15 @@
             const value=amount*count*amp*resist;
             const lifetime=duration*(debuff?(1+(e.debuffAmp||0))*resist:1+(e.buffAmp||0));
             const instant=['HP Shield','Instant Healing','Cooldown Increase','Cooldown Recovery','Knockback','Airborne','Cyclone'];
-            if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,value,element:entry.element||source.element,sourceId:source.id,tick:1};
+            if(stat==='Invulnerability'){
+                target._customInvulnBudget=target._customInvulnBudget??6;
+                const prev=e._customStatus[sourceKey];
+                const remaining=Math.max(0,target._customInvulnBudget-(prev?.time||0));
+                if(remaining<=0)return;
+                const allotted=Math.min(3,lifetime,remaining);
+                target._customInvulnBudget=Math.max(0,target._customInvulnBudget-allotted);
+                e._customStatus[sourceKey]={stat,count:1,time:allotted,value:1,element:entry.element||source.element,sourceId:source.id,tick:1};
+            }else if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,value,element:entry.element||source.element,sourceId:source.id,tick:1};
             if(stat==='HP Shield')addShield(target,target.maxHp*value);
             else if(stat==='Instant Healing')healUnit(source,target,source.atk*value);
             else if(stat==='Cooldown Increase')target.cdTimer+=Math.min(15,Math.max(0,Number(entry.amount)||0));
@@ -2944,6 +2957,38 @@
             if(mode==='shield')addShield(target,target.maxHp*.20);
             spawnFloatingText(target.uid,'✦ LAST STAND','text-amber-200 text-xs');return true;
         }
+        function tryCustomRevive(fallen){
+            if(!fallen||fallen.currentHp>0||fallen.role==='Ethereal')return false;
+            const team=playerUnits.includes(fallen)?playerUnits:enemyUnits;
+            for(const healer of team){
+                if(healer.currentHp<=0)continue;
+                const passives=healer.customPassives||[];
+                healer._revivePassiveUsed=healer._revivePassiveUsed||{};
+                for(let i=0;i<passives.length;i++){
+                    const p=passives[i];
+                    if(p.stat!=='Revive')continue;
+                    const maxCharges=Math.min(3,Math.max(1,Number(p.charges)||1));
+                    if((healer._revivePassiveUsed[i]||0)>=maxCharges)continue;
+                    // A Cookie carrying Revive may itself be revived by another living reviver.
+                    // Revive can target allies, but not enemy units or the caster's opponents.
+                    if(['enemy','single','strong','weakest2','random2','random3','random','count'].includes(p.target))continue;
+                    healer._revivePassiveUsed[i]=(healer._revivePassiveUsed[i]||0)+1;
+                    fallen.currentHp=Math.max(1,Math.round(fallen.maxHp*.25));
+                    fallen.shield=0;
+                    fallen.effects.stun=0;fallen.effects.sleep=0;fallen.effects.freeze=0;
+                    fallen.effects._customStatus={};recomputeCustomStatus(fallen);
+                    // A revived Cookie starts its skill cooldown over from the beginning.
+                    fallen.cdTimer=Math.max(0,Number(fallen.maxCD)||3);
+                    // Brief protection after revival; other sources can extend it.
+                    fallen.effects.invulnerable=1;
+                    fallen.effects.invulnerableTimer=Math.max(1,Number(fallen.effects.invulnerableTimer)||0);
+                    spawnFloatingText(fallen.uid,'REVIVED · 25% HP · 1s IMMUNE','text-emerald-300 text-xs');
+                    if(!leagueMode)logBattleEvent('✦ '+healer.name+' revived '+fallen.name+' ('+healer._revivePassiveUsed[i]+'/'+maxCharges+' charges)');
+                    return true;
+                }
+            }
+            return false;
+        }
         function applyDamage(attacker,target,rawDamage,color='text-rose-400 text-xs',isPlayer=false,ignoreDefense=false,defensePenetration=0) {
             if(!target || target.currentHp<=0 || target.role==='Ethereal') return 0;
             if((target.effects?.invulnerable||0)>0 || (target.effects?.netherRingTimer||0)>0){target.dmgMitigated=(target.dmgMitigated||0)+Math.max(0,Math.round(rawDamage));spawnFloatingText(target.uid,'IMMUNE','text-fuchsia-300 text-xs');return 0;}
@@ -2986,6 +3031,7 @@
             const ringTriggered=wiltedBeforeFatal(target,incoming)||netherBeforeFatal(target,incoming);
             const hpDamage=ringTriggered?0:Math.min(target.currentHp,incoming);
             target.currentHp=Math.max(0,target.currentHp-hpDamage);
+            if(target.currentHp<=0 && hpDamage>0)tryCustomRevive(target);
             if(target.currentHp<=0 && hpDamage>0){
                 const foeSide=playerUnits.includes(target)?enemyUnits:playerUnits;
                 foeSide.filter(u=>u.id==='et15'&&u.currentHp>0).forEach(q=>q.netherFragments=Math.min(10,(q.netherFragments||0)+5));

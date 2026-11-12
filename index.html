@@ -514,7 +514,7 @@
               <h3 class="font-bold text-emerald-200">♛ Passive abilities</h3><p class="text-xs text-slate-400">Passives can trigger at battle start, periodically, after a basic attack, on skill cast, or when HP is low.</p>
               <div id="cb-passives" class="space-y-2"></div>
               <button onclick="addBuilderEffect('passive')" class="border border-emerald-600 text-emerald-200 rounded-xl px-4 py-2 font-bold text-xs">+ ADD PASSIVE</button>
-              <h3 class="font-bold text-violet-200">🧬 Named custom status effects</h3><p class="text-xs text-slate-400">Combine multiple regular effects under one custom name. Example: “Void Rot” = Poison + DEF Down + Silence. Apply it from a skill or passive.</p>
+              <h3 class="font-bold text-violet-200">🧬 Named custom status effects</h3><p class="text-xs text-slate-400">Give your status one name, then add its effects underneath. To apply it, select Custom Status in a skill or passive and type that name.</p>
               <div id="cb-composites" class="space-y-2"></div>
               <button onclick="addBuilderComposite()" class="border border-violet-600 text-violet-200 rounded-xl px-4 py-2 font-bold text-xs">+ CREATE NAMED STATUS</button>
               <button onclick="saveBuiltCookie()" class="w-full rounded-xl bg-emerald-500 text-slate-950 font-black p-3" id="cb-save-button">🍪 CREATE COOKIE</button>
@@ -2030,7 +2030,7 @@
             const elem=document.getElementById('cb-element');if(!elem.options.length)elem.innerHTML=ELEMENTS.map(e=>`<option>${e}</option>`).join('');
             document.getElementById('cb-created').innerHTML=readBuiltCookies().map(c=>`<div class="flex items-center justify-between gap-2 bg-slate-900 p-2 rounded-xl"><span class="text-xs">${escapeCookieHtml(c.name)} · ${c.rarity} ${c.role}</span><button class="bg-amber-700 rounded p-2 text-xs" onclick="editBuiltCookie('${c.id}')">✏️ EDIT</button><button class="text-rose-300 text-xs border border-rose-800 rounded p-2" onclick="deleteBuiltCookie('${c.id}')">DELETE</button><button class="bg-sky-700 rounded p-2 text-xs" onclick="publishBuiltCookie('${c.id}')">🌎 PUBLISH</button></div>`).join('')||'<p class="text-xs text-slate-500">No created Cookies yet.</p>';
         }
-        function addBuilderEffect(group='skill',initial=null){
+        function addBuilderEffect(group='skill',initial=null,mount=null){
             if(!builderUnlocked)return;
             const passive=group==='passive';
             const row=document.createElement('div');row.className='builder-effect space-y-2 bg-slate-900 p-3 rounded-xl border border-slate-700';
@@ -2038,25 +2038,57 @@
             row.innerHTML=`<div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
               <label class="text-[10px]">Effect<select class="be-stat w-full bg-slate-950 rounded p-2 text-xs">${BUILDER_STATUS_NAMES.map(k=>`<option>${k}</option>`).join('')}<option value="Custom Status">🧬 Custom Status</option></select></label>
               <label class="text-[10px]">Target<select class="be-target w-full bg-slate-950 rounded p-2 text-xs"><option value="team">All allies</option><option value="self">Self</option><option value="enemy">All enemies</option><option value="single">Weakest enemy</option><option value="ally">Weakest ally</option><option value="strong">Strongest enemy</option><option value="weakest2">Two weakest enemies</option><option value="random2">Two random enemies</option><option value="random3">Three random enemies</option><option value="random">Random N enemies</option><option value="count">Weakest N enemies</option><option value="weakestallies">Weakest N allies</option><option value="randomallies">Random N allies</option></select></label>
-              <label class="text-[10px]">Target count N<input class="be-target-count w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="5" value="2"></label>
+              <label class="text-[10px] be-target-count-wrap">Target count N<input class="be-target-count w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="5" value="2"></label>
               ${passive?`<label class="text-[10px]">Trigger<select class="be-trigger w-full bg-slate-950 rounded p-2 text-xs"><option value="start">Battle start</option><option value="interval">Every N seconds</option><option value="basic">Every N basic attacks</option><option value="skill">When using skill</option><option value="lowhp">Once below HP threshold</option></select></label>`:''}
-              <label class="text-[10px]">Power (%) — effect strength (not duration)<input class="be-amount w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0" max="500" value="20"></label>
-              <label class="text-[10px]">Duration (s)<input class="be-duration w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0.25" max="180" value="8" step="0.25"></label>
-              <label class="text-[10px]">Max stacks<input class="be-stacks w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="20" value="2"></label>
+              <label class="text-[10px] be-amount-wrap"><span class="be-amount-label">Strength (%)</span><input class="be-amount w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0" max="500" value="20"></label>
+              <label class="text-[10px] be-duration-wrap"><span class="be-duration-label">Duration (seconds)</span><input class="be-duration w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0.25" max="180" value="8" step="0.25"></label>
+              <label class="text-[10px] be-stacks-wrap">Max stacks<input class="be-stacks w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="20" value="2"></label>
               ${passive?`<label class="text-[10px]">Trigger N / HP %<input class="be-every w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="100" value="5"></label>`:''}
-              <label class="text-[10px]">Named custom status<input class="be-custom w-full bg-slate-950 rounded p-2 text-xs" placeholder="e.g. Void Rot" maxlength="45"></label>
-              <label class="text-[10px]">Element for Element ATK Up<select class="be-element w-full bg-slate-950 rounded p-2 text-xs">${ELEMENTS.map(e=>`<option>${e}</option>`).join('')}</select></label>
-              </div><button onclick="this.closest('.builder-effect').remove()" class="text-rose-300 text-xs">✕ Remove effect</button>`;
-            document.getElementById(passive?'cb-passives':'cb-effects').appendChild(row);
+              <label class="text-[10px] be-custom-wrap">Named custom status<input class="be-custom w-full bg-slate-950 rounded p-2 text-xs" placeholder="e.g. Void Rot" maxlength="45"></label>
+              <label class="text-[10px] be-element-wrap">Element for Element ATK Up<select class="be-element w-full bg-slate-950 rounded p-2 text-xs">${ELEMENTS.map(e=>`<option>${e}</option>`).join('')}</select></label>
+              </div><p class="be-help text-[11px] text-cyan-300"></p><button onclick="this.closest('.builder-effect').remove()" class="text-rose-300 text-xs">✕ Remove effect</button>`;
+            (mount||document.getElementById(passive?'cb-passives':'cb-effects')).appendChild(row);
+            row.querySelector('.be-stat').addEventListener('change',()=>updateBuilderEffectFields(row));
+            row.querySelector('.be-target').addEventListener('change',()=>updateBuilderEffectFields(row));
             if(initial){for(const [cls,key] of [['be-stat','stat'],['be-target','target'],['be-target-count','targetCount'],['be-trigger','trigger'],['be-amount','amount'],['be-duration','duration'],['be-stacks','stacks'],['be-every','every'],['be-custom','customName'],['be-element','element']]){const el=row.querySelector('.'+cls);if(el&&initial[key]!=null)el.value=initial[key];}}
+            updateBuilderEffectFields(row);
         }
         function addBuilderComposite(initial=null){if(!builderUnlocked)return;
             const row=document.createElement('div');row.className='builder-composite bg-slate-900 p-3 rounded-xl border border-violet-800 space-y-2';
-            row.innerHTML=`<label class="text-xs">Custom status name<input class="bc-name w-full bg-slate-950 rounded p-2 mt-1" maxlength="45" placeholder="e.g. Void Rot"></label><div class="bc-components space-y-2"></div><button onclick="addCompositeComponent(this)" class="text-xs text-violet-200 border border-violet-600 p-2 rounded">+ ADD COMPONENT</button><button onclick="this.closest('.builder-composite').remove()" class="text-xs text-rose-300 ml-2">✕ Remove status</button>`;
+            row.innerHTML=`<label class="text-xs">Named status name<input class="bc-name w-full bg-slate-950 rounded p-2 mt-1" maxlength="45" placeholder="e.g. Void Rot"></label><div class="bc-components space-y-2"></div><button onclick="addCompositeComponent(this)" class="text-xs text-violet-200 border border-violet-600 p-2 rounded">+ ADD SKILL EFFECT</button><button onclick="this.closest('.builder-composite').remove()" class="text-xs text-rose-300 ml-2">✕ Remove status</button>`;
             document.getElementById('cb-composites').appendChild(row);if(initial){row.querySelector('.bc-name').value=initial.name||'';(initial.components||[]).forEach(c=>addCompositeComponent(row.querySelector('button'),c));}else addCompositeComponent(row.querySelector('button'));
         }
-        function addCompositeComponent(btn,initial=null){const root=btn.closest('.builder-composite').querySelector('.bc-components');const row=document.createElement('div');row.className='bc-component grid grid-cols-2 sm:grid-cols-4 gap-2';
-            row.innerHTML=`<select class="bc-stat bg-slate-950 rounded p-2 text-xs">${BUILDER_STATUS_NAMES.map(n=>`<option>${n}</option>`).join('')}</select><input class="bc-amount bg-slate-950 rounded p-2 text-xs" type="number" value="15" min="0" max="500" title="Power %"><input class="bc-duration bg-slate-950 rounded p-2 text-xs" type="number" value="6" min=".25" max="180" title="Duration seconds"><button class="text-rose-300 text-xs" onclick="this.parentElement.remove()">✕</button>`;root.appendChild(row);if(initial){row.querySelector('.bc-stat').value=initial.stat;row.querySelector('.bc-amount').value=initial.amount;row.querySelector('.bc-duration').value=initial.duration;}
+        // Named status components reuse the exact same editor as regular skill effects.
+        function addCompositeComponent(btn,initial=null){
+            const root=btn.closest('.builder-composite').querySelector('.bc-components');
+            addBuilderEffect('skill',initial,root);
+            const row=root.lastElementChild;
+            row.classList.add('bc-component');
+            row.classList.add('border-violet-700');
+            row.querySelector('.be-custom').placeholder='Name of another status (optional)';
+            const help=document.createElement('p');
+            help.className='text-[11px] text-violet-300';
+            help.textContent='Component targeting is relative to the caster. The named status applies this component when triggered.';
+            row.appendChild(help);
+        }
+        function updateBuilderEffectFields(row,composite=false){
+            const pre=composite?'bc':'be',stat=row.querySelector('.'+pre+'-stat')?.value||'';
+            const amountWrap=row.querySelector('.'+pre+'-amount-wrap'),durationWrap=row.querySelector('.'+pre+'-duration-wrap');
+            const amount=row.querySelector('.'+pre+'-amount'),label=row.querySelector('.'+pre+'-amount-label'),help=row.querySelector('.'+pre+'-help');
+            const instant=['Instant Healing','Cooldown Increase','Cooldown Recovery','Knockback','Airborne','Cyclone','Cleanse','Dispel'];
+            const noPower=['Stun','Silence','Sleep','Freeze','Root','Shackle','Charm','Fear','Taunt','Invulnerability','Debuff Immunity','CC Immunity','Buff Prohibited','Cooldown Pause'];
+            const isInstant=instant.includes(stat),hideAmount=noPower.includes(stat)||stat==='Custom Status';
+            amountWrap?.classList.toggle('hidden',hideAmount);
+            durationWrap?.classList.toggle('hidden',isInstant||stat==='Custom Status');
+            if(label)label.textContent=stat==='Cooldown Increase'?'Added cooldown (seconds)':stat==='Cooldown Recovery'?'Cooldown reduction (seconds)':stat==='Instant Healing'?'Healing (% of caster ATK)':stat==='HP Shield'?'Shield (% of target max HP)':'Strength (%)';
+            if(stat==='Cooldown Increase'||stat==='Cooldown Recovery'){amount.max='15';if(Number(amount.value)>15)amount.value='3';}else amount.max='500';
+            if(help)help.textContent=stat==='Cooldown Increase'?'Instantly adds seconds to remaining skill cooldown. Duration is not used.':stat==='Cooldown Recovery'?'Instantly reduces remaining skill cooldown. Duration is not used.':stat==='Instant Healing'?'Heals immediately; no duration.':stat==='Custom Status'?'Enter a named status below; configure its component effects in the Named Status section.':isInstant?'Applies instantly.':hideAmount?'Duration controls how long this status lasts.':'Strength and duration both apply.';
+            if(!composite){
+                row.querySelector('.be-target-count-wrap')?.classList.toggle('hidden',!['random','count','weakestallies','randomallies'].includes(row.querySelector('.be-target')?.value));
+                row.querySelector('.be-stacks-wrap')?.classList.toggle('hidden',isInstant||stat==='Custom Status');
+                row.querySelector('.be-custom-wrap')?.classList.toggle('hidden',stat!=='Custom Status');
+                row.querySelector('.be-element-wrap')?.classList.toggle('hidden',stat!=='Element ATK Up');
+            }
         }
         function collectBuilderEffect(row){return {stat:row.querySelector('.be-stat').value,target:row.querySelector('.be-target').value,targetCount:Math.max(1,Math.min(5,Number(row.querySelector('.be-target-count')?.value)||2)),amount:Math.max(0,Math.min(500,Number(row.querySelector('.be-amount').value)||0)),duration:Math.max(.25,Math.min(180,Number(row.querySelector('.be-duration').value)||8)),stacks:Math.max(1,Math.min(20,Math.round(Number(row.querySelector('.be-stacks').value)||1))),trigger:row.querySelector('.be-trigger')?.value||'skill',every:Math.max(1,Math.min(100,Number(row.querySelector('.be-every')?.value)||5)),customName:row.querySelector('.be-custom').value.trim().slice(0,45),element:row.querySelector('.be-element').value};}
         function builderClearForm(){
@@ -2096,7 +2128,7 @@
             if(role==='Ethereal' && Number(document.getElementById('cb-damage').value)>0)document.getElementById('cb-damage').value=0;
             const effects=[...document.querySelectorAll('#cb-effects .builder-effect')].map(collectBuilderEffect);
             const passives=[...document.querySelectorAll('#cb-passives .builder-effect')].map(collectBuilderEffect);
-            const composites=[...document.querySelectorAll('#cb-composites .builder-composite')].map(row=>({name:row.querySelector('.bc-name').value.trim().slice(0,45),components:[...row.querySelectorAll('.bc-component')].map(r=>({stat:r.querySelector('.bc-stat').value,amount:Math.max(0,Math.min(500,Number(r.querySelector('.bc-amount').value)||0)),duration:Math.max(.25,Math.min(180,Number(r.querySelector('.bc-duration').value)||6))}))})).filter(x=>x.name&&x.components.length);
+            const composites=[...document.querySelectorAll('#cb-composites .builder-composite')].map(row=>({name:row.querySelector('.bc-name').value.trim().slice(0,45),components:[...row.querySelectorAll('.bc-component')].map(collectBuilderEffect)})).filter(x=>x.name&&x.components.length);
             if(effects.length>30||passives.length>20||composites.length>15){alert('Limit: 30 skill effects, 20 passives, 15 custom statuses.');return;}
             const id=editingBuiltCookieId||('user_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7));
             const avg=role==='Ethereal'?[2800,650,1000]:(ROLE_RARITY_AVERAGES[rarity]?.[role]||[3000,800,900]);
@@ -2144,7 +2176,7 @@
         function customTargets(effect,unit,allies,enemies){
             return chooseCustomTargets(effect.target,effect.targetCount||1,unit,allies,enemies);
         }
-        function customApplyStatus(source,target,entry,key,depth=0){
+        function customApplyStatus(source,target,entry,key,depth=0,context=null){
             if(!target||target.currentHp<=0||depth>2)return;
             const stat=entry.stat,amount=Math.max(0,Math.min(500,Number(entry.amount)||0))/100;
             const duration=Math.max(.25,Math.min(180,Number(entry.duration)||5));
@@ -2152,7 +2184,13 @@
             const e=target.effects;
             if(stat==='Custom Status'){
                 const composite=(source.customComposites||[]).find(x=>x.name===entry.customName);
-                if(composite)composite.components.slice(0,15).forEach((component,i)=>customApplyStatus(source,target,{...component,stacks,element:entry.element},key+'_'+i,depth+1));
+                if(composite)composite.components.slice(0,15).forEach((component,i)=>{
+                    // Legacy components without targeting inherit the named status target.
+                    const targets=context && component.target
+                        ? customTargets(component,source,context.allies,context.enemies)
+                        : [target];
+                    targets.forEach((t,j)=>customApplyStatus(source,t,{...component,stacks:component.stacks||stacks,element:component.element||entry.element},key+'_'+i+'_'+j,depth+1,context));
+                });
                 return;
             }
             const debuff=BUILDER_STATUS_CATALOG.find(x=>x[0]===stat)?.[1]==='debuff';
@@ -2170,8 +2208,8 @@
             if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,value,element:entry.element||source.element,sourceId:source.id,tick:1};
             if(stat==='HP Shield')addShield(target,target.maxHp*value);
             else if(stat==='Instant Healing')healUnit(source,target,source.atk*value);
-            else if(stat==='Cooldown Increase')target.cdTimer+=Math.min(15,amount*5);
-            else if(stat==='Cooldown Recovery')target.cdTimer=Math.max(0,target.cdTimer-Math.min(15,amount*5));
+            else if(stat==='Cooldown Increase')target.cdTimer+=Math.min(15,Math.max(0,Number(entry.amount)||0));
+            else if(stat==='Cooldown Recovery')target.cdTimer=Math.max(0,target.cdTimer-Math.min(15,Math.max(0,Number(entry.amount)||0)));
             else if(['Knockback','Airborne','Cyclone'].includes(stat)){
                 if(e.ccImmunity<=0)e.stun=Math.max(e.stun||0,Math.min(1.5,duration));
             }
@@ -2229,7 +2267,7 @@
                 if(trigger==='lowhp'&&unit.currentHp/unit.maxHp>Math.min(1,(p.every||30)/100)){state.used=false;return;}
                 if(trigger==='interval'){state.clock-=dt;if(state.clock>0)return;state.clock+=Math.max(1,p.every||5);}
                 if(trigger==='basic'){const n=unit.basicAttacksMade||0;if(!n||n%Math.max(1,Math.round(p.every||3))!==0||state.lastBasic===n)return;state.lastBasic=n;}
-                customTargets(p,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,p,'passive_'+i+'_'+j));
+                customTargets(p,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,p,'passive_'+i+'_'+j,0,{allies,enemies}));
             });
         }
         function castCustomBuild(unit,enemies,allies,isPlayer){
@@ -2251,7 +2289,7 @@
                     entry.stat==='Healing Down'?{...entry,stat:'Healing Received Down'}:
                     entry.stat==='CRIT Chance'?{...entry,stat:entry.kind==='Debuff'?'CRIT Chance Down':'CRIT Chance Up'}:
                     entry.stat==='Cooldown'?{...entry,stat:entry.kind==='Debuff'?'Cooldown Increase':'Cooldown Recovery'}:entry;
-                customTargets(e,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,e,'skill_'+i+'_'+j));
+                customTargets(e,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,e,'skill_'+i+'_'+j,0,{allies,enemies}));
             });
             triggerCustomPassives(unit,'skill');
         }
@@ -2320,7 +2358,7 @@
                 add('Custom Skill',`${cookie.customDamage||0}% ATK`,`${(cookie.customEffects||[]).length} skill components`);
                 (cookie.customEffects||[]).forEach((e,i)=>add(`Skill ${i+1} · ${e.stat}`,`${e.amount}% · ${e.duration}s · max ${e.stacks} stacks`,e.stat==='Custom Status'?'Custom status: '+e.customName:'Target: '+e.target));
                 (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,`${e.amount}% · ${e.duration}s`,`${e.trigger} trigger · ${e.every||5}`));
-                (cookie.customComposites||[]).forEach(e=>add('🧬 '+e.name,`${e.components.length} effects`,e.components.map(c=>`${c.stat} ${c.amount}%`).join(', ')));
+                (cookie.customComposites||[]).forEach(e=>add('🧬 '+e.name,`${e.components.length} effects`,e.components.map(c=>`${c.stat} (${c.amount||0}${['Cooldown Increase','Cooldown Recovery'].includes(c.stat)?'s':'%'})`).join(', ')));
             }
             if(cookie.id==='et15'){
                 add('River of Tartrus','81.3% ATK + missing HP scaling + 3% Max HP','Cleanses allies and grants periodic healing: 84.9% ATK every 0.5s for 4s.');

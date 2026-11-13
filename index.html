@@ -201,6 +201,17 @@
 
 .crk-flying-emoji{position:absolute;font-size:28px;z-index:80;pointer-events:none;animation:crkFly var(--fly-duration,1s) ease-in-out forwards;filter:drop-shadow(0 0 6px var(--skill-color,#fff));}
 @keyframes crkFly{0%{opacity:0;transform:translate(-50%,0) scale(.7)}15%{opacity:1}80%{opacity:1}100%{left:var(--fly-end,75%);transform:translate(-50%,var(--fly-y,0px)) scale(1.35);opacity:0}}
+
+/* Advanced cookie skill graphics: layered effects and configurable glow */
+.custom-skill-shape{ text-shadow:0 0 var(--skill-glow,14px) var(--skill-color),0 0 calc(var(--skill-glow,14px) * 2) var(--skill-color); }
+.visual-advanced{animation-duration:var(--skill-duration);animation-fill-mode:both;animation-timing-function:ease-out}
+.visual-meteor{animation-name:crkMeteor}.visual-spiral{animation-name:crkSpiral}.visual-nova{animation-name:crkNova;left:45%!important;top:45%!important}.visual-lightning{animation-name:crkLightning}.visual-blossom{animation-name:crkBlossom}.visual-trail{animation-name:crkTrail;font-size:24px}
+@keyframes crkMeteor{0%{transform:translate(85px,-180px) scale(.2) rotate(-35deg);opacity:0}20%{opacity:1}75%{transform:translate(-20px,70px) scale(1.8) rotate(20deg);opacity:1}100%{transform:translate(-45px,110px) scale(2.4);opacity:0}}
+@keyframes crkSpiral{0%{transform:rotate(0deg) translateX(12px) scale(.25);opacity:0}35%{opacity:1}100%{transform:rotate(850deg) translateX(130px) scale(1.6);opacity:0}}
+@keyframes crkNova{0%{transform:scale(.1);opacity:0}30%{opacity:1}60%{transform:scale(3);opacity:1}100%{transform:scale(7);opacity:0}}
+@keyframes crkLightning{0%{transform:translateY(-120px) scale(.2);opacity:0}35%{transform:translateY(0) scale(2);opacity:1}55%{opacity:.2}70%{opacity:1}100%{transform:translateY(70px) scale(.4);opacity:0}}
+@keyframes crkBlossom{0%{transform:translate(-80px,-90px) rotate(0) scale(.2);opacity:0}30%{opacity:1}100%{transform:translate(110px,120px) rotate(550deg) scale(1.1);opacity:0}}
+@keyframes crkTrail{0%{transform:translateY(25px) scale(.2);opacity:0}30%{opacity:1}100%{transform:translateY(-85px) rotate(160deg) scale(1.5);opacity:0}}
 </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-slate-950 overflow-x-hidden relative">
@@ -492,12 +503,15 @@
               <div class="rounded-xl bg-slate-900 p-3 space-y-2 border border-fuchsia-800">
                 <h3 class="font-bold text-fuchsia-300">✨ Skill Graphics Studio</h3>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  <label class="text-xs">Animation<select id="cb-visual" onchange="previewCookieVisual()" class="w-full bg-slate-950 p-2 rounded mt-1"><option value="slash">⚔️ Giant slash across enemies</option><option value="wave">🌊 Wave across the battlefield</option><option value="bolts">⚡ Individual strikes</option><option value="shower">🌠 Falling projectiles</option><option value="burst">💥 Explosive burst</option><option value="shine">✨ Team shining / aura</option><option value="pulse">💫 Expanding magic pulse</option><option value="vines">🌿 Vines / roots</option><option value="throw">🎯 Throw object from caster</option><option value="beam">🌈 Beam from caster</option><option value="dash">💨 Dash toward enemies</option><option value="heal">💚 Healing particles to allies</option><option value="boomerang">🪃 Boomerang throw</option></select></label>
+                  <label class="text-xs">Animation<select id="cb-visual" onchange="previewCookieVisual()" class="w-full bg-slate-950 p-2 rounded mt-1"><option value="slash">⚔️ Giant slash across enemies</option><option value="wave">🌊 Wave across the battlefield</option><option value="bolts">⚡ Individual strikes</option><option value="shower">🌠 Falling projectiles</option><option value="burst">💥 Explosive burst</option><option value="shine">✨ Team shining / aura</option><option value="pulse">💫 Expanding magic pulse</option><option value="vines">🌿 Vines / roots</option><option value="throw">🎯 Throw object from caster</option><option value="beam">🌈 Beam from caster</option><option value="dash">💨 Dash toward enemies</option><option value="heal">💚 Healing particles to allies</option><option value="boomerang">🪃 Boomerang throw</option><option value="meteor">☄️ Meteor storm</option><option value="spiral">🌀 Spiral vortex</option><option value="nova">🌌 Supernova</option><option value="lightning">⚡ Chain lightning</option><option value="blossom">🌸 Petal storm</option></select></label>
                   <label class="text-xs">Effect color<input id="cb-visual-color" type="color" value="#c084fc" onchange="previewCookieVisual()" class="block w-full h-10 bg-slate-950 rounded mt-1" /></label>
                   <label class="text-xs">Skill emoji<input id="cb-visual-emoji" value="✨" maxlength="8" class="block w-full bg-slate-950 p-2 rounded mt-1" /></label>
                   <label class="text-xs">Hit count<input id="cb-visual-hits" type="number" min="1" max="20" value="1" class="block w-full bg-slate-950 p-2 rounded mt-1" /></label>
                   <label class="text-xs">Damage target<select id="cb-visual-target" class="block w-full bg-slate-950 p-2 rounded mt-1"><option value="single">One enemy</option><option value="all">All enemies</option><option value="three">Three weakest enemies</option><option value="weakest2">Two weakest enemies</option><option value="random2">Two random enemies</option><option value="random3">Three random enemies</option><option value="strongest2">Two healthiest enemies</option><option value="random">Random N enemies</option><option value="count">Weakest N enemies</option></select></label>
                   <label class="text-xs">Number of targets (N)<input id="cb-target-count" type="number" min="1" max="5" value="3" class="block w-full bg-slate-950 p-2 rounded mt-1" /></label><label class="text-xs">Graphic duration (s)<input id="cb-visual-duration" type="number" min="0.3" max="3" step="0.1" value="1" class="block w-full bg-slate-950 p-2 rounded mt-1" /></label>
+                  <label class="text-xs">Particle density<input id="cb-particles" type="range" min="1" max="12" value="5" class="block w-full mt-2" oninput="document.getElementById('cb-particles-value').textContent=this.value"><span id="cb-particles-value" class="text-cyan-300">5</span> particles</label>
+                  <label class="text-xs">Glow intensity<input id="cb-glow" type="range" min="0" max="30" value="14" class="block w-full mt-2" oninput="document.getElementById('cb-glow-value').textContent=this.value"><span id="cb-glow-value" class="text-cyan-300">14</span> glow</label>
+                  <label class="text-xs">Animation trail<select id="cb-trail" class="block w-full bg-slate-950 rounded p-2 mt-1"><option value="none">None</option><option value="sparkles">✨ Sparkles</option><option value="stars">⭐ Stars</option><option value="flames">🔥 Flames</option><option value="snow">❄️ Snowflakes</option></select></label>
                 </div>
                 <div id="cb-visual-preview" class="relative overflow-hidden rounded-lg min-h-44 border border-slate-700 bg-slate-950 p-2">
                     <div class="text-[10px] text-slate-400 text-center mb-2">YOUR TEAM (LEFT) ⚔️ ENEMY TEAM (RIGHT)</div>
@@ -508,11 +522,18 @@
                   </div>
                 <button onclick="previewCookieVisual()" class="border border-fuchsia-600 text-fuchsia-200 rounded p-2 text-xs font-bold">▶ PREVIEW SKILL</button>
               </div>
+              <div class="rounded-xl border border-indigo-600 bg-indigo-950/30 p-3 space-y-2">
+                <h3 class="font-bold text-indigo-200">🎬 Skill Phase Editor</h3>
+                <p class="text-xs text-slate-300">Create a real multi-stage skill. Each phase has its own timing, damage, targets, effects and visual. Phases execute in order during battle. When phases exist, they replace the regular skill damage and skill effects below.</p>
+                <div id="cb-phases" class="space-y-3"></div>
+                <button type="button" onclick="addBuilderPhase()" class="border border-indigo-400 rounded-lg px-3 py-2 text-xs font-bold text-indigo-100">+ ADD PHASE</button>
+                <button type="button" onclick="builderPhasePreset()" class="border border-amber-500 rounded-lg px-3 py-2 text-xs font-bold text-amber-200">✨ EXAMPLE 3-PHASE COMBO</button>
+              </div>
               <h3 class="font-bold text-amber-200">⚔️ Skill effects</h3><p class="text-xs text-slate-400">Skill effects activate on every cast. Add damage, healing, crowd control, buffs or debuffs.</p>
-              <div id="cb-effects" class="space-y-2"></div>
+              <div class="flex flex-wrap gap-2 mb-2"><button onclick="builderComboPreset('burn')" class="text-xs rounded-lg border border-orange-700 bg-orange-950/40 px-3 py-2">🔥 Burning combo</button><button onclick="builderComboPreset('freeze')" class="text-xs rounded-lg border border-sky-700 bg-sky-950/40 px-3 py-2">❄️ Freeze combo</button><button onclick="builderComboPreset('support')" class="text-xs rounded-lg border border-emerald-700 bg-emerald-950/40 px-3 py-2">💚 Support combo</button><button onclick="builderComboPreset('curse')" class="text-xs rounded-lg border border-purple-700 bg-purple-950/40 px-3 py-2">🌑 Curse combo</button></div><div id="cb-effects" class="space-y-2"></div>
               <button onclick="addBuilderEffect('skill')" class="border border-cyan-600 text-cyan-200 rounded-xl px-4 py-2 font-bold text-xs">+ ADD SKILL EFFECT</button>
               <h3 class="font-bold text-emerald-200">♛ Passive abilities</h3><p class="text-xs text-slate-400">Passives can trigger at battle start, periodically, after a basic attack, on skill cast, or when HP is low.</p>
-              <div id="cb-passives" class="space-y-2"></div>
+              <div class="flex flex-wrap gap-2 mb-2"><button onclick="builderPassivePreset('survival')" class="text-xs rounded-lg border border-emerald-700 bg-emerald-950/40 px-3 py-2">🛡️ Emergency shield</button><button onclick="builderPassivePreset('revive')" class="text-xs rounded-lg border border-amber-700 bg-amber-950/40 px-3 py-2">🌟 Self / ally revive</button><button onclick="builderPassivePreset('fury')" class="text-xs rounded-lg border border-rose-700 bg-rose-950/40 px-3 py-2">⚔️ Last stand</button><button onclick="builderPassivePreset('tempo')" class="text-xs rounded-lg border border-cyan-700 bg-cyan-950/40 px-3 py-2">⏱️ Skill acceleration</button></div><div id="cb-passives" class="space-y-2"></div>
               <button onclick="addBuilderEffect('passive')" class="border border-emerald-600 text-emerald-200 rounded-xl px-4 py-2 font-bold text-xs">+ ADD PASSIVE</button>
               <h3 class="font-bold text-violet-200">🧬 Named custom status effects</h3><p class="text-xs text-slate-400">Give your status one name, then add its effects underneath. To apply it, select Custom Status in a skill or passive and type that name.</p>
               <div id="cb-composites" class="space-y-2"></div>
@@ -1958,7 +1979,7 @@
         }
         // Skill animations are purely visual; combat damage uses the configured
         // hit count and target choice. Graphics never require network access.
-        const VISUAL_TYPES=['slash','wave','bolts','shower','burst','shine','pulse','vines','throw','beam','dash','heal','boomerang'];
+        const VISUAL_TYPES=['slash','wave','bolts','shower','burst','shine','pulse','vines','throw','beam','dash','heal','boomerang','meteor','spiral','nova','lightning','blossom'];
         function skillVisual(unit,isPlayer,preview=false){
             if(!preview&&(leagueMode&&!leagueSpectating))return;
             const data=preview?{
@@ -1967,7 +1988,7 @@
                 customVisualEmoji:document.getElementById('cb-visual-emoji').value,
                 customVisualDuration:Number(document.getElementById('cb-visual-duration').value),
                 customVisualTarget:document.getElementById('cb-visual-target').value,
-                customVisualTargetCount:Number(document.getElementById('cb-target-count').value)
+                customVisualTargetCount:Number(document.getElementById('cb-target-count').value),customParticles:Number(document.getElementById('cb-particles').value),customGlow:Number(document.getElementById('cb-glow').value),customTrail:document.getElementById('cb-trail').value
             }:unit;
             const type=VISUAL_TYPES.includes(data.customVisual)?data.customVisual:'slash';
             const color=/^#[0-9a-f]{6}$/i.test(data.customVisualColor||'')?data.customVisualColor:'#c084fc';
@@ -1977,8 +1998,8 @@
             if(!target)return;
             if(getComputedStyle(target).position==='static')target.style.position='relative';
             const stage=document.createElement('div');stage.className='custom-skill-stage';
-            stage.style.setProperty('--skill-color',color);stage.style.setProperty('--skill-duration',duration+'s');
-            const count=['bolts','shower','vines'].includes(type)?5:1;
+            stage.style.setProperty('--skill-color',color);stage.style.setProperty('--skill-duration',duration+'s');stage.style.setProperty('--skill-glow',Math.max(0,Math.min(30,Number(data.customGlow)??14))+'px');
+            const count=['bolts','shower','vines','meteor','spiral','lightning','blossom'].includes(type)?Math.max(1,Math.min(12,Number(data.customParticles)||5)):1;
             if(['throw','beam','dash','heal','boomerang'].includes(type)){
                 const isHeal=type==='heal';
                 const fromLeft=isPlayer!==false;
@@ -2000,11 +2021,13 @@
             }else{
                 for(let i=0;i<count;i++){
                     const el=document.createElement('span');el.className='custom-skill-shape visual-'+type;
-                    el.textContent=emoji;el.style.animationDelay=(i*.10)+'s';
+                    el.textContent=emoji;el.style.animationDelay=(i*.10)+'s';if(['meteor','spiral','nova','lightning','blossom'].includes(type)){el.classList.add('visual-advanced');el.style.left=(8+(i*83/Math.max(1,count-1)))+'%';el.style.top=(12+(i*17)%65)+'%';}
                     el.style.left=(type==='shine'?'25%':(10+i*16)+'%');
                     stage.appendChild(el);
                 }
             }
+            const trail={sparkles:'✨',stars:'⭐',flames:'🔥',snow:'❄️'}[data.customTrail];
+            if(trail){for(let i=0;i<Math.max(2,Math.min(12,Number(data.customParticles)||5));i++){const particle=document.createElement('span');particle.className='custom-skill-shape visual-advanced visual-trail';particle.textContent=trail;particle.style.left=(8+(i*73)%85)+'%';particle.style.top=(10+(i*23)%75)+'%';particle.style.animationDelay=(i*.075)+'s';stage.appendChild(particle);}}
             target.appendChild(stage);setTimeout(()=>stage.remove(),duration*1000+900);
         }
         function previewCookieVisual(){skillVisual(null,true,true);}
@@ -2030,6 +2053,36 @@
             const elem=document.getElementById('cb-element');if(!elem.options.length)elem.innerHTML=ELEMENTS.map(e=>`<option>${e}</option>`).join('');
             document.getElementById('cb-created').innerHTML=readBuiltCookies().map(c=>`<div class="flex items-center justify-between gap-2 bg-slate-900 p-2 rounded-xl"><span class="text-xs">${escapeCookieHtml(c.name)} · ${c.rarity} ${c.role}</span><button class="bg-amber-700 rounded p-2 text-xs" onclick="editBuiltCookie('${c.id}')">✏️ EDIT</button><button class="text-rose-300 text-xs border border-rose-800 rounded p-2" onclick="deleteBuiltCookie('${c.id}')">DELETE</button><button class="bg-sky-700 rounded p-2 text-xs" onclick="publishBuiltCookie('${c.id}')">🌎 PUBLISH</button></div>`).join('')||'<p class="text-xs text-slate-500">No created Cookies yet.</p>';
         }
+        function addBuilderPhase(initial=null){
+            if(!builderUnlocked)return;
+            const root=document.getElementById('cb-phases');if(root.children.length>=6){alert('Maximum 6 phases per skill.');return;}
+            const row=document.createElement('div');row.className='builder-phase rounded-xl border border-indigo-700 bg-slate-900 p-3 space-y-2';
+            row.innerHTML=`<div class="flex items-center justify-between"><b class="text-xs text-indigo-200">SKILL PHASE</b><button type="button" onclick="this.closest('.builder-phase').remove()" class="text-rose-300 text-xs">✕ Remove</button></div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <label class="text-[10px]">Phase name<input class="bp-name w-full bg-slate-950 rounded p-2 text-xs" maxlength="35" placeholder="Opening / Finisher"></label>
+            <label class="text-[10px]">Wait after previous phase (s)<input type="number" class="bp-delay w-full bg-slate-950 rounded p-2 text-xs" min="0" max="5" step="0.1" value="0.4"></label>
+            <label class="text-[10px]">Damage (% ATK)<input type="number" class="bp-damage w-full bg-slate-950 rounded p-2 text-xs" min="0" max="5000" value="150"></label>
+            <label class="text-[10px]">Hits<input type="number" class="bp-hits w-full bg-slate-950 rounded p-2 text-xs" min="1" max="20" value="1"></label>
+            <label class="text-[10px]">Target<select class="bp-target w-full bg-slate-950 rounded p-2 text-xs"><option value="single">Weakest enemy</option><option value="all">All enemies</option><option value="random2">Two random enemies</option><option value="random3">Three random enemies</option><option value="weakest2">Two weakest enemies</option><option value="strongest2">Two healthiest enemies</option><option value="count">Weakest N enemies</option></select></label>
+            <label class="text-[10px]">N targets<input type="number" class="bp-count w-full bg-slate-950 rounded p-2 text-xs" min="1" max="5" value="3"></label>
+            <label class="text-[10px]">Animation<select class="bp-visual w-full bg-slate-950 rounded p-2 text-xs"><option value="slash">⚔️ Slash</option><option value="dash">💨 Dash</option><option value="throw">🎯 Projectile</option><option value="beam">🌈 Beam</option><option value="shower">🌠 Projectile rain</option><option value="burst">💥 Explosion</option><option value="vines">🌿 Roots</option><option value="heal">💚 Healing</option><option value="lightning">⚡ Chain lightning</option><option value="spiral">🌀 Vortex</option></select></label>
+            <label class="text-[10px]">Emoji<input class="bp-emoji w-full bg-slate-950 rounded p-2 text-xs" maxlength="8" value="✨"></label>
+            <label class="text-[10px]">Color<input type="color" class="bp-color w-full h-9 bg-slate-950 rounded" value="#c084fc"></label>
+            </div><div class="bp-effects space-y-2"></div><button type="button" class="text-xs text-cyan-200 border border-cyan-700 rounded p-2" onclick="addBuilderEffect('skill',null,this.closest('.builder-phase').querySelector('.bp-effects'))">+ ADD PHASE EFFECT</button>`;
+            root.appendChild(row);
+            const data=initial||{};for(const [cls,key] of [['bp-name','name'],['bp-delay','delay'],['bp-damage','damage'],['bp-hits','hits'],['bp-target','target'],['bp-count','count'],['bp-visual','visual'],['bp-emoji','emoji'],['bp-color','color']]){const el=row.querySelector('.'+cls);if(data[key]!=null)el.value=data[key];}
+            (data.effects||[]).forEach(e=>addBuilderEffect('skill',e,row.querySelector('.bp-effects')));
+        }
+        function builderPhasePreset(){
+            document.getElementById('cb-phases').innerHTML='';
+            addBuilderPhase({name:'Opening curse',delay:0,damage:60,hits:1,target:'all',visual:'vines',emoji:'🌿',color:'#86efac',effects:[{stat:'DEF Down',target:'enemy',amount:20,duration:6,stacks:1}]});
+            addBuilderPhase({name:'Lightning barrage',delay:.6,damage:220,hits:5,target:'random3',visual:'lightning',emoji:'⚡',color:'#fde047'});
+            addBuilderPhase({name:'Final explosion',delay:.8,damage:350,hits:1,target:'all',visual:'burst',emoji:'💥',color:'#fb923c',effects:[{stat:'Burn',target:'enemy',amount:20,duration:6,stacks:1}]});
+        }
+        function collectBuilderPhases(){return [...document.querySelectorAll('#cb-phases .builder-phase')].map(row=>{
+            const num=(cls,min,max,def)=>Math.max(min,Math.min(max,Number(row.querySelector('.'+cls).value)||def));
+            return {name:row.querySelector('.bp-name').value.trim().slice(0,35),delay:num('bp-delay',0,5,0),damage:num('bp-damage',0,5000,0),hits:Math.round(num('bp-hits',1,20,1)),target:row.querySelector('.bp-target').value,count:Math.round(num('bp-count',1,5,3)),visual:row.querySelector('.bp-visual').value,emoji:row.querySelector('.bp-emoji').value.slice(0,8),color:row.querySelector('.bp-color').value,effects:[...row.querySelectorAll('.bp-effects .builder-effect')].map(collectBuilderEffect)};
+        });}
         function addBuilderEffect(group='skill',initial=null,mount=null){
             if(!builderUnlocked)return;
             const passive=group==='passive';
@@ -2039,7 +2092,7 @@
               <label class="text-[10px]">Effect<select class="be-stat w-full bg-slate-950 rounded p-2 text-xs">${BUILDER_STATUS_NAMES.map(k=>`<option>${k}</option>`).join('')}<option value="Custom Status">🧬 Custom Status</option></select></label>
               <label class="text-[10px] be-target-wrap">Target<select class="be-target w-full bg-slate-950 rounded p-2 text-xs"><option value="team">All allies</option><option value="self">Self</option><option value="enemy">All enemies</option><option value="single">Weakest enemy</option><option value="ally">Weakest ally</option><option value="strong">Strongest enemy</option><option value="weakest2">Two weakest enemies</option><option value="random2">Two random enemies</option><option value="random3">Three random enemies</option><option value="random">Random N enemies</option><option value="count">Weakest N enemies</option><option value="weakestallies">Weakest N allies</option><option value="randomallies">Random N allies</option></select></label>
               <label class="text-[10px] be-target-count-wrap">Target count N<input class="be-target-count w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="5" value="2"></label>
-              ${passive?`<label class="text-[10px] be-trigger-wrap">Trigger<select class="be-trigger w-full bg-slate-950 rounded p-2 text-xs"><option value="start">Battle start</option><option value="interval">Every N seconds</option><option value="basic">Every N basic attacks</option><option value="skill">When using skill</option><option value="lowhp">Once below HP threshold</option></select></label>`:''}
+              ${passive?`<label class="text-[10px] be-trigger-wrap">Trigger<select class="be-trigger w-full bg-slate-950 rounded p-2 text-xs"><option value="start">Battle start</option><option value="interval">Every N seconds</option><option value="basic">Every N basic attacks</option><option value="skill">When using skill</option><option value="lowhp">Below HP threshold (limited charges)</option></select></label>`:''}
               <label class="text-[10px] be-amount-wrap"><span class="be-amount-label">Strength (%)</span><input class="be-amount w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0" max="500" value="20"></label>
               <label class="text-[10px] be-duration-wrap"><span class="be-duration-label">Duration (seconds)</span><input class="be-duration w-full bg-slate-950 rounded p-2 text-xs" type="number" min="0.25" max="180" value="8" step="0.25"></label>
               <label class="text-[10px] be-charges-wrap hidden">Charges per battle<input class="be-charges w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="3" value="1"></label><label class="text-[10px] be-stacks-wrap">Max stacks<input class="be-stacks w-full bg-slate-950 rounded p-2 text-xs" type="number" min="1" max="20" value="2"></label>
@@ -2050,6 +2103,7 @@
             (mount||document.getElementById(passive?'cb-passives':'cb-effects')).appendChild(row);
             row.querySelector('.be-stat').addEventListener('change',()=>updateBuilderEffectFields(row));
             row.querySelector('.be-target').addEventListener('change',()=>updateBuilderEffectFields(row));
+            row.querySelector('.be-trigger')?.addEventListener('change',()=>updateBuilderEffectFields(row));
             if(initial){for(const [cls,key] of [['be-stat','stat'],['be-target','target'],['be-target-count','targetCount'],['be-trigger','trigger'],['be-amount','amount'],['be-duration','duration'],['be-stacks','stacks'],['be-charges','charges'],['be-every','every'],['be-custom','customName'],['be-element','element']]){const el=row.querySelector('.'+cls);if(el&&initial[key]!=null)el.value=initial[key];}}
             updateBuilderEffectFields(row);
         }
@@ -2100,7 +2154,7 @@
         function builderClearForm(){
             editingBuiltCookieId=null;
             for(const id of ['cb-name','cb-emoji','cb-visual-emoji'])document.getElementById(id).value=id==='cb-emoji'?'🍪':id==='cb-visual-emoji'?'✨':'';
-            for(const id of ['cb-effects','cb-passives','cb-composites'])document.getElementById(id).innerHTML='';
+            for(const id of ['cb-effects','cb-passives','cb-composites','cb-phases'])document.getElementById(id).innerHTML='';
             document.getElementById('cb-save-button').textContent='🍪 CREATE COOKIE';
             document.getElementById('cb-editing-status').textContent='';
         }
@@ -2111,13 +2165,26 @@
             const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!=null)el.value=v;};
             const match=(c.name||'').match(/^(\S+)\s+(.*)$/u);
             set('cb-name',match?match[2]:c.name);set('cb-emoji',match?match[1]:'🍪');
-            for(const [id,key] of [['cb-rarity','rarity'],['cb-role','role'],['cb-element','element'],['cb-damage','customDamage'],['cb-opening','openingCD'],['cb-cooldown','regularCD'],['cb-visual','customVisual'],['cb-visual-color','customVisualColor'],['cb-visual-emoji','customVisualEmoji'],['cb-visual-duration','customVisualDuration'],['cb-visual-hits','customVisualHits'],['cb-visual-target','customVisualTarget'],['cb-target-count','customVisualTargetCount']])set(id,c[key]);
+            for(const [id,key] of [['cb-rarity','rarity'],['cb-role','role'],['cb-element','element'],['cb-damage','customDamage'],['cb-opening','openingCD'],['cb-cooldown','regularCD'],['cb-visual','customVisual'],['cb-visual-color','customVisualColor'],['cb-visual-emoji','customVisualEmoji'],['cb-visual-duration','customVisualDuration'],['cb-visual-hits','customVisualHits'],['cb-visual-target','customVisualTarget'],['cb-target-count','customVisualTargetCount'],['cb-particles','customParticles'],['cb-glow','customGlow'],['cb-trail','customTrail']])set(id,c[key]);
+            for(const id of ['cb-particles','cb-glow'])document.getElementById(id+'-value').textContent=document.getElementById(id).value;
+            (c.customPhases||[]).forEach(p=>addBuilderPhase(p));
             (c.customEffects||[]).forEach(e=>addBuilderEffect('skill',e));
             (c.customPassives||[]).forEach(e=>addBuilderEffect('passive',e));
             (c.customComposites||[]).forEach(e=>addBuilderComposite(e));
             document.getElementById('cb-save-button').textContent='💾 SAVE CHANGES';
             document.getElementById('cb-editing-status').textContent='✏️ Editing '+c.name+' — levels, stars and equipment are preserved.';
             document.getElementById('builder-editor').scrollIntoView({behavior:'smooth',block:'start'});
+        }
+        // Presets use the same real skill/passive engine as hand-built effects.
+        function builderComboPreset(type){
+            const sets={burn:[['Burn','enemy',20,8],['DMG Resist Down','enemy',15,8]],freeze:[['Freeze','random3',0,2],['DEF Down','enemy',20,6]],support:[['Instant Healing','team',120,1],['DMG Resist Up','team',18,8]],curse:[['Corruption','enemy',20,8],['Healing Received Down','enemy',30,8],['ATK Down','enemy',15,8]]};
+            (sets[type]||[]).forEach(([stat,target,amount,duration])=>addBuilderEffect('skill',{stat,target,amount,duration,stacks:1}));
+            document.getElementById('cb-message').textContent='Skill combo added. Adjust or remove each effect individually.';
+        }
+        function builderPassivePreset(type){
+            const sets={survival:[{stat:'HP Shield',target:'self',amount:35,duration:6,trigger:'lowhp',every:30,charges:2,stacks:1}],revive:[{stat:'Revive',target:'team',trigger:'start',charges:2,amount:0,duration:1,stacks:1}],fury:[{stat:'ATK Up',target:'self',amount:50,duration:8,trigger:'lowhp',every:35,charges:2,stacks:1}],tempo:[{stat:'Cooldown Recovery',target:'self',amount:2,duration:1,trigger:'basic',every:4,charges:1,stacks:1}]};
+            (sets[type]||[]).forEach(p=>addBuilderEffect('passive',p));
+            document.getElementById('cb-message').textContent='Passive preset added. No forced time lockouts.';
         }
         function builderPreset(type){
             if(!builderUnlocked)return;
@@ -2134,13 +2201,15 @@
             if(role==='Ethereal' && Number(document.getElementById('cb-damage').value)>0)document.getElementById('cb-damage').value=0;
             const effects=[...document.querySelectorAll('#cb-effects .builder-effect')].map(collectBuilderEffect);
             const passives=[...document.querySelectorAll('#cb-passives .builder-effect')].map(collectBuilderEffect);
+            const phases=collectBuilderPhases();
+            if(phases.some(p=>p.effects.some(e=>e.stat==='Revive'))){alert('Revive belongs in passives, not skill phases.');return;}
             if(effects.some(x=>x.stat==='Revive')){alert('Revive is a passive effect. Add it under Passives instead.');return;}
             const composites=[...document.querySelectorAll('#cb-composites .builder-composite')].map(row=>({name:row.querySelector('.bc-name').value.trim().slice(0,45),components:[...row.querySelectorAll('.bc-component')].map(collectBuilderEffect)})).filter(x=>x.name&&x.components.length);
             if(composites.some(x=>x.components.some(e=>e.stat==='Revive'))){alert('Revive must be a direct passive, not inside a named status.');return;}
             if(effects.length>30||passives.length>20||composites.length>15){alert('Limit: 30 skill effects, 20 passives, 15 custom statuses.');return;}
             const id=editingBuiltCookieId||('user_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7));
             const avg=role==='Ethereal'?[2800,650,1000]:(ROLE_RARITY_AVERAGES[rarity]?.[role]||[3000,800,900]);
-            const c={id,name:(document.getElementById('cb-emoji').value.trim()||'🍪')+' '+name,rarity,role,element,elementIcon:ELEMENT_ICONS[element]||'✨',skill:'Custom Creation',desc:'Created in the Cookie Builder. '+effects.length+' skill effects, '+passives.length+' passives and '+composites.length+' named statuses.',custom:true,customVisual:document.getElementById('cb-visual').value,customVisualColor:document.getElementById('cb-visual-color').value,customVisualEmoji:document.getElementById('cb-visual-emoji').value.slice(0,8),customVisualDuration:clamp('cb-visual-duration',.3,3),customVisualHits:clamp('cb-visual-hits',1,20),customVisualTarget:document.getElementById('cb-visual-target').value,customVisualTargetCount:clamp('cb-target-count',1,5),customDamage:role==='Ethereal'?0:clamp('cb-damage',0,5000),customEffects:effects,customPassives:passives,customComposites:composites,openingCD:clamp('cb-opening',.5,60),regularCD:clamp('cb-cooldown',1,60),cd:clamp('cb-cooldown',1,60),baseHp:avg[0],baseAtk:avg[1],baseDef:avg[2]};
+            const c={id,name:(document.getElementById('cb-emoji').value.trim()||'🍪')+' '+name,rarity,role,element,elementIcon:ELEMENT_ICONS[element]||'✨',skill:'Custom Creation',desc:'Created in the Cookie Builder. '+effects.length+' skill effects, '+passives.length+' passives and '+composites.length+' named statuses.',custom:true,customVisual:document.getElementById('cb-visual').value,customVisualColor:document.getElementById('cb-visual-color').value,customVisualEmoji:document.getElementById('cb-visual-emoji').value.slice(0,8),customVisualDuration:clamp('cb-visual-duration',.3,3),customVisualHits:clamp('cb-visual-hits',1,20),customVisualTarget:document.getElementById('cb-visual-target').value,customVisualTargetCount:clamp('cb-target-count',1,5),customParticles:clamp('cb-particles',1,12),customGlow:clamp('cb-glow',0,30),customTrail:document.getElementById('cb-trail').value,customDamage:role==='Ethereal'?0:clamp('cb-damage',0,5000),customEffects:effects,customPhases:phases,customPassives:passives,customComposites:composites,openingCD:clamp('cb-opening',.5,60),regularCD:clamp('cb-cooldown',1,60),cd:clamp('cb-cooldown',1,60),baseHp:avg[0],baseAtk:avg[1],baseDef:avg[2]};
             const list=readBuiltCookies();if(!editingBuiltCookieId&&list.length>=150){alert('Maximum of 150 created Cookies.');return;}if(editingBuiltCookieId){const idx=list.findIndex(x=>x.id===id);if(idx<0){alert('Cookie not found.');return;}list[idx]=c;}else list.push(c);try{localStorage.setItem(BUILT_COOKIE_KEY,JSON.stringify(list));}catch{alert('Browser storage is full.');return;}
             const idx=COOKIES_DB.findIndex(x=>x.id===id);if(idx>=0)COOKIES_DB[idx]=c;else COOKIES_DB.push(c);gameState.unlockedCookies[id]??={level:1,xp:0,skillLevel:0};const edited=!!editingBuiltCookieId;editingBuiltCookieId=null;document.getElementById('cb-save-button').textContent='🍪 CREATE COOKIE';document.getElementById('cb-editing-status').textContent='';saveGame();renderCookieBuilder();renderCollectionTab();document.getElementById('cb-message').textContent=name+(edited?' updated! Publish again to share changes.':' created and unlocked!');
             queueCloudSave();
@@ -2230,8 +2299,8 @@
             }else if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,value,element:entry.element||source.element,sourceId:source.id,tick:1};
             if(stat==='HP Shield')addShield(target,target.maxHp*value);
             else if(stat==='Instant Healing')healUnit(source,target,source.atk*value);
-            else if(stat==='Cooldown Increase')target.cdTimer+=Math.min(15,Math.max(0,Number(entry.amount)||0));
-            else if(stat==='Cooldown Recovery')target.cdTimer=Math.max(0,target.cdTimer-Math.min(15,Math.max(0,Number(entry.amount)||0)));
+            else if(stat==='Cooldown Increase')target.cdTimer=Math.min(Math.max(1,Number(target.maxCD)||10)*2,Math.max(0,target.cdTimer)+Math.min(15,Math.max(0,Number(entry.amount)||0)));
+            else if(stat==='Cooldown Recovery')target.cdTimer=Math.max(.5,Math.max(0,target.cdTimer)-Math.min(15,Math.max(0,Number(entry.amount)||0)));
             else if(['Knockback','Airborne','Cyclone'].includes(stat)){
                 if(e.ccImmunity<=0)e.stun=Math.max(e.stun||0,Math.min(1.5,duration));
             }
@@ -2283,18 +2352,45 @@
             const enemies=playerUnits.includes(unit)?enemyUnits:playerUnits;
             unit._passiveState=unit._passiveState||{};
             unit.customPassives.forEach((p,i)=>{
-                if(p.stat==='Revive')return; // KO handler handles this automatically, including self-revival.
-                if(p.trigger!==trigger)return;
-                const state=unit._passiveState[i]||(unit._passiveState[i]={clock:p.every||5,lastBasic:0,used:false});
+                if(p.stat==='Revive'||p.trigger!==trigger)return;
+                const state=unit._passiveState[i]||(unit._passiveState[i]={clock:p.every||5,lastBasic:0,used:false,chargesUsed:0,armed:true});
                 if(trigger==='start'){if(state.used)return;state.used=true;}
-                if(trigger==='lowhp'){if(state.used||unit.currentHp/unit.maxHp>Math.min(1,(p.every||30)/100))return;state.used=true;}
+                if(trigger==='lowhp'){
+                    // A low-HP passive is edge-triggered, not applied every simulation frame.
+                    // A charge is consumed on activation and never replenished in battle.
+                    const threshold=Math.min(1,Math.max(.01,(Number(p.every)||30)/100));
+                    const hpRatio=unit.currentHp/Math.max(1,unit.maxHp);
+                    const maxCharges=Math.max(1,Math.min(3,Math.floor(Number(p.charges)||1)));
+                    if(hpRatio>Math.min(1,threshold+.05))state.armed=true;
+                    if(!state.armed||state.chargesUsed>=maxCharges||hpRatio>threshold)return;
+                    state.armed=false;
+                    state.chargesUsed++;
+                }
                 if(trigger==='interval'){state.clock-=dt;if(state.clock>0)return;state.clock+=Math.max(1,p.every||5);}
                 if(trigger==='basic'){const n=unit.basicAttacksMade||0;if(!n||n%Math.max(1,Math.round(p.every||3))!==0||state.lastBasic===n)return;state.lastBasic=n;}
                 customTargets(p,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,p,'passive_'+i+'_'+j,0,{allies,enemies}));
             });
         }
+        function executeCustomPhase(unit,phase,enemies,allies,isPlayer,index){
+            if(!battleActive||unit.currentHp<=0)return;
+            const targets=chooseCustomTargets(phase.target||'single',phase.count||3,unit,allies,enemies);
+            const hits=Math.max(1,Math.min(20,Number(phase.hits)||1));
+            if(phase.damage>0)targets.forEach(t=>{for(let h=0;h<hits&&t.currentHp>0;h++)applyDamage(unit,t,unit.atk*phase.damage/100/hits,'text-amber-200 text-xs',isPlayer,false,.08);});
+            (phase.effects||[]).forEach((e,i)=>customTargets(e,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,e,'phase_'+index+'_'+i+'_'+j,0,{allies,enemies})));
+            skillVisual({...unit,customVisual:phase.visual,customVisualEmoji:phase.emoji,customVisualColor:phase.color,customVisualHits:Math.max(1,Math.min(8,hits)),customVisualDuration:.7},isPlayer);
+            if(!leagueMode)logBattleEvent('🎬 '+unit.name+': '+(phase.name||'Phase '+(index+1)));
+        }
         function castCustomBuild(unit,enemies,allies,isPlayer){
             const foes=enemies.filter(x=>x.currentHp>0);if(!foes.length)return;
+            if(Array.isArray(unit.customPhases)&&unit.customPhases.length){
+                unit._phaseQueue=unit._phaseQueue||[];
+                let elapsed=0;
+                unit.customPhases.forEach((phase,index)=>{
+                    elapsed+=Math.max(0,Math.min(5,Number(phase.delay)||0));
+                    unit._phaseQueue.push({phase,index,remaining:elapsed,isPlayer});
+                });
+                triggerCustomPassives(unit,'skill');return;
+            }
             const weakest=foes.slice().sort((a,b)=>a.currentHp/a.maxHp-b.currentHp/b.maxHp)[0];
             skillVisual(unit,isPlayer);
             const hitCount=Math.max(1,Math.min(20,Math.round(Number(unit.customVisualHits)||1)));
@@ -2316,7 +2412,13 @@
             });
             triggerCustomPassives(unit,'skill');
         }
-        function tickCustomStacks(unit,dt){tickCustomStatuses(unit,dt);triggerCustomPassives(unit,'interval',dt);triggerCustomPassives(unit,'lowhp');}
+        function tickCustomStacks(unit,dt){
+            if(unit._phaseQueue?.length){
+                const due=[];unit._phaseQueue=unit._phaseQueue.filter(job=>{job.remaining-=dt;if(job.remaining<=0){due.push(job);return false;}return true;});
+                for(const job of due){if(unit.currentHp<=0||!battleActive)break;const allies=job.isPlayer?playerUnits:enemyUnits,enemies=job.isPlayer?enemyUnits:playerUnits;executeCustomPhase(unit,job.phase,enemies,allies,job.isPlayer,job.index);}
+            }
+            tickCustomStatuses(unit,dt);triggerCustomPassives(unit,'interval',dt);triggerCustomPassives(unit,'lowhp',dt);
+        }
         // Wilted Lily: dedicated sequence, seeds, restoration and one-time passive.
         function wiltedOpening(unit){if(unit.id!=='m15')return;
             unit.wiltedRestoration=0;unit.wiltedRevived=false;
@@ -2380,7 +2482,7 @@
             if(cookie.custom){
                 add('Custom Skill',`${cookie.customDamage||0}% ATK`,`${(cookie.customEffects||[]).length} skill components`);
                 (cookie.customEffects||[]).forEach((e,i)=>add(`Skill ${i+1} · ${e.stat}`,`${e.amount}% · ${e.duration}s · max ${e.stacks} stacks`,e.stat==='Custom Status'?'Custom status: '+e.customName:'Target: '+e.target));
-                (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,e.stat==='Revive'?`${e.charges||1} charges · 75% HP · 1s immune`:`${e.amount}% · ${e.duration}s`,e.stat==='Revive'?'Automatic on ally KO':`${e.trigger} trigger · ${e.every||5}`));
+                (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,e.stat==='Revive'?`${e.charges||1} charges · 75% HP · 1s immune`:`${e.amount}% · ${e.duration}s`,e.stat==='Revive'?'Automatic on self or ally KO':`${e.trigger} trigger · ${e.every||5}`));
                 (cookie.customComposites||[]).forEach(e=>add('🧬 '+e.name,`${e.components.length} effects`,e.components.map(c=>`${c.stat} (${c.amount||0}${['Cooldown Increase','Cooldown Recovery'].includes(c.stat)?'s':'%'})`).join(', ')));
             }
             if(cookie.id==='et15'){
@@ -2997,7 +3099,7 @@
                         if(key in e)e[key]=0;
                     e._customStatus={};
                     recomputeCustomStatus(fallen);
-                    fallen.cdTimer=Math.max(0,Number(fallen.maxCD)||3);
+                    fallen.cdTimer=0; // Revival makes the revived Cookie's skill ready immediately.
                     e.invulnerable=1;
                     e.invulnerableTimer=Math.max(1,Number(e.invulnerableTimer)||0);
                     spawnFloatingText(fallen.uid,'REVIVED · 75% HP · 1s IMMUNE','text-emerald-300 text-xs');

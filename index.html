@@ -524,7 +524,7 @@
               </div>
               <div class="rounded-xl border border-indigo-600 bg-indigo-950/30 p-3 space-y-3">
                 <h3 class="font-bold text-indigo-200">⚔️ Skill Attack Studio</h3>
-                <p class="text-xs text-slate-300">Set all attack damage here—there is no separate skill damage field. Repeating skills attack on a timer for the full duration; each pulse can damage, heal, and apply effects.</p>
+                <p class="text-xs text-slate-300">Set attack power here. ATK Speed dynamically speeds up or slows down repeating damage, healing and shield pulses. Debuff Resist weakens negative effects; Buff Amp strengthens buffs received; Debuff Amp strengthens debuffs applied to enemies.</p>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   <label class="text-xs">Attack type<select id="cb-attack-type" onchange="updateAttackStudio()" class="block w-full bg-slate-950 rounded p-2 mt-1"><option value="instant">💥 Instant attack</option><option value="repeating">⚡ Repeating barrage</option><option value="channel">🌈 Channeled beam</option><option value="healing">💚 Healing pulses</option><option value="drain">🩸 Life-drain pulses</option><option value="shield">🛡️ Shield pulses</option><option value="random">🎯 Random-target volley</option><option value="execute">🗡️ Execution strike</option></select></label>
                   <label class="text-xs attack-timed">Ability duration (seconds)<input id="cb-attack-duration" type="number" min="0.5" max="30" step="0.5" value="5" class="block w-full bg-slate-950 rounded p-2 mt-1"></label>
@@ -2264,10 +2264,12 @@
             e._customStatus=e._customStatus||{};
             const previous=e._customStatus[sourceKey];
             const count=Math.min(stacks,(previous?.count||0)+1);
-            const amp=debuff?1+(e.debuffAmp||0):1+(e.buffAmp||0);
-            const resist=debuff?Math.max(0,1-(e.debuffResist||0)):1;
+            // Amplification belongs to the caster for debuffs and the recipient for buffs.
+            // Resistance weakens negative effect strength, not its duration.
+            const amp=debuff?(stat==='Amplify Debuff'?1:1+Math.max(0,source.effects?.debuffAmp||0)):(stat==='Amplify Buff'?1:1+Math.max(0,e.buffAmp||0));
+            const resist=debuff?Math.max(0,1-Math.min(1,e.debuffResist||0)):1;
             const value=amount*count*amp*resist;
-            const lifetime=duration*(debuff?(1+(e.debuffAmp||0))*resist:1+(e.buffAmp||0));
+            const lifetime=duration;
             const instant=['HP Shield','Instant Healing','Cooldown Increase','Cooldown Recovery','Knockback','Airborne','Cyclone'];
             if(stat==='Invulnerability'){
                 // Charges are counted on the caster, not on the recipient or the timed status.
@@ -2419,7 +2421,12 @@
                 const next=[];
                 for(const job of unit._customAttackQueue){
                     if(unit.currentHp<=0||!battleActive)continue;
-                    job.clock-=dt;job.remaining-=dt;
+                    // Countdown is measured in attack-time: haste speeds pulses up,
+                    // slows space them out. Changes apply while the ability is active.
+                    const speedUp=Math.max(0,unit.effects?.atkSpeed||0);
+                    const slow=Math.min(.95,Math.max(0,unit.effects?.attackSpeedDown||0));
+                    const speedFactor=Math.max(.05,Math.min(8,(1+speedUp)*(1-slow)));
+                    job.clock-=dt*speedFactor;job.remaining-=dt;
                     let safety=0;
                     while(job.clock<=0&&safety++<20){
                         const allies=job.isPlayer?playerUnits:enemyUnits,enemies=job.isPlayer?enemyUnits:playerUnits;
@@ -2432,9 +2439,9 @@
                         else targets.forEach(t=>{if(t.currentHp>0){const before=t.currentHp;applyDamage(unit,t,unit.atk*power,'text-amber-200 text-xs',job.isPlayer,false,.08);if(mode==='drain')healUnit(unit,unit,Math.max(0,before-t.currentHp)*.35);}});
                         if(a.effects==='each'||job.pulses===0)(unit.customEffects||[]).forEach((effect,i)=>customTargets(effect,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,effect,'pulse_'+i+'_'+j,0,{allies,enemies})));
                         skillVisual(unit,job.isPlayer);job.pulses++;job.clock+=job.interval;
-                        if(job.pulses>=Math.ceil(a.duration/job.interval))break;
+                        if(job.pulses>=300)break; // runaway protection, not a cooldown lockout
                     }
-                    if(job.remaining>0&&job.pulses<Math.ceil(job.attack.duration/job.interval))next.push(job);
+                    if(job.remaining>0&&job.pulses<300)next.push(job);
                 }
                 unit._customAttackQueue=next;
             }
@@ -3004,10 +3011,11 @@
             if(!target || !target.effects || !value) return;
             const e=target.effects;
             if(mode==='buff' && e.buffProhibited>0) return;
-            if(mode==='buff' && e.buffAmp>0) value*=1+e.buffAmp;
-            if(mode==='debuff' && e.debuffResist>0) value*=1-e.debuffResist; e._stacks=e._stacks||{}; e._stacks[key]=e._stacks[key]||{};
+            if(mode==='buff' && e.buffAmp>0 && key!=='buffAmp') value*=1+e.buffAmp;
+            if(mode==='debuff') value*=Math.max(0,1-Math.min(1,e.debuffResist||0));
+            e._stacks=e._stacks||{}; e._stacks[key]=e._stacks[key]||{};
             const id=String(source||'Unknown');
-            if(mode==='debuff' && e.debuffAmp>0) value*=1+e.debuffAmp;
+            // Debuff amplification is applied from the attacking caster in custom status effects.
             const previous=e._stacks[key][id];
             e._stacks[key][id]={value:previous?Math.max(previous.value,value):value,time:Math.max(previous?.time||0,duration||5),mode};
             const entries=Object.values(e._stacks[key]);

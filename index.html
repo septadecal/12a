@@ -111,8 +111,8 @@
         .combat-hp-fill { background:linear-gradient(90deg,#059669,#4ade80); }
         .enemy-hp-fill { background:linear-gradient(90deg,#be123c,#fb7185); }
         .combat-shield-fill { background:linear-gradient(90deg,#0284c7,#7dd3fc); }
-        .status-row { display:flex; flex-wrap:wrap; gap:3px; min-height:14px; margin-top:3px; }
-        .status-chip { font-size:8px; line-height:13px; padding:0 4px; border-radius:4px; border:1px solid currentColor; background:rgba(15,23,42,.9); white-space:nowrap; }
+        .status-row { display:flex; flex-wrap:wrap; gap:3px; min-height:14px; margin-top:5px; max-height:76px; overflow-y:auto; overflow-x:hidden; align-content:flex-start; width:100%; }
+        .status-chip { font-size:9px; line-height:16px; padding:1px 5px; border-radius:5px; border:1px solid currentColor; background:rgba(15,23,42,.9); white-space:nowrap; font-weight:700; }
         .skill-vfx { filter:hue-rotate(var(--cookie-hue,0deg)); position:absolute; z-index:35; inset:-12px; pointer-events:none; display:grid; place-items:center; animation:vfxPop .85s ease-out forwards; }
         .skill-vfx .vfx-core { font-size:35px; filter:drop-shadow(0 0 10px currentColor); animation:vfxSpin .85s ease-out forwards; }
         .skill-vfx .vfx-ring { position:absolute; width:24px; height:24px; border:3px solid currentColor; border-radius:50%; animation:vfxRing .7s ease-out forwards; }
@@ -212,6 +212,30 @@
 @keyframes crkLightning{0%{transform:translateY(-120px) scale(.2);opacity:0}35%{transform:translateY(0) scale(2);opacity:1}55%{opacity:.2}70%{opacity:1}100%{transform:translateY(70px) scale(.4);opacity:0}}
 @keyframes crkBlossom{0%{transform:translate(-80px,-90px) rotate(0) scale(.2);opacity:0}30%{opacity:1}100%{transform:translate(110px,120px) rotate(550deg) scale(1.1);opacity:0}}
 @keyframes crkTrail{0%{transform:translateY(25px) scale(.2);opacity:0}30%{opacity:1}100%{transform:translateY(-85px) rotate(160deg) scale(1.5);opacity:0}}
+
+/* Stable mobile arena: avoid content-driven resizing and text auto-inflation. */
+#battle-stage { min-width:0; overflow-x:clip; }
+#battle-player-team,#battle-enemy-team { min-width:0; }
+#battle-stage .combat-unit { box-sizing:border-box; width:100%; min-width:0; min-height:104px; height:104px; margin:0 !important; overflow:hidden; contain:layout; }
+#battle-stage .combat-unit .status-row { max-height:30px; min-height:15px; overflow-y:auto; overflow-x:hidden; align-content:start; }
+#battle-stage .combat-unit .unit-name { max-width:100%; }
+#battle-stage .combat-unit .unit-hp-label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#battle-stage .combat-unit .unit-emoji { flex-shrink:0; }
+#battle-stage .combat-unit .unit-cd { width:100%; }
+.combat-cd-track { height:7px; width:100%; background:#172033; border:1px solid #475569; border-radius:999px; overflow:hidden; }
+.combat-cd-fill { height:100%; width:0%; border-radius:999px; background:linear-gradient(90deg,#0284c7,#fbbf24); transition:width .18s linear; }
+.combat-cd-ready .combat-cd-fill { background:#34d399; }
+.combat-cd-label { font-size:8px; font-weight:800; line-height:12px; color:#fbbf24; }
+@media(max-width:640px){
+ html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+ #battle-stage { gap:6px; padding-left:0; padding-right:0; }
+ #battle-stage .combat-unit { height:108px; min-height:108px; padding:5px; }
+ #battle-stage .combat-unit .unit-emoji { font-size:17px; }
+ #battle-stage .combat-unit .status-row { max-height:34px; }
+ #battle-stage .combat-unit .unit-role { max-width:48px; overflow:hidden; }
+ #battle-stage .combat-unit .unit-name { font-size:9px; }
+ #battle-stage .combat-unit .combat-cd-label { font-size:7px; }
+}
 </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-slate-950 overflow-x-hidden relative">
@@ -2956,7 +2980,7 @@
         function initCombatUnit(stats, uid) {
             const openingCooldown = Math.max(.5,(Number.isFinite(stats.openingCD) ? stats.openingCD : 2.5)*(1-Math.min(.75,stats.toppingBonuses?.cooldown||0)));
             const regularCooldown = Math.max(1, (Number.isFinite(stats.regularCD) ? stats.regularCD : Math.min(16, Math.max(7, Number(stats.cd) || 10))) * (1-(stats.toppingBonuses?.cooldown||0))); 
-            return { ...stats, uid, currentHp:stats.hp, maxHp:stats.hp, cdTimer:openingCooldown, maxCD:regularCooldown,
+            return { ...stats, uid, currentHp:stats.hp, maxHp:stats.hp, cdTimer:openingCooldown, maxCD:regularCooldown, openingCDDisplay:openingCooldown,
                 shield:0, statsAmplify:0, dmgDone:0, dmgRecv:0, dmgMitigated:0, dmgAmplified:0, healingDone:0, healingRecv:0,
                 effects:{atk:0,atkTimer:0,def:0,defTimer:0,damageReduction:0,damageReductionTimer:0,invulnerable:0,invulnerableTimer:0,reflect:0,reflectTimer:0,stun:0,silence:0,sleep:0,fear:0,charm:0,freeze:0,root:0,buffProhibited:0,cooldownPause:0,buffAmp:0,debuffResist:0,critUp:0,critDown:0,attackSpeedDown:0,healDown:0,poison:0,poisonTimer:0,burn:0,burnTimer:0,regenAmount:0,regenTimer:0,regenTick:0,regenSource:null,atkDown:0,atkDownTimer:0,defDown:0,defDownTimer:0,dmgTakenUp:0,dmgTakenUpTimer:0,_stacks:{}},
                 skillUses:0, reviveCharges:0, revivesUsed:0, _customRevivesRemaining:Math.min(3,(stats.customPassives||[]).filter(p=>p.stat==='Revive').reduce((n,p)=>n+Math.max(1,Math.min(3,Math.floor(Number(p.charges)||1))),0)), _customInvulnChargesUsed:Object.create(null), basicTimer:1.075, highTierSurvivalUsed:false, survivalClock:0 };
@@ -3932,28 +3956,50 @@
             });
             if(source){const sourceNode=document.getElementById(`unit-node-${source.uid}`); if(sourceNode){sourceNode.classList.add('skill-casting');setTimeout(()=>sourceNode.classList.remove('skill-casting'),450);}}
         }
+        // All active custom statuses share this visual renderer. It reads the actual
+        // combat state, not the builder configuration, so expired effects disappear.
         function getStatusChips(unit) {
             const e=unit.effects||{}, chips=[];
-            const add=(label,icon,timer,color)=>{if(timer>0)chips.push(`<span class="status-chip ${color}" title="${label}: ${timer.toFixed(1)}s">${icon} ${label} ${timer.toFixed(0)}s</span>`);};
-            Object.entries(e._stacks||{}).forEach(([key,entries])=>Object.entries(entries).forEach(([source,stack])=>{
-                const label=key==='atk'?'ATK UP':key==='def'?'DEF UP':key==='atkDown'?'ATK DOWN':key==='defDown'?'DEF DOWN':key==='dmgTakenUp'?'DMG TAKEN UP':key.toUpperCase();
-                const icon=key==='atk'?'⬆️':key==='def'?'🛡️':key.includes('Down')||key==='dmgTakenUp'?'⬇️':'✨';
-                chips.push(`<span class="status-chip ${stack.mode==='debuff'?'text-rose-300':'text-emerald-300'}" title="${label} from ${source}">${icon} ${label} · ${source.split(' ').slice(-1)[0]} ${stack.time.toFixed(0)}s</span>`);
-            }));
-            add('BURN','🔥',e.burnTimer,'text-orange-300'); add('POISON','☠️',e.poisonTimer,'text-lime-300'); add('REGEN','💚',e.regenTimer,'text-emerald-300'); add('REFLECT','↩️',e.reflectTimer,'text-cyan-300');
-            if(e.stun>0) chips.push(`<span class="status-chip text-amber-200">💫 STUN ${e.stun.toFixed(0)}s</span>`);
-            if(e.silence>0) chips.push(`<span class="status-chip text-violet-200">🔇 SILENCE ${e.silence.toFixed(0)}s</span>`);
-            if(e.sleep>0) chips.push(`<span class="status-chip text-indigo-200">💤 SLEEP ${e.sleep.toFixed(0)}s</span>`);
-            if(e.freeze>0) chips.push(`<span class="status-chip text-cyan-200">❄️ FREEZE ${e.freeze.toFixed(0)}s</span>`);
-            if(e.fear>0) chips.push(`<span class="status-chip text-violet-300">◈ FEAR ${e.fear.toFixed(0)}s</span>`);
-            if(e.charm>0) chips.push(`<span class="status-chip text-pink-300">♥ CHARM ${e.charm.toFixed(0)}s</span>`);
-            if(e.root>0) chips.push(`<span class="status-chip text-slate-300">⛓ SHACKLES ${e.root.toFixed(0)}s</span>`);
-            if(e.cooldownPause>0) chips.push(`<span class="status-chip text-indigo-300">⏸ COOLDOWN PAUSED</span>`);
-            if(e.healDown>0) chips.push(`<span class="status-chip text-rose-300">↓ HEALING</span>`);
-            if(e.buffProhibited>0) chips.push(`<span class="status-chip text-rose-300">⊘ BUFF BLOCKED</span>`);
-            if(e.injury>0) chips.push(`<span class="status-chip text-rose-300">✚ INJURY</span>`);
-            if(unit.shield>0) chips.push(`<span class="status-chip text-sky-200">🔷 SHIELD ${(unit.shieldTimer||0).toFixed(1)}s</span>`);
-            return chips.slice(0,14).join('')+(chips.length>14?`<span class="status-chip text-slate-300">+${chips.length-14} MORE</span>`:'');
+            const escapeText=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+            const labels={atk:['⬆️','ATK UP'],def:['🛡️','DEF UP'],atkDown:['⬇️','ATK DOWN'],defDown:['⬇️','DEF DOWN'],dmgTakenUp:['💥','DMG TAKEN UP'],damageReduction:['🛡️','DMG RESIST'],attackSpeedUp:['⚡','ATK SPEED UP'],attackSpeedDown:['🐌','ATK SPEED DOWN'],critUp:['🎯','CRIT UP'],critDown:['🎯','CRIT DOWN'],buffAmp:['✨','BUFF AMP'],debuffAmp:['🔮','DEBUFF AMP'],debuffResist:['🛡️','DEBUFF RESIST'],healDown:['💔','HEALING DOWN'],reflect:['↩️','REFLECT']};
+            const shown=new Set();
+            const chip=(key,value,time,mode,source)=>{
+                if(!(time>0))return;
+                const [icon,label]=labels[key]||['✨',key.replace(/([a-z])([A-Z])/g,'$1 $2').toUpperCase()];
+                const pct=Number.isFinite(value)&&value!==0?` ${Math.round(value*100)}%`:'';
+                const duration=Number.isFinite(time)?` ${time.toFixed(1)}s`:'';
+                const tooltip=escapeText(`${label}${pct}${duration}${source?' · '+source:''}`);
+                chips.push(`<span class="status-chip ${mode==='debuff'?'text-rose-300':'text-emerald-300'}" title="${tooltip}">${icon} ${escapeText(label)}${pct}${duration}</span>`);
+                shown.add(key);
+            };
+            Object.entries(e._stacks||{}).forEach(([key,entries])=>{
+                const active=Object.entries(entries||{}).filter(([,stack])=>stack&&stack.time>0);
+                if(!active.length)return;
+                const total=active.reduce((sum,[,stack])=>sum+(Number(stack.value)||0),0);
+                const time=Math.max(...active.map(([,stack])=>stack.time));
+                chip(key,total,time,active.some(([,stack])=>stack.mode==='debuff')?'debuff':'buff',active.map(([src])=>src).join(', '));
+            });
+            // Some custom statuses are stored as scalar timers rather than stacks.
+            const timed=[
+                ['atk','atkTimer','buff'],['def','defTimer','buff'],['atkDown','atkDownTimer','debuff'],['defDown','defDownTimer','debuff'],
+                ['dmgTakenUp','dmgTakenUpTimer','debuff'],['damageReduction','damageReductionTimer','buff'],
+                ['attackSpeedUp','attackSpeedUpTimer','buff'],['attackSpeedDown','attackSpeedDownTimer','debuff'],
+                ['critUp','critUpTimer','buff'],['critDown','critDownTimer','debuff'],['buffAmp','buffAmpTimer','buff'],
+                ['debuffAmp','debuffAmpTimer','buff'],['debuffResist','debuffResistTimer','buff'],['healDown','healDownTimer','debuff'],
+                ['reflect','reflectTimer','buff']
+            ];
+            timed.forEach(([key,timer,mode])=>{if(!shown.has(key)&&e[timer]>0)chip(key,e[key]||0,e[timer],mode);});
+            const simple=[
+                ['burnTimer','🔥','BURN','debuff'],['poisonTimer','☠️','POISON','debuff'],['bleedTimer','🩸','BLEED','debuff'],
+                ['regenTimer','💚','HEAL OVER TIME','buff'],['stun','💫','STUN','debuff'],['silence','🔇','SILENCE','debuff'],
+                ['sleep','💤','SLEEP','debuff'],['freeze','❄️','FREEZE','debuff'],['fear','👁️','FEAR','debuff'],
+                ['charm','💗','CHARM','debuff'],['root','⛓️','SHACKLE','debuff'],['cooldownPause','⏸️','COOLDOWN PAUSED','debuff'],
+                ['buffProhibited','🚫','BUFF BLOCKED','debuff'],['injury','💔','INJURY','debuff'],
+                ['invulnerableTimer','🌟','INVULNERABLE','buff'],['healingPreventTimer','🚫','HEAL BLOCKED','debuff']
+            ];
+            simple.forEach(([key,icon,label,mode])=>{if(e[key]>0)chips.push(`<span class="status-chip ${mode==='debuff'?'text-rose-300':'text-emerald-300'}" title="${label}: ${e[key].toFixed(1)} seconds">${icon} ${label} ${e[key].toFixed(1)}s</span>`);});
+            if(unit.shield>0)chips.push(`<span class="status-chip text-sky-200" title="Shield: ${Math.round(unit.shield)} HP">🔷 SHIELD ${Math.round(unit.shield).toLocaleString()}</span>`);
+            return chips.length?chips.join(''):'<span class="text-[9px] text-slate-600">No active effects</span>';
         }
 
         function spawnFloatingText(elementUid, text, colorClass) {
@@ -3993,17 +4039,17 @@
                     let node=document.getElementById(`unit-node-${u.uid}`);
                     if(!node){
                         node=document.createElement('div'); node.id=`unit-node-${u.uid}`;
-                        node.className='combat-unit relative flex items-center justify-between bg-slate-950/60 p-2 rounded-xl border border-slate-800 my-1 cursor-pointer hover:border-amber-500';
+                        node.className='combat-unit relative flex items-start justify-between bg-slate-950/60 p-2 rounded-xl border border-slate-800 my-1 cursor-pointer hover:border-amber-500';
                         node.title='Click to inspect toppings and Beascuit';
                         node.innerHTML=isPlayer?`
-                          <div class="flex items-center gap-2 min-w-0"><span class="unit-emoji text-2xl"></span><div class="min-w-0">
+                          <div class="flex items-center gap-2 min-w-0 flex-1"><span class="unit-emoji text-2xl"></span><div class="min-w-0 flex-1">
                             <div class="unit-name text-[10px] font-bold text-slate-200 truncate max-w-[100px]"></div>
                             <div class="combat-hp-track mt-1"><div class="combat-hp-fill hp-fill"></div></div>
                             <div class="shield-wrap hidden mt-1"><div class="combat-shield-track"><div class="combat-shield-fill shield-fill"></div></div></div>
                             <div class="status-row"></div><div class="unit-hp-label text-[8px] text-slate-400 mt-0.5"></div>
-                          </div></div><div class="text-right shrink-0"><div class="unit-role"></div><div class="unit-cd text-[9px] text-amber-400 font-bold mt-1"></div></div>`:`
-                          <div class="text-left shrink-0"><div class="unit-role"></div><div class="text-[9px] text-rose-400 font-bold mt-1">Lvl ${u.level}</div></div>
-                          <div class="flex items-center gap-2 text-right flex-row-reverse min-w-0"><span class="unit-emoji text-2xl"></span><div class="min-w-0">
+                          </div></div><div class="text-right shrink-0"><div class="unit-role"></div><div class="unit-cd mt-1"></div></div>`:`
+                          <div class="text-left shrink-0"><div class="unit-role"></div><div class="text-[9px] text-rose-400 font-bold mt-1">Lvl ${u.level}</div><div class="unit-cd mt-1"></div></div>
+                          <div class="flex items-center gap-2 text-right flex-row-reverse min-w-0 flex-1"><span class="unit-emoji text-2xl"></span><div class="min-w-0 flex-1">
                             <div class="unit-name text-[10px] font-bold text-slate-200 truncate max-w-[100px]"></div>
                             <div class="combat-hp-track mt-1"><div class="combat-hp-fill enemy-hp-fill hp-fill"></div></div>
                             <div class="shield-wrap hidden mt-1"><div class="combat-shield-track"><div class="combat-shield-fill shield-fill"></div></div></div>
@@ -4039,7 +4085,15 @@
                     node.querySelector('.status-row').innerHTML=getStatusChips(u);
                     node.querySelector('.unit-hp-label').textContent=`${Math.ceil(u.currentHp).toLocaleString()} / ${Math.ceil(u.maxHp).toLocaleString()} HP${u.shield>0?`  + ${Math.ceil(u.shield).toLocaleString()} shield`:''}`;
                     node.querySelector('.unit-role').innerHTML=getRoleBadgeHTML(u.role);
-                    const cd=node.querySelector('.unit-cd'); if(cd)cd.textContent=u.currentHp<=0?'K.O.':u.effects?.stun>0?'STUNNED':u.cdTimer>0?`${u.cdTimer.toFixed(1)}s`:'⚡ READY';
+                    const cd=node.querySelector('.unit-cd');
+                    if(cd){
+                        const remaining=Math.max(0,Number(u.cdTimer)||0);
+                        const maxCD=Math.max(.1,Number(u.skillUses)>0 ? (Number(u.maxCD)||1) : (Number(u.openingCDDisplay)||Number(u.maxCD)||1));
+                        const progress=u.currentHp<=0?0:Math.max(0,Math.min(100,100*(1-remaining/maxCD)));
+                        const ready=u.currentHp>0&&remaining<=.05;
+                        cd.classList.toggle('combat-cd-ready',ready);
+                        cd.innerHTML=`<div class="combat-cd-label">${u.currentHp<=0?'K.O.':ready?'⚡ READY':u.effects?.cooldownPause>0?'⏸ PAUSED':'SKILL'}</div><div class="combat-cd-track" role="progressbar" aria-label="Skill cooldown" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(progress)}"><div class="combat-cd-fill" style="width:${progress}%"></div></div>`;
+                    }
                     if(isPlayer){
                         const btnSlot=document.getElementById(`skill-btn-${idx}`);
                         if(btnSlot){const ready=battleActive&&!leagueMode&&u.currentHp>0&&u.cdTimer<=.05&&!(u.effects?.stun>0);

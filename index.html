@@ -435,7 +435,7 @@
 
             <div class="crk-panel rounded-xl p-3 space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                    <div><h3 class="font-extrabold text-slate-100 text-sm">🏆 CHOOSE AN OPPONENT</h3><p class="text-[11px] text-slate-400">1 dynamic team matched to your squad, 3 fully random teams, and 1 maxed-out Pro team!</p></div>
+                    <div><h3 class="font-extrabold text-slate-100 text-sm">🏆 CHOOSE AN OPPONENT</h3><p class="text-[11px] text-slate-400">1 dynamic team matched to your squad, 3 fully random teams, and 1 maxed-out Pro team using your saved meta drafts!</p></div>
                     <div class="flex items-center gap-2"><button onclick="exportCRKSave()" class="rounded-lg bg-emerald-800 text-white text-[10px] font-black px-3 py-2">⬇ BACKUP SAVE</button>
 <button onclick="document.getElementById('crk-import-file').click()" class="rounded-lg bg-indigo-800 text-white text-[10px] font-black px-3 py-2">⬆ RESTORE SAVE</button>
 <input type="file" id="crk-import-file" accept=".json,application/json" class="hidden" onchange="importCRKSave(this)">
@@ -494,9 +494,9 @@
         <section id="tab-recommended" class="tab-content hidden flex-col gap-4">
           <div class="bg-slate-900 border border-amber-700 rounded-2xl p-4 space-y-3">
             <h2 class="text-xl font-black text-amber-300">🏆 Recommended Teams</h2>
-            <p class="text-xs text-slate-400">Global teams for PRO opponents. Everyone can browse. Publishing requires the curator password 072313. Personal progress stays local.</p>
+            <p class="text-xs text-slate-400">Global teams for PRO opponents. Everyone can browse. First-time editing requires password 072313 on this device. Personal progress stays local.</p>
             <input id="rec-password" type="password" placeholder="Curator password" class="bg-slate-950 rounded-lg p-2 w-full text-sm border border-slate-700" />
-            <button onclick="unlockRecommended()" class="bg-amber-500 text-slate-950 rounded-lg px-3 py-2 text-xs font-bold">🔐 UNLOCK TEAM EDITOR</button>
+            <button id="rec-unlock-button" onclick="unlockRecommended()" class="bg-amber-500 text-slate-950 rounded-lg px-3 py-2 text-xs font-bold">🔐 UNLOCK TEAM EDITOR</button>
             <div id="rec-editor" class="hidden space-y-2">
               <input id="rec-name" maxlength="55" placeholder="Team name" class="bg-slate-950 rounded-lg p-2 w-full text-sm" />
               <div id="rec-picks" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
@@ -533,10 +533,16 @@
                 <div class="flex flex-wrap gap-2 mt-4"><button onclick="randomizeMetaTeams()" class="rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs px-4 py-2">🎲 RANDOM TEAMS</button><button onclick="saveMetaTeamToRecommended()" class="rounded-lg bg-amber-700 text-white font-bold text-xs px-4 py-2">💾 SAVE TEAM A TO TEAMS TAB</button><button onclick="startMetaBattle()" class="crk-btn rounded-lg px-5 py-2 font-black text-slate-950 text-xs">⚔️ TEST BATTLE</button><span class="text-[10px] text-slate-400 self-center">Meta battles never modify your saved roster, currency, or XP.</span></div>
             </div>
             <div class="crk-panel rounded-xl p-4 border border-emerald-800/70" id="treasure-tester-panel">
-              <h2 class="text-lg font-black text-emerald-300">🏺 TREASURE + TOPPING + BEASCUIT TESTER</h2>
-              <p class="text-xs text-slate-400 mt-1">Uses Team A above as the fixed lineup. Tests random full 5-piece Topping sets, full 4-line Beascuits, and 3 random level-12 Treasures against randomized opponent builds. Runs independently while Auto Meta League is active.</p>
-              <div class="flex flex-wrap gap-2 mt-3 items-center"><label class="text-xs">Trials <input id="gear-trials" type="number" min="10" max="1000" value="100" class="w-24 bg-slate-950 border border-slate-600 rounded p-2 ml-2"></label><button onclick="runTreasureTester()" class="bg-emerald-700 rounded-lg px-4 py-2 text-xs font-bold">▶ RUN EQUIPMENT TEST</button><button onclick="saveTreasureTesterBuild()" class="bg-amber-700 rounded-lg px-4 py-2 text-xs font-bold">💾 SAVE RESULTS TO TEAMS TAB</button></div>
-              <div id="gear-test-results" class="mt-3 text-xs text-slate-300">No tests run yet.</div>
+              <h2 class="text-lg font-black text-emerald-300">🏆 THREE-STAGE EQUIPMENT CHAMPIONSHIP</h2>
+              <p class="text-xs text-slate-400 mt-1">Uses the five Cookies in Meta Team A. Complete each stage in order: Treasures → Toppings → Beascuits. Each stage uses a fast, deterministic stat-based comparison (no combat simulation), winner-stays rankings, and the previous stage's winning equipment. No equipment is randomly changed in a completed stage.</p>
+              <div class="flex flex-wrap gap-2 mt-3 items-center"><label class="text-xs">Trials per stage <input id="gear-trials" type="number" min="10" max="10000" value="1000" class="w-24 bg-slate-950 border border-slate-600 rounded p-2 ml-2"></label></div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+                <div class="bg-slate-950 border border-amber-700 rounded-lg p-3"><h3 class="font-bold text-amber-300">1. 🏺 Treasure Tester</h3><p class="text-xs text-slate-400 my-2">Tests three level-12 Treasures. No Toppings or Beascuits.</p><button onclick="runEquipmentStage('treasure')" class="bg-amber-700 rounded-lg px-3 py-2 text-xs font-bold">▶ TEST TREASURES</button><div id="gear-treasure-results" class="text-xs mt-2 text-slate-300">Not tested yet.</div></div>
+                <div class="bg-slate-950 border border-pink-700 rounded-lg p-3"><h3 class="font-bold text-pink-300">2. 🍓 Topping Tester</h3><p class="text-xs text-slate-400 my-2">Requires completed Treasure Tester. Tests full ×5 sets for each Cookie with locked Treasures.</p><button id="gear-topping-run" onclick="runEquipmentStage('topping')" disabled class="bg-pink-700 disabled:opacity-40 rounded-lg px-3 py-2 text-xs font-bold">▶ TEST TOPPINGS</button><div id="gear-topping-results" class="text-xs mt-2 text-slate-300">Complete Treasures first.</div></div>
+                <div class="bg-slate-950 border border-violet-700 rounded-lg p-3"><h3 class="font-bold text-violet-300">3. 🍪 Beascuit Tester</h3><p class="text-xs text-slate-400 my-2">Requires completed Treasures AND Toppings. Tests full ×4 lines with both locked.</p><button id="gear-biscuit-run" onclick="runEquipmentStage('biscuit')" disabled class="bg-violet-700 disabled:opacity-40 rounded-lg px-3 py-2 text-xs font-bold">▶ TEST BEASCUITS</button><div id="gear-biscuit-results" class="text-xs mt-2 text-slate-300">Complete Toppings first.</div></div>
+              </div>
+              <div class="flex flex-wrap gap-2 mt-3"><button onclick="saveTreasureTesterBuild()" class="bg-sky-800 rounded-lg px-4 py-2 text-xs font-bold">💾 SAVE COMPLETED RESULTS TO PRIVATE TEAMS QUEUE</button><button onclick="resetEquipmentStages()" class="bg-slate-700 rounded-lg px-4 py-2 text-xs font-bold">↻ RESET STAGES</button></div>
+              <div id="gear-test-results" class="mt-3 text-xs text-slate-300">Complete all three stages to save recommendations.</div>
             </div>
             <div class="crk-panel rounded-xl p-4 border border-fuchsia-900/60">
                 <div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-lg font-black text-amber-200">🏆 AUTO META LEAGUE</h2><p class="text-xs text-slate-400">Random Epic+ teams fight at level 100 with skill level 100, no toppings or Beascuits. No duplicate team lineups.</p></div><span id="league-status" class="text-xs font-black text-slate-300">NOT RUNNING</span></div>
@@ -766,7 +772,10 @@
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
+        // Silent mode: no generated game audio, including gacha, skills, hits or headless tests.
+        const GAME_AUDIO_MUTED = true;
         function playSound(type) {
+            if (GAME_AUDIO_MUTED) return;
             if(typeof leagueMode!=='undefined' && leagueMode && !leagueSpectating) return;
             try {
                 initAudio();
@@ -1531,7 +1540,7 @@
             if (tabName === 'battle') renderBattleTeamPresets();
             if (tabName === 'adventures') renderAdventures();
             if (tabName === 'meta') renderMetaBuilder();
-            if (tabName === 'recommended') {renderRecommendedEditor();refreshRecommended();}
+            if (tabName === 'recommended') {ensureRecommendedAccess();renderTeamDrafts();renderRecommendedEditor();refreshRecommended();}
             if (tabName === 'toppings') renderToppingsTab();
             if (tabName === 'builder') { renderCookieBuilder(); refreshPublicCookies(); }
         }
@@ -1629,17 +1638,32 @@
 
         // Recommended teams are public. Editing is gated by the requested
         // local password; this is not secure server-side curator authorization.
+        const REC_DEVICE_UNLOCK_KEY='CRK_RECOMMENDED_EDITOR_DEVICE_AUTH_V1';
         let recommendedUnlocked=false, recommendedTeams=[];
+        function ensureRecommendedAccess(){
+            if(recommendedUnlocked)return true;
+            try{if(localStorage.getItem(REC_DEVICE_UNLOCK_KEY)==='yes'){recommendedUnlocked=true;document.getElementById('rec-editor')?.classList.remove('hidden');document.getElementById('rec-password')?.classList.add('hidden');document.getElementById('rec-unlock-button')?.classList.add('hidden');return true;}}catch{}
+            return false;
+        }
+        function requireRecommendedAccess(){
+            if(ensureRecommendedAccess())return true;
+            const password=prompt('Enter Teams password (first time on this device):');
+            if(password!=='072313'){alert('Incorrect password.');return false;}
+            try{localStorage.setItem(REC_DEVICE_UNLOCK_KEY,'yes');}catch{}
+            recommendedUnlocked=true;document.getElementById('rec-editor')?.classList.remove('hidden');
+            document.getElementById('rec-password')?.classList.add('hidden');document.getElementById('rec-unlock-button')?.classList.add('hidden');
+            renderRecommendedEditor();return true;
+        }
         try{recommendedTeams=JSON.parse(localStorage.getItem('CRK_RECOMMENDED_TEAMS_CACHE_V34')||'[]');}catch{}
         const RECOMMENDED_CACHE='CRK_RECOMMENDED_TEAMS_CACHE_V34';
         function recommendedStatus(t){const el=document.getElementById('rec-status');if(el)el.textContent=t;}
         function unlockRecommended(){
             if(document.getElementById('rec-password').value!=='072313'){recommendedStatus('Incorrect password.');return;}
-            recommendedUnlocked=true;document.getElementById('rec-password').value='';
+            recommendedUnlocked=true;try{localStorage.setItem(REC_DEVICE_UNLOCK_KEY,'yes');}catch{}document.getElementById('rec-password').value='';document.getElementById('rec-password').classList.add('hidden');document.getElementById('rec-unlock-button').classList.add('hidden');
             document.getElementById('rec-editor').classList.remove('hidden');renderRecommendedEditor();recommendedStatus('Team editor unlocked.');
         }
         function renderRecommendedEditor(){
-            if(!recommendedUnlocked)return;
+            if(!ensureRecommendedAccess())return;
             const root=document.getElementById('rec-picks');if(!root)return;
             const opts=COOKIES_DB.filter(Boolean).map(c=>`<option value="${c.id}">${escapeCookieHtml(c.name)} · ${c.rarity} · ${c.role}</option>`).join('');
             root.innerHTML=Array.from({length:5},(_,i)=>`<label class="text-xs text-slate-300">Cookie ${i+1}<select id="rec-pick-${i}" class="block bg-slate-950 rounded p-2 w-full mt-1">${opts}</select></label>`).join('');
@@ -1648,7 +1672,7 @@
         const TEAM_DRAFT_KEY='CRK_TEAM_DRAFTS_V1';
         let currentDraftId=null, latestTreasureTest=null;
         function getTeamDrafts(){try{return JSON.parse(localStorage.getItem(TEAM_DRAFT_KEY)||'[]');}catch{return [];}}
-        function persistTeamDrafts(items){localStorage.setItem(TEAM_DRAFT_KEY,JSON.stringify(items));renderTeamDrafts();}
+        function persistTeamDrafts(items){try{localStorage.setItem(TEAM_DRAFT_KEY,JSON.stringify(items));}catch(err){alert('Could not save drafts on this device: '+err.message);return false;}renderTeamDrafts();return true;}
         function recGearOptions(value){return GEAR_PRESETS.map(([id,label])=>`<option value="${id}" ${id===value?'selected':''}>${label}</option>`).join('');}
         function renderRecommendedGear(gear){
             gear=gear||{};
@@ -1665,24 +1689,31 @@
               updatedAt:new Date().toISOString()};
         }
         function saveRecommendedDraft(){
-            if(!recommendedUnlocked){recommendedStatus('Enter password 072313 to save a team.');return;}
+            if(!requireRecommendedAccess())return;
             const draft=currentRecommendedDraft();
             if(draft.team_name.length<3||new Set(draft.cookie_ids).size!==5||draft.cookie_ids.some(id=>!COOKIES_DB.some(c=>c.id===id))){recommendedStatus('Give the team a name (3+ characters) and five different Cookies.');return;}
             if(new Set(draft.gear.treasures).size!==draft.gear.treasures.length){recommendedStatus('Choose three different Treasures.');return;}
             const drafts=getTeamDrafts();const idx=drafts.findIndex(t=>t.id===draft.id);
-            if(idx>=0)drafts[idx]=draft;else drafts.unshift(draft);
+            if(idx>=0)drafts[idx]={...drafts[idx],...draft,top3:drafts[idx].top3,alternatives:drafts[idx].alternatives};else drafts.unshift(draft);
             currentDraftId=draft.id;persistTeamDrafts(drafts);recommendedStatus('💾 Draft saved privately on this device. Publish whenever you are ready.');
         }
         function renderTeamDrafts(){const root=document.getElementById('rec-drafts');if(!root)return;
-            const drafts=getTeamDrafts();root.innerHTML=drafts.length?drafts.map(d=>`<div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950 border border-slate-700 rounded p-2"><span class="text-xs">${escapeCookieHtml(d.team_name)} · ${d.cookie_ids.length} Cookies ${d.published?'· 🌎 Published':''}</span><div class="flex gap-1"><button onclick="editRecommendedDraft('${d.id}')" class="bg-sky-800 rounded px-2 py-1 text-xs">Edit</button><button onclick="deleteRecommendedDraft('${d.id}')" class="bg-rose-900 rounded px-2 py-1 text-xs">Delete</button></div></div>`).join(''):'<p class="text-xs text-slate-500">No saved drafts.</p>';
+            const drafts=getTeamDrafts();root.innerHTML=drafts.length?drafts.map(d=>`<div class="bg-slate-950 border border-slate-700 rounded p-3 space-y-2"><div class="flex flex-wrap items-center justify-between gap-2"><span class="text-xs font-bold">${escapeCookieHtml(d.team_name)} · ${d.cookie_ids.length} Cookies ${d.published?'· 🌎 Published':'· 🔒 Private queue'}</span><div class="flex gap-1"><button onclick="editRecommendedDraft('${d.id}')" class="bg-sky-800 rounded px-2 py-1 text-xs">Edit</button><button onclick="deleteRecommendedDraft('${d.id}')" class="bg-rose-900 rounded px-2 py-1 text-xs">Delete</button><button onclick="publishQueuedDraft('${d.id}')" class="bg-emerald-800 rounded px-2 py-1 text-xs">Publish</button></div></div>${d.top3?`<details class="text-xs text-slate-300"><summary class="cursor-pointer text-amber-200">Top 2 Toppings and Beascuits per Cookie</summary>${d.cookie_ids.map((id,i)=>`<p class="mt-1"><b>${escapeCookieHtml(COOKIES_DB.find(c=>c.id===id)?.name||id)}</b>: 🍓 ${(d.top3[i]?.toppings||[]).map(x=>escapeCookieHtml(x.type.toUpperCase())+' ×5').join(' / ')} · 🍪 ${(d.top3[i]?.biscuits||[]).map(x=>escapeCookieHtml(x.type.toUpperCase())+' ×4').join(' / ')}</p>`).join('')}</details>`:''}${d.alternatives?.length?`<details class="text-xs text-slate-300"><summary class="cursor-pointer text-violet-200">Alternative Cookies</summary>${d.alternatives.map(a=>`<p>${escapeCookieHtml(a.name)} replaces ${escapeCookieHtml(a.replaces)} · ${escapeCookieHtml(a.topping.toUpperCase())} ×5</p>`).join('')}</details>`:''}</div>`).join(''):'<p class="text-xs text-slate-500">No saved drafts.</p>';
         }
-        function editRecommendedDraft(id){if(!recommendedUnlocked){recommendedStatus('Unlock the editor with password 072313 first.');return;}
+        function publishQueuedDraft(id){
+            if(!requireRecommendedAccess())return;
+            editRecommendedDraft(id);
+            if(currentDraftId!==id)return;
+            if(!confirm('Publish this queued team now? Only the lineup is guaranteed to publish; equipment rankings stay in the local draft.'))return;
+            publishRecommended();
+        }
+        function editRecommendedDraft(id){if(!requireRecommendedAccess())return;
             const d=getTeamDrafts().find(x=>x.id===id);if(!d)return;currentDraftId=d.id;
             document.getElementById('rec-name').value=d.team_name;
             d.cookie_ids.forEach((id,i)=>{const el=document.getElementById('rec-pick-'+i);if(el)el.value=id;});renderRecommendedGear(d.gear);
             recommendedStatus('Editing '+d.team_name+'. Save to keep changes, or Publish when ready.');
         }
-        function deleteRecommendedDraft(id){if(!recommendedUnlocked){recommendedStatus('Unlock first.');return;}
+        function deleteRecommendedDraft(id){if(!requireRecommendedAccess())return;
             if(!confirm('Delete this local draft?'))return;persistTeamDrafts(getTeamDrafts().filter(x=>x.id!==id));if(currentDraftId===id)currentDraftId=null;
         }
         function saveMetaTeamToRecommended(){
@@ -1690,7 +1721,7 @@
             const draft={id:'draft_'+Date.now(),team_name:'Meta Team '+new Date().toLocaleDateString(),cookie_ids:ids,
                 gear:{cookies:metaGearSettings.a.cookies.map(x=>({...x})),treasures:metaGearSettings.a.treasures.slice(0,3)},updatedAt:new Date().toISOString()};
             // Password required before a team can be saved, even from Meta Tester.
-            const password=prompt('Enter Teams password to save this lineup:');if(password!=='072313'){alert('Incorrect password; team not saved.');return;}
+            if(!requireRecommendedAccess())return;
             const drafts=getTeamDrafts();drafts.unshift(draft);persistTeamDrafts(drafts);alert('Saved to the TEAMS tab as a private draft. Edit or publish it there.');
         }
         async function refreshRecommended(){
@@ -1720,7 +1751,7 @@
             }
         }
         async function publishRecommended(){
-            if(!recommendedUnlocked){recommendedStatus('Unlock the editor first.');return;}
+            if(!requireRecommendedAccess())return;
             const name=document.getElementById('rec-name').value.trim();
             const ids=Array.from({length:5},(_,i)=>document.getElementById('rec-pick-'+i)?.value);
             if(name.length<3||name.length>55||ids.some(id=>!COOKIES_DB.some(c=>c.id===id))||new Set(ids).size!==5){recommendedStatus('Use a name (3–55 characters) and five distinct Cookies.');return;}
@@ -1755,7 +1786,15 @@
                 {name:'Almost PRO',kind:'almostpro'}
             ];
             const mode=modes[index]||modes[1];
-            const chosenTemplates=(['pro','almostpro'].includes(mode.kind) && proRecommendedTemplates()) || chooseStrategicOpponentCookies(COOKIES_DB.filter(c=>c&&c.id),index);
+            const proDraftPool=getTeamDrafts().filter(d=>Array.isArray(d.cookie_ids)&&d.cookie_ids.length===5&&d.cookie_ids.every(id=>COOKIES_DB.some(c=>c.id===id)));
+            const proDraft=(['pro','almostpro'].includes(mode.kind)&&proDraftPool.length)?proDraftPool[Math.floor(Math.random()*proDraftPool.length)]:null;
+            let chosenTemplates=proDraft?proDraft.cookie_ids.map(id=>COOKIES_DB.find(c=>c.id===id)):(['pro','almostpro'].includes(mode.kind)&&proRecommendedTemplates())||chooseStrategicOpponentCookies(COOKIES_DB.filter(c=>c&&c.id),index);
+            if(proDraft?.alternatives?.length&&Math.random()<.28){
+                const alt=proDraft.alternatives[Math.floor(Math.random()*Math.min(2,proDraft.alternatives.length))];
+                const slot=chosenTemplates.findIndex(c=>c.id===alt.replaces_id);
+                const candidate=COOKIES_DB.find(c=>c.id===alt.id);
+                if(slot>=0&&candidate&&!chosenTemplates.some(c=>c.id===candidate.id)&&!(candidate.role==='Ethereal'&&chosenTemplates.some((c,i)=>i!==slot&&c.role==='Ethereal'))){chosenTemplates=chosenTemplates.slice();chosenTemplates[slot]=candidate;}
+            }
             const playerIds=(gameState.team||[]).filter(Boolean).slice(0,5);
             const team=chosenTemplates.filter(template=>template&&template.id).map((template,slot)=>{
                 let level, toppingBonuses, toppingLabel='';
@@ -1784,6 +1823,17 @@
                 } else if(mode.kind==='pro'||mode.kind==='almostpro'){
                     level=mode.kind==='pro'?100:Math.max(91,100-Math.floor(Math.random()*10));
                     toppingBonuses=makeEnemyToppingBonuses('full');
+                    const originalSlot=proDraft?.cookie_ids?.indexOf(template.id)??-1;
+                    const topTwo=originalSlot>=0?proDraft?.top3?.[originalSlot]?.toppings:[];
+                    const selectedTopping=(topTwo?.length&&Math.random()<.3?topTwo[Math.min(1,topTwo.length-1)]?.type:proDraft?.gear?.cookies?.[originalSlot]?.topping)||proDraft?.alternatives?.find(a=>a.id===template.id)?.topping;
+                    if(selectedTopping&&selectedTopping!=='none'){
+                        const full=makeEnemyToppingBonuses('full');
+                        const keys=['atk','def','hp','resist','crit','cooldown'];
+                        for(const k of keys)full[k]=0;
+                        const presetKey=selectedTopping==='dmgresist'?'resist':selectedTopping;
+                        if(keys.includes(presetKey))full[presetKey]=(makeEnemyToppingBonuses('full')[presetKey]||.25);
+                        toppingBonuses=full;
+                    }
                     toppingLabel=mode.kind==='pro'?'5× FULL TOPPINGS · LV.12':'NEAR-MAX · SOME TOPPINGS MISSING';
                     if(mode.kind==='almostpro'){
                         const keep=2+Math.floor(Math.random()*4);
@@ -1796,6 +1846,13 @@
                 const stars=mode.kind==='dynamic'?cookieStars(playerIds[slot]):['pro','almostpro'].includes(mode.kind)?(3+Math.floor(Math.random()*4)):Math.floor(Math.random()*7);
                 toppingBonuses.stars=stars;
                 const biscuit=makeEnemyBiscuit(template.role,['pro','almostpro'].includes(mode.kind) && (mode.kind==='pro'||Math.random()<.75));
+                const draftSlot=proDraft?.cookie_ids?.indexOf(template.id)??-1;
+                const biscuitChoices=draftSlot>=0?proDraft?.top3?.[draftSlot]?.biscuits:[];
+                const preferredBiscuit=(biscuitChoices?.length&&Math.random()<.3?biscuitChoices[Math.min(1,biscuitChoices.length-1)]?.type:proDraft?.gear?.cookies?.[draftSlot]?.biscuit);
+                if(preferredBiscuit&&preferredBiscuit!=='none'&&biscuit){
+                    const lines=biscuit.lines||biscuit.substats;
+                    if(Array.isArray(lines))for(const line of lines){if(line&&typeof line==='object'){if('type'in line)line.type=preferredBiscuit;}}
+                }
                 applyEnemyBiscuitBonuses(toppingBonuses,biscuit);
                 const toppingCount=mode.kind==='pro'?5:mode.kind==='almostpro'?2+Math.floor(Math.random()*4):mode.kind==='dynamic'?(gameState.toppings||[]).filter(t=>t.equippedTo===playerIds[slot]).length:Math.floor(Math.random()*6);
                 const enemyToppings=Array.from({length:toppingCount},(_,i)=>({type:['atk','def','hp','resist','crit','cooldown'][i%6],level:mode.kind==='pro'?12:mode.kind==='almostpro'?8+Math.floor(Math.random()*5):1+Math.floor(Math.random()*12)}));
@@ -1808,7 +1865,7 @@
                 level:`Lv. ${Math.min(...team.map(x=>x.level))}–${Math.max(...team.map(x=>x.level))}`,
                 power,targetPower:power,maxedMaster:mode.kind==='pro',
                 toppingLabel:mode.kind==='pro'?'FULL TOPPINGS + BEASCUITS':mode.kind==='almostpro'?'ALMOST MAXED + BEASCUITS':mode.kind==='dynamic'?'MATCHED TO YOUR TEAM':'RANDOM LEVELS & TOPPINGS',
-                treasures:mode.kind==='pro'?((typeof recommendedTeams!=='undefined'&&recommendedTeams.length&&Math.random()<.5)?['scroll','watch','monocle'].map(id=>({...TREASURES.find(t=>t.id===id),testLevel:12})):randomTreasures(3,12)):
+                treasures:mode.kind==='pro'&&proDraft?.gear?.treasures?.length?proDraft.gear.treasures.slice(0,3).map(id=>({...TREASURES.find(t=>t.id===id),testLevel:12})).filter(t=>t.id):mode.kind==='pro'?((typeof recommendedTeams!=='undefined'&&recommendedTeams.length&&Math.random()<.5)?['scroll','watch','monocle'].map(id=>({...TREASURES.find(t=>t.id===id),testLevel:12})):randomTreasures(3,12)):
                     (Math.random()<.35?randomTreasures(1+Math.floor(Math.random()*3),Math.max(1,Math.ceil((team.reduce((sum,c)=>sum+c.level,0)/Math.max(1,team.length))/10))):[]),
                 strategy:!hasHealer?'Aggressive · No healer':(team.filter(x=>['Charge','Defense'].includes(COOKIES_DB.find(c=>c.id===x.id)?.role)).length>=2?'Double frontline · Sustain':'Balanced · Healer'),
                 team
@@ -1974,55 +2031,402 @@
             beginBattleWithTeams(a,b,'META TEST · TEAM B');
         }
 
-        // Equipment optimizer uses independent approximate matchup scoring; it does
-        // not hijack the active real-time battle or the running Auto Meta League.
-        function equipmentScore(team,gears,treasures){
-            let power=0;
-            team.forEach((entry,i)=>{
-                const cookie=COOKIES_DB.find(c=>c.id===entry.id);if(!cookie)return;
-                const role=cookie.role,gear=gears[i];
-                const stats=getCookieScaledStats(entry.id,100,{atk:0,def:0,hp:0,resist:0,crit:0,cooldown:0,power:0,stars:0,skillLevel:100});
-                const base=Math.max(100,(stats.atk||100)*2+(stats.hp||1000)*.12+(stats.def||100)*.8);
-                const priorities={Defense:['resist','hp','def','cooldown'],Charge:['resist','atk','hp'],Healer:['cooldown','atk','hp'],Support:['cooldown','speed','atk'],Ethereal:['cooldown','atk','resist'],Statuser:['cooldown','speed','atk'],Magic:['atk','crit','cooldown'],Bomber:['atk','crit','cooldown'],Ranged:['crit','atk','speed'],Ambush:['crit','atk','speed']}[role]||['atk','crit'];
-                const multiplier=key=>key==='none'?0:priorities.indexOf(key)>=0?(1.0-priorities.indexOf(key)*.16):.24;
-                power+=base*(1+.45*multiplier(gear.topping)+.25*multiplier(gear.biscuit));
-            });
-            const ids=treasures.map(t=>t.id);
-            if(ids.includes('scroll'))power*=1.42;
-            if(ids.includes('watch'))power*=1.19;
-            if(ids.includes('monocle'))power*=1.17;
-            power*=1+treasures.reduce((sum,t)=>sum+(t.max||0)*.0015,0);
-            return power;
+        // Deterministic, role-aware equipment optimizer. Topping presets represent
+        // five identical pieces; Beascuit presets represent four identical lines.
+        // No random win rolls or arbitrary "best of random trials" selection.
+        const OPT_GEAR_KEYS=['atk','crit','cooldown','hp','def','resist','critResist','speed'];
+        function optimizerCookieScore(entry,gear){
+            const c=COOKIES_DB.find(x=>x.id===entry.id);
+            if(!c)return 0;
+            const st=getCookieScaledStats(entry.id,100,{atk:0,def:0,hp:0,resist:0,crit:0,cooldown:0,power:0,stars:0,skillLevel:100});
+            const role=c.role;
+            const bonuses={atk:0,crit:0,cooldown:0,hp:0,def:0,resist:0,critResist:0,speed:0};
+            const topping={atk:.45,crit:.30,cooldown:.25,hp:.45,def:.45,resist:.25,critResist:.25,speed:.25};
+            // A full four-line Beascuit is modeled as half a five-piece topping set,
+            // matching the existing manual Meta equipment implementation.
+            if(gear.topping!=='none')bonuses[gear.topping]+=topping[gear.topping]||0;
+            if(gear.biscuit!=='none')bonuses[gear.biscuit]+=(topping[gear.biscuit]||0)*.5;
+            const atk=Math.max(1,st.atk||100)*(1+bonuses.atk);
+            const hp=Math.max(1,st.maxHp||st.hp||1000)*(1+bonuses.hp);
+            const def=Math.max(0,st.def||100)*(1+bonuses.def);
+            const resist=Math.min(.85,Math.max(0,(st.dmgResist||0)+bonuses.resist));
+            const cooldown=1/(1-Math.min(.65,bonuses.cooldown));
+            const speed=1+bonuses.speed;
+            const crit=1+Math.min(.9,bonuses.crit)*.6;
+            const survival=(hp+def*2.5)/(1-resist);
+            const damage=atk*crit*(.75+.25*speed);
+            const sustained=damage*(.65+.35*cooldown);
+            if(role==='Ethereal')return (atk*cooldown*.85+survival*.10)*(1+bonuses.speed*.1);
+            if(role==='Healer')return atk*cooldown*1.7+survival*.30;
+            if(role==='Support')return atk*cooldown*1.25+survival*.38+damage*.20;
+            if(role==='Defense')return survival*.85+atk*cooldown*.45;
+            if(role==='Charge')return survival*.48+sustained*.85;
+            if(role==='Statuser')return sustained*.60+atk*cooldown*.95+survival*.18;
+            return sustained*1.45+survival*.22;
         }
-        function runTreasureTester(){
-            const ids=metaTeamA.map(x=>x.id);
-            if(ids.length!==5||new Set(ids).size!==5||ids.some(id=>!COOKIES_DB.some(c=>c.id===id))){alert('Build five distinct Cookies in Meta Team A first.');return;}
-            if(ids.filter(id=>COOKIES_DB.find(c=>c.id===id)?.role==='Ethereal').length>1){alert('Maximum one Ethereal.');return;}
-            const n=Math.min(1000,Math.max(10,Math.floor(Number(document.getElementById('gear-trials').value)||100)));
-            const keys=GEAR_PRESETS.map(x=>x[0]).filter(x=>x!=='none');
-            const best={score:-Infinity};let wins=0;
-            for(let trial=0;trial<n;trial++){
-                const gear=ids.map(()=>({topping:keys[Math.floor(Math.random()*keys.length)],biscuit:keys[Math.floor(Math.random()*keys.length)]}));
-                const treasure=[...TREASURES].sort(()=>Math.random()-.5).slice(0,3).map(t=>({...t,testLevel:12}));
-                const opponent=metaTeamB.length===5?metaTeamB:metaTeamA;
-                const oppGear=opponent.map(()=>({topping:keys[Math.floor(Math.random()*keys.length)],biscuit:keys[Math.floor(Math.random()*keys.length)]}));
-                const oppTreasure=[...TREASURES].sort(()=>Math.random()-.5).slice(0,3).map(t=>({...t,testLevel:12}));
-                const score=equipmentScore(metaTeamA,gear,treasure),enemyScore=equipmentScore(opponent,oppGear,oppTreasure);
-                const winChance=score/(score+enemyScore);if(Math.random()<winChance)wins++;
-                if(score>best.score)Object.assign(best,{score,gear,treasure});
+        // Lightweight status-aware equipment evaluation. This estimates how much
+        // time buffs/debuffs are active; it NEVER runs combat ticks or animations.
+        // The same inputs always return the same result.
+        function optimizerStatusContribution(team,gears,individualScores){
+            const teamPower=individualScores.reduce((a,b)=>a+b,0);
+            if(!teamPower)return 0;
+            let bonus=0;
+            for(let i=0;i<team.length;i++){
+                const cookie=COOKIES_DB.find(c=>c.id===team[i].id);
+                if(!cookie)continue;
+                const gear=gears[i]||{};
+                const cdBonus=(gear.topping==='cooldown'?.25:0)+(gear.biscuit==='cooldown'?.125:0);
+                const cd=Math.max(2,(cookie.regularCD||cookie.cd||12)*(1-Math.min(.65,cdBonus)));
+                const effects=[...(Array.isArray(cookie.customEffects)?cookie.customEffects:[]),
+                               ...(Array.isArray(cookie.customPassives)?cookie.customPassives:[])];
+                for(const e of effects){
+                    if(!e||typeof e!=='object')continue;
+                    const stat=String(e.stat||e.effect||e.type||'').toLowerCase().replace(/[_-]/g,' ');
+                    const amount=Math.max(0,Math.min(100,Number(e.amount??e.strength??e.value)||0));
+                    const duration=Math.max(0,Number(e.duration)||0);
+                    const stacks=Math.max(1,Math.min(5,Number(e.stacks)||1));
+                    const passive=(Array.isArray(cookie.customPassives)&&cookie.customPassives.includes(e));
+                    const uptime=passive?1:duration>0?Math.min(1,duration/cd):Math.min(.35,2/cd);
+                    const target=String(e.target||'').toLowerCase();
+                    const coverage=target.includes('team')||target.includes('all')||target.includes('enemies')?.95:target.includes('enemy')?.65:.35;
+                    const strength=Math.min(.75,amount/100*stacks)*uptime*coverage;
+                    let weight=0;
+                    if(/atk up|attack up|damage up|crit up|crit chance up|crit damage up/.test(stat))weight=.55;
+                    else if(/def up|defense up|damage resist up|dmg resist up|hp up|shield/.test(stat))weight=.42;
+                    else if(/atk speed up|attack speed up|cooldown reduction|cooldown decrease/.test(stat))weight=.38;
+                    else if(/def down|defense down|damage resist down|dmg resist down|amplify debuff|vulnerab/.test(stat))weight=.48;
+                    else if(/atk down|attack down|damage down|crit down|atk speed down|attack speed down/.test(stat))weight=.34;
+                    else if(/cooldown increase|cooldown pause|silence|stun|freeze|root|sleep|buff prohibit/.test(stat))weight=.43;
+                    else if(/healing received down|heal down|injury|poison|burn|bleed/.test(stat))weight=.29;
+                    else if(/healing over time|heal over time|regeneration|instant healing|healing up/.test(stat))weight=.36;
+                    else if(/cleanse|purify|debuff resist|debuff immunity/.test(stat))weight=.23;
+                    if(weight)bonus+=teamPower*strength*weight;
+                }
             }
-            latestTreasureTest={cookie_ids:ids.slice(),gear:{cookies:best.gear,treasures:best.treasure.map(t=>t.id)},trials:n,wins};
-            const root=document.getElementById('gear-test-results');root.replaceChildren();
-            const heading=document.createElement('p');heading.className='font-bold text-emerald-300';heading.textContent=`${n} independent estimated matchups · ${wins} estimated wins (${Math.round(wins/n*100)}%)`;root.appendChild(heading);
-            const caveat=document.createElement('p');caveat.className='text-amber-300 mt-1';caveat.textContent='Approximate stat-based optimizer, NOT full battle-engine simulations. Best build is selected by equipment score, not guaranteed real-battle win rate.';root.appendChild(caveat);
-            ids.forEach((id,i)=>{const line=document.createElement('p');line.className='mt-1';line.textContent=`${COOKIES_DB.find(c=>c.id===id)?.name}: 🍓 5× ${best.gear[i].topping.toUpperCase()} · 🍪 4× ${best.gear[i].biscuit.toUpperCase()}`;root.appendChild(line);});
-            const tr=document.createElement('p');tr.className='mt-2 text-amber-200';tr.textContent='🏺 Level 12: '+best.treasure.map(t=>t.name).join(' · ');root.appendChild(tr);
+            // Cap the approximate status contribution so stacked custom statuses
+            // cannot dwarf the entire team score in this fast heuristic.
+            return Math.min(teamPower*.85,bonus);
         }
+        function equipmentScore(team,gears,treasures){
+            const individualScores=team.map((e,i)=>optimizerCookieScore(e,gears[i]||{topping:'none',biscuit:'none'}));
+            let total=individualScores.reduce((a,b)=>a+b,0);
+            total+=optimizerStatusContribution(team,gears,individualScores);
+            const ids=new Set(treasures.map(t=>t.id));
+            if(ids.has('scroll'))total*=1.42;
+            if(ids.has('watch'))total*=1.19;
+            if(ids.has('monocle'))total*=1.17;
+            total*=1+treasures.reduce((sum,t)=>sum+(t.max||0)*.0015,0);
+            return total;
+        }
+        // Equipment championship: deterministic stat-based matchups.
+        // Fixed lineup on both sides, with no full combat simulation.
+        let equipmentChampionshipRunning=false;
+        let gearSimStep=5;
+        let gearHeadlessAllUnits=null;
+        const gearSetValues={atk:.45,crit:.30,cooldown:.25,hp:.45,def:.45,resist:.25,critResist:.25,speed:.25};
+        function gearChampBonuses(g){
+            const b={atk:0,crit:0,cooldown:0,hp:0,def:0,resist:0,critResist:0,speed:0};
+            b[g.topping]=(b[g.topping]||0)+(gearSetValues[g.topping]||0);
+            b[g.biscuit]=(b[g.biscuit]||0)+(gearSetValues[g.biscuit]||0)*.5;
+            return b;
+        }
+        function gearChampTeam(ids,build){
+            return ids.map((id,i)=>{
+                const c=COOKIES_DB.find(x=>x.id===id),b=gearChampBonuses(build.cookies[i]);
+                const base=getCookieScaledStats(id,100,{atk:0,def:0,hp:0,resist:0,crit:0,cooldown:0,power:0,stars:0,skillLevel:100});
+                const hp=Math.max(1,(base.maxHp||base.hp||1000)*(1+b.hp));
+                return {id,role:c.role,atk:Math.max(1,base.atk||100)*(1+b.atk),hp,maxHp:hp,
+                    def:Math.max(0,base.def||0)*(1+b.def),resist:Math.min(.85,Math.max(0,(base.dmgResist||0)+b.resist)),
+                    crit:b.crit,speed:b.speed,cd:Math.max(2,(c.cd||c.regularCD||12)*(1-Math.min(.65,b.cooldown))),
+                    clock:Math.max(1,(c.openingCD||3)*(1-Math.min(.65,b.cooldown))),
+                    effects:[...(c.customEffects||[]),...(c.customPassives||[])],alive:true};
+            });
+        }
+        function gearChampTreasureModifiers(build){
+            const ids=new Set(build.treasures);
+            return {atk:ids.has('scroll')?1.75:1,heal:ids.has('monocle')?.35:0,
+                cd:ids.has('watch')?.82:1,def:ids.has('horn')?1.25:1,
+                resist:ids.has('amulet')?.15:0};
+        }
+        // Fast tournament setup: immutable level-100 equipment templates are built
+        // once per Cookie/build combination, not once for every match.
+        const gearFastStatCache=new Map();
+        const gearFastTreasureMap=new Map(TREASURES.map(t=>[t.id,t]));
+        function gearFastStats(id,gear){
+            const key=id+'|'+gear.topping+'|'+gear.biscuit;
+            let stats=gearFastStatCache.get(key);
+            if(!stats){
+                const bonus=gearChampBonuses(gear);
+                stats=getCookieScaledStats(id,100,{...bonus,power:0,stars:0,skillLevel:100});
+                stats.skillLevel=100;
+                gearFastStatCache.set(key,stats);
+            }
+            return stats;
+        }
+        function gearFastPrepare(ids,build){
+            if(build._fastPrepared)return build._fastPrepared;
+            const cookieStats=ids.map((id,i)=>gearFastStats(id,build.cookies[i]));
+            const treasures=[];
+            for(const id of build.treasures){
+                const t=gearFastTreasureMap.get(id);
+                if(t)treasures.push({...t,testLevel:12});
+            }
+            return build._fastPrepared={cookieStats,treasures};
+        }
+        // Real engine, headless: use the exact same tick, skill, passive, status,
+        // damage, revive and treasure functions as live battles. The active battle
+        // globals are swapped only during a synchronous match and always restored.
+        // Fast deterministic stat-based matchup. No combat ticks, animations, or RNG.
+        // Cache each lineup/build score because tournament champions repeat often.
+        const gearStatScoreCache=new Map();
+        function gearStatBuildScore(ids,build){
+            const key=ids.join('|')+'::'+build.treasures.join('|')+'::'+build.cookies.map(g=>g.topping+':'+g.biscuit).join('|');
+            if(gearStatScoreCache.has(key))return gearStatScoreCache.get(key);
+            const team=ids.map(id=>({id}));
+            const treasures=build.treasures.map(id=>gearFastTreasureMap.get(id)).filter(Boolean);
+            const score=equipmentScore(team,build.cookies,treasures);
+            gearStatScoreCache.set(key,score);
+            return score;
+        }
+        function gearChampMatch(ids,left,right){
+            const a=gearStatBuildScore(ids,left),b=gearStatBuildScore(ids,right);
+            const tolerance=Math.max(1,Math.max(Math.abs(a),Math.abs(b))*.000001);
+            return Math.abs(a-b)<=tolerance?0:a>b?1:-1;
+        }
+        function gearChampCandidate(ids,trial){
+            // Deterministic diverse challenger schedule; no randomness in scoring.
+            const keys=OPT_GEAR_KEYS,seed=trial+1;
+            const cookies=ids.map((id,i)=>({
+                topping:keys[(seed*7+i*3+Math.floor(seed/9))%keys.length],
+                biscuit:keys[(seed*5+i*7+Math.floor(seed/11))%keys.length]
+            }));
+            const count=TREASURES.length;
+            const first=(seed*7)%count,second=(first+1+seed%Math.max(1,count-1))%count;
+            let third=(first+2+Math.floor(seed/3)%Math.max(1,count-2))%count;
+            while(third===first||third===second)third=(third+1)%count;
+            return {cookies,treasures:[TREASURES[first].id,TREASURES[second].id,TREASURES[third].id]};
+        }
+        // Cheap deterministic local optimization: coordinate descent across five Cookies.
+        // Unlike tournament win-points, these rankings measure the marginal change in
+        // the FULL team score with the other four builds held constant.
+        function gearSmartRank(ids,mode,initial){
+            const build={cookies:initial.cookies.map(g=>({...g})),treasures:initial.treasures.slice()};
+            const key=mode==='topping'?'topping':'biscuit';
+            for(let pass=0;pass<3;pass++){
+                let changed=false;
+                for(let i=0;i<ids.length;i++){
+                    const previous=build.cookies[i][key];
+                    let best=previous,bestScore=-Infinity;
+                    for(const option of OPT_GEAR_KEYS){
+                        build.cookies[i][key]=option;
+                        const score=gearStatBuildScore(ids,build);
+                        if(score>bestScore){bestScore=score;best=option;}
+                    }
+                    if(best!==previous)changed=true;
+                    build.cookies[i][key]=best;
+                }
+                if(!changed&&pass>0)break;
+            }
+            const ranked=ids.map((_,i)=>{
+                const old=build.cookies[i][key];
+                const list=OPT_GEAR_KEYS.map(option=>{
+                    build.cookies[i][key]=option;
+                    return [option,gearStatBuildScore(ids,build)];
+                }).sort((a,b)=>b[1]-a[1]);
+                build.cookies[i][key]=old;
+                return list;
+            });
+            return {build,ranked};
+        }
+        // Alternative Cookies: replace exactly one slot, retain its optimized
+        // equipment, and re-evaluate the entire five-Cookie team's score.
+        // This is intentionally stat-only and never runs a combat simulation.
+        function gearSmartAlternatives(ids,build){
+            const baseline=gearStatBuildScore(ids,build),out=[];
+            const roster=COOKIES_DB.filter(c=>c&&c.id&&!ids.includes(c.id)&&
+                !['Common','Rare'].includes(c.rarity));
+            for(let slot=0;slot<ids.length;slot++){
+                const original=COOKIES_DB.find(c=>c.id===ids[slot]);
+                const etherealCount=ids.filter(id=>COOKIES_DB.find(c=>c.id===id)?.role==='Ethereal').length;
+                for(const candidate of roster){
+                    if(candidate.role==='Ethereal'&&etherealCount>=1&&original?.role!=='Ethereal')continue;
+                    const trialIds=ids.slice();trialIds[slot]=candidate.id;
+                    let bestScore=-Infinity,bestTopping='atk';
+                    const candidateBuild={cookies:build.cookies.map(g=>({...g})),treasures:build.treasures.slice()};
+                    for(const topping of OPT_GEAR_KEYS){
+                        candidateBuild.cookies[slot].topping=topping;
+                        const score=gearStatBuildScore(trialIds,candidateBuild);
+                        if(score>bestScore){bestScore=score;bestTopping=topping;}
+                    }
+                    out.push({id:candidate.id,name:candidate.name,replaces:original?.name||ids[slot],
+                        replaces_id:ids[slot],topping:bestTopping,score:bestScore,
+                        difference:baseline?100*(bestScore/baseline-1):0});
+                }
+            }
+            out.sort((a,b)=>b.score-a.score);
+            const seen=new Set();return out.filter(x=>{if(seen.has(x.id))return false;seen.add(x.id);return true;}).slice(0,2);
+        }
+        function gearShowAlternatives(alternatives){
+            const root=document.getElementById('gear-test-results');
+            const existing=document.getElementById('gear-alternative-list');if(existing)existing.remove();
+            if(!alternatives?.length)return;
+            const panel=document.createElement('div');panel.id='gear-alternative-list';
+            panel.className='mt-3 p-3 rounded border border-violet-700 bg-slate-900 text-xs';
+            const heading=document.createElement('p');heading.className='font-bold text-violet-300 mb-2';
+            heading.textContent='🔄 Top 2 alternative Cookies (estimated whole-team impact)';panel.appendChild(heading);
+            alternatives.forEach((a,i)=>{
+                const line=document.createElement('p');line.className='my-1';
+                line.textContent=`${i+1}. ${a.name} replaces ${a.replaces} · ${a.topping.toUpperCase()} ×5 · ${a.difference>=0?'+':''}${a.difference.toFixed(1)}% team score`;
+                panel.appendChild(line);
+            });
+            const note=document.createElement('p');note.className='mt-2 text-slate-400';
+            note.textContent='Fast estimates include your buffs/debuffs and equipment. No real battles or skill timing simulations.';
+            panel.appendChild(note);root.appendChild(panel);
+        }
+        // Three distinct championships. A completed stage locks its output for the
+        // next stage; changing Team A invalidates the whole chain automatically.
+        let equipmentStages={signature:null,treasure:null,topping:null,biscuit:null};
+        function equipmentTeamSignature(){return metaTeamA.map(x=>x.id).join('|');}
+        function equipmentStageUI(){
+            const valid=equipmentStages.signature===equipmentTeamSignature();
+            document.getElementById('gear-topping-run').disabled=!valid||!equipmentStages.treasure||equipmentChampionshipRunning;
+            document.getElementById('gear-biscuit-run').disabled=!valid||!equipmentStages.topping||equipmentChampionshipRunning;
+        }
+        function resetEquipmentStages(){
+            if(equipmentChampionshipRunning){alert('Wait until the current test finishes.');return;}
+            equipmentStages={signature:equipmentTeamSignature(),treasure:null,topping:null,biscuit:null};latestTreasureTest=null;
+            for(const mode of ['treasure','topping','biscuit'])document.getElementById('gear-'+mode+'-results').textContent='Not tested yet.';
+            document.getElementById('gear-test-results').textContent='Complete all three stages to save recommendations.';
+            equipmentStageUI();
+        }
+        function equipmentBaseBuild(ids){
+            return {cookies:ids.map(()=>({topping:'none',biscuit:'none'})),treasures:[]};
+        }
+        // One-time tournament fixture table. Previously this allocated and filled
+        // all 1,540 three-Treasure combinations for EVERY single match.
+        const gearTreasureTriples=(()=>{
+            const out=[];
+            for(let a=0;a<TREASURES.length;a++)
+                for(let b=a+1;b<TREASURES.length;b++)
+                    for(let c=b+1;c<TREASURES.length;c++)
+                        out.push([TREASURES[a].id,TREASURES[b].id,TREASURES[c].id]);
+            return out;
+        })();
+        function equipmentStageCandidate(ids,mode,trial){
+            const build=equipmentBaseBuild(ids),keys=OPT_GEAR_KEYS;
+            if(mode==='treasure'){
+                // All candidates are unique three-Treasure combinations where possible.
+                build.treasures=gearTreasureTriples[(trial*73+Math.floor(trial/gearTreasureTriples.length))%gearTreasureTriples.length];
+            }else{
+                build.treasures=equipmentStages.treasure.treasures.slice();
+                for(let i=0;i<ids.length;i++){
+                    if(mode==='topping')build.cookies[i].topping=keys[(trial*7+i*3+Math.floor(trial/8)+Math.floor(trial/37))%keys.length];
+                    else{
+                        build.cookies[i].topping=equipmentStages.topping.cookies[i].topping;
+                        build.cookies[i].biscuit=keys[(trial*5+i*3+Math.floor(trial/8)+Math.floor(trial/31))%keys.length];
+                    }
+                }
+            }
+            return build;
+        }
+        async function runEquipmentStage(mode){
+            if(equipmentChampionshipRunning){alert('A tester is already running.');return;}
+            const ids=metaTeamA.map(x=>x.id),signature=equipmentTeamSignature();
+            if(ids.length!==5||new Set(ids).size!==5||ids.some(id=>!COOKIES_DB.some(c=>c.id===id))){alert('Choose five different Cookies in Meta Team A.');return;}
+            if(ids.filter(id=>COOKIES_DB.find(c=>c.id===id)?.role==='Ethereal').length>1){alert('Only one Ethereal is allowed.');return;}
+            if(equipmentStages.signature!==signature)resetEquipmentStages();
+            if(mode==='topping'&&!equipmentStages.treasure){alert('Complete Treasure Tester first.');return;}
+            if(mode==='biscuit'&&(!equipmentStages.treasure||!equipmentStages.topping)){alert('Complete Treasure Tester and Topping Tester first.');return;}
+            const n=Math.max(10,Math.min(10000,Math.floor(Number(document.getElementById('gear-trials').value)||1000)));
+            const oldAlternatives=document.getElementById('gear-alternative-list');if(oldAlternatives)oldAlternatives.remove();
+            const output=document.getElementById('gear-'+mode+'-results');output.replaceChildren();
+            const status=document.createElement('p');status.className='text-emerald-300 font-semibold';output.appendChild(status);
+            gearStatScoreCache.clear();equipmentChampionshipRunning=true;equipmentStageUI();
+            const scores=ids.map(()=>Object.fromEntries(OPT_GEAR_KEYS.map(k=>[k,0]))),treasureScores={};
+            const candidateCache=new Map();
+            const candidateFor=trial=>{
+                const candidate=equipmentStageCandidate(ids,mode,trial);
+                const key=mode==='treasure'?candidate.treasures.join('|'):
+                    candidate.cookies.map(g=>mode==='topping'?g.topping:g.biscuit).join('|');
+                const cached=candidateCache.get(key);
+                if(cached)return cached;
+                candidateCache.set(key,candidate);
+                return candidate;
+            };
+            let champion=candidateFor(0),changes=0,completed=0;
+            const started=performance.now();
+            let lastYield=started;
+            const award=(build,points)=>{
+                if(mode==='treasure')build.treasures.forEach(id=>treasureScores[id]=(treasureScores[id]||0)+points);
+                else build.cookies.forEach((g,i)=>{const key=mode==='topping'?g.topping:g.biscuit;scores[i][key]+=points;});
+            };
+            try{
+                for(let i=1;i<=n;i++){
+                    const challenger=candidateFor(i),result=gearChampMatch(ids,champion,challenger);
+                    if(result<0){award(challenger,2);champion=challenger;changes++;}
+                    else if(result>0)award(champion,2);
+                    else{award(champion,1);award(challenger,1);}
+                    completed=i;
+                    if(i===n||((i&15)===0&&performance.now()-lastYield>=45)){
+                        const now=performance.now();
+                        const elapsed=Math.max(.001,(now-started)/1000);
+                        status.textContent=`${i.toLocaleString()}/${n.toLocaleString()} matches · ${(i/elapsed).toFixed(1)}/sec · ${changes} champion changes`;
+                        lastYield=now;
+                        if(i<n)await new Promise(resolve=>setTimeout(resolve,0));
+                    }
+                }
+                if(mode==='treasure'){
+                    const ranked=Object.entries(treasureScores).sort((a,b)=>b[1]-a[1]);
+                    equipmentStages.treasure={treasures:champion.treasures.slice(),ranked};
+                    equipmentStages.topping=null;equipmentStages.biscuit=null;
+                    status.textContent+=' · Complete!';
+                    const line=document.createElement('p');line.className='mt-2 text-amber-200';
+                    line.textContent='🏆 Winning level-12 trio: '+champion.treasures.map(id=>TREASURES.find(t=>t.id===id)?.name||id).join(' + ');output.appendChild(line);
+                    const detail=document.createElement('p');detail.className='mt-1';detail.textContent='Top individual Treasures: '+ranked.slice(0,2).map(([id,pts])=>(TREASURES.find(t=>t.id===id)?.name||id)+' ('+pts+' pts)').join(' · ');output.appendChild(detail);
+                    document.getElementById('gear-topping-results').textContent='Ready: uses the winning Treasure trio.';
+                    document.getElementById('gear-biscuit-results').textContent='Complete Toppings first.';
+                }else{
+                    // Re-rank by full-team marginal score rather than accumulated
+                    // tournament points (which depend on challenger order).
+                    const smart=gearSmartRank(ids,mode,champion);
+                    champion=smart.build;
+                    const ranked=smart.ranked;
+                    equipmentStages[mode]={cookies:champion.cookies.map(g=>({...g})),ranked};
+                    if(mode==='topping'){equipmentStages.biscuit=null;document.getElementById('gear-biscuit-results').textContent='Ready: uses winning Treasures and Toppings.';}
+                    status.textContent+=' · Complete!';
+                    ranked.forEach((rank,i)=>{
+                        const line=document.createElement('p');line.className='mt-2';
+                        line.textContent=(COOKIES_DB.find(c=>c.id===ids[i])?.name||ids[i])+': '+rank.slice(0,2).map(([key,points],j)=>`${j+1}. ${key.toUpperCase()} ×${mode==='topping'?5:4} (${points} pts)`).join(' · ');
+                        output.appendChild(line);
+                    });
+                }
+                if(equipmentStages.treasure&&equipmentStages.topping&&equipmentStages.biscuit){
+                    const best=ids.map((id,i)=>({topping:equipmentStages.topping.cookies[i].topping,biscuit:equipmentStages.biscuit.cookies[i].biscuit}));
+                    const finalBuild={cookies:best,treasures:equipmentStages.treasure.treasures.slice()};
+                    const alternatives=gearSmartAlternatives(ids,finalBuild);
+                    latestTreasureTest={cookie_ids:ids.slice(),gear:finalBuild,trials:n,
+                        ranked:ids.map((id,i)=>({toppings:equipmentStages.topping.ranked[i],biscuits:equipmentStages.biscuit.ranked[i]})),alternatives};
+                    document.getElementById('gear-test-results').textContent='✅ All three stages complete. Save Results to add this lineup, its winning equipment, top-two recommendations, and alternative Cookies to the private Teams queue. Nothing is published automatically.';
+                    gearShowAlternatives(alternatives);
+                }else{
+                    latestTreasureTest=null;
+                    document.getElementById('gear-test-results').textContent='Finish the remaining stages before saving to Teams.';
+                }
+            }catch(error){console.error('Equipment stage error',error);status.textContent='Test failed after '+completed+' matches: '+error.message;}
+            finally{equipmentChampionshipRunning=false;equipmentStageUI();}
+        }
+        // Legacy entry point for any existing button or shortcut.
+        function runTreasureTester(){return runEquipmentStage('treasure');}
         function saveTreasureTesterBuild(){
-            if(!latestTreasureTest){alert('Run the Treasure Tester first.');return;}
-            const password=prompt('Enter Teams password to save these recommendations:');if(password!=='072313'){alert('Incorrect password.');return;}
-            const d={id:'draft_'+Date.now(),team_name:'Treasure Build '+new Date().toLocaleDateString(),cookie_ids:latestTreasureTest.cookie_ids.slice(),gear:latestTreasureTest.gear,updatedAt:new Date().toISOString()};
-            const drafts=getTeamDrafts();drafts.unshift(d);persistTeamDrafts(drafts);alert('Equipment recommendations saved as an editable draft in TEAMS.');
+            if(!latestTreasureTest||equipmentStages.signature!==equipmentTeamSignature()){
+                alert('Finish Treasure, Topping, and Beascuit testers for the current Team A first.');return;
+            }
+            if(!requireRecommendedAccess())return;
+            const d={id:'draft_'+Date.now(),team_name:'Equipment Build '+new Date().toLocaleDateString(),cookie_ids:latestTreasureTest.cookie_ids.slice(),gear:JSON.parse(JSON.stringify(latestTreasureTest.gear)),
+                top3:latestTreasureTest.ranked.map(r=>({toppings:r.toppings.slice(0,2).map(([type,points])=>({type,points})),biscuits:r.biscuits.slice(0,2).map(([type,points])=>({type,points}))})),
+                alternatives:latestTreasureTest.alternatives.map(a=>({...a})),source:'three-stage-equipment',published:false,updatedAt:new Date().toISOString()};
+            const drafts=getTeamDrafts();drafts.unshift(d);if(!persistTeamDrafts(drafts))return;
+            alert('Saved privately in TEAMS with Treasures and top-two Toppings and Beascuits. Nothing published.');
         }
         function performGacha(pulls) {
             const cost = pulls * 300;
@@ -3332,6 +3736,7 @@
         }
         function clearBattleFeed(){battleFeed=[];renderBattleFeed();}
         function logBattleEvent(message){
+            if(gearHeadlessBattle)return;
             if(leagueMode && !leagueSpectating)return;
             const elapsed=Math.max(0,Math.floor(180-battleTimeLeft));
             const stamp=`${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}`;
@@ -3503,6 +3908,7 @@
 
         const combatFaultCounts=Object.create(null);
         function reportCombatFault(error,unit,stage){
+            if(gearHeadlessBattle)return;
             const detail=(error&&error.stack)||String(error);
             const key=(unit?.name||'unknown')+'|'+stage+'|'+String(error?.message||error);
             combatFaultCounts[key]=(combatFaultCounts[key]||0)+1;
@@ -3707,13 +4113,94 @@
                 skillUses:0, reviveCharges:0, revivesUsed:0, _customRevivesRemaining:Math.min(3,(stats.customPassives||[]).filter(p=>p.stat==='Revive').reduce((n,p)=>n+Math.max(1,Math.min(3,Math.floor(Number(p.charges)||1))),0)), _customInvulnChargesUsed:Object.create(null), basicTimer:stats.role==='Ethereal'?2:1.075, highTierSurvivalUsed:false, survivalClock:0 };
         }
 
+        let gearHeadlessBattle=false;
+        let gearHeadlessOutcome=null;
+        // Headless-only hot path. Calls the SAME effect, skill, basic-attack,
+        // revive and treasure mechanics as battleTick, without per-tick closures,
+        // concatenated arrays, filter allocations, DOM work, or logging.
+        function gearFastRunSide(units,opponents,isPlayer,dt){
+            for(let i=0;i<units.length;i++){
+                const unit=units[i];
+                if(unit.currentHp<=0)continue;
+                try{
+                    const e=unit.effects||{};
+                    if(e.sleep>0||e.freeze>0||e.fear>0||e.charm>0)continue;
+                    if(e.stun<=0){
+                        if(e.cooldownPause<=0){
+                            const mobility=Math.max(-.65,Math.min(.75,(e.moveSpeed||0)-(e.moveSpeedDown||0)));
+                            unit.cdTimer=Math.max(0,unit.cdTimer-dt*(1+mobility*.20));
+                        }
+                        if(unit.cdTimer<=.001&&(e.silence||0)<=0){
+                            try{castCookieSkill(unit,isPlayer);}catch(err){reportCombatFault(err,unit,'skill cast');}
+                            unit.cdTimer=unit.maxCD;
+                        }
+                    }
+                    if(e.stun>0||e.sleep>0||e.freeze>0||e.fear>0||e.charm>0){unit.basicTimer=Math.max(unit.basicTimer,.15);continue;}
+                    const mobility=Math.max(-.65,Math.min(.75,(e.moveSpeed||0)-(e.moveSpeedDown||0)));
+                    unit.basicTimer-=unit.role==='Ethereal'?dt:dt*(1+(e.atkSpeed||0))*(1-(e.attackSpeedDown||0))*(1+mobility*.30);
+                    if(unit.basicTimer<=0){
+                        executeBasicAttack(unit,opponents,isPlayer);
+                        unit.basicTimer=unit.role==='Ethereal'?2:1.075;
+                    }
+                }catch(err){
+                    reportCombatFault(err,unit,'turn');
+                    unit.cdTimer=Math.max(0,(Number(unit.cdTimer)||0)-dt);
+                    unit.basicTimer=Math.max(0,(Number(unit.basicTimer)||0)-dt);
+                }
+            }
+        }
+        function gearFastBattleTick(){
+            if(!battleActive)return;
+            const dt=gearSimStep;
+            battleTimeLeft-=dt;
+            if(battleTimeLeft<=0){
+                let a=0,b=0;
+                for(const u of playerUnits)if(u.role!=='Ethereal')a+=Math.max(0,u.currentHp/u.maxHp);
+                for(const u of enemyUnits)if(u.role!=='Ethereal')b+=Math.max(0,u.currentHp/u.maxHp);
+                if(Math.abs(a-b)<.015)endBattle(false,'Draw · nearly equal remaining HP');
+                else endBattle(a>b,'Time limit · remaining HP decides');
+                return;
+            }
+            try{tickTreasures(playerUnits,dt);tickTreasures(enemyUnits,dt);}catch(error){/* same recoverable treasure fault behavior */}
+            for(let i=0;i<gearHeadlessAllUnits.length;i++){
+                const unit=gearHeadlessAllUnits[i];
+                try{tickUnitEffects(unit,dt);}catch(err){reportCombatFault(err,unit,'status tick');}
+            }
+            battleTickNumber++;
+            if(battleTickNumber%2===0){
+                gearFastRunSide(enemyUnits,playerUnits,false,dt);
+                gearFastRunSide(playerUnits,enemyUnits,true,dt);
+            }else{
+                gearFastRunSide(playerUnits,enemyUnits,true,dt);
+                gearFastRunSide(enemyUnits,playerUnits,false,dt);
+            }
+            for(let i=0;i<gearHeadlessAllUnits.length;i++){
+                const u=gearHeadlessAllUnits[i];
+                if(u.currentHp<=0)tryCustomRevive(u);
+            }
+            for(let i=0;i<gearHeadlessAllUnits.length;i++){
+                const u=gearHeadlessAllUnits[i];
+                if(u.currentHp<=0&&u._treasureReviveHP&&!u._treasureReviveUsed){
+                    u._treasureReviveUsed=true;
+                    u.currentHp=Math.max(1,Math.round(u.maxHp*u._treasureReviveHP));
+                    u.cdTimer=0;
+                    u.effects.invulnerable=Math.max(u.effects.invulnerable||0,1);
+                    logBattleEvent('🪶 Phoenix Feather revives '+u.name);
+                }
+            }
+            let enemyAlive=false,playerAlive=false;
+            for(let i=0;i<enemyUnits.length;i++)if(enemyUnits[i].currentHp>0&&enemyUnits[i].role!=='Ethereal'){enemyAlive=true;break;}
+            if(!enemyAlive){endBattle(true,'VICTORY!');return;}
+            for(let i=0;i<playerUnits.length;i++)if(playerUnits[i].currentHp>0&&playerUnits[i].role!=='Ethereal'){playerAlive=true;break;}
+            if(!playerAlive)endBattle(false,'DEFEAT!');
+        }
         function battleTick() {
             if (!battleActive || battlePaused || (leagueMode && leaguePaused && !leagueCustomChallenge)) return;
-            const dt = (leagueMode && !leagueSpectating) ? 2.5 : (0.25 * battleSpeed); // 500x only for silent background league; normal battles stay at selected speed
+            const dt = gearHeadlessBattle ? gearSimStep : ((leagueMode && !leagueSpectating) ? 2.5 : (0.25 * battleSpeed)); // 500x only for silent background league; normal battles stay at selected speed
             battleTimeLeft -= dt;
             const secs = Math.max(0, Math.ceil(battleTimeLeft));
-            const timerEl = document.getElementById('battle-timer');
-            if (timerEl) {
+            const timerEl = gearHeadlessBattle ? null : document.getElementById('battle-timer');
+            if (timerEl && !gearHeadlessBattle) {
                 const elapsed=180-battleTimeLeft;
                 const phase=elapsed>=150?'5× DAMAGE · LOW HEALING':elapsed>=105?'3× DAMAGE · LOW HEALING':elapsed>=60?'1.8× DAMAGE':'NORMAL DAMAGE';
                 timerEl.innerText = `${Math.floor(secs/60).toString().padStart(2,'0')}:${(secs%60).toString().padStart(2,'0')} · ${phase}`;
@@ -3730,7 +4217,7 @@
 
             try{tickTreasures(playerUnits,dt);tickTreasures(enemyUnits,dt);}catch(error){console.error('Treasure tick:',error);}
             // One malformed skill/status must never freeze both teams' combat.
-            [...playerUnits,...enemyUnits].forEach(unit => {
+            (gearHeadlessBattle&&gearHeadlessAllUnits?gearHeadlessAllUnits:[...playerUnits,...enemyUnits]).forEach(unit => {
                 try { tickUnitEffects(unit,dt); }
                 catch(err) { reportCombatFault(err,unit,'status tick'); }
             });
@@ -3784,8 +4271,8 @@
             }
 
             // Handle lethal damage from DOT, reflect, or special skills as well.
-            [...playerUnits,...enemyUnits].filter(u=>u.currentHp<=0).forEach(tryCustomRevive);
-            if(!leagueMode&&!metaTestMode)playerUnits.filter(u=>u.currentHp<=0&&u._treasureReviveHP&&!u._treasureReviveUsed).forEach(u=>{
+            (gearHeadlessBattle&&gearHeadlessAllUnits?gearHeadlessAllUnits:[...playerUnits,...enemyUnits]).filter(u=>u.currentHp<=0).forEach(tryCustomRevive);
+            if((gearHeadlessBattle||(!leagueMode&&!metaTestMode)))(gearHeadlessBattle&&gearHeadlessAllUnits?gearHeadlessAllUnits:playerUnits).filter(u=>u.currentHp<=0&&u._treasureReviveHP&&!u._treasureReviveUsed).forEach(u=>{
                 u._treasureReviveUsed=true;
                 u.currentHp=Math.max(1,Math.round(u.maxHp*u._treasureReviveHP));
                 u.cdTimer=0;
@@ -3794,7 +4281,8 @@
             });
             if (enemyUnits.every(u=>u.currentHp<=0 || u.role==='Ethereal')) { endBattle(true,'VICTORY!'); return; }
             if (playerUnits.every(u=>u.currentHp<=0 || u.role==='Ethereal')) { endBattle(false,'DEFEAT!'); return; }
-            if(!leagueMode){
+            if(gearHeadlessBattle){ /* no rendering during equipment simulation */ }
+            else if(!leagueMode){
                 renderBattleArena();
                 if(++battleFeedTick%4===0)renderBattleContributions();
             }
@@ -4598,6 +5086,7 @@
         }
 
         function spawnFloatingText(elementUid, text, colorClass) {
+            if(gearHeadlessBattle)return;
             if(leagueMode && !leagueSpectating) return;
             const container = document.getElementById(`unit-node-${elementUid}`);
             if (!container) return;
@@ -4708,6 +5197,7 @@
         }
 
         function endBattle(isWin, message) {
+            if(gearHeadlessBattle){gearHeadlessOutcome={win:isWin,message};battleActive=false;return;}
             if(leagueMode){finishLeagueBattle(isWin,message);return;}
             battleActive = false; battlePaused=false;
             const pauseBtn=document.getElementById('battle-pause-btn');if(pauseBtn){pauseBtn.disabled=true;pauseBtn.textContent='⏸ PAUSE';}

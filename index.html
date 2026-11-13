@@ -540,7 +540,7 @@
               <h3 class="font-bold text-emerald-200">♛ Passive abilities</h3><p class="text-xs text-slate-400">Passives can trigger at battle start, periodically, after a basic attack, on skill cast, or when HP is low.</p>
               <div class="flex flex-wrap gap-2 mb-2"><button onclick="builderPassivePreset('survival')" class="text-xs rounded-lg border border-emerald-700 bg-emerald-950/40 px-3 py-2">🛡️ Emergency shield</button><button onclick="builderPassivePreset('revive')" class="text-xs rounded-lg border border-amber-700 bg-amber-950/40 px-3 py-2">🌟 Self / ally revive</button><button onclick="builderPassivePreset('fury')" class="text-xs rounded-lg border border-rose-700 bg-rose-950/40 px-3 py-2">⚔️ Last stand</button><button onclick="builderPassivePreset('tempo')" class="text-xs rounded-lg border border-cyan-700 bg-cyan-950/40 px-3 py-2">⏱️ Skill acceleration</button></div><div id="cb-passives" class="space-y-2"></div>
               <button onclick="addBuilderEffect('passive')" class="border border-emerald-600 text-emerald-200 rounded-xl px-4 py-2 font-bold text-xs">+ ADD PASSIVE</button>
-              <h3 class="font-bold text-violet-200">🧬 Named custom status effects</h3><p class="text-xs text-slate-400">Give your status one name, then add its effects underneath. To apply it, select Custom Status in a skill or passive and type that name.</p>
+              <h3 class="font-bold text-violet-200">🧬 Named custom status effects</h3><p class="text-xs text-slate-400">Create a named package of effects. Unlinked named statuses automatically activate when the Cookie casts its skill. To trigger one from a specific skill effect or passive instead, choose Custom Status and enter its name.</p>
               <div id="cb-composites" class="space-y-2"></div>
               <button onclick="addBuilderComposite()" class="border border-violet-600 text-violet-200 rounded-xl px-4 py-2 font-bold text-xs">+ CREATE NAMED STATUS</button>
               <button onclick="saveBuiltCookie()" class="w-full rounded-xl bg-emerald-500 text-slate-950 font-black p-3" id="cb-save-button">🍪 CREATE COOKIE</button>
@@ -2388,9 +2388,39 @@
             skillVisual({...unit,customVisual:phase.visual,customVisualEmoji:phase.emoji,customVisualColor:phase.color,customVisualHits:Math.max(1,Math.min(8,hits)),customVisualDuration:.7},isPlayer);
             if(!leagueMode)logBattleEvent('🎬 '+unit.name+': '+(phase.name||'Phase '+(index+1)));
         }
+        // Named statuses in the builder are usable skill packages. Apply unreferenced
+        // packages on cast, so creating a status actually has a combat effect.
+        function applyUnreferencedNamedStatuses(unit,allies,enemies){
+            const referenced=new Set([...(unit.customEffects||[]),...(unit.customPassives||[])]
+                .filter(x=>x.stat==='Custom Status').map(x=>(x.customName||'').trim().toLowerCase()));
+            (unit.customComposites||[]).forEach((group,groupIndex)=>{
+                if(!group.name || referenced.has(group.name.trim().toLowerCase()))return;
+                (group.components||[]).forEach((effect,effectIndex)=>{
+                    const targets=customTargets(effect,unit,allies,enemies);
+                    targets.forEach((target,targetIndex)=>customApplyStatus(unit,target,effect,
+                        'named_'+groupIndex+'_'+effectIndex+'_'+targetIndex,0,{allies,enemies}));
+                });
+                if(!leagueMode)logBattleEvent('🧬 '+unit.name+' activates '+group.name);
+            });
+        }
+        function applyCustomSkillEffects(unit,allies,enemies,keyPrefix){
+            (unit.customEffects||[]).forEach((entry,i)=>{
+                const aliases={'ATK':entry.kind==='Debuff'?'ATK Down':'ATK Up',
+                    'DEF':entry.kind==='Debuff'?'DEF Down':'DEF Up','Shield':'HP Shield',
+                    'Healing':'Instant Healing','DMG Resist':entry.kind==='Debuff'?'DMG Resist Down':'DMG Resist Up',
+                    'Healing Down':'Healing Received Down','CRIT Chance':entry.kind==='Debuff'?'CRIT Chance Down':'CRIT Chance Up',
+                    'Cooldown':entry.kind==='Debuff'?'Cooldown Increase':'Cooldown Recovery'};
+                const effect=aliases[entry.stat]?{...entry,stat:aliases[entry.stat]}:entry;
+                customTargets(effect,unit,allies,enemies).forEach((target,j)=>
+                    customApplyStatus(unit,target,effect,keyPrefix+'_'+i+'_'+j,0,{allies,enemies}));
+            });
+        }
         function castCustomBuild(unit,enemies,allies,isPlayer){
             const foes=enemies.filter(x=>x.currentHp>0);
             const attack=unit.customAttack||{type:'instant',power:unit.customDamage||0};
+            applyUnreferencedNamedStatuses(unit,allies,enemies);
+            // Skill effects apply on cast, regardless of attack type.
+            if(attack.effects!=='each')applyCustomSkillEffects(unit,allies,enemies,'skill');
             if(!['instant','execute'].includes(attack.type)){
                 unit._customAttackQueue=unit._customAttackQueue||[];
                 const interval=Math.max(.1,Math.min(5,Number(attack.interval)||.5));
@@ -2407,18 +2437,7 @@
             if(hitPower>0)targets.forEach(t=>{
                 for(let i=0;i<hitCount&&t.currentHp>0;i++)applyDamage(unit,t,unit.atk*hitPower/100/hitCount,'text-amber-200 text-xs',isPlayer,false,.08);
             });
-            (unit.customEffects||[]).forEach((entry,i)=>{
-                // Legacy V23 cookies are still supported.
-                const e=entry.stat==='ATK'?{...entry,stat:entry.kind==='Debuff'?'ATK Down':'ATK Up'}:
-                    entry.stat==='DEF'?{...entry,stat:entry.kind==='Debuff'?'DEF Down':'DEF Up'}:
-                    entry.stat==='Shield'?{...entry,stat:'HP Shield'}:
-                    entry.stat==='Healing'?{...entry,stat:'Instant Healing'}:
-                    entry.stat==='DMG Resist'?{...entry,stat:entry.kind==='Debuff'?'DMG Resist Down':'DMG Resist Up'}:
-                    entry.stat==='Healing Down'?{...entry,stat:'Healing Received Down'}:
-                    entry.stat==='CRIT Chance'?{...entry,stat:entry.kind==='Debuff'?'CRIT Chance Down':'CRIT Chance Up'}:
-                    entry.stat==='Cooldown'?{...entry,stat:entry.kind==='Debuff'?'Cooldown Increase':'Cooldown Recovery'}:entry;
-                customTargets(e,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,e,'skill_'+i+'_'+j,0,{allies,enemies}));
-            });
+            if(attack.effects==='each')applyCustomSkillEffects(unit,allies,enemies,'skill');
             triggerCustomPassives(unit,'skill');
         }
         function tickCustomStacks(unit,dt){
@@ -2443,7 +2462,7 @@
                         if(mode==='healing')allies.filter(u=>u.currentHp>0).forEach(t=>healUnit(unit,t,unit.atk*power));
                         else if(mode==='shield')allies.filter(u=>u.currentHp>0).forEach(t=>addShield(t,t.maxHp*Math.min(.5,power*.1)));
                         else targets.forEach(t=>{if(t.currentHp>0){const before=t.currentHp;applyDamage(unit,t,unit.atk*power,'text-amber-200 text-xs',job.isPlayer,false,.08);if(mode==='drain')healUnit(unit,unit,Math.max(0,before-t.currentHp)*.35);}});
-                        if(a.effects==='each'||job.pulses===0)(unit.customEffects||[]).forEach((effect,i)=>customTargets(effect,unit,allies,enemies).forEach((t,j)=>customApplyStatus(unit,t,effect,'pulse_'+i+'_'+j,0,{allies,enemies})));
+                        if(a.effects==='each')applyCustomSkillEffects(unit,allies,enemies,'pulse');
                         skillVisual(unit,job.isPlayer);job.pulses++;job.clock+=job.interval;
                         if(job.pulses>=300)break; // runaway protection, not a cooldown lockout
                     }

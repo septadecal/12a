@@ -505,7 +505,7 @@
                 <div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-lg font-black text-amber-200">🏆 AUTO META LEAGUE</h2><p class="text-xs text-slate-400">Random Epic+ teams fight at level 100 with skill level 100, no toppings or Beascuits. No duplicate team lineups.</p></div><span id="league-status" class="text-xs font-black text-slate-300">NOT RUNNING</span></div>
                 <div class="flex flex-wrap gap-2 mt-3"><button id="league-start" onclick="startAutoLeague()" class="crk-btn rounded-lg px-4 py-2 text-xs font-black text-slate-950">▶ START LEAGUE</button><button id="league-pause" onclick="toggleLeaguePause()" class="rounded-lg bg-amber-800 border border-amber-600 px-4 py-2 text-xs font-black text-white" disabled>⏸ PAUSE LEAGUE</button><button id="league-stop" onclick="stopAutoLeague()" class="rounded-lg bg-rose-900 border border-rose-700 px-4 py-2 text-xs font-black text-white" disabled>■ STOP</button><button id="league-watch" onclick="toggleLeagueSpectate()" class="rounded-lg bg-sky-800 border border-sky-600 px-4 py-2 text-xs font-black text-white" disabled>👁 SPECTATE AT 50×</button></div>
                 <div id="league-challenge-panel" class="hidden mt-3 rounded-xl border border-amber-600 bg-amber-950/40 p-3"><p class="text-xs text-amber-200 font-bold">⚔️ BUILD A CHALLENGER</p><p class="text-[11px] text-slate-300 mt-1">Use the TEAM A builder above to create a five-Cookie squad. The reigning champion is your opponent. Your custom challenger receives the next Team # and enters the league leaderboard. After the match, stay paused and create another challenger.</p><div id="league-champion-preview" class="text-xs text-sky-300 my-2"></div><button onclick="challengeLeagueChampion()" class="crk-btn rounded-lg px-4 py-2 text-xs font-black text-slate-950">⚔️ CHALLENGE CHAMPION</button></div><p id="league-matchup" class="text-xs text-slate-300 mt-3">Start the league to generate two unique teams. The winner keeps competing against a fresh challenger.</p>
-                <div class="mt-4"><h3 class="font-black text-amber-300 text-sm mb-2">TOP 10 TEAMS</h3><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th class="py-2">#</th><th>TEAM</th><th>W</th><th>L</th><th>STREAK</th></tr></thead><tbody id="league-leaderboard"><tr><td colspan="5" class="py-3 text-center text-slate-500">No matches played yet.</td></tr></tbody></table></div></div>
+                <div class="mt-4"><h3 class="font-black text-amber-300 text-sm mb-2">LAST 10 UNIQUE WINNING TEAMS</h3><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th class="py-2">#</th><th>TEAM</th><th>W</th><th>L</th><th>STREAK</th></tr></thead><tbody id="league-leaderboard"><tr><td colspan="5" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr></tbody></table></div></div>
                 <p class="text-[10px] text-slate-500 mt-2">Teams use Epic, Super Epic, Legendary, Mystic, and Eternal Cookies only. Each lineup contains five different Cookies. The league runs while this page remains open.</p>
             </div>
         </section>
@@ -810,42 +810,50 @@
           {"id": "v36_34", "name": "🧲 Magnet Mocha", "rarity": "Epic", "role": "Charge", "element": "Steel", "cd": 12, "skill": "Magnetic Rush", "desc": "Magnetic Rush: a unique steel-element charge technique.", "custom": true, "customDamage": 405, "customEffects": [], "customPassives": [], "customComposites": [], "customVisual": "dash", "customVisualEmoji": "🧲", "customVisualColor": "#94a3b8", "customVisualDuration": 1.15, "customVisualHits": 1, "customVisualTarget": "strongest2", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 12},
           {"id": "v36_35", "name": "🌟 Starfruit Glaze", "rarity": "Epic", "role": "Magic", "element": "Light", "cd": 14, "skill": "Starlight Beam", "desc": "Starlight Beam: a unique light-element magic technique.", "custom": true, "customDamage": 385, "customEffects": [], "customPassives": [], "customComposites": [], "customVisual": "beam", "customVisualEmoji": "🌟", "customVisualColor": "#fde68a", "customVisualDuration": 1.15, "customVisualHits": 1, "customVisualTarget": "all", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 14},
           {"id": "v36_36", "name": "🪃 Boomerang Nougat", "rarity": "Epic", "role": "Ambush", "element": "Earth", "cd": 11, "skill": "Nougat Return", "desc": "Nougat Return: a unique earth-element ambush technique.", "custom": true, "customDamage": 410, "customEffects": [], "customPassives": [], "customComposites": [], "customVisual": "throw", "customVisualEmoji": "🪃", "customVisualColor": "#d6a76b", "customVisualDuration": 1.15, "customVisualHits": 1, "customVisualTarget": "random2", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 11},
-          {"id": "new26_superepic_01", "name": "🧭 Compass Caramel", "rarity": "SuperEpic", "role": "Support", "element": "Light", "cd": 13, "skill": "Compass of Resolve", "desc": "Compass of Resolve: ATK Speed Up, Debuff Resist Up. Passive: Cooldown Recovery.", "custom": true, "customDamage": 0, "customAttack": {"type": "instant", "duration": 1, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "ATK Speed Up", "target": "team", "amount": 22, "duration": 9, "stacks": 2}, {"stat": "Debuff Resist Up", "target": "team", "amount": 30, "duration": 9, "stacks": 1}], "customPassives": [{"stat": "Cooldown Recovery", "target": "team", "amount": 1.5, "duration": 1, "stacks": 1, "trigger": "interval", "every": 8, "charges": 2}], "customComposites": [], "customVisual": "shine", "customVisualEmoji": "🧭", "customVisualColor": "#fde68a", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 13},
-          {"id": "new26_superepic_02", "name": "🕸️ Silk Truffle", "rarity": "SuperEpic", "role": "Statuser", "element": "Dark", "cd": 14, "skill": "Velvet Web", "desc": "Velvet Web: Shackles, DEF Down. Passive: ATK Down.", "custom": true, "customDamage": 160, "customAttack": {"type": "instant", "duration": 1, "interval": 1, "power": 160, "effects": "cast"}, "customEffects": [{"stat": "Shackles", "target": "enemy", "amount": 2, "duration": 3, "stacks": 1}, {"stat": "DEF Down", "target": "enemy", "amount": 24, "duration": 7, "stacks": 2}], "customPassives": [{"stat": "ATK Down", "target": "enemy", "amount": 14, "duration": 5, "stacks": 1, "trigger": "skill", "every": 1, "charges": 2}], "customComposites": [], "customVisual": "vines", "customVisualEmoji": "🕸️", "customVisualColor": "#a78bfa", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 14},
-          {"id": "new26_superepic_03", "name": "🍯 Honey Lantern", "rarity": "SuperEpic", "role": "Healer", "element": "Light", "cd": 15, "skill": "Warmth of the Hive", "desc": "Warmth of the Hive: Healing Over Time, Debuff Immunity. Passive: HP Shield.", "custom": true, "customDamage": 0, "customAttack": {"type": "healing", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Healing Over Time", "target": "team", "amount": 22, "duration": 9, "stacks": 1}, {"stat": "Debuff Immunity", "target": "self", "amount": 0, "duration": 3, "stacks": 1}], "customPassives": [{"stat": "HP Shield", "target": "team", "amount": 15, "duration": 5, "stacks": 1, "trigger": "lowhp", "every": 35, "charges": 2}], "customComposites": [], "customVisual": "heal", "customVisualEmoji": "🍯", "customVisualColor": "#fde68a", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 15},
-          {"id": "new26_superepic_04", "name": "🪨 Obsidian Wafer", "rarity": "SuperEpic", "role": "Defense", "element": "Earth", "cd": 16, "skill": "Crag Fortress", "desc": "Crag Fortress: HP Shield, DMG Resist Up. Passive: DEF Up.", "custom": true, "customDamage": 0, "customAttack": {"type": "shield", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "HP Shield", "target": "team", "amount": 30, "duration": 7, "stacks": 1}, {"stat": "DMG Resist Up", "target": "team", "amount": 20, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "DEF Up", "target": "self", "amount": 25, "duration": 6, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "pulse", "customVisualEmoji": "🪨", "customVisualColor": "#d6a76b", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 16},
-          {"id": "new26_superepic_05", "name": "🌪️ Gale Meringue", "rarity": "SuperEpic", "role": "Ranged", "element": "Wind", "cd": 12, "skill": "Spiral Barrage", "desc": "Spiral Barrage: ATK Speed Down. Passive: ATK Speed Up.", "custom": true, "customDamage": 85, "customAttack": {"type": "barrage", "duration": 4, "interval": 0.5, "power": 85, "effects": "cast"}, "customEffects": [{"stat": "ATK Speed Down", "target": "enemy", "amount": 22, "duration": 5, "stacks": 2}], "customPassives": [{"stat": "ATK Speed Up", "target": "self", "amount": 18, "duration": 6, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "boomerang", "customVisualEmoji": "🌪️", "customVisualColor": "#7dd3fc", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 12},
-          {"id": "new26_superepic_06", "name": "🧊 Glacier Macaron", "rarity": "SuperEpic", "role": "Magic", "element": "Ice", "cd": 13, "skill": "Permafrost Choir", "desc": "Permafrost Choir: Frost, Freeze. Passive: CRIT Chance Up.", "custom": true, "customDamage": 85, "customAttack": {"type": "barrage", "duration": 4, "interval": 0.5, "power": 85, "effects": "cast"}, "customEffects": [{"stat": "Frost", "target": "enemy", "amount": 16, "duration": 7, "stacks": 2}, {"stat": "Freeze", "target": "random2", "amount": 1, "duration": 1.2, "stacks": 1}], "customPassives": [{"stat": "CRIT Chance Up", "target": "team", "amount": 12, "duration": 7, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "wave", "customVisualEmoji": "🧊", "customVisualColor": "#7dd3fc", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 13},
-          {"id": "new26_superepic_07", "name": "🦋 Moonwing Nougat", "rarity": "SuperEpic", "role": "Ambush", "element": "Dark", "cd": 14, "skill": "Lunar Feint", "desc": "Lunar Feint: Corruption. Passive: Invulnerability.", "custom": true, "customDamage": 90, "customAttack": {"type": "drain", "duration": 4, "interval": 0.65, "power": 90, "effects": "cast"}, "customEffects": [{"stat": "Corruption", "target": "enemy", "amount": 15, "duration": 6, "stacks": 2}], "customPassives": [{"stat": "Invulnerability", "target": "self", "amount": 0, "duration": 1.2, "stacks": 1, "trigger": "lowhp", "every": 25, "charges": 1}], "customComposites": [], "customVisual": "dash", "customVisualEmoji": "🦋", "customVisualColor": "#a78bfa", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 14},
-          {"id": "new26_superepic_08", "name": "🌋 Cinder Brioche", "rarity": "SuperEpic", "role": "Bomber", "element": "Fire", "cd": 15, "skill": "Molten Echo", "desc": "Molten Echo: Burn, DEF Down. Passive: ATK Up.", "custom": true, "customDamage": 85, "customAttack": {"type": "barrage", "duration": 4, "interval": 0.5, "power": 85, "effects": "cast"}, "customEffects": [{"stat": "Burn", "target": "enemy", "amount": 16, "duration": 7, "stacks": 2}, {"stat": "DEF Down", "target": "enemy", "amount": 18, "duration": 6, "stacks": 1}], "customPassives": [{"stat": "ATK Up", "target": "self", "amount": 25, "duration": 7, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "meteor", "customVisualEmoji": "🌋", "customVisualColor": "#fb923c", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 15},
-          {"id": "new26_superepic_09", "name": "🌾 Harvest Panna", "rarity": "SuperEpic", "role": "Charge", "element": "Nature", "cd": 16, "skill": "Golden Reap", "desc": "Golden Reap: Instant Healing, ATK Down. Passive: HP Shield.", "custom": true, "customDamage": 260, "customAttack": {"type": "instant", "duration": 1, "interval": 1, "power": 260, "effects": "cast"}, "customEffects": [{"stat": "Instant Healing", "target": "self", "amount": 60, "duration": 1, "stacks": 1}, {"stat": "ATK Down", "target": "enemy", "amount": 20, "duration": 6, "stacks": 1}], "customPassives": [{"stat": "HP Shield", "target": "self", "amount": 20, "duration": 5, "stacks": 1, "trigger": "lowhp", "every": 40, "charges": 2}], "customComposites": [], "customVisual": "slash", "customVisualEmoji": "🌾", "customVisualColor": "#86efac", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 16},
-          {"id": "new26_legendary_01", "name": "🪞 Mirror Eclipse", "rarity": "Legendary", "role": "Support", "element": "Light", "cd": 13, "skill": "Reflected Dawn", "desc": "Reflected Dawn: Amplify Buff, CRIT Chance Up. Passive: Debuff Immunity.", "custom": true, "customDamage": 0, "customAttack": {"type": "shield", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Amplify Buff", "target": "team", "amount": 25, "duration": 9, "stacks": 1}, {"stat": "CRIT Chance Up", "target": "team", "amount": 18, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "Debuff Immunity", "target": "self", "amount": 0, "duration": 3, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "shine", "customVisualEmoji": "🪞", "customVisualColor": "#fde68a", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 13},
-          {"id": "new26_legendary_02", "name": "🩸 Crimson Pomegranate", "rarity": "Legendary", "role": "Ambush", "element": "Dark", "cd": 14, "skill": "Scarlet Harvest", "desc": "Scarlet Harvest: Bleed, Healing Received Down. Passive: ATK Speed Up.", "custom": true, "customDamage": 90, "customAttack": {"type": "drain", "duration": 4, "interval": 0.65, "power": 90, "effects": "cast"}, "customEffects": [{"stat": "Bleed", "target": "enemy", "amount": 24, "duration": 8, "stacks": 3}, {"stat": "Healing Received Down", "target": "enemy", "amount": 25, "duration": 7, "stacks": 2}], "customPassives": [{"stat": "ATK Speed Up", "target": "self", "amount": 30, "duration": 6, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "dash", "customVisualEmoji": "🩸", "customVisualColor": "#a78bfa", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 14},
-          {"id": "new26_legendary_03", "name": "🌩️ Thunder Cathedral", "rarity": "Legendary", "role": "Magic", "element": "Electricity", "cd": 15, "skill": "Overcurrent Hymn", "desc": "Overcurrent Hymn: Overcurrent, Zap. Passive: Cooldown Recovery.", "custom": true, "customDamage": 70, "customAttack": {"type": "beam", "duration": 4, "interval": 0.5, "power": 70, "effects": "cast"}, "customEffects": [{"stat": "Overcurrent", "target": "enemy", "amount": 22, "duration": 6, "stacks": 2}, {"stat": "Zap", "target": "enemy", "amount": 20, "duration": 6, "stacks": 2}], "customPassives": [{"stat": "Cooldown Recovery", "target": "self", "amount": 2, "duration": 1, "stacks": 1, "trigger": "basic", "every": 4, "charges": 2}], "customComposites": [], "customVisual": "lightning", "customVisualEmoji": "🌩️", "customVisualColor": "#facc15", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 15},
-          {"id": "new26_legendary_04", "name": "🧿 Oracle Jelly", "rarity": "Legendary", "role": "Statuser", "element": "Dark", "cd": 16, "skill": "Eye of Silence", "desc": "Eye of Silence: Silence, Amplify Debuff. Passive: Debuff Resist Up.", "custom": true, "customDamage": 260, "customAttack": {"type": "instant", "duration": 1, "interval": 1, "power": 260, "effects": "cast"}, "customEffects": [{"stat": "Silence", "target": "enemy", "amount": 2, "duration": 2, "stacks": 1}, {"stat": "Amplify Debuff", "target": "self", "amount": 30, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "Debuff Resist Up", "target": "team", "amount": 30, "duration": 8, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "pulse", "customVisualEmoji": "🧿", "customVisualColor": "#a78bfa", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 16},
-          {"id": "new26_legendary_05", "name": "🪸 Coral Empress", "rarity": "Legendary", "role": "Healer", "element": "Water", "cd": 12, "skill": "Tidal Sanctuary", "desc": "Tidal Sanctuary: Healing Over Time, DMG Resist Up. Passive: Instant Healing.", "custom": true, "customDamage": 0, "customAttack": {"type": "healing", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Healing Over Time", "target": "team", "amount": 30, "duration": 9, "stacks": 2}, {"stat": "DMG Resist Up", "target": "team", "amount": 22, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "Instant Healing", "target": "team", "amount": 70, "duration": 1, "stacks": 1, "trigger": "lowhp", "every": 35, "charges": 2}], "customComposites": [], "customVisual": "heal", "customVisualEmoji": "🪸", "customVisualColor": "#38bdf8", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 12},
-          {"id": "new26_legendary_06", "name": "⛓️ Iron Psalm", "rarity": "Legendary", "role": "Defense", "element": "Steel", "cd": 13, "skill": "Sanctuary Chains", "desc": "Sanctuary Chains: HP Shield, CC Immunity. Passive: DEF Up.", "custom": true, "customDamage": 0, "customAttack": {"type": "shield", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "HP Shield", "target": "team", "amount": 35, "duration": 8, "stacks": 1}, {"stat": "CC Immunity", "target": "team", "amount": 0, "duration": 3, "stacks": 1}], "customPassives": [{"stat": "DEF Up", "target": "team", "amount": 28, "duration": 7, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "guard", "customVisualEmoji": "⛓️", "customVisualColor": "#94a3b8", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 13},
-          {"id": "new26_legendary_07", "name": "☄️ Comet Sorbet", "rarity": "Legendary", "role": "Bomber", "element": "Fire", "cd": 14, "skill": "Falling Constellation", "desc": "Falling Constellation: Solar Burn, DMG Resist Down. Passive: CRIT DMG Up.", "custom": true, "customDamage": 85, "customAttack": {"type": "barrage", "duration": 4, "interval": 0.5, "power": 85, "effects": "cast"}, "customEffects": [{"stat": "Solar Burn", "target": "enemy", "amount": 22, "duration": 7, "stacks": 2}, {"stat": "DMG Resist Down", "target": "enemy", "amount": 16, "duration": 6, "stacks": 1}], "customPassives": [{"stat": "CRIT DMG Up", "target": "self", "amount": 30, "duration": 7, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "meteor", "customVisualEmoji": "☄️", "customVisualColor": "#fb923c", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 14},
-          {"id": "new26_legendary_08", "name": "🌱 Thorn Monarch", "rarity": "Legendary", "role": "Charge", "element": "Nature", "cd": 15, "skill": "Crown of Briars", "desc": "Crown of Briars: Infection, ATK Down. Passive: HP Shield.", "custom": true, "customDamage": 260, "customAttack": {"type": "instant", "duration": 1, "interval": 1, "power": 260, "effects": "cast"}, "customEffects": [{"stat": "Infection", "target": "enemy", "amount": 20, "duration": 7, "stacks": 2}, {"stat": "ATK Down", "target": "enemy", "amount": 20, "duration": 7, "stacks": 1}], "customPassives": [{"stat": "HP Shield", "target": "self", "amount": 30, "duration": 7, "stacks": 1, "trigger": "lowhp", "every": 35, "charges": 2}], "customComposites": [], "customVisual": "vines", "customVisualEmoji": "🌱", "customVisualColor": "#86efac", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 15},
-          {"id": "new26_legendary_09", "name": "🎯 Starglass Archer", "rarity": "Legendary", "role": "Ranged", "element": "Light", "cd": 16, "skill": "Astral Pinpoint", "desc": "Astral Pinpoint: CRIT Chance Down, DEF Down. Passive: ATK Up.", "custom": true, "customDamage": 110, "customAttack": {"type": "random", "duration": 3.6, "interval": 0.6, "power": 110, "effects": "cast"}, "customEffects": [{"stat": "CRIT Chance Down", "target": "enemy", "amount": 22, "duration": 6, "stacks": 2}, {"stat": "DEF Down", "target": "enemy", "amount": 20, "duration": 6, "stacks": 1}], "customPassives": [{"stat": "ATK Up", "target": "self", "amount": 32, "duration": 7, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "throw", "customVisualEmoji": "🎯", "customVisualColor": "#fde68a", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 16},
-          {"id": "new26_mystic_01", "name": "🕯️ Candle of Remembrance", "rarity": "Mystic", "role": "Healer", "element": "Light", "cd": 13, "skill": "Second Flame", "desc": "Second Flame: Healing Over Time, Debuff Resist Up. Passive: Revive.", "custom": true, "customDamage": 0, "customAttack": {"type": "healing", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Healing Over Time", "target": "team", "amount": 35, "duration": 10, "stacks": 2}, {"stat": "Debuff Resist Up", "target": "team", "amount": 30, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "Revive", "target": "team", "amount": 0, "duration": 1, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "heal", "customVisualEmoji": "🕯️", "customVisualColor": "#fde68a", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 13},
-          {"id": "new26_mystic_02", "name": "🌀 Paradox Spiral", "rarity": "Mystic", "role": "Magic", "element": "Chaos", "cd": 14, "skill": "Time Spiral", "desc": "Time Spiral: Cooldown Increase, Cooldown Pause. Passive: Cooldown Recovery.", "custom": true, "customDamage": 70, "customAttack": {"type": "beam", "duration": 4, "interval": 0.5, "power": 70, "effects": "cast"}, "customEffects": [{"stat": "Cooldown Increase", "target": "enemy", "amount": 2, "duration": 1, "stacks": 1}, {"stat": "Cooldown Pause", "target": "enemy", "amount": 1, "duration": 2, "stacks": 1}], "customPassives": [{"stat": "Cooldown Recovery", "target": "self", "amount": 2, "duration": 1, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "spiral", "customVisualEmoji": "🌀", "customVisualColor": "#f0abfc", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 14},
-          {"id": "new26_mystic_03", "name": "🧬 Prismatic Genome", "rarity": "Mystic", "role": "Support", "element": "Light", "cd": 15, "skill": "Spectrum Shift", "desc": "Spectrum Shift: Amplify Buff, Element ATK Up. Passive: Debuff Immunity.", "custom": true, "customDamage": 0, "customAttack": {"type": "shield", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Amplify Buff", "target": "team", "amount": 35, "duration": 10, "stacks": 1}, {"stat": "Element ATK Up", "target": "team", "amount": 28, "duration": 9, "stacks": 1}], "customPassives": [{"stat": "Debuff Immunity", "target": "team", "amount": 0, "duration": 2, "stacks": 1, "trigger": "lowhp", "every": 40, "charges": 2}], "customComposites": [], "customVisual": "shine", "customVisualEmoji": "🧬", "customVisualColor": "#fde68a", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 15},
-          {"id": "new26_mystic_04", "name": "🌑 Void Orchid", "rarity": "Mystic", "role": "Statuser", "element": "Dark", "cd": 16, "skill": "Petals of Oblivion", "desc": "Petals of Oblivion: Corruption, Tear. Passive: Amplify Debuff.", "custom": true, "customDamage": 85, "customAttack": {"type": "barrage", "duration": 4, "interval": 0.5, "power": 85, "effects": "cast"}, "customEffects": [{"stat": "Corruption", "target": "enemy", "amount": 22, "duration": 8, "stacks": 2}, {"stat": "Tear", "target": "enemy", "amount": 18, "duration": 8, "stacks": 2}], "customPassives": [{"stat": "Amplify Debuff", "target": "self", "amount": 35, "duration": 9, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "blossom", "customVisualEmoji": "🌑", "customVisualColor": "#a78bfa", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 16},
-          {"id": "new26_mystic_05", "name": "⚙️ Clockwork Seraph", "rarity": "Mystic", "role": "Defense", "element": "Steel", "cd": 12, "skill": "Gear of Eternity", "desc": "Gear of Eternity: HP Shield, ATK Speed Up. Passive: Invulnerability.", "custom": true, "customDamage": 0, "customAttack": {"type": "shield", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "HP Shield", "target": "team", "amount": 42, "duration": 8, "stacks": 1}, {"stat": "ATK Speed Up", "target": "team", "amount": 25, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "Invulnerability", "target": "self", "amount": 0, "duration": 1.5, "stacks": 1, "trigger": "lowhp", "every": 30, "charges": 2}], "customComposites": [], "customVisual": "guard", "customVisualEmoji": "⚙️", "customVisualColor": "#94a3b8", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 12},
-          {"id": "new26_mystic_06", "name": "🌊 Abyssal Taffy", "rarity": "Mystic", "role": "Bomber", "element": "Water", "cd": 13, "skill": "Undertow Cataclysm", "desc": "Undertow Cataclysm: Shackles, DMG Resist Down. Passive: HP Shield.", "custom": true, "customDamage": 85, "customAttack": {"type": "barrage", "duration": 4, "interval": 0.5, "power": 85, "effects": "cast"}, "customEffects": [{"stat": "Shackles", "target": "enemy", "amount": 2, "duration": 2, "stacks": 1}, {"stat": "DMG Resist Down", "target": "enemy", "amount": 25, "duration": 7, "stacks": 2}], "customPassives": [{"stat": "HP Shield", "target": "self", "amount": 25, "duration": 6, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "wave", "customVisualEmoji": "🌊", "customVisualColor": "#38bdf8", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 13},
-          {"id": "new26_mystic_07", "name": "🪶 Feather of Ruin", "rarity": "Mystic", "role": "Ambush", "element": "Dark", "cd": 14, "skill": "Vanishing Script", "desc": "Vanishing Script: Bleed, Silence. Passive: ATK Speed Up.", "custom": true, "customDamage": 90, "customAttack": {"type": "drain", "duration": 4, "interval": 0.65, "power": 90, "effects": "cast"}, "customEffects": [{"stat": "Bleed", "target": "enemy", "amount": 28, "duration": 7, "stacks": 3}, {"stat": "Silence", "target": "random2", "amount": 1.5, "duration": 1.5, "stacks": 1}], "customPassives": [{"stat": "ATK Speed Up", "target": "self", "amount": 35, "duration": 7, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "dash", "customVisualEmoji": "🪶", "customVisualColor": "#a78bfa", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 14},
-          {"id": "new26_mystic_08", "name": "🌠 Nova Pilgrim", "rarity": "Mystic", "role": "Ranged", "element": "Light", "cd": 15, "skill": "Meteor Pilgrimage", "desc": "Meteor Pilgrimage: DEF Down, CRIT Chance Up. Passive: Cooldown Recovery.", "custom": true, "customDamage": 110, "customAttack": {"type": "random", "duration": 3.6, "interval": 0.6, "power": 110, "effects": "cast"}, "customEffects": [{"stat": "DEF Down", "target": "enemy", "amount": 25, "duration": 8, "stacks": 2}, {"stat": "CRIT Chance Up", "target": "self", "amount": 35, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "Cooldown Recovery", "target": "self", "amount": 1.5, "duration": 1, "stacks": 1, "trigger": "basic", "every": 5, "charges": 2}], "customComposites": [], "customVisual": "shower", "customVisualEmoji": "🌠", "customVisualColor": "#fde68a", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 15},
-          {"id": "new26_mystic_09", "name": "🌿 Eden Colossus", "rarity": "Mystic", "role": "Charge", "element": "Nature", "cd": 16, "skill": "Roots of Renewal", "desc": "Roots of Renewal: Instant Healing, DEF Up. Passive: HP Shield.", "custom": true, "customDamage": 260, "customAttack": {"type": "instant", "duration": 1, "interval": 1, "power": 260, "effects": "cast"}, "customEffects": [{"stat": "Instant Healing", "target": "team", "amount": 75, "duration": 1, "stacks": 1}, {"stat": "DEF Up", "target": "team", "amount": 30, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "HP Shield", "target": "team", "amount": 30, "duration": 6, "stacks": 1, "trigger": "lowhp", "every": 35, "charges": 2}], "customComposites": [], "customVisual": "vines", "customVisualEmoji": "🌿", "customVisualColor": "#86efac", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 16},
-          {"id": "new26_eternal_01", "name": "🌌 Cosmic Verdict", "rarity": "Eternal", "role": "Magic", "element": "Chaos", "cd": 13, "skill": "Judgment of Stars", "desc": "Judgment of Stars: Corruption, DMG Resist Down. Passive: ATK Up.", "custom": true, "customDamage": 70, "customAttack": {"type": "beam", "duration": 4, "interval": 0.5, "power": 70, "effects": "cast"}, "customEffects": [{"stat": "Corruption", "target": "enemy", "amount": 30, "duration": 9, "stacks": 3}, {"stat": "DMG Resist Down", "target": "enemy", "amount": 30, "duration": 8, "stacks": 2}], "customPassives": [{"stat": "ATK Up", "target": "self", "amount": 40, "duration": 8, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "nova", "customVisualEmoji": "🌌", "customVisualColor": "#f0abfc", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 13},
-          {"id": "new26_eternal_02", "name": "👁️ Endless Witness", "rarity": "Eternal", "role": "Statuser", "element": "Dark", "cd": 14, "skill": "Unblinking Sentence", "desc": "Unblinking Sentence: Fear, Healing Received Down. Passive: Amplify Debuff.", "custom": true, "customDamage": 85, "customAttack": {"type": "barrage", "duration": 4, "interval": 0.5, "power": 85, "effects": "cast"}, "customEffects": [{"stat": "Fear", "target": "enemy", "amount": 2, "duration": 2, "stacks": 1}, {"stat": "Healing Received Down", "target": "enemy", "amount": 35, "duration": 8, "stacks": 2}], "customPassives": [{"stat": "Amplify Debuff", "target": "self", "amount": 45, "duration": 9, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "pulse", "customVisualEmoji": "👁️", "customVisualColor": "#a78bfa", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 14},
-          {"id": "new26_eternal_03", "name": "🕊️ Everlight Covenant", "rarity": "Eternal", "role": "Healer", "element": "Light", "cd": 15, "skill": "Unbroken Promise", "desc": "Unbroken Promise: Healing Over Time, Debuff Immunity. Passive: Revive.", "custom": true, "customDamage": 0, "customAttack": {"type": "healing", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Healing Over Time", "target": "team", "amount": 42, "duration": 10, "stacks": 2}, {"stat": "Debuff Immunity", "target": "team", "amount": 0, "duration": 3, "stacks": 1}], "customPassives": [{"stat": "Revive", "target": "team", "amount": 0, "duration": 1, "stacks": 1, "trigger": "start", "every": 1, "charges": 2}], "customComposites": [], "customVisual": "heal", "customVisualEmoji": "🕊️", "customVisualColor": "#fde68a", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 15},
-          {"id": "new26_eternal_04", "name": "🛡️ Citadel of Dawn", "rarity": "Eternal", "role": "Defense", "element": "Steel", "cd": 16, "skill": "Unyielding Horizon", "desc": "Unyielding Horizon: HP Shield, DMG Resist Up. Passive: Invulnerability.", "custom": true, "customDamage": 0, "customAttack": {"type": "shield", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "HP Shield", "target": "team", "amount": 50, "duration": 9, "stacks": 1}, {"stat": "DMG Resist Up", "target": "team", "amount": 30, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "Invulnerability", "target": "self", "amount": 0, "duration": 2, "stacks": 1, "trigger": "lowhp", "every": 25, "charges": 2}], "customComposites": [], "customVisual": "guard", "customVisualEmoji": "🛡️", "customVisualColor": "#94a3b8", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 16},
-          {"id": "new26_eternal_05", "name": "🦂 Dusk Scorpion", "rarity": "Eternal", "role": "Ambush", "element": "Dark", "cd": 12, "skill": "Venom Eclipse", "desc": "Venom Eclipse: Poison, Infection. Passive: ATK Speed Up.", "custom": true, "customDamage": 90, "customAttack": {"type": "drain", "duration": 4, "interval": 0.65, "power": 90, "effects": "cast"}, "customEffects": [{"stat": "Poison", "target": "enemy", "amount": 35, "duration": 9, "stacks": 3}, {"stat": "Infection", "target": "enemy", "amount": 25, "duration": 8, "stacks": 2}], "customPassives": [{"stat": "ATK Speed Up", "target": "self", "amount": 45, "duration": 7, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "dash", "customVisualEmoji": "🦂", "customVisualColor": "#a78bfa", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 12},
-          {"id": "new26_eternal_06", "name": "🔥 Solar Tyrant", "rarity": "Eternal", "role": "Bomber", "element": "Fire", "cd": 13, "skill": "Thousand Suns", "desc": "Thousand Suns: Solar Burn, Buff Prohibited. Passive: CRIT DMG Up.", "custom": true, "customDamage": 85, "customAttack": {"type": "barrage", "duration": 4, "interval": 0.5, "power": 85, "effects": "cast"}, "customEffects": [{"stat": "Solar Burn", "target": "enemy", "amount": 35, "duration": 8, "stacks": 3}, {"stat": "Buff Prohibited", "target": "enemy", "amount": 0, "duration": 3, "stacks": 1}], "customPassives": [{"stat": "CRIT DMG Up", "target": "self", "amount": 45, "duration": 8, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "meteor", "customVisualEmoji": "🔥", "customVisualColor": "#fb923c", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "all", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 13},
-          {"id": "new26_eternal_07", "name": "🪐 Orbit Sovereign", "rarity": "Eternal", "role": "Support", "element": "Chaos", "cd": 14, "skill": "Gravity Mandate", "desc": "Gravity Mandate: Amplify Buff, Cooldown Recovery. Passive: Debuff Resist Up.", "custom": true, "customDamage": 0, "customAttack": {"type": "shield", "duration": 5, "interval": 1, "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Amplify Buff", "target": "team", "amount": 45, "duration": 10, "stacks": 1}, {"stat": "Cooldown Recovery", "target": "team", "amount": 2, "duration": 1, "stacks": 1}], "customPassives": [{"stat": "Debuff Resist Up", "target": "team", "amount": 35, "duration": 9, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "spiral", "customVisualEmoji": "🪐", "customVisualColor": "#f0abfc", "customVisualDuration": 1.1, "customVisualHits": 1, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 14},
-          {"id": "new26_eternal_08", "name": "⚡ Tempest Imperator", "rarity": "Eternal", "role": "Ranged", "element": "Electricity", "cd": 15, "skill": "Eternal Thunderline", "desc": "Eternal Thunderline: Overcurrent, ATK Speed Down. Passive: ATK Speed Up.", "custom": true, "customDamage": 110, "customAttack": {"type": "random", "duration": 3.6, "interval": 0.6, "power": 110, "effects": "cast"}, "customEffects": [{"stat": "Overcurrent", "target": "enemy", "amount": 30, "duration": 8, "stacks": 3}, {"stat": "ATK Speed Down", "target": "enemy", "amount": 30, "duration": 7, "stacks": 2}], "customPassives": [{"stat": "ATK Speed Up", "target": "self", "amount": 40, "duration": 8, "stacks": 1, "trigger": "skill", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "lightning", "customVisualEmoji": "⚡", "customVisualColor": "#facc15", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 15},
-          {"id": "new26_eternal_09", "name": "🌳 Worldroot Emperor", "rarity": "Eternal", "role": "Charge", "element": "Nature", "cd": 16, "skill": "Worldseed Awakening", "desc": "Worldseed Awakening: Instant Healing, HP Shield. Passive: DEF Up.", "custom": true, "customDamage": 260, "customAttack": {"type": "instant", "duration": 1, "interval": 1, "power": 260, "effects": "cast"}, "customEffects": [{"stat": "Instant Healing", "target": "team", "amount": 95, "duration": 1, "stacks": 1}, {"stat": "HP Shield", "target": "team", "amount": 35, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "DEF Up", "target": "team", "amount": 35, "duration": 9, "stacks": 1, "trigger": "lowhp", "every": 40, "charges": 2}], "customComposites": [], "customVisual": "vines", "customVisualEmoji": "🌳", "customVisualColor": "#86efac", "customVisualDuration": 1.1, "customVisualHits": 3, "customVisualTarget": "random3", "customVisualTargetCount": 3, "customParticles": 5, "customGlow": 14, "customTrail": "none", "openingCD": 3, "regularCD": 16}
+          {"id":"new26_superepic_01","name":"🧭 Compass Caramel","rarity":"SuperEpic","role":"Support","element":"Light","cd":13,"skill":"Guiding North","desc":"Guiding North: Resonance stacks trigger a conditional payoff. Combines ATK Speed Up with Cooldown Recovery; 4 skill components and 2 passives. Team-focused utility and protection.","custom":true,"customDamage":60,"customAttack":{"type":"shield","duration":5,"interval":1,"power":60,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":12,"duration":8,"stacks":3},{"stat":"ATK Speed Up","target":"team","amount":18,"duration":7.0,"stacks":1},{"stat":"Cooldown Recovery","target":"team","amount":1.5,"duration":7.0,"stacks":1},{"stat":"ATK Up","target":"team","amount":16,"duration":8,"stacks":1}],"customPassives":[{"stat":"Cooldown Recovery","target":"team","amount":1.0,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"HP Shield","target":"team","amount":14,"duration":7,"stacks":1,"trigger":"skill","every":1,"charges":1}],"customComposites":[],"customVisual":"shine","customVisualEmoji":"🧭","customVisualColor":"#fde68a","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":13,"skillName":"Guiding North"},
+          {"id":"new26_superepic_02","name":"🕸️ Silk Truffle","rarity":"SuperEpic","role":"Statuser","element":"Dark","cd":14,"skill":"Silken Sentence","desc":"Silken Sentence: Ruin Sigil stacks trigger a conditional payoff. Combines Shackles with Healing Received Down; 4 skill components and 2 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":200,"customAttack":{"type":"barrage","duration":4,"interval":0.65,"power":200,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":12,"duration":8,"stacks":3},{"stat":"Shackles","target":"enemy","amount":0,"duration":2.0,"stacks":1},{"stat":"Healing Received Down","target":"enemy","amount":18,"duration":7.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":14,"duration":7,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":22,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":35,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1}],"customComposites":[],"customVisual":"vines","customVisualEmoji":"🕸️","customVisualColor":"#a78bfa","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":14,"skillName":"Silken Sentence"},
+          {"id":"new26_superepic_03","name":"🍯 Honey Lantern","rarity":"SuperEpic","role":"Healer","element":"Light","cd":15,"skill":"Hive's Last Light","desc":"Hive's Last Light: Resonance stacks trigger a conditional payoff. Combines Healing Over Time with HP Shield; 4 skill components and 2 passives. Team-focused utility and protection.","custom":true,"customDamage":0,"customAttack":{"type":"healing","duration":5,"interval":0.75,"power":0,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":12,"duration":8,"stacks":3},{"stat":"Healing Over Time","target":"team","amount":18,"duration":7.0,"stacks":1},{"stat":"HP Shield","target":"team","amount":18,"duration":7.0,"stacks":1},{"stat":"ATK Up","target":"team","amount":16,"duration":8,"stacks":1}],"customPassives":[{"stat":"Cooldown Recovery","target":"team","amount":1.0,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"HP Shield","target":"team","amount":14,"duration":7,"stacks":1,"trigger":"skill","every":1,"charges":1}],"customComposites":[],"customVisual":"heal","customVisualEmoji":"🍯","customVisualColor":"#fde68a","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":15,"skillName":"Hive's Last Light"},
+          {"id":"new26_superepic_04","name":"🪨 Obsidian Wafer","rarity":"SuperEpic","role":"Defense","element":"Earth","cd":16,"skill":"Blackstone Oath","desc":"Blackstone Oath: Fractured Ward stacks trigger a conditional payoff. Combines DEF Up with DMG Resist Up; 4 skill components and 2 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":200,"customAttack":{"type":"shield","duration":5,"interval":1,"power":200,"effects":"cast"},"customEffects":[{"stat":"Fractured Ward","target":"enemy","amount":12,"duration":8,"stacks":3},{"stat":"DEF Up","target":"team","amount":18,"duration":7.0,"stacks":1},{"stat":"DMG Resist Up","target":"team","amount":18,"duration":7.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":14,"duration":7,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":22,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":35,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1}],"customComposites":[],"customVisual":"pulse","customVisualEmoji":"🪨","customVisualColor":"#d6a76b","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":16,"skillName":"Blackstone Oath"},
+          {"id":"new26_superepic_05","name":"🌪️ Gale Meringue","rarity":"SuperEpic","role":"Ranged","element":"Wind","cd":12,"skill":"Eye of the Storm","desc":"Eye of the Storm: Ruin Sigil stacks trigger a conditional payoff. Combines ATK Speed Up with ATK Speed Down; 4 skill components and 2 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":200,"customAttack":{"type":"random","duration":4,"interval":0.4,"power":200,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":12,"duration":8,"stacks":3},{"stat":"ATK Speed Up","target":"team","amount":18,"duration":7.0,"stacks":1},{"stat":"ATK Speed Down","target":"enemy","amount":18,"duration":7.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":14,"duration":7,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":22,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":35,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1}],"customComposites":[],"customVisual":"boomerang","customVisualEmoji":"🌪️","customVisualColor":"#7dd3fc","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"random3","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":12,"skillName":"Eye of the Storm"},
+          {"id":"new26_superepic_06","name":"🧊 Glacier Macaron","rarity":"SuperEpic","role":"Magic","element":"Ice","cd":13,"skill":"Frozen Requiem","desc":"Frozen Requiem: Fractured Ward stacks trigger a conditional payoff. Combines Freeze with Frost; 4 skill components and 2 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":200,"customAttack":{"type":"barrage","duration":4,"interval":0.6,"power":200,"effects":"cast"},"customEffects":[{"stat":"Fractured Ward","target":"enemy","amount":12,"duration":8,"stacks":3},{"stat":"Freeze","target":"enemy","amount":0,"duration":2.0,"stacks":1},{"stat":"Frost","target":"enemy","amount":18,"duration":7.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":14,"duration":7,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":22,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":35,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1}],"customComposites":[],"customVisual":"wave","customVisualEmoji":"🧊","customVisualColor":"#7dd3fc","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":13,"skillName":"Frozen Requiem"},
+          {"id":"new26_superepic_07","name":"🦋 Moonwing Nougat","rarity":"SuperEpic","role":"Ambush","element":"Dark","cd":14,"skill":"Moonshadow Contract","desc":"Moonshadow Contract: Ruin Sigil stacks trigger a conditional payoff. Combines CRIT Chance Up with Silence; 4 skill components and 2 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":200,"customAttack":{"type":"drain","duration":4,"interval":0.55,"power":200,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":12,"duration":8,"stacks":3},{"stat":"CRIT Chance Up","target":"team","amount":18,"duration":7.0,"stacks":1},{"stat":"Silence","target":"enemy","amount":0,"duration":2.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":14,"duration":7,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":22,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":35,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1}],"customComposites":[],"customVisual":"dash","customVisualEmoji":"🦋","customVisualColor":"#a78bfa","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":14,"skillName":"Moonshadow Contract"},
+          {"id":"new26_superepic_08","name":"🌋 Cinder Brioche","rarity":"SuperEpic","role":"Bomber","element":"Fire","cd":15,"skill":"Ashes Remember","desc":"Ashes Remember: Fractured Ward stacks trigger a conditional payoff. Combines Solar Burn with DMG Resist Down; 4 skill components and 2 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":200,"customAttack":{"type":"barrage","duration":4,"interval":0.5,"power":200,"effects":"cast"},"customEffects":[{"stat":"Fractured Ward","target":"enemy","amount":12,"duration":8,"stacks":3},{"stat":"Solar Burn","target":"enemy","amount":18,"duration":7.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":18,"duration":7.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":14,"duration":7,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":22,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":35,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1}],"customComposites":[],"customVisual":"meteor","customVisualEmoji":"🌋","customVisualColor":"#fb923c","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":15,"skillName":"Ashes Remember"},
+          {"id":"new26_superepic_09","name":"🌾 Harvest Panna","rarity":"SuperEpic","role":"Charge","element":"Nature","cd":16,"skill":"Harvest's Return","desc":"Harvest's Return: Resonance stacks trigger a conditional payoff. Combines Instant Healing with DEF Down; 4 skill components and 2 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":200,"customAttack":{"type":"instant","duration":1,"interval":1,"power":200,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":12,"duration":8,"stacks":3},{"stat":"Instant Healing","target":"self","amount":18,"duration":7.0,"stacks":1},{"stat":"DEF Down","target":"enemy","amount":18,"duration":7.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":14,"duration":7,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":22,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":35,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1}],"customComposites":[],"customVisual":"slash","customVisualEmoji":"🌾","customVisualColor":"#86efac","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":16,"skillName":"Harvest's Return"},
+          {"id":"new26_legendary_01","name":"🪞 Mirror Eclipse","rarity":"Legendary","role":"Support","element":"Light","cd":13,"skill":"Mirror's Judgment","desc":"Mirror's Judgment: Resonance stacks trigger a conditional payoff. Combines Amplify Buff with HP Shield; 5 skill components and 2 passives. Team-focused utility and protection.","custom":true,"customDamage":85,"customAttack":{"type":"shield","duration":5,"interval":0.75,"power":85,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":17,"duration":10,"stacks":3},{"stat":"Amplify Buff","target":"team","amount":26,"duration":8.5,"stacks":1},{"stat":"HP Shield","target":"team","amount":26,"duration":8.5,"stacks":1},{"stat":"ATK Up","target":"team","amount":25,"duration":9,"stacks":1},{"stat":"CRIT Chance Up","target":"team","amount":18,"duration":8,"stacks":1}],"customPassives":[{"stat":"Cooldown Recovery","target":"team","amount":1.5,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"HP Shield","target":"team","amount":21,"duration":7,"stacks":1,"trigger":"skill","every":1,"charges":1}],"customComposites":[],"customVisual":"shine","customVisualEmoji":"🪞","customVisualColor":"#fde68a","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":13,"skillName":"Mirror's Judgment"},
+          {"id":"new26_legendary_02","name":"🩸 Crimson Pomegranate","rarity":"Legendary","role":"Ambush","element":"Dark","cd":14,"skill":"Scarlet Debt","desc":"Scarlet Debt: Ruin Sigil stacks trigger a conditional payoff. Combines Bleed with Healing Received Down; 5 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":300,"customAttack":{"type":"drain","duration":5,"interval":0.5,"power":300,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":17,"duration":10,"stacks":3},{"stat":"Bleed","target":"enemy","amount":26,"duration":8.5,"stacks":1},{"stat":"Healing Received Down","target":"enemy","amount":26,"duration":8.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":23,"duration":8,"stacks":1},{"stat":"ATK Up","target":"self","amount":29,"duration":9,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":29,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":47,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.35,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"dash","customVisualEmoji":"🩸","customVisualColor":"#a78bfa","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":14,"skillName":"Scarlet Debt"},
+          {"id":"new26_legendary_03","name":"🌩️ Thunder Cathedral","rarity":"Legendary","role":"Magic","element":"Electricity","cd":15,"skill":"Thunder's Debt","desc":"Thunder's Debt: Ruin Sigil stacks trigger a conditional payoff. Combines Overcurrent with Cooldown Increase; 5 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":300,"customAttack":{"type":"beam","duration":5,"interval":0.45,"power":300,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":17,"duration":10,"stacks":3},{"stat":"Overcurrent","target":"enemy","amount":26,"duration":8.5,"stacks":1},{"stat":"Cooldown Increase","target":"enemy","amount":2.3,"duration":8.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":23,"duration":8,"stacks":1},{"stat":"ATK Up","target":"self","amount":29,"duration":9,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":29,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":47,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.35,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"lightning","customVisualEmoji":"🌩️","customVisualColor":"#facc15","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":15,"skillName":"Thunder's Debt"},
+          {"id":"new26_legendary_04","name":"🧿 Oracle Jelly","rarity":"Legendary","role":"Statuser","element":"Dark","cd":16,"skill":"Oracle's Decree","desc":"Oracle's Decree: Ruin Sigil stacks trigger a conditional payoff. Combines Silence with Amplify Debuff; 5 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":300,"customAttack":{"type":"instant","duration":1,"interval":1,"power":300,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":17,"duration":10,"stacks":3},{"stat":"Silence","target":"enemy","amount":0,"duration":2.7,"stacks":1},{"stat":"Amplify Debuff","target":"team","amount":26,"duration":8.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":23,"duration":8,"stacks":1},{"stat":"ATK Up","target":"self","amount":29,"duration":9,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":29,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":47,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.35,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"pulse","customVisualEmoji":"🧿","customVisualColor":"#a78bfa","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":16,"skillName":"Oracle's Decree"},
+          {"id":"new26_legendary_05","name":"🪸 Coral Empress","rarity":"Legendary","role":"Healer","element":"Water","cd":12,"skill":"Tide's Memory","desc":"Tide's Memory: Resonance stacks trigger a conditional payoff. Combines Healing Over Time with DMG Resist Up; 5 skill components and 2 passives. Team-focused utility and protection.","custom":true,"customDamage":0,"customAttack":{"type":"healing","duration":6,"interval":0.75,"power":0,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":17,"duration":10,"stacks":3},{"stat":"Healing Over Time","target":"team","amount":26,"duration":8.5,"stacks":1},{"stat":"DMG Resist Up","target":"team","amount":26,"duration":8.5,"stacks":1},{"stat":"ATK Up","target":"team","amount":25,"duration":9,"stacks":1},{"stat":"CRIT Chance Up","target":"team","amount":18,"duration":8,"stacks":1}],"customPassives":[{"stat":"Cooldown Recovery","target":"team","amount":1.5,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"HP Shield","target":"team","amount":21,"duration":7,"stacks":1,"trigger":"skill","every":1,"charges":1}],"customComposites":[],"customVisual":"heal","customVisualEmoji":"🪸","customVisualColor":"#38bdf8","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":12,"skillName":"Tide's Memory"},
+          {"id":"new26_legendary_06","name":"⛓️ Iron Psalm","rarity":"Legendary","role":"Defense","element":"Steel","cd":13,"skill":"Ironbound Hymn","desc":"Ironbound Hymn: Fractured Ward stacks trigger a conditional payoff. Combines Shackles with DEF Up; 5 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":300,"customAttack":{"type":"shield","duration":6,"interval":0.8,"power":300,"effects":"cast"},"customEffects":[{"stat":"Fractured Ward","target":"enemy","amount":17,"duration":10,"stacks":3},{"stat":"Shackles","target":"enemy","amount":0,"duration":2.7,"stacks":1},{"stat":"DEF Up","target":"team","amount":26,"duration":8.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":23,"duration":8,"stacks":1},{"stat":"ATK Up","target":"self","amount":29,"duration":9,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":29,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":47,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.35,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"guard","customVisualEmoji":"⛓️","customVisualColor":"#94a3b8","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":13,"skillName":"Ironbound Hymn"},
+          {"id":"new26_legendary_07","name":"☄️ Comet Sorbet","rarity":"Legendary","role":"Bomber","element":"Fire","cd":14,"skill":"Starfall Sentence","desc":"Starfall Sentence: Fractured Ward stacks trigger a conditional payoff. Combines Burn with DMG Resist Down; 5 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":300,"customAttack":{"type":"barrage","duration":5,"interval":0.5,"power":300,"effects":"cast"},"customEffects":[{"stat":"Fractured Ward","target":"enemy","amount":17,"duration":10,"stacks":3},{"stat":"Burn","target":"enemy","amount":26,"duration":8.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":26,"duration":8.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":23,"duration":8,"stacks":1},{"stat":"ATK Up","target":"self","amount":29,"duration":9,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":29,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":47,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.35,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"meteor","customVisualEmoji":"☄️","customVisualColor":"#fb923c","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":14,"skillName":"Starfall Sentence"},
+          {"id":"new26_legendary_08","name":"🌱 Thorn Monarch","rarity":"Legendary","role":"Charge","element":"Nature","cd":15,"skill":"Thorned Coronation","desc":"Thorned Coronation: Ruin Sigil stacks trigger a conditional payoff. Combines Bleed with Instant Healing; 5 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":300,"customAttack":{"type":"instant","duration":1,"interval":1,"power":300,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":17,"duration":10,"stacks":3},{"stat":"Bleed","target":"enemy","amount":26,"duration":8.5,"stacks":1},{"stat":"Instant Healing","target":"self","amount":26,"duration":8.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":23,"duration":8,"stacks":1},{"stat":"ATK Up","target":"self","amount":29,"duration":9,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":29,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":47,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.35,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"vines","customVisualEmoji":"🌱","customVisualColor":"#86efac","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":15,"skillName":"Thorned Coronation"},
+          {"id":"new26_legendary_09","name":"🎯 Starglass Archer","rarity":"Legendary","role":"Ranged","element":"Light","cd":16,"skill":"Starglass Focus","desc":"Starglass Focus: Ruin Sigil stacks trigger a conditional payoff. Combines CRIT Chance Up with DEF Down; 5 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":300,"customAttack":{"type":"random","duration":5,"interval":0.5,"power":300,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":17,"duration":10,"stacks":3},{"stat":"CRIT Chance Up","target":"team","amount":26,"duration":8.5,"stacks":1},{"stat":"DEF Down","target":"enemy","amount":26,"duration":8.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":23,"duration":8,"stacks":1},{"stat":"ATK Up","target":"self","amount":29,"duration":9,"stacks":1}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":29,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":47,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":1},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.35,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"throw","customVisualEmoji":"🎯","customVisualColor":"#fde68a","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"random3","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":16,"skillName":"Starglass Focus"},
+          {"id":"new26_mystic_01","name":"🕯️ Candle of Remembrance","rarity":"Mystic","role":"Healer","element":"Light","cd":13,"skill":"Flame That Remains","desc":"Flame That Remains: Resonance stacks trigger a conditional payoff. Combines Healing Over Time with HP Shield; 6 skill components and 3 passives. Team-focused utility and protection.","custom":true,"customDamage":0,"customAttack":{"type":"healing","duration":6,"interval":0.65,"power":0,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":22,"duration":12,"stacks":3},{"stat":"Healing Over Time","target":"team","amount":34,"duration":10.0,"stacks":1},{"stat":"HP Shield","target":"team","amount":34,"duration":10.0,"stacks":1},{"stat":"ATK Up","target":"team","amount":34,"duration":10,"stacks":1},{"stat":"CRIT Chance Up","target":"team","amount":24,"duration":9,"stacks":1},{"stat":"Resonance","target":"team","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"Cooldown Recovery","target":"team","amount":2.0,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"HP Shield","target":"team","amount":28,"duration":7,"stacks":1,"trigger":"skill","every":1,"charges":1},{"stat":"Resonance","target":"team","amount":24,"duration":9,"stacks":3,"trigger":"skill","every":1,"charges":1}],"customComposites":[],"customVisual":"heal","customVisualEmoji":"🕯️","customVisualColor":"#fde68a","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":13,"skillName":"Flame That Remains"},
+          {"id":"new26_mystic_02","name":"🌀 Paradox Spiral","rarity":"Mystic","role":"Magic","element":"Chaos","cd":14,"skill":"Time's Fracture","desc":"Time's Fracture: Ruin Sigil stacks trigger a conditional payoff. Combines Cooldown Pause with ATK Speed Down; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":440,"customAttack":{"type":"beam","duration":6,"interval":0.4,"power":440,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":22,"duration":12,"stacks":3},{"stat":"Cooldown Pause","target":"enemy","amount":0,"duration":3.4,"stacks":1},{"stat":"ATK Speed Down","target":"enemy","amount":34,"duration":10.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":32,"duration":9,"stacks":1},{"stat":"ATK Up","target":"self","amount":38,"duration":10,"stacks":1},{"stat":"Fractured Ward","target":"enemy","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":36,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":59,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.6,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"spiral","customVisualEmoji":"🌀","customVisualColor":"#f0abfc","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":14,"skillName":"Time's Fracture"},
+          {"id":"new26_mystic_03","name":"🧬 Prismatic Genome","rarity":"Mystic","role":"Support","element":"Light","cd":15,"skill":"Chromatic Evolution","desc":"Chromatic Evolution: Resonance stacks trigger a conditional payoff. Combines Amplify Buff with CRIT Chance Up; 6 skill components and 3 passives. Team-focused utility and protection.","custom":true,"customDamage":110,"customAttack":{"type":"shield","duration":6,"interval":0.65,"power":110,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":22,"duration":12,"stacks":3},{"stat":"Amplify Buff","target":"team","amount":34,"duration":10.0,"stacks":1},{"stat":"CRIT Chance Up","target":"team","amount":34,"duration":10.0,"stacks":1},{"stat":"ATK Up","target":"team","amount":34,"duration":10,"stacks":1},{"stat":"CRIT Chance Up","target":"team","amount":24,"duration":9,"stacks":1},{"stat":"Resonance","target":"team","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"Cooldown Recovery","target":"team","amount":2.0,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"HP Shield","target":"team","amount":28,"duration":7,"stacks":1,"trigger":"skill","every":1,"charges":1},{"stat":"Resonance","target":"team","amount":24,"duration":9,"stacks":3,"trigger":"skill","every":1,"charges":1}],"customComposites":[],"customVisual":"shine","customVisualEmoji":"🧬","customVisualColor":"#fde68a","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":15,"skillName":"Chromatic Evolution"},
+          {"id":"new26_mystic_04","name":"🌑 Void Orchid","rarity":"Mystic","role":"Statuser","element":"Dark","cd":16,"skill":"Oblivion Bloom","desc":"Oblivion Bloom: Ruin Sigil stacks trigger a conditional payoff. Combines Corruption with Buff Prohibited; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":440,"customAttack":{"type":"barrage","duration":5,"interval":0.5,"power":440,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":22,"duration":12,"stacks":3},{"stat":"Corruption","target":"enemy","amount":34,"duration":10.0,"stacks":1},{"stat":"Buff Prohibited","target":"enemy","amount":0,"duration":3.4,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":32,"duration":9,"stacks":1},{"stat":"ATK Up","target":"self","amount":38,"duration":10,"stacks":1},{"stat":"Fractured Ward","target":"enemy","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":36,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":59,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.6,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"blossom","customVisualEmoji":"🌑","customVisualColor":"#a78bfa","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":16,"skillName":"Oblivion Bloom"},
+          {"id":"new26_mystic_05","name":"⚙️ Clockwork Seraph","rarity":"Mystic","role":"Defense","element":"Steel","cd":12,"skill":"Clockwork Aegis","desc":"Clockwork Aegis: Resonance stacks trigger a conditional payoff. Combines Cooldown Recovery with HP Shield; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":440,"customAttack":{"type":"shield","duration":6,"interval":0.6,"power":440,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":22,"duration":12,"stacks":3},{"stat":"Cooldown Recovery","target":"team","amount":3.1,"duration":10.0,"stacks":1},{"stat":"HP Shield","target":"team","amount":34,"duration":10.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":32,"duration":9,"stacks":1},{"stat":"ATK Up","target":"self","amount":38,"duration":10,"stacks":1},{"stat":"Resonance","target":"team","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":36,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":59,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.6,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"guard","customVisualEmoji":"⚙️","customVisualColor":"#94a3b8","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":12,"skillName":"Clockwork Aegis"},
+          {"id":"new26_mystic_06","name":"🌊 Abyssal Taffy","rarity":"Mystic","role":"Bomber","element":"Water","cd":13,"skill":"Abyssal Pressure","desc":"Abyssal Pressure: Fractured Ward stacks trigger a conditional payoff. Combines Tear with ATK Down; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":440,"customAttack":{"type":"barrage","duration":6,"interval":0.45,"power":440,"effects":"cast"},"customEffects":[{"stat":"Fractured Ward","target":"enemy","amount":22,"duration":12,"stacks":3},{"stat":"Tear","target":"enemy","amount":34,"duration":10.0,"stacks":1},{"stat":"ATK Down","target":"enemy","amount":34,"duration":10.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":32,"duration":9,"stacks":1},{"stat":"ATK Up","target":"self","amount":38,"duration":10,"stacks":1},{"stat":"Resonance","target":"team","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":36,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":59,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.6,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"wave","customVisualEmoji":"🌊","customVisualColor":"#38bdf8","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":13,"skillName":"Abyssal Pressure"},
+          {"id":"new26_mystic_07","name":"🪶 Feather of Ruin","rarity":"Mystic","role":"Ambush","element":"Dark","cd":14,"skill":"The Last Feather","desc":"The Last Feather: Ruin Sigil stacks trigger a conditional payoff. Combines Silence with CRIT DMG Up; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":440,"customAttack":{"type":"drain","duration":5,"interval":0.45,"power":440,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":22,"duration":12,"stacks":3},{"stat":"Silence","target":"enemy","amount":0,"duration":3.4,"stacks":1},{"stat":"CRIT DMG Up","target":"team","amount":34,"duration":10.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":32,"duration":9,"stacks":1},{"stat":"ATK Up","target":"self","amount":38,"duration":10,"stacks":1},{"stat":"Fractured Ward","target":"enemy","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":36,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":59,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.6,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"dash","customVisualEmoji":"🪶","customVisualColor":"#a78bfa","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":14,"skillName":"The Last Feather"},
+          {"id":"new26_mystic_08","name":"🌠 Nova Pilgrim","rarity":"Mystic","role":"Ranged","element":"Light","cd":15,"skill":"Pilgrim's Comet","desc":"Pilgrim's Comet: Fractured Ward stacks trigger a conditional payoff. Combines DEF Down with CRIT Chance Up; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":440,"customAttack":{"type":"random","duration":6,"interval":0.4,"power":440,"effects":"cast"},"customEffects":[{"stat":"Fractured Ward","target":"enemy","amount":22,"duration":12,"stacks":3},{"stat":"DEF Down","target":"enemy","amount":34,"duration":10.0,"stacks":1},{"stat":"CRIT Chance Up","target":"team","amount":34,"duration":10.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":32,"duration":9,"stacks":1},{"stat":"ATK Up","target":"self","amount":38,"duration":10,"stacks":1},{"stat":"Resonance","target":"team","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":36,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":59,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.6,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"shower","customVisualEmoji":"🌠","customVisualColor":"#fde68a","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"random3","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":15,"skillName":"Pilgrim's Comet"},
+          {"id":"new26_mystic_09","name":"🌿 Eden Colossus","rarity":"Mystic","role":"Charge","element":"Nature","cd":16,"skill":"Garden of Return","desc":"Garden of Return: Resonance stacks trigger a conditional payoff. Combines Instant Healing with DMG Resist Up; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":440,"customAttack":{"type":"instant","duration":1,"interval":1,"power":440,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":22,"duration":12,"stacks":3},{"stat":"Instant Healing","target":"self","amount":34,"duration":10.0,"stacks":1},{"stat":"DMG Resist Up","target":"team","amount":34,"duration":10.0,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":32,"duration":9,"stacks":1},{"stat":"ATK Up","target":"self","amount":38,"duration":10,"stacks":1},{"stat":"Resonance","target":"team","amount":25,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":36,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":59,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.6,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"vines","customVisualEmoji":"🌿","customVisualColor":"#86efac","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":16,"skillName":"Garden of Return"},
+          {"id":"new26_eternal_01","name":"🌌 Cosmic Verdict","rarity":"Eternal","role":"Magic","element":"Chaos","cd":13,"skill":"Astral Condemnation","desc":"Astral Condemnation: Ruin Sigil stacks trigger a conditional payoff. Combines Corruption with DMG Resist Down; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":610,"customAttack":{"type":"beam","duration":6,"interval":0.35,"power":610,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":27,"duration":14,"stacks":3},{"stat":"Corruption","target":"enemy","amount":42,"duration":11.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":42,"duration":11.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":41,"duration":10,"stacks":1},{"stat":"ATK Up","target":"self","amount":47,"duration":11,"stacks":1},{"stat":"Fractured Ward","target":"enemy","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":43,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":71,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.85,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"nova","customVisualEmoji":"🌌","customVisualColor":"#f0abfc","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":13,"skillName":"Astral Condemnation"},
+          {"id":"new26_eternal_02","name":"👁️ Endless Witness","rarity":"Eternal","role":"Statuser","element":"Dark","cd":14,"skill":"Witness's Verdict","desc":"Witness's Verdict: Ruin Sigil stacks trigger a conditional payoff. Combines Amplify Debuff with Cooldown Pause; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":610,"customAttack":{"type":"barrage","duration":6,"interval":0.45,"power":610,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":27,"duration":14,"stacks":3},{"stat":"Amplify Debuff","target":"team","amount":42,"duration":11.5,"stacks":1},{"stat":"Cooldown Pause","target":"enemy","amount":0,"duration":4.1,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":41,"duration":10,"stacks":1},{"stat":"ATK Up","target":"self","amount":47,"duration":11,"stacks":1},{"stat":"Fractured Ward","target":"enemy","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":43,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":71,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.85,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"pulse","customVisualEmoji":"👁️","customVisualColor":"#a78bfa","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":14,"skillName":"Witness's Verdict"},
+          {"id":"new26_eternal_03","name":"🕊️ Everlight Covenant","rarity":"Eternal","role":"Healer","element":"Light","cd":15,"skill":"Promise Without End","desc":"Promise Without End: Resonance stacks trigger a conditional payoff. Combines Healing Over Time with HP Shield; 6 skill components and 3 passives. Team-focused utility and protection.","custom":true,"customDamage":0,"customAttack":{"type":"healing","duration":7,"interval":0.5,"power":0,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":27,"duration":14,"stacks":3},{"stat":"Healing Over Time","target":"team","amount":42,"duration":11.5,"stacks":1},{"stat":"HP Shield","target":"team","amount":42,"duration":11.5,"stacks":1},{"stat":"ATK Up","target":"team","amount":43,"duration":11,"stacks":1},{"stat":"CRIT Chance Up","target":"team","amount":30,"duration":10,"stacks":1},{"stat":"Resonance","target":"team","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"Cooldown Recovery","target":"team","amount":2.5,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"HP Shield","target":"team","amount":35,"duration":7,"stacks":1,"trigger":"skill","every":1,"charges":1},{"stat":"Resonance","target":"team","amount":30,"duration":9,"stacks":3,"trigger":"skill","every":1,"charges":1}],"customComposites":[],"customVisual":"heal","customVisualEmoji":"🕊️","customVisualColor":"#fde68a","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":15,"skillName":"Promise Without End"},
+          {"id":"new26_eternal_04","name":"🛡️ Citadel of Dawn","rarity":"Eternal","role":"Defense","element":"Steel","cd":16,"skill":"Dawn's Final Wall","desc":"Dawn's Final Wall: Resonance stacks trigger a conditional payoff. Combines DEF Up with HP Shield; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":610,"customAttack":{"type":"shield","duration":7,"interval":0.55,"power":610,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":27,"duration":14,"stacks":3},{"stat":"DEF Up","target":"team","amount":42,"duration":11.5,"stacks":1},{"stat":"HP Shield","target":"team","amount":42,"duration":11.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":41,"duration":10,"stacks":1},{"stat":"ATK Up","target":"self","amount":47,"duration":11,"stacks":1},{"stat":"Resonance","target":"team","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":43,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":71,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.85,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"guard","customVisualEmoji":"🛡️","customVisualColor":"#94a3b8","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":16,"skillName":"Dawn's Final Wall"},
+          {"id":"new26_eternal_05","name":"🦂 Dusk Scorpion","rarity":"Eternal","role":"Ambush","element":"Dark","cd":12,"skill":"Venomous Eclipse","desc":"Venomous Eclipse: Ruin Sigil stacks trigger a conditional payoff. Combines Poison with Healing Received Down; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":610,"customAttack":{"type":"drain","duration":6,"interval":0.4,"power":610,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":27,"duration":14,"stacks":3},{"stat":"Poison","target":"enemy","amount":42,"duration":11.5,"stacks":1},{"stat":"Healing Received Down","target":"enemy","amount":42,"duration":11.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":41,"duration":10,"stacks":1},{"stat":"ATK Up","target":"self","amount":47,"duration":11,"stacks":1},{"stat":"Fractured Ward","target":"enemy","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":43,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":71,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.85,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"dash","customVisualEmoji":"🦂","customVisualColor":"#a78bfa","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":12,"skillName":"Venomous Eclipse"},
+          {"id":"new26_eternal_06","name":"🔥 Solar Tyrant","rarity":"Eternal","role":"Bomber","element":"Fire","cd":13,"skill":"Solar Cataclysm","desc":"Solar Cataclysm: Fractured Ward stacks trigger a conditional payoff. Combines Solar Burn with DEF Down; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":610,"customAttack":{"type":"barrage","duration":6,"interval":0.35,"power":610,"effects":"cast"},"customEffects":[{"stat":"Fractured Ward","target":"enemy","amount":27,"duration":14,"stacks":3},{"stat":"Solar Burn","target":"enemy","amount":42,"duration":11.5,"stacks":1},{"stat":"DEF Down","target":"enemy","amount":42,"duration":11.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":41,"duration":10,"stacks":1},{"stat":"ATK Up","target":"self","amount":47,"duration":11,"stacks":1},{"stat":"Resonance","target":"team","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":43,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":71,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.85,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"meteor","customVisualEmoji":"🔥","customVisualColor":"#fb923c","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":13,"skillName":"Solar Cataclysm"},
+          {"id":"new26_eternal_07","name":"🪐 Orbit Sovereign","rarity":"Eternal","role":"Support","element":"Chaos","cd":14,"skill":"Gravity's Dominion","desc":"Gravity's Dominion: Resonance stacks trigger a conditional payoff. Combines Amplify Buff with Cooldown Recovery; 6 skill components and 3 passives. Team-focused utility and protection.","custom":true,"customDamage":130,"customAttack":{"type":"shield","duration":7,"interval":0.5,"power":130,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":27,"duration":14,"stacks":3},{"stat":"Amplify Buff","target":"team","amount":42,"duration":11.5,"stacks":1},{"stat":"Cooldown Recovery","target":"team","amount":3.9000000000000004,"duration":11.5,"stacks":1},{"stat":"ATK Up","target":"team","amount":43,"duration":11,"stacks":1},{"stat":"CRIT Chance Up","target":"team","amount":30,"duration":10,"stacks":1},{"stat":"Resonance","target":"team","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"Cooldown Recovery","target":"team","amount":2.5,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"HP Shield","target":"team","amount":35,"duration":7,"stacks":1,"trigger":"skill","every":1,"charges":1},{"stat":"Resonance","target":"team","amount":30,"duration":9,"stacks":3,"trigger":"skill","every":1,"charges":1}],"customComposites":[],"customVisual":"spiral","customVisualEmoji":"🪐","customVisualColor":"#f0abfc","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":14,"skillName":"Gravity's Dominion"},
+          {"id":"new26_eternal_08","name":"⚡ Tempest Imperator","rarity":"Eternal","role":"Ranged","element":"Electricity","cd":15,"skill":"Imperial Storm","desc":"Imperial Storm: Ruin Sigil stacks trigger a conditional payoff. Combines Overcurrent with ATK Speed Down; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":610,"customAttack":{"type":"random","duration":6,"interval":0.35,"power":610,"effects":"cast"},"customEffects":[{"stat":"Ruin Sigil","target":"enemy","amount":27,"duration":14,"stacks":3},{"stat":"Overcurrent","target":"enemy","amount":42,"duration":11.5,"stacks":1},{"stat":"ATK Speed Down","target":"enemy","amount":42,"duration":11.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":41,"duration":10,"stacks":1},{"stat":"ATK Up","target":"self","amount":47,"duration":11,"stacks":1},{"stat":"Fractured Ward","target":"enemy","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":43,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":71,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.85,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"lightning","customVisualEmoji":"⚡","customVisualColor":"#facc15","customVisualDuration":1.1,"customVisualHits":3,"customVisualTarget":"random3","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":15,"skillName":"Imperial Storm"},
+          {"id":"new26_eternal_09","name":"🌳 Worldroot Emperor","rarity":"Eternal","role":"Charge","element":"Nature","cd":16,"skill":"Worldseed Genesis","desc":"Worldseed Genesis: Resonance stacks trigger a conditional payoff. Combines Instant Healing with DMG Resist Up; 6 skill components and 3 passives. Personal emergency healing and offensive pressure.","custom":true,"customDamage":610,"customAttack":{"type":"instant","duration":1,"interval":1,"power":610,"effects":"cast"},"customEffects":[{"stat":"Resonance","target":"team","amount":27,"duration":14,"stacks":3},{"stat":"Instant Healing","target":"self","amount":42,"duration":11.5,"stacks":1},{"stat":"DMG Resist Up","target":"team","amount":42,"duration":11.5,"stacks":1},{"stat":"DMG Resist Down","target":"enemy","amount":41,"duration":10,"stacks":1},{"stat":"ATK Up","target":"self","amount":47,"duration":11,"stacks":1},{"stat":"Resonance","target":"team","amount":30,"duration":8,"stacks":3}],"customPassives":[{"stat":"ATK Speed Up","target":"self","amount":43,"duration":9,"stacks":1,"trigger":"start","every":1,"charges":1},{"stat":"Instant Healing","target":"self","amount":71,"duration":1,"stacks":1,"trigger":"lowhp","every":35,"charges":2},{"stat":"Invulnerability","target":"self","amount":0,"duration":1.85,"stacks":1,"trigger":"lowhp","every":20,"charges":1}],"customComposites":[],"customVisual":"vines","customVisualEmoji":"🌳","customVisualColor":"#86efac","customVisualDuration":1.1,"customVisualHits":1,"customVisualTarget":"single","customVisualTargetCount":3,"customParticles":5,"customGlow":14,"customTrail":"none","openingCD":3,"regularCD":16,"skillName":"Worldseed Genesis"}
+        ,
+          {"id": "ethereal_26_1", "name": "🫧 Mist Whisper", "rarity": "Common", "role": "Ethereal", "element": "Water", "cd": 14, "skill": "Mist Mending", "skillName": "Mist Mending", "desc": "Mist Mending — immortal and untargetable; utility-focused support, with no direct damage and limited healing.", "custom": true, "customDamage": 0, "customAttack": {"type": "instant", "power": 0, "effects": "cast"}, "customEffects": [{"stat": "DEF Up", "target": "team", "amount": 8, "duration": 5, "stacks": 1}], "customPassives": [{"stat": "ATK Speed Up", "target": "team", "amount": 5, "duration": 5, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "shine", "customVisualEmoji": "🫧", "customVisualColor": "#c4b5fd", "customVisualDuration": 1, "customVisualHits": 1, "customVisualTarget": "all", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 14},
+          {"id": "ethereal_26_2", "name": "🪶 Echo Wisp", "rarity": "Rare", "role": "Ethereal", "element": "Wind", "cd": 13, "skill": "Echoes of Comfort", "skillName": "Echoes of Comfort", "desc": "Echoes of Comfort — immortal and untargetable; utility-focused support, with no direct damage and limited healing.", "custom": true, "customDamage": 0, "customAttack": {"type": "instant", "power": 0, "effects": "cast"}, "customEffects": [{"stat": "ATK Speed Up", "target": "team", "amount": 12, "duration": 6, "stacks": 1}, {"stat": "Cooldown Recovery", "target": "ally", "amount": 0.5, "duration": 1, "stacks": 1}], "customPassives": [{"stat": "DEF Up", "target": "team", "amount": 8, "duration": 6, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "shine", "customVisualEmoji": "🪶", "customVisualColor": "#c4b5fd", "customVisualDuration": 1, "customVisualHits": 1, "customVisualTarget": "all", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 13},
+          {"id": "ethereal_26_3", "name": "🕯️ Lantern Spirit", "rarity": "Epic", "role": "Ethereal", "element": "Light", "cd": 12, "skill": "Lantern Sanctuary", "skillName": "Lantern Sanctuary", "desc": "Lantern Sanctuary — immortal and untargetable; utility-focused support, with no direct damage and limited healing.", "custom": true, "customDamage": 0, "customAttack": {"type": "instant", "power": 0, "effects": "cast"}, "customEffects": [{"stat": "HP Shield", "target": "team", "amount": 10, "duration": 5, "stacks": 1}, {"stat": "ATK Down", "target": "enemy", "amount": 12, "duration": 6, "stacks": 1}, {"stat": "Cooldown Recovery", "target": "ally", "amount": 0.8, "duration": 1, "stacks": 1}], "customPassives": [{"stat": "DMG Resist Up", "target": "team", "amount": 8, "duration": 6, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}], "customComposites": [], "customVisual": "guard", "customVisualEmoji": "🕯️", "customVisualColor": "#c4b5fd", "customVisualDuration": 1, "customVisualHits": 1, "customVisualTarget": "all", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 12},
+          {"id": "ethereal_26_4", "name": "🌙 Moonveil Oracle", "rarity": "SuperEpic", "role": "Ethereal", "element": "Dark", "cd": 11, "skill": "Moonveil Blessing", "skillName": "Moonveil Blessing", "desc": "Moonveil Blessing — immortal and untargetable; utility-focused support, with no direct damage and limited healing.", "custom": true, "customDamage": 0, "customAttack": {"type": "instant", "power": 0, "effects": "cast"}, "customEffects": [{"stat": "ATK Speed Down", "target": "enemy", "amount": 22, "duration": 6, "stacks": 1}, {"stat": "Debuff Resist Up", "target": "team", "amount": 22, "duration": 7, "stacks": 1}, {"stat": "Cooldown Increase", "target": "enemy", "amount": 1, "duration": 1, "stacks": 1}], "customPassives": [{"stat": "CRIT Chance Up", "target": "team", "amount": 12, "duration": 7, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}, {"stat": "HP Shield", "target": "ally", "amount": 10, "duration": 5, "stacks": 1, "trigger": "skill", "every": 1, "charges": 3}], "customComposites": [], "customVisual": "shine", "customVisualEmoji": "🌙", "customVisualColor": "#c4b5fd", "customVisualDuration": 1, "customVisualHits": 1, "customVisualTarget": "all", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 11},
+          {"id": "ethereal_26_5", "name": "🪞 Astral Reflection", "rarity": "Legendary", "role": "Ethereal", "element": "Chaos", "cd": 10, "skill": "Reflected Fate", "skillName": "Reflected Fate", "desc": "Reflected Fate — immortal and untargetable; utility-focused support, with no direct damage and limited healing.", "custom": true, "customDamage": 0, "customAttack": {"type": "instant", "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Amplify Buff", "target": "team", "amount": 24, "duration": 8, "stacks": 1}, {"stat": "DEF Down", "target": "enemy", "amount": 24, "duration": 7, "stacks": 1}, {"stat": "HP Shield", "target": "team", "amount": 16, "duration": 5, "stacks": 1}, {"stat": "Cooldown Recovery", "target": "ally", "amount": 1.2, "duration": 1, "stacks": 1}], "customPassives": [{"stat": "ATK Up", "target": "team", "amount": 15, "duration": 7, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}, {"stat": "DMG Resist Up", "target": "team", "amount": 12, "duration": 7, "stacks": 1, "trigger": "skill", "every": 1, "charges": 3}], "customComposites": [], "customVisual": "guard", "customVisualEmoji": "🪞", "customVisualColor": "#c4b5fd", "customVisualDuration": 1, "customVisualHits": 1, "customVisualTarget": "all", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 10},
+          {"id": "ethereal_26_6", "name": "🪷 Celestial Reverie", "rarity": "Mystic", "role": "Ethereal", "element": "Nature", "cd": 9, "skill": "Dream of Renewal", "skillName": "Dream of Renewal", "desc": "Dream of Renewal — immortal and untargetable; utility-focused support, with no direct damage and limited healing.", "custom": true, "customDamage": 0, "customAttack": {"type": "instant", "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Cooldown Pause", "target": "enemy", "amount": 0, "duration": 2, "stacks": 1}, {"stat": "ATK Speed Up", "target": "team", "amount": 28, "duration": 8, "stacks": 1}, {"stat": "Amplify Debuff", "target": "team", "amount": 22, "duration": 7, "stacks": 1}, {"stat": "HP Shield", "target": "team", "amount": 18, "duration": 5, "stacks": 1}], "customPassives": [{"stat": "CRIT Chance Up", "target": "team", "amount": 15, "duration": 8, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}, {"stat": "Cooldown Recovery", "target": "ally", "amount": 1.5, "duration": 1, "stacks": 1, "trigger": "skill", "every": 1, "charges": 3}], "customComposites": [], "customVisual": "shine", "customVisualEmoji": "🪷", "customVisualColor": "#c4b5fd", "customVisualDuration": 1, "customVisualHits": 1, "customVisualTarget": "all", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 9},
+          {"id": "ethereal_26_7", "name": "🌌 Infinity Seraph", "rarity": "Eternal", "role": "Ethereal", "element": "Light", "cd": 8, "skill": "Eternal Benediction", "skillName": "Eternal Benediction", "desc": "Eternal Benediction — immortal and untargetable; utility-focused support, with no direct damage and limited healing.", "custom": true, "customDamage": 0, "customAttack": {"type": "instant", "power": 0, "effects": "cast"}, "customEffects": [{"stat": "Amplify Buff", "target": "team", "amount": 35, "duration": 9, "stacks": 1}, {"stat": "DMG Resist Up", "target": "team", "amount": 25, "duration": 8, "stacks": 1}, {"stat": "Cooldown Recovery", "target": "team", "amount": 1.5, "duration": 1, "stacks": 1}, {"stat": "HP Shield", "target": "team", "amount": 22, "duration": 5, "stacks": 1}, {"stat": "ATK Speed Down", "target": "enemy", "amount": 30, "duration": 8, "stacks": 1}], "customPassives": [{"stat": "ATK Up", "target": "team", "amount": 22, "duration": 8, "stacks": 1, "trigger": "start", "every": 1, "charges": 1}, {"stat": "Debuff Immunity", "target": "team", "amount": 0, "duration": 2, "stacks": 1, "trigger": "skill", "every": 1, "charges": 3}, {"stat": "CRIT Chance Up", "target": "team", "amount": 18, "duration": 8, "stacks": 1, "trigger": "skill", "every": 1, "charges": 3}], "customComposites": [], "customVisual": "guard", "customVisualEmoji": "🌌", "customVisualColor": "#c4b5fd", "customVisualDuration": 1, "customVisualHits": 1, "customVisualTarget": "all", "customVisualTargetCount": 3, "openingCD": 3, "regularCD": 8}
         ];
         let gameState = { coins: 10000, gems: 3000, stage: 1, unlockedCookies: {}, team: [null, null, null, null, null], defenseTeam: [null, null, null, null, null], savedTeams: [null, null, null, null, null] };
         let currentEditMode = 'offense';
@@ -870,7 +878,7 @@
             const element = c.element || ELEMENTS[(index * 5 + Math.floor(index / 7)) % ELEMENTS.length];
             const roleScales = {Charge:{hp:1.06,atk:1.10,def:.96},Defense:{hp:1.22,atk:.82,def:1.20},Magic:{hp:.91,atk:1.22,def:.86},Bomber:{hp:.95,atk:1.18,def:.90},Healer:{hp:1.10,atk:.88,def:1.08},Support:{hp:1.04,atk:.94,def:1.10},Ranged:{hp:.93,atk:1.16,def:.91},Ambush:{hp:.88,atk:1.25,def:.88},Statuser:{hp:1.18,atk:.68,def:1.22}};
             const roleScale = roleScales[c.role] || {hp:1,atk:1,def:1};
-            const averages = ROLE_RARITY_AVERAGES[c.rarity]?.[c.role];
+            const averages = c.role==='Ethereal' ? ({Common:[1500,180,350],Rare:[2050,270,520],Epic:[2750,420,750],SuperEpic:[3600,600,950],Legendary:[4650,820,1150],Mystic:[5900,1100,1500],Eternal:[7200,1450,1900]}[c.rarity]) : ROLE_RARITY_AVERAGES[c.rarity]?.[c.role];
             // +/- 8% independent per-Cookie stat fingerprints, centered near each supplied average.
             const cookieScale = {hp:.92+((index*7+3)%17)*.01,atk:.92+((index*11+5)%17)*.01,def:.92+((index*13+9)%17)*.01};
             const baseHp = averages ? averages[0] : BASE_STATS.HP*mult*roleScale.hp;
@@ -1285,7 +1293,8 @@
             const unlocked = Object.keys(gameState.unlockedCookies);
             if (unlocked.length === 0) return;
             const shuffled = [...unlocked].sort(() => 0.5 - Math.random());
-            const newTeam = shuffled.slice(0, 5);
+            const newTeam = [];
+            for(const id of shuffled){const c=COOKIES_DB.find(x=>x.id===id);if(c?.role==='Ethereal'&&newTeam.some(x=>COOKIES_DB.find(y=>y.id===x)?.role==='Ethereal'))continue;newTeam.push(id);if(newTeam.length===5)break;}
             while (newTeam.length < 5) newTeam.push(null);
             if (currentEditMode === 'offense') gameState.team = newTeam;
             else gameState.defenseTeam = newTeam;
@@ -1295,7 +1304,8 @@
         function autoFillRarityTeam(rarity) {
             const pool = COOKIES_DB.filter(c => c.rarity === rarity && gameState.unlockedCookies[c.id]).map(c => c.id);
             if (pool.length === 0) { alert(`No unlocked ${rarity} cookies found.`); return; }
-            const newTeam = pool.slice(0, 5);
+            const newTeam = [];
+            for(const id of pool){const c=COOKIES_DB.find(x=>x.id===id);if(c?.role==='Ethereal'&&newTeam.some(x=>COOKIES_DB.find(y=>y.id===x)?.role==='Ethereal'))continue;newTeam.push(id);if(newTeam.length===5)break;}
             while (newTeam.length < 5) newTeam.push(null);
             if (currentEditMode === 'offense') gameState.team = newTeam;
             else gameState.defenseTeam = newTeam;
@@ -1535,7 +1545,7 @@
                 const pool=COOKIES_DB.filter(c=>c&&!['Common','Rare'].includes(c.rarity));
                 if(pool.length<5){alert('Create or import at least five Cookies to generate a five-Cookie meta team.');return null;}
                 const team=[]; const used=new Set();
-                const add=(predicate)=>{const options=pool.filter(c=>!used.has(c.id)&&predicate(c));if(!options.length)return;const chosen=options[Math.floor(Math.random()*options.length)];team.push(chosen);used.add(chosen.id);};
+                const add=(predicate)=>{const options=pool.filter(c=>!used.has(c.id)&&predicate(c)&&!(c.role==='Ethereal'&&team.some(x=>x.role==='Ethereal')));if(!options.length)return;const chosen=options[Math.floor(Math.random()*options.length)];team.push(chosen);used.add(chosen.id);};
                 // Deliberate team structure: frontline, sustain, support, and two damage dealers.
                 add(c=>c.role==='Defense'||c.role==='Charge');
                 add(c=>c.role==='Healer');
@@ -1547,6 +1557,7 @@
             const a=pick(),b=pick();if(!a||!b)return;metaTeamA=a;metaTeamB=b;renderMetaBuilder();
         }
         function startMetaBattle(){
+            for(const team of [metaTeamA,metaTeamB]){if(team.filter(x=>COOKIES_DB.find(c=>c.id===x.id)?.role==='Ethereal').length>1){alert('Maximum one Ethereal per team.');return;}}
             if(leagueMode){alert('Stop the Auto Meta League before starting a manual battle.');return;}
             battleSpeed=1;
             metaTeamA.forEach(x=>x.level=Math.max(1,Math.min(100,Number(x.level)||1)));
@@ -1915,7 +1926,7 @@
 
         function customAbilityRows(cookie){
             const rows=[{label:'Skill graphic',value:`${cookie.customVisual||'slash'} · ${cookie.customVisualHits||1} hits · ${cookie.customVisualTarget||'single'} target(s)`,note:'Visual color: '+(cookie.customVisualColor||'#c084fc')}, {label:'Custom skill damage' ,value:`${cookie.customAttack?.power??cookie.customDamage??0}% ATK`,note:'Deals damage to the selected target group, then applies the configured effects.'}];
-            (cookie.customEffects||[]).forEach((e,i)=>rows.push({label:`Effect ${i+1}: ${e.kind} · ${e.stat}`,value:`${e.amount}% · ${e.duration}s · up to ${e.stacks} stack(s)`,note:`Target: ${e.target}. Stacks refresh on subsequent casts.`}));
+            (cookie.customEffects||[]).forEach((e,i)=>rows.push({label:`Effect ${i+1}: ${e.stat}`,value:`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability"].includes(e.stat)?"Control / protection":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?e.amount+"s cooldown":e.amount+"%")} · ${e.duration}s · up to ${e.stacks} stack(s)`,note:`Target: ${e.target}. Stacks refresh on subsequent casts.`}));
             rows.push({label:'Opening cooldown',value:`${cookie.openingCD}s`,note:'Cooldown toppings also reduce this opening timer.'});
             rows.push({label:'Regular cooldown',value:`${cookie.regularCD}s`,note:'Reduced by equipped cooldown toppings.'});
             return rows;
@@ -2103,9 +2114,13 @@
           ['ATK Up','buff'],['DEF Up','buff'],['HP Shield','buff'],['DMG Resist Up','buff'],['CRIT Chance Up','buff'],['CRIT DMG Up','buff'],['ATK Speed Up','buff'],['Move Speed Up','buff'],['Cooldown Recovery','buff'],['Amplify Buff','buff'],['Debuff Resist Up','buff'],['Element ATK Up','buff'],['Invulnerability','buff'],['Revive','buff'],['Debuff Immunity','buff'],['CC Immunity','buff'],['Healing Over Time','buff'],['Instant Healing','buff'],
           ['ATK Down','debuff'],['DEF Down','debuff'],['DMG Resist Down','debuff'],['CRIT Chance Down','debuff'],['CRIT DMG Down','debuff'],['ATK Speed Down','debuff'],['Move Speed Down','debuff'],['Healing Received Down','debuff'],['Cooldown Increase','debuff'],['Cooldown Pause','debuff'],['Injury','debuff'],['Buff Prohibited','debuff'],['Amplify Debuff','debuff'],
           ['Burn','debuff'],['Solar Burn','debuff'],['Zap','debuff'],['Overcurrent','debuff'],['Bleed','debuff'],['Tear','debuff'],['Poison','debuff'],['Infection','debuff'],['Frost','debuff'],['Corruption','debuff'],['Decay','debuff'],
+          ['Ruin Sigil','debuff'],['Fractured Ward','debuff'],['Resonance','buff'],
           ['Stun','debuff'],['Freeze','debuff'],['Silence','debuff'],['Charm','debuff'],['Fear','debuff'],['Shackles','debuff'],['Sleep','debuff'],['Knockback','debuff'],['Airborne','debuff'],['Cyclone','debuff']
         ];
         const STATUS_DESCRIPTIONS={
+          'Ruin Sigil':'Stacking curse. On the third application, consumes its marks and detonates for ATK-based damage, increasing with effect strength.',
+          'Fractured Ward':'Stacking anti-shield mark. Each application weakens the target shield; at three stacks, breaks more shielding and increases damage received briefly.',
+          'Resonance':'Stacking team support. At three stacks, consumes marks to restore HP and accelerate the recipient’s skill cooldown.',
           'Burn':'Fire damage each second.','Solar Burn':'Fire damage and briefly blocks new buffs.','Zap':'Electric damage and lowers critical-hit chance.','Overcurrent':'Electric damage and repeatedly interrupts skill cooldown recovery.','Bleed':'Damage each second and reduces movement speed.','Tear':'Damage each second and reduces healing received.','Poison':'Poison damage each second.','Infection':'Damage each second and reduces healing received.','Frost':'Cold damage and slows basic attacks.','Corruption':'Damage each second and increases damage taken.','Decay':'Damage each second and weakens defense.','Healing Over Time':'Restores HP every second using the caster’s attack.','Fear':'Prevents the affected Cookie from acting while active.','Shackles':'Roots the affected Cookie; movement is restricted.','Freeze':'Prevents actions while frozen.','Silence':'Prevents skill casts, but not basic attacks.','Stun':'Prevents actions.','Charm':'Prevents actions while charmed.','Sleep':'Prevents actions until the effect expires.','Injury':'Temporarily reduces maximum HP.','Cooldown Pause':'Stops skill cooldown progress.','Cooldown Increase':'Adds seconds to remaining skill cooldown immediately.','Cooldown Recovery':'Subtracts seconds from remaining skill cooldown immediately.','Revive':'Limited-charge passive: revive self or an ally at 75% HP, reset skill cooldown, and grant 1 second invulnerability.'
         };
         function renderStatusLogbook(){const q=(document.getElementById('status-logbook-search')?.value||'').toLowerCase();const el=document.getElementById('status-logbook-entries');if(!el)return;el.innerHTML=BUILDER_STATUS_CATALOG.filter(([name,type])=>`${name} ${type} ${STATUS_DESCRIPTIONS[name]||''}`.toLowerCase().includes(q)).map(([name,type])=>`<div class="rounded-lg border border-slate-700 bg-slate-900 p-3"><div class="font-bold text-sm ${type==='debuff'?'text-rose-300':'text-emerald-300'}">${escapeCookieHtml(name)}</div><p class="text-xs text-slate-400 mt-1">${escapeCookieHtml(STATUS_DESCRIPTIONS[name]||(type==='buff'?'Positive status: '+name+'. Strength and duration are configurable.':'Negative status: '+name+'. Strength and duration are configurable.'))}</p></div>`).join('');}
@@ -2149,7 +2164,7 @@
               <label class="text-[10px] be-element-wrap">Element for Element ATK Up<select class="be-element w-full bg-slate-950 rounded p-2 text-xs">${ELEMENTS.map(e=>`<option>${e}</option>`).join('')}</select></label>
               </div><p class="be-help text-[11px] text-cyan-300"></p><button onclick="this.closest('.builder-effect').remove()" class="text-rose-300 text-xs">✕ Remove effect</button>`;
             (mount||document.getElementById(passive?'cb-passives':'cb-effects')).appendChild(row);
-            row.querySelector('.be-stat').addEventListener('change',()=>updateBuilderEffectFields(row));
+            row.querySelector('.be-stat').addEventListener('change',()=>{if(['Ruin Sigil','Fractured Ward','Resonance'].includes(row.querySelector('.be-stat').value))row.querySelector('.be-stacks').value='3';updateBuilderEffectFields(row);});
             row.querySelector('.be-target').addEventListener('change',()=>updateBuilderEffectFields(row));
             row.querySelector('.be-trigger')?.addEventListener('change',()=>updateBuilderEffectFields(row));
             if(initial){for(const [cls,key] of [['be-stat','stat'],['be-target','target'],['be-target-count','targetCount'],['be-trigger','trigger'],['be-amount','amount'],['be-duration','duration'],['be-stacks','stacks'],['be-charges','charges'],['be-every','every'],['be-custom','customName'],['be-element','element']]){const el=row.querySelector('.'+cls);if(el&&initial[key]!=null)el.value=initial[key];}}
@@ -2275,7 +2290,7 @@
         const CUSTOM_CC=['Stun','Freeze','Silence','Charm','Fear','Shackles','Sleep','Knockback','Airborne','Cyclone'];
         const CUSTOM_DOTS=['Burn','Solar Burn','Zap','Overcurrent','Bleed','Tear','Poison','Infection','Frost','Corruption','Decay'];
         function chooseCustomTargets(mode,count,unit,allies,enemies){
-            const friends=allies.filter(x=>x&&x.currentHp>0),foes=enemies.filter(x=>x&&x.currentHp>0);
+            const friends=allies.filter(x=>x&&x.currentHp>0),foes=enemies.filter(x=>x&&x.currentHp>0&&x.role!=='Ethereal');
             const hpRatio=x=>x.currentHp/Math.max(1,x.maxHp);
             const byLow=arr=>arr.slice().sort((a,b)=>hpRatio(a)-hpRatio(b));
             const byHigh=arr=>arr.slice().sort((a,b)=>hpRatio(b)-hpRatio(a));
@@ -2303,6 +2318,7 @@
         }
         function customApplyStatus(source,target,entry,key,depth=0,context=null){
             if(!target||target.currentHp<=0||depth>2)return;
+            if(target.role==='Ethereal' && source && source!==target && (playerUnits.includes(source)!==playerUnits.includes(target)))return;
             const stat=entry.stat,amount=Math.max(0,Math.min(500,Number(entry.amount)||0))/100;
             const duration=Math.max(.25,Math.min(stat==='Invulnerability'?3:180,Number(entry.duration)||5));
             const stacks=Math.max(1,Math.min(stat==='Invulnerability'?1:20,Number(entry.stacks)||1));
@@ -2347,6 +2363,29 @@
                 target._customInvulnBudget=Math.max(0,target._customInvulnBudget-allotted);
                 e._customStatus[sourceKey]={stat,count:1,time:allotted,value:1,element:entry.element||source.element,sourceId:source.id,tick:1};
             }else if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,value,element:entry.element||source.element,sourceId:source.id,tick:1};
+            // Three linked, conditional status effects are available to every Builder cookie.
+            // The third application consumes the marks instead of stacking forever.
+            if(['Ruin Sigil','Fractured Ward','Resonance'].includes(stat)){
+                if(stat==='Fractured Ward' && target.shield>0)
+                    target.shield=Math.max(0,target.shield-target.maxHp*(.025+amount*.12));
+                if(count>=3){
+                    delete e._customStatus[sourceKey];
+                    if(stat==='Ruin Sigil'){
+                        if(target.currentHp>0)applyDamage(source,target,source.atk*(1.2+amount*2.5),
+                            'text-fuchsia-300 text-xs',playerUnits.includes(source),true);
+                    }else if(stat==='Fractured Ward'){
+                        target.shield=Math.max(0,(target.shield||0)-target.maxHp*(.10+amount*.35));
+                        applyStackEffect(target,'dmgTakenUp',Math.min(.55,.12+amount*.4),5,
+                            'Fractured Ward · Shatter','debuff');
+                    }else{
+                        healUnit(source,target,source.atk*(.65+amount*1.5));
+                        target.cdTimer=Math.max(0,(target.cdTimer||0)-(1+amount*2));
+                    }
+                    if(!leagueMode)logBattleEvent('✨ '+source.name+' triggers '+stat+' on '+target.name+'!');
+                }
+                recomputeCustomStatus(target);
+                return;
+            }
             if(stat==='HP Shield')addShield(target,target.maxHp*value);
             else if(stat==='Instant Healing')healUnit(source,target,source.atk*value);
             else if(stat==='Cooldown Increase')target.cdTimer=Math.min(Math.max(1,Number(target.maxCD)||10)*2,Math.max(0,target.cdTimer)+Math.min(15,Math.max(0,Number(entry.amount)||0)));
@@ -2478,7 +2517,7 @@
             });
         }
         function castCustomBuild(unit,enemies,allies,isPlayer){
-            const foes=enemies.filter(x=>x.currentHp>0);
+            const foes=enemies.filter(x=>x.currentHp>0&&x.role!=='Ethereal');
             const attack=unit.customAttack||{type:'instant',power:unit.customDamage||0};
             applyUnreferencedNamedStatuses(unit,allies,enemies);
             // Skill effects apply on cast, regardless of attack type.
@@ -2543,7 +2582,7 @@
             team.filter(x=>x.currentHp>0).sort((a,b)=>b.atk-a.atk).slice(0,2).forEach(t=>{t.effects.lilyPetal=true;});
         }
         function castWiltedBloom(unit,enemies,allies,isPlayer){
-            const foes=enemies.filter(x=>x.currentHp>0),friends=allies.filter(x=>x.currentHp>0);if(!foes.length)return;
+            const foes=enemies.filter(x=>x.currentHp>0&&x.role!=='Ethereal'),friends=allies.filter(x=>x.currentHp>0);if(!foes.length)return;
             friends.forEach(a=>{if(a.element==='Grass'||a.element==='Nature')applyStackEffect(a,'atk',.20,15,unit.name+' Grass Rally','buff');applyStackEffect(a,'damageReduction',.15,15,unit.name+' Freedom','buff');});
             // Four blossom hits and ten Freedom's Bloom strikes.
             unit._wiltedSkillActive=true;
@@ -2596,8 +2635,8 @@
             }
             if(cookie.custom){
                 add('Custom Skill',`${cookie.customAttack?.power??cookie.customDamage??0}% ATK per attack`,`${(cookie.customEffects||[]).length} skill components · ${cookie.customAttack?.type||'instant'} attack`);
-                (cookie.customEffects||[]).forEach((e,i)=>add(`Skill ${i+1} · ${e.stat}`,`${e.amount}% · ${e.duration}s · max ${e.stacks} stacks`,e.stat==='Custom Status'?'Custom status: '+e.customName:'Target: '+e.target));
-                (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,e.stat==='Revive'?`${e.charges||1} charges · 75% HP · 1s immune`:`${e.amount}% · ${e.duration}s`,e.stat==='Revive'?'Automatic on self or ally KO':`${e.trigger} trigger · ${e.every||5}`));
+                (cookie.customEffects||[]).forEach((e,i)=>add(`Skill ${i+1} · ${e.stat}`,`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability"].includes(e.stat)?"Duration-based":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?e.amount+"s cooldown":e.amount+"%")} · ${e.duration}s · max ${e.stacks} stacks`,e.stat==='Custom Status'?'Custom status: '+e.customName:'Target: '+e.target));
+                (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,e.stat==='Revive'?`${e.charges||1} charges · 75% HP · 1s immune`:`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability","Revive"].includes(e.stat)?"Duration-based":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?e.amount+"s cooldown":e.amount+"%")} · ${e.duration}s`,e.stat==='Revive'?'Automatic on self or ally KO':`${e.trigger} trigger · ${e.every||5}`));
                 (cookie.customComposites||[]).forEach(e=>add('🧬 '+e.name,`${e.components.length} effects`,e.components.map(c=>`${c.stat} (${c.amount||0}${['Cooldown Increase','Cooldown Recovery'].includes(c.stat)?'s':'%'})`).join(', ')));
             }
             if(cookie.id==='et15'){
@@ -2852,6 +2891,98 @@
             beginBattleWithTeams(generatedPlayers,generatedEnemies,document.getElementById('enemy-team-label').innerText);
         }
 
+        function iodineCure(unit){
+            if(!unit || unit.currentHp<=0)return;
+            const e=unit.effects;
+            ['burn','poison','atkDown','defDown','healDown','dmgTakenUp','silence','stun','freeze','sleep','fear','charm','root'].forEach(k=>{
+                e[k]=0;if(k+'Timer' in e)e[k+'Timer']=0;
+            });
+            if(e._stacks)Object.keys(e._stacks).forEach(key=>{
+                const group=e._stacks[key];
+                Object.keys(group).forEach(source=>{if(group[source].mode==='debuff')delete group[source];});
+            });
+            refreshStackAggregates(unit);
+        }
+        function castIodineSkill(unit,enemies,allies,isPlayer){
+            const foes=enemies.filter(x=>x.currentHp>0);
+            if(!foes.length)return;
+            const main=foes.slice().sort((a,b)=>b.currentHp-a.currentHp)[0];
+            const weakest=foes.slice().sort((a,b)=>a.currentHp-b.currentHp)[0];
+            const isCookie=true;
+            // Red Antiseptic: heal the team, then suppress enemy sustain and damage.
+            allies.filter(a=>a.currentHp>0).forEach(a=>healUnit(unit,a,unit.atk*1.112));
+            applyDamage(unit,main,unit.atk*8.858,'text-red-300 text-xs',isPlayer,false,.12);
+            applyStackEffect(main,'healDown',.50,6,unit.name+' Red Antiseptic','debuff');
+            applyStackEffect(main,'atkDown',.45,6,unit.name+' Red Antiseptic','debuff');
+            weakest.effects.healingPreventTimer=Math.max(weakest.effects.healingPreventTimer||0,5);
+            // Powerful Sawing: five strikes with max-HP bonus. The bite is
+            // applied directly and cannot be resisted.
+            for(let i=0;i<5 && main.currentHp>0;i++){
+                const biteBonus=Math.min(15,(main.effects.vampireBiteStacks||0)*.75);
+                applyDamage(unit,main,unit.atk*(3.214+biteBonus)+main.maxHp*.0155,'text-rose-300 text-xs',isPlayer,false,.15);
+            }
+            main.effects.excessiveBiteTimer=Math.max(main.effects.excessiveBiteTimer||0,8);
+            main.effects.excessiveBiteSource=unit;
+            // Saw Strike and Vampiric Bite.
+            if(main.currentHp>0)applyDamage(unit,main,unit.atk*11.927+main.maxHp*.0281,'text-red-400 text-xs font-bold',isPlayer,false,.35);
+            main.effects.vampireBiteStacks=Math.min(12,(main.effects.vampireBiteStacks||0)+1);
+            main.effects.vampireBiteTimer=Math.max(main.effects.vampireBiteTimer||0,8);
+            main.effects.vampireBiteSource=unit;
+            applyStackEffect(main,'healDown',.35,8,unit.name+' Vampiric Bite','debuff');
+            // Experimental Prescription to everyone except the caster.
+            allies.filter(a=>a.currentHp>0 && a!==unit).forEach(a=>{
+                applyStackEffect(a,'atk',.35,8,unit.name+' Prescription','buff');
+                applyStackEffect(a,'damageReduction',.30,8,unit.name+' Prescription','buff');
+            });
+            addShield(unit,unit.maxHp*.85); // Global cap: 75% HP for 5s.
+            iodineCure(unit);
+            unit.effects.debuffResist=1;
+            unit.effects.debuffResistTimer=Math.max(unit.effects.debuffResistTimer||0,1);
+            spawnFloatingText(unit.uid,'🧴 RED ANTISEPTIC + SAW STRIKE','text-red-200 text-[10px]');
+        }
+        function applyIodineOpening(unit){
+            if(unit.id!=='l15')return;
+            addShield(unit,unit.maxHp); // Intentionally obeys the 75% shield cap.
+            unit.effects.debuffResist=1;
+            unit.effects.debuffResistTimer=20;
+            applyStackEffect(unit,'atk',.405,20,unit.name+' Enhanced Prescription','buff');
+            applyStackEffect(unit,'damageReduction',.40,20,unit.name+' Enhanced Prescription','buff');
+            unit.iodineHealClock=8;
+            unit.iodinePassiveReady=true;
+        }
+        function tickIodineEffects(unit,dt){
+            const e=unit.effects;
+            if(unit.id==='l15' && unit.currentHp>0){
+                unit.iodineHealClock=(unit.iodineHealClock??8)-dt;
+                if(unit.iodineHealClock<=0){
+                    const missing=1-unit.currentHp/unit.maxHp;
+                    healUnit(unit,unit,unit.atk*(2.224+3.5*missing));
+                    iodineCure(unit);
+                    unit.iodineHealClock+=8;
+                }
+            }
+            if(e.healingPreventTimer>0)e.healingPreventTimer=Math.max(0,e.healingPreventTimer-dt);
+            if(e.vampireBiteTimer>0 && unit.currentHp>0){
+                e.vampireBiteTimer=Math.max(0,e.vampireBiteTimer-dt);
+                e.vampireBiteTick=(e.vampireBiteTick||0)-dt;
+                if(e.vampireBiteTick<=0){
+                    const src=e.vampireBiteSource;
+                    applyDamage(src,unit,(src?.atk||unit.atk)*1.11*Math.min(4,e.vampireBiteStacks||1),'text-red-300 text-[10px]',false,false,.15);
+                    e.vampireBiteTick=.5;
+                }
+                if(e.vampireBiteTimer===0)e.vampireBiteStacks=0;
+            }
+            if(e.excessiveBiteTimer>0 && unit.currentHp>0){
+                e.excessiveBiteTimer=Math.max(0,e.excessiveBiteTimer-dt);
+                e.excessiveBiteTick=(e.excessiveBiteTick||0)-dt;
+                if(e.excessiveBiteTick<=0){
+                    const src=e.excessiveBiteSource;
+                    applyDamage(src,unit,(src?.atk||unit.atk)*3.341,'text-fuchsia-300 text-[10px]',false,false,.35);
+                    e.excessiveBiteTick=.5;
+                }
+            }
+        }
+
         function beginBattleWithTeams(teamA,teamB,label){
             document.getElementById('btn-start-battle').disabled=true;
             battleActive=true;battleTimeLeft=180;battleTickNumber=0;
@@ -3018,7 +3149,7 @@
         function initCombatUnit(stats, uid) {
             const openingCooldown = Math.max(.5,(Number.isFinite(stats.openingCD) ? stats.openingCD : 2.5)*(1-Math.min(.75,stats.toppingBonuses?.cooldown||0)));
             const regularCooldown = Math.max(1, (Number.isFinite(stats.regularCD) ? stats.regularCD : Math.min(16, Math.max(7, Number(stats.cd) || 10))) * (1-(stats.toppingBonuses?.cooldown||0))); 
-            return { ...stats, uid, currentHp:stats.hp, maxHp:stats.hp, cdTimer:openingCooldown, maxCD:regularCooldown, openingCDDisplay:openingCooldown,
+            return { ...stats, skill:stats.skill||stats.skillName||'Unnamed Skill', uid, currentHp:stats.hp, maxHp:stats.hp, cdTimer:openingCooldown, maxCD:regularCooldown, openingCDDisplay:openingCooldown,
                 shield:0, statsAmplify:0, dmgDone:0, dmgRecv:0, dmgMitigated:0, dmgAmplified:0, healingDone:0, healingRecv:0,
                 effects:{atk:0,atkTimer:0,def:0,defTimer:0,damageReduction:0,damageReductionTimer:0,invulnerable:0,invulnerableTimer:0,reflect:0,reflectTimer:0,stun:0,silence:0,sleep:0,fear:0,charm:0,freeze:0,root:0,buffProhibited:0,cooldownPause:0,buffAmp:0,debuffResist:0,critUp:0,critDown:0,attackSpeedDown:0,healDown:0,poison:0,poisonTimer:0,burn:0,burnTimer:0,regenAmount:0,regenTimer:0,regenTick:0,regenSource:null,atkDown:0,atkDownTimer:0,defDown:0,defDownTimer:0,dmgTakenUp:0,dmgTakenUpTimer:0,_stacks:{}},
                 skillUses:0, reviveCharges:0, revivesUsed:0, _customRevivesRemaining:Math.min(3,(stats.customPassives||[]).filter(p=>p.stat==='Revive').reduce((n,p)=>n+Math.max(1,Math.min(3,Math.floor(Number(p.charges)||1))),0)), _customInvulnChargesUsed:Object.create(null), basicTimer:1.075, highTierSurvivalUsed:false, survivalClock:0 };
@@ -3165,392 +3296,50 @@
         }
 
         function highTierSurvival(target,incoming){
-            if(!target||target.currentHp<=0||!['Legendary','Mystic','Eternal'].includes(target.rarity))return false;
-            // Unique signature death protection for Povidone, Nether and Wilted
-            // takes precedence; generic safety net is for other high-tier Cookies.
-            if(['et15','m15'].includes(target.id))return false;
-            if(target.id==='l15'){
-                // Antiseptic emergency: one-time self rescue and short protection.
-                if(incoming>=target.currentHp&&!target.highTierSurvivalUsed){
-                    target.highTierSurvivalUsed=true;target.currentHp=Math.max(1,Math.round(target.maxHp*.22));
-                    target.effects.invulnerable=1;target.effects.invulnerableTimer=1.4;
-                    target.cdTimer=Math.min(target.cdTimer,2);
-                    spawnFloatingText(target.uid,'🧴 EMERGENCY ANTISEPTIC','text-emerald-300 text-xs');return true;
-                }
-                return false;
-            }
-            if(target.highTierSurvivalUsed||incoming<target.currentHp)return false;
-            target.highTierSurvivalUsed=true;
-            const mode=target.role==='Healer'||target.role==='Support'?'heal':target.role==='Defense'?'shield':'laststand';
-            target.currentHp=Math.round(target.maxHp*(mode==='heal'?.40:.18));
-            target.effects.invulnerable=1;target.effects.invulnerableTimer=mode==='laststand'?1.8:1.1;
-            if(mode==='shield')addShield(target,target.maxHp*.20);
-            spawnFloatingText(target.uid,'✦ LAST STAND','text-amber-200 text-xs');return true;
+            if(!target||target.currentHp<=0||!['SuperEpic','Legendary','Mystic','Eternal'].includes(target.rarity))return false;
+            // This is a damage-dealer's personal last stand, not a healer-wide immortality perk.
+            if(['Healer','Support','Statuser','Ethereal'].includes(target.role))return false;
+            if(incoming<target.currentHp)return false;
+            const limit=['Mystic','Eternal'].includes(target.rarity)?2:1;
+            target._survivalChargesUsed=target._survivalChargesUsed||0;
+            if(target._survivalChargesUsed>=limit)return false;
+            target._survivalChargesUsed++;
+            const mode=['Charge','Defense'].includes(target.role)?'selfHeal':'lastStand';
+            target.currentHp=Math.max(1,Math.round(target.maxHp*(mode==='selfHeal'?.38:.20)));
+            target.effects.invulnerable=1;
+            target.effects.invulnerableTimer=mode==='selfHeal'?1.5:1.8;
+            if(mode==='selfHeal')addShield(target,target.maxHp*.12);
+            spawnFloatingText(target.uid,mode==='selfHeal'?'💚 SELF RESCUE':'✦ LAST STAND','text-amber-200 text-xs');
+            return true;
         }
         function tryCustomRevive(fallen){
-            if(!fallen || fallen.currentHp>0)return false;
+            if(!fallen || fallen.currentHp>0 || fallen.role==='Ethereal')return false;
             const team=playerUnits.includes(fallen)?playerUnits:enemyUnits;
             if(!team || !team.includes(fallen) || fallen._reviveInProgress)return false;
-            // A Cookie with Revive may spend its own charge when knocked out.
-            // Self-revive has priority, then living teammates may use theirs.
             const candidates=[fallen,...team.filter(u=>u!==fallen && u.currentHp>0)];
             for(const reviver of candidates){
-                if(reviver!==fallen && reviver.currentHp<=0)continue;
                 const passives=Array.isArray(reviver.customPassives)?reviver.customPassives:[];
                 reviver._revivePassiveUsed=reviver._revivePassiveUsed||{};
                 for(let i=0;i<passives.length;i++){
-                    const passive=passives[i];
-                    if(passive?.stat!=='Revive')continue;
-                    if(reviver!==fallen && passive.target==='self')continue;
-                    const limit=Math.min(3,Math.max(1,Math.floor(Number(passive.charges)||1)));
+                    const p=passives[i];if(p?.stat!=='Revive')continue;
+                    if(reviver!==fallen && p.target==='self')continue;
+                    if(reviver===fallen && p.target==='ally')continue;
+                    const limit=Math.min(3,Math.max(1,Math.floor(Number(p.charges)||1)));
                     if((reviver._revivePassiveUsed[i]||0)>=limit)continue;
-                    if(!Number.isFinite(reviver._customRevivesRemaining))reviver._customRevivesRemaining=Math.min(3,passives.filter(p=>p.stat==='Revive').reduce((n,p)=>n+Math.max(1,Math.min(3,Math.floor(Number(p.charges)||1))),0));
-                    if(reviver._customRevivesRemaining<=0)continue;
-                    reviver._customRevivesRemaining--;
-                    reviver._revivePassiveUsed[i]++;
+                    reviver._revivePassiveUsed[i]=(reviver._revivePassiveUsed[i]||0)+1;
                     fallen._reviveInProgress=true;
                     fallen.currentHp=Math.max(1,Math.round(fallen.maxHp*.75));
-                    fallen.shield=0;
-                    if(!fallen.effects)fallen.effects={};
-                    const e=fallen.effects;
-                    for(const key of ['stun','sleep','freeze','fear','charm','silence','root','poison','burn','bleed'])
-                        if(key in e)e[key]=0;
-                    e._customStatus={};
-                    recomputeCustomStatus(fallen);
-                    fallen.cdTimer=0; // Revival makes the revived Cookie's skill ready immediately.
-                    fallen.basicTimer=Math.max(.1,fallen.basicTimer||0);
-                    fallen._customAttackQueue=[];
+                    fallen.cdTimer=0;
+                    fallen.effects.invulnerable=1;fallen.effects.invulnerableTimer=1;
+                    fallen.revivesUsed=(fallen.revivesUsed||0)+1;
                     fallen._reviveInProgress=false;
-                    e.invulnerable=1;
-                    e.invulnerableTimer=Math.max(1,Number(e.invulnerableTimer)||0);
-                    spawnFloatingText(fallen.uid,'REVIVED · 75% HP · 1s IMMUNE','text-emerald-300 text-xs');
-                    if(!leagueMode)logBattleEvent('✦ '+reviver.name+(reviver===fallen?' self-revived':' revived '+fallen.name)+' ('+reviver._customRevivesRemaining+' charges left)');
+                    if(!leagueMode)logBattleEvent('✨ '+fallen.name+' revived by '+reviver.name+' ('+reviver._revivePassiveUsed[i]+'/'+limit+' charges)');
+                    spawnFloatingText(fallen.uid,'✨ REVIVED','text-emerald-300 text-xs');
                     return true;
                 }
             }
             return false;
         }
-        function applyDamage(attacker,target,rawDamage,color='text-rose-400 text-xs',isPlayer=false,ignoreDefense=false,defensePenetration=0) {
-            if(!target || target.currentHp<=0 || target.role==='Ethereal') return 0;
-            if((target.effects?.invulnerable||0)>0 || (target.effects?.netherRingTimer||0)>0){target.dmgMitigated=(target.dmgMitigated||0)+Math.max(0,Math.round(rawDamage));spawnFloatingText(target.uid,'IMMUNE','text-fuchsia-300 text-xs');return 0;}
-            const def=Math.max(0,(target.def||0)*(1+(target.effects?.def||0))*(1-(target.effects?.defDown||0)));
-            // Escalating overtime phases: 1x, 2x, 4x, then 8x damage.
-            const elapsed=180-battleTimeLeft;
-            const phaseMultiplier=elapsed>=150?5:elapsed>=105?3:elapsed>=60?1.8:1;
-            rawDamage*=phaseMultiplier;
-            if(attacker?.element && target?.element && ELEMENT_ADVANTAGE[attacker.element]===target.element) rawDamage*=1.12;
-            if(attacker?.effects?._customElementBuff?.[attacker.element])rawDamage*=1+attacker.effects._customElementBuff[attacker.element];
-            if(attacker?.effects?.elementSurge>0 && attacker.element===attacker.effects.elementSurgeElement) rawDamage*=1.18;
-            // 'Piercing' now penetrates 55% DEF instead of ignoring DEF entirely.
-            const penetration=Math.max(0,Math.min(.75,defensePenetration|| (ignoreDefense?.55:0)));
-            const effectiveDef=def*(1-penetration);
-            // DEF and ATK both grow exponentially with levels. The old flat
-            // 100/(100+DEF*.4) curve made level-100 defenders near-invincible.
-            // Normalize DEF by the target's level growth before mitigation;
-            // higher DEF builds still matter, but no longer erase all damage.
-            const growth=Math.pow(1.044,Math.max(0,(target.level||1)-1));
-            const normalizedDef=effectiveDef/Math.max(1,growth);
-            const armorMitigation=Math.min(.72,normalizedDef/(normalizedDef+2100));
-            const afterDefense=rawDamage*(1-armorMitigation);
-            const afterDamageAmp=afterDefense*(1+Math.max(0,target.effects?.dmgTakenUp||0));
-            const toppingResist=Math.min(.30,(target.toppingBonuses?.resist||0));
-            // Damage reduction stacks with toppings but cannot become immunity.
-            const totalResist=Math.min(.85,Math.max(0,target.effects?.damageReduction||0)+toppingResist);
-            const skillResist=Math.max(0,(attacker?._wiltedSkillActive ? totalResist*.60 : totalResist)-(attacker?.toppingBonuses?.bypass||0));
-            const afterReduction=afterDamageAmp*(1-skillResist);
-            // High-rarity mirrors can still hurt one another: mitigation has a hard floor.
-            let damage=Math.max(0,Math.round(afterReduction));
-            const critChance=Math.max(0,Math.min(1,(attacker?.toppingBonuses?.crit||0)+(attacker?.effects?.critUp||0)-(attacker?.effects?.critDown||0)-(target?.toppingBonuses?.critResist||0)));
-            if(critChance>0 && Math.random()<critChance) damage=Math.round(damage*(2+(attacker?.effects?.critDamageUp||0)-(target.effects?.critDamageDown||0)));
-            // Electricity SKILLS bypass shields, but still obey DEF and resistance.
-            const electricPierce=!!(attacker && attacker._electricSkillActive);
-            const absorbed=electricPierce?0:Math.min(target.shield||0,damage);
-            target.shield=Math.max(0,(target.shield||0)-absorbed);
-            if(electricPierce && target.shield>0) spawnFloatingText(target.uid,'⚡ SHIELD PIERCED','text-yellow-300 text-[9px]');
-            const incoming=Math.max(0,damage-absorbed);
-            if(highTierSurvival(target,incoming))return 0;
-            const ringTriggered=wiltedBeforeFatal(target,incoming)||netherBeforeFatal(target,incoming);
-            const hpDamage=ringTriggered?0:Math.min(target.currentHp,incoming);
-            target.currentHp=Math.max(0,target.currentHp-hpDamage);
-            if(target.currentHp<=0 && hpDamage>0)tryCustomRevive(target);
-            if(target.currentHp<=0 && hpDamage>0){
-                const foeSide=playerUnits.includes(target)?enemyUnits:playerUnits;
-                foeSide.filter(u=>u.id==='et15'&&u.currentHp>0).forEach(q=>q.netherFragments=Math.min(10,(q.netherFragments||0)+5));
-            }
-            if(target.currentHp<=0 && hpDamage>0 && !leagueMode)logBattleEvent(`💥 ${target.name} knocked out by ${attacker?.name||'an effect'}`);
-            if(hpDamage>0 && target.effects?.sleep>0) target.effects.sleep=0;
-            if(attacker) {
-                attacker.dmgDone+=damage;
-                // Count only the extra damage contributed by active ATK buffs, not skill multipliers.
-                const atkBuff=Math.max(0,attacker.effects?.atk||0);
-                if(atkBuff>0) attacker.dmgAmplified+=(rawDamage-rawDamage/(1+atkBuff));
-            }
-            target.dmgRecv+=damage;
-            // Defense, damage-reduction effects, and shields all count as mitigation.
-            target.dmgMitigated+=Math.max(0,Math.round(rawDamage-Math.max(damage,0)))+absorbed;
-            spawnFloatingText(target.uid,absorbed?`-${absorbed} 🛡️${hpDamage?` -${hpDamage}`:''}`:`-${hpDamage}`,color);
-            const hitNode=document.getElementById(`unit-node-${target.uid}`); if(hitNode){hitNode.classList.remove('hit-flash'); void hitNode.offsetWidth; hitNode.classList.add('hit-flash');}
-            if(attacker && target.effects?.reflect>0 && hpDamage>0) {
-                const reflected=Math.round(hpDamage*target.effects.reflect);
-                attacker.currentHp=Math.max(0,attacker.currentHp-reflected); if(attacker.currentHp<=0)tryCustomRevive(attacker); attacker.dmgRecv+=reflected;
-                spawnFloatingText(attacker.uid,`-${reflected} ↩`,'text-sky-300 text-xs');
-            }
-            return hpDamage;
-        }
-
-        // Anti-stall team composition rule. Healers remain useful, but their
-        // shared healing and shields have diminishing returns when stacked.
-        // Count the original lineup (not only living healers) to prevent the
-        // penalty disappearing mid-battle when a healer is defeated.
-        function healerStackCount(unit) {
-            const team=playerUnits.includes(unit)?playerUnits:enemyUnits.includes(unit)?enemyUnits:null;
-            return team ? team.filter(u=>u.role==='Healer').length : 0;
-        }
-        function healerStackMultiplier(unit,kind='heal') {
-            const n=healerStackCount(unit);
-            const values=kind==='shield' ? [1,1,.85,.65,.5,.38] : [1,1,.78,.58,.42,.32];
-            return values[Math.min(n,5)];
-        }
-        function healUnit(source,target,amount) {
-            if(!target || target.currentHp<=0) return 0;
-            if((target.effects?.healingPreventTimer||0)>0)return 0;
-            // 2/3/4/5 healers: 78%/58%/42%/32% team healing.
-            // Self-healing and healing from other roles still work normally.
-            if(source?.role==='Healer') amount*=healerStackMultiplier(source,'heal');
-            amount*=Math.max(0,1-(target.effects?.healDown||0));
-            // Anti-stall: healing starts falling after 30 seconds, reaches
-            // 45% at 90s and 20% by 135s. Both sides use the same rules.
-            const elapsed=Math.max(0,180-battleTimeLeft);
-            const healFactor=elapsed<30?1:elapsed<90?1-(elapsed-30)*(.55/60):elapsed<135?.45-(elapsed-90)*(.25/45):.20;
-            amount*=healFactor;
-            const actual=Math.min(target.maxHp-target.currentHp,Math.max(0,Math.round(amount)));
-            target.currentHp+=actual; if(source) source.healingDone+=actual;
-            target.healingRecv=(target.healingRecv||0)+actual;
-            if(actual) spawnFloatingText(target.uid,`+${actual}`,'text-emerald-400 text-xs font-bold');
-            return actual;
-        }
-
-        // Healing-over-time stores a per-second amount and applies it on combat ticks.
-        // Total healing is capped by the target's missing HP at each tick.
-        function applyHealOverTime(source,target,totalAmount,duration=4) {
-            if(!target || target.currentHp<=0 || totalAmount<=0) return;
-            const seconds=Math.max(1,Math.round(duration));
-            const e=target.effects||(target.effects={});
-            e.regenAmount=Math.max(e.regenAmount||0,totalAmount/seconds);
-            e.regenTimer=Math.max(e.regenTimer||0,seconds);
-            e.regenTick=Math.min(e.regenTick||1,1);
-            e.regenSource=source||e.regenSource||null;
-            spawnFloatingText(target.uid,'💚 HEAL OVER TIME','text-emerald-300 text-[9px]');
-        }
-
-        function addShield(target,amount) {
-            if(!target || target.currentHp<=0) return;
-            // Multi-healer teams also have less effective shielding.
-            const teamShieldPenalty=healerStackMultiplier(target,'shield');
-            const elapsed=Math.max(0,180-battleTimeLeft);
-            const shieldFactor=elapsed<45?1:elapsed<120?1-(elapsed-45)*(.6/75):.4;
-            amount*=teamShieldPenalty*shieldFactor;
-            const cap=Math.max(0,Math.round(target.maxHp*.75*teamShieldPenalty*shieldFactor));
-            const previous=Math.min(cap,Math.max(0,target.shield||0));
-            const added=Math.max(0,Math.min(Math.round(amount),cap-previous));
-            target.shield=previous+added;
-            if(added>0){
-                target.shieldTimer=5;
-                spawnFloatingText(target.uid,`🛡️ +${added} (5s)`,'text-sky-300 text-xs font-bold');
-            }
-        }
-
-        function executeBasicAttack(attacker,targetPool,isPlayer) {
-            if(attacker.currentHp<=0 || attacker.effects?.stun>0 || attacker.role==='Ethereal') return;
-            const alive=targetPool.filter(t=>t.currentHp>0); if(!alive.length) return;
-            const target=alive[Math.floor(Math.random()*alive.length)];
-            attacker.basicAttacksMade=(attacker.basicAttacksMade||0)+1;
-            triggerCustomPassives(attacker,'basic');
-            // Healers, supports, and defenders trade basic-attack damage for utility.
-            const roleDamage={Healer:.35,Support:.45,Defense:.5};
-            const atk=attacker.atk*(1+(attacker.effects?.atk||0))*(1-(attacker.effects?.atkDown||0))*(roleDamage[attacker.role]||1);
-            applyDamage(attacker,target,atk,isPlayer?'text-rose-400 text-xs':'text-amber-400 text-xs',isPlayer);
-            // Healers provide a small 45% ATK heal with every basic attack.
-            if(attacker.role==='Healer') {
-                const livingAllies=(isPlayer?playerUnits:enemyUnits).filter(u=>u.currentHp>0);
-                const lowest=[...livingAllies].sort((a,b)=>(a.currentHp/a.maxHp)-(b.currentHp/b.maxHp))[0];
-                if(lowest) {
-                    const healAmount=attacker.atk*(1+(attacker.effects?.atk||0))*.55;
-                    healUnit(attacker,lowest,healAmount);
-                    spawnSkillVfx(attacker,[lowest],{type:'basicHeal'},true,0);
-                }
-            }
-            playSound('hit');
-        }
-
-
-        // PERSONAL SKILL CHAPTERS: each Epic+ Cookie has a distinct sequence of
-        // effects determined by its own identity, not a repeated rarity-wide buff.
-        const CHAPTERS = {
-          Epic:2, SuperEpic:3, Legendary:4, Mystic:5, Eternal:5
-        };
-        const CHAPTER_NAMES = [
-          'Echoing Impact','Fading Sigil','Second Wind','Shattered Armor',
-          'Vengeful Pulse','Sanctuary','Binding Oath','Fever Dream',
-          'Arcane Feedback','Final Verdict','Rallying Cry','Tidal Reversal',
-          'Starfall','Thorned Promise','Soul Harvest','Quietus',
-          'Radiant Circuit','Aftershock','Twilight Seal','Mirror Guard',
-          'Last Light','Cursed Bloom','Judgment','Eternal Rhythm'
-        ];
-        function cookiePersonalChapters(cookie) {
-            const tier=CHAPTERS[cookie.rarity]||0;
-            if(!tier)return [];
-            const n=Number(cookie.id.match(/\d+/)?.[0]||0);
-            const prefix=cookie.id.replace(/\d+/g,'');
-            const seed=Array.from(prefix+cookie.name).reduce((a,c)=>a+c.charCodeAt(0),n*37);
-            const selected=[];
-            for(let j=0;j<tier;j++)selected.push((seed+j*7+n*3+j*j)%CHAPTER_NAMES.length);
-            return selected;
-        }
-        function runPersonalChapters(unit,allies,enemies,isPlayer) {
-            const cookie=COOKIES_DB.find(c=>c.id===unit.id);
-            if(!cookie)return;
-            const chapters=cookiePersonalChapters(cookie);
-            if(!chapters.length)return;
-            const a=allies.filter(x=>x.currentHp>0);
-            const e=enemies.filter(x=>x.currentHp>0);
-            if(!a.length||!e.length)return;
-            const weak=a.slice().sort((x,y)=>x.currentHp/x.maxHp-y.currentHp/y.maxHp)[0];
-            const foe=e.slice().sort((x,y)=>x.currentHp/x.maxHp-y.currentHp/y.maxHp)[0];
-            const tank=a.slice().sort((x,y)=>y.maxHp-x.maxHp)[0];
-            const strong=e.slice().sort((x,y)=>y.atk-x.atk)[0];
-            const tier=CHAPTERS[cookie.rarity];
-            const k=1+(tier-2)*.14;
-            const damage=(t,m)=>applyDamage(unit,t,unit.atk*m,'text-violet-300 text-xs',isPlayer,false,.08);
-            const boost=(t,key,v,d=5)=>applyStackEffect(t,key,v,d,unit.name,'buff');
-            const curse=(t,key,v,d=5)=>applyStackEffect(t,key,v,d,unit.name,'debuff');
-            const heal=(t,m)=>healUnit(unit,t,unit.atk*m);
-            chapters.forEach((chapter,i)=>{
-                const m=k*(i===0?1:.72);
-                switch(chapter){
-                    case 0: damage(foe,1.5*m);if(foe.currentHp/foe.maxHp<.5)damage(foe,.8*m);break;
-                    case 1: curse(strong,'atkDown',.09*m,7);curse(strong,'dmgTakenUp',.06*m,5);break;
-                    case 2: heal(weak,1.6*m);boost(weak,'def',.12*m,6);break;
-                    case 3: curse(foe,'defDown',.13*m,7);damage(foe,.75*m);break;
-                    case 4: addShield(tank,tank.maxHp*.12*m);damage(strong,.9*m);break;
-                    case 5: a.forEach(x=>addShield(x,x.maxHp*.085*m));heal(weak,.65*m);break;
-                    case 6: foe.effects.root=Math.max(foe.effects.root||0,1.0*m);curse(foe,'atkDown',.08*m,5);break;
-                    case 7: e.forEach(x=>{x.effects.burn=Math.max(x.effects.burn||0,.016*m);x.effects.burnTimer=Math.max(x.effects.burnTimer||0,5);});break;
-                    case 8: damage(strong,1.25*m);a.forEach(x=>x.cdTimer=Math.max(0,x.cdTimer-.32*m));break;
-                    case 9: if(foe.currentHp/foe.maxHp<.4)damage(foe,2*m);else curse(foe,'dmgTakenUp',.11*m,5);break;
-                    case 10: a.forEach(x=>boost(x,'atk',.075*m,5));heal(weak,.65*m);break;
-                    case 11: heal(weak,1.25*m);e.forEach(x=>curse(x,'atkDown',.06*m,4));break;
-                    case 12: e.forEach(x=>damage(x,.48*m));foe.effects.stun=Math.max(foe.effects.stun||0,.3*m);break;
-                    case 13: a.forEach(x=>{x.effects.reflect=Math.max(x.effects.reflect||0,.07*m);x.effects.reflectTimer=Math.max(x.effects.reflectTimer||0,5);});break;
-                    case 14: {const dealt=damage(foe,1.3*m)||0;heal(unit,dealt/Math.max(1,unit.atk)*.3);break;}
-                    case 15: foe.effects.silence=Math.max(foe.effects.silence||0,.8*m);curse(foe,'defDown',.075*m,5);break;
-                    case 16: a.forEach(x=>boost(x,'atk',.055*m,7));damage(foe,.85*m);break;
-                    case 17: damage(foe,1.0*m);e.forEach(x=>curse(x,'dmgTakenUp',.055*m,5));break;
-                    case 18: e.forEach(x=>curse(x,'healDown',.10*m,7));damage(foe,.75*m);break;
-                    case 19: addShield(weak,weak.maxHp*.16*m);boost(weak,'def',.09*m,5);break;
-                    case 20: if(weak.currentHp/weak.maxHp<.4){heal(weak,2.1*m);addShield(weak,weak.maxHp*.10*m);}else a.forEach(x=>heal(x,.4*m));break;
-                    case 21: e.forEach(x=>{x.effects.poison=(x.effects.poison||0)+.009*m;x.effects.poisonTimer=Math.max(x.effects.poisonTimer||0,6);});break;
-                    case 22: damage(strong,1.25*m);curse(strong,'atkDown',.10*m,6);break;
-                    case 23: a.forEach(x=>{heal(x,.45*m);x.cdTimer=Math.max(0,x.cdTimer-.18*m);});break;
-                }
-            });
-            spawnFloatingText(unit.uid,`✦ ${chapters.length} PERSONAL EFFECTS`,'text-amber-200 text-[10px]');
-        }
-
-        // Povidone Iodine's unique effects have their own timers and damage
-        // pipeline, rather than reusing a generic role skill.
-        function iodineCure(unit){
-            if(!unit || unit.currentHp<=0)return;
-            const e=unit.effects;
-            ['burn','poison','atkDown','defDown','healDown','dmgTakenUp','silence','stun','freeze','sleep','fear','charm','root'].forEach(k=>{
-                e[k]=0;if(k+'Timer' in e)e[k+'Timer']=0;
-            });
-            if(e._stacks)Object.keys(e._stacks).forEach(key=>{
-                const group=e._stacks[key];
-                Object.keys(group).forEach(source=>{if(group[source].mode==='debuff')delete group[source];});
-            });
-            refreshStackAggregates(unit);
-        }
-        function castIodineSkill(unit,enemies,allies,isPlayer){
-            const foes=enemies.filter(x=>x.currentHp>0);
-            if(!foes.length)return;
-            const main=foes.slice().sort((a,b)=>b.currentHp-a.currentHp)[0];
-            const weakest=foes.slice().sort((a,b)=>a.currentHp-b.currentHp)[0];
-            const isCookie=true;
-            // Red Antiseptic: heal the team, then suppress enemy sustain and damage.
-            allies.filter(a=>a.currentHp>0).forEach(a=>healUnit(unit,a,unit.atk*1.112));
-            applyDamage(unit,main,unit.atk*8.858,'text-red-300 text-xs',isPlayer,false,.12);
-            applyStackEffect(main,'healDown',.50,6,unit.name+' Red Antiseptic','debuff');
-            applyStackEffect(main,'atkDown',.45,6,unit.name+' Red Antiseptic','debuff');
-            weakest.effects.healingPreventTimer=Math.max(weakest.effects.healingPreventTimer||0,5);
-            // Powerful Sawing: five strikes with max-HP bonus. The bite is
-            // applied directly and cannot be resisted.
-            for(let i=0;i<5 && main.currentHp>0;i++){
-                const biteBonus=Math.min(15,(main.effects.vampireBiteStacks||0)*.75);
-                applyDamage(unit,main,unit.atk*(3.214+biteBonus)+main.maxHp*.0155,'text-rose-300 text-xs',isPlayer,false,.15);
-            }
-            main.effects.excessiveBiteTimer=Math.max(main.effects.excessiveBiteTimer||0,8);
-            main.effects.excessiveBiteSource=unit;
-            // Saw Strike and Vampiric Bite.
-            if(main.currentHp>0)applyDamage(unit,main,unit.atk*11.927+main.maxHp*.0281,'text-red-400 text-xs font-bold',isPlayer,false,.35);
-            main.effects.vampireBiteStacks=Math.min(12,(main.effects.vampireBiteStacks||0)+1);
-            main.effects.vampireBiteTimer=Math.max(main.effects.vampireBiteTimer||0,8);
-            main.effects.vampireBiteSource=unit;
-            applyStackEffect(main,'healDown',.35,8,unit.name+' Vampiric Bite','debuff');
-            // Experimental Prescription to everyone except the caster.
-            allies.filter(a=>a.currentHp>0 && a!==unit).forEach(a=>{
-                applyStackEffect(a,'atk',.35,8,unit.name+' Prescription','buff');
-                applyStackEffect(a,'damageReduction',.30,8,unit.name+' Prescription','buff');
-            });
-            addShield(unit,unit.maxHp*.85); // Global cap: 75% HP for 5s.
-            iodineCure(unit);
-            unit.effects.debuffResist=1;
-            unit.effects.debuffResistTimer=Math.max(unit.effects.debuffResistTimer||0,1);
-            spawnFloatingText(unit.uid,'🧴 RED ANTISEPTIC + SAW STRIKE','text-red-200 text-[10px]');
-        }
-        function applyIodineOpening(unit){
-            if(unit.id!=='l15')return;
-            addShield(unit,unit.maxHp); // Intentionally obeys the 75% shield cap.
-            unit.effects.debuffResist=1;
-            unit.effects.debuffResistTimer=20;
-            applyStackEffect(unit,'atk',.405,20,unit.name+' Enhanced Prescription','buff');
-            applyStackEffect(unit,'damageReduction',.40,20,unit.name+' Enhanced Prescription','buff');
-            unit.iodineHealClock=8;
-            unit.iodinePassiveReady=true;
-        }
-        function tickIodineEffects(unit,dt){
-            const e=unit.effects;
-            if(unit.id==='l15' && unit.currentHp>0){
-                unit.iodineHealClock=(unit.iodineHealClock??8)-dt;
-                if(unit.iodineHealClock<=0){
-                    const missing=1-unit.currentHp/unit.maxHp;
-                    healUnit(unit,unit,unit.atk*(2.224+3.5*missing));
-                    iodineCure(unit);
-                    unit.iodineHealClock+=8;
-                }
-            }
-            if(e.healingPreventTimer>0)e.healingPreventTimer=Math.max(0,e.healingPreventTimer-dt);
-            if(e.vampireBiteTimer>0 && unit.currentHp>0){
-                e.vampireBiteTimer=Math.max(0,e.vampireBiteTimer-dt);
-                e.vampireBiteTick=(e.vampireBiteTick||0)-dt;
-                if(e.vampireBiteTick<=0){
-                    const src=e.vampireBiteSource;
-                    applyDamage(src,unit,(src?.atk||unit.atk)*1.11*Math.min(4,e.vampireBiteStacks||1),'text-red-300 text-[10px]',false,false,.15);
-                    e.vampireBiteTick=.5;
-                }
-                if(e.vampireBiteTimer===0)e.vampireBiteStacks=0;
-            }
-            if(e.excessiveBiteTimer>0 && unit.currentHp>0){
-                e.excessiveBiteTimer=Math.max(0,e.excessiveBiteTimer-dt);
-                e.excessiveBiteTick=(e.excessiveBiteTick||0)-dt;
-                if(e.excessiveBiteTick<=0){
-                    const src=e.excessiveBiteSource;
-                    applyDamage(src,unit,(src?.atk||unit.atk)*3.341,'text-fuchsia-300 text-[10px]',false,false,.35);
-                    e.excessiveBiteTick=.5;
-                }
-            }
-        }
-
         // Hand-authored high-tier identities (separate from the generic chapter
         // pool). Different Cookies gain different triggers, targets and tradeoffs.
         // Named high-tier skill extensions. No automatic rarity damage multiplier:
@@ -3566,7 +3355,7 @@
         function highTierStyleName(unit){return HIGH_TIER_STYLES[highTierStyleIndex(unit)];}
         function castHighTierExtension(unit,enemies,allies,isPlayer){
             if(!['SuperEpic','Legendary','Mystic','Eternal'].includes(unit.rarity))return;
-            const foes=enemies.filter(x=>x.currentHp>0),friends=allies.filter(x=>x.currentHp>0);
+            const foes=enemies.filter(x=>x.currentHp>0&&x.role!=='Ethereal'),friends=allies.filter(x=>x.currentHp>0);
             if(!foes.length||!friends.length)return;
             const weak=foes.slice().sort((a,b)=>a.currentHp/a.maxHp-b.currentHp/b.maxHp)[0];
             const strong=foes.slice().sort((a,b)=>b.atk-a.atk)[0];
@@ -3574,13 +3363,7 @@
             const tank=friends.slice().sort((a,b)=>b.maxHp-a.maxHp)[0];
             const style=highTierStyleIndex(unit);
             const power=unit.atk*(1+(unit.effects?.atk||0));
-            if(unit.role==='Ethereal'){
-                const living=allies.filter(x=>x.currentHp>0 && x.role!=='Ethereal');
-                living.forEach(a=>{healUnit(unit,a,unit.atk*2.5);addShield(a,a.maxHp*.08);});
-                spawnSkillVfx(unit,living,{type:'teamHeal'},isPlayer);
-                triggerCustomPassives(unit,'skill');
-                unit.cdTimer=unit.maxCD;return;
-            }
+            if(unit.role==='Ethereal')return; // Ethereals rely on their unique utility kits, not a generic healer burst.
             const damage=(target,m,pen=0)=>applyDamage(unit,target,power*m,'text-violet-300 text-[10px]',isPlayer,false,pen);
             const buff=(target,k,v,d=6)=>applyStackEffect(target,k,v,d,unit.name+' · '+HIGH_TIER_STYLES[style],'buff');
             const debuff=(target,k,v,d=6)=>applyStackEffect(target,k,v,d,unit.name+' · '+HIGH_TIER_STYLES[style],'debuff');
@@ -3809,7 +3592,7 @@
             if(isPlayer && unit.cdTimer>0.05) return;
             const enemies=isPlayer?enemyUnits:playerUnits;
             const allies=isPlayer?playerUnits:enemyUnits;
-            const livingEnemies=enemies.filter(u=>u.currentHp>0);
+            const livingEnemies=enemies.filter(u=>u.currentHp>0&&u.role!=='Ethereal');
             const livingAllies=allies.filter(u=>u.currentHp>0);
             if(!livingEnemies.length || !livingAllies.length) return;
             if((unit.effects?.excessiveBiteTimer||0)>0)
@@ -4172,13 +3955,15 @@
         let leaguePaused=false, leagueCustomChallenge=false;
         let leagueMode=false, leagueSpectating=false, leagueChampion=null, leagueChallenger=null;
         let leagueUsedTeamKeys=new Set(), leagueTeams=new Map(), leagueMatchCount=0, leagueNextTimer=null;
+        let leagueRecentWinners=[];
         let leagueBattleSpeed=500, leagueRenderCounter=0; // 5ms ticks with 2.5s simulation steps = ~500x background speed
         function makeLeagueTeam(){
             const pool=COOKIES_DB.filter(c=>c&&!['Common','Rare'].includes(c.rarity) && c.id!=='a10'); // Velvet Phantom is currently out of the Meta Finder pool; Lotus Blossom remains eligible
             if(pool.length<5) return null;
             for(let attempt=0;attempt<500;attempt++){
                 const shuffled=[...pool].sort(()=>Math.random()-.5);
-                const picks=shuffled.slice(0,5);
+                const picks=[];for(const c of shuffled){if(c.role==='Ethereal'&&picks.some(x=>x.role==='Ethereal'))continue;picks.push(c);if(picks.length===5)break;}
+                if(picks.length<5)continue;
                 const key=picks.map(c=>c.id).sort().join('|');
                 if(leagueUsedTeamKeys.has(key)) continue;
                 leagueUsedTeamKeys.add(key);
@@ -4197,13 +3982,13 @@
         }
         function renderLeagueLeaderboard(){
             const root=document.getElementById('league-leaderboard'); if(!root)return;
-            const rows=[...leagueTeams.values()].sort((a,b)=>b.wins-a.wins||b.bestStreak-a.bestStreak||b.streak-a.streak||a.losses-b.losses).slice(0,10);
-            root.innerHTML=rows.length?rows.map((t,i)=>`<tr class="border-t border-slate-800"><td class="py-2 font-black text-amber-300">${i+1}</td><td class="py-2"><b>${t.name}</b><div class="text-[9px] text-slate-500">${t.cookies.map(c=>COOKIES_DB.find(x=>x.id===c.id)?.name.split(' ').slice(1).join(' ')||c.id).join(' · ')}</div></td><td class="text-emerald-300 font-bold">${t.wins}</td><td class="text-rose-300">${t.losses}</td><td class="text-sky-300">${t.streak}</td></tr>`).join(''):'<tr><td colspan="5" class="py-3 text-center text-slate-500">No matches played yet.</td></tr>';
+            const rows=leagueRecentWinners.map(id=>leagueTeams.get(id)).filter(Boolean);
+            root.innerHTML=rows.length?rows.map((t,i)=>`<tr class="border-t border-slate-800"><td class="py-2 font-black text-amber-300">${i+1}</td><td class="py-2"><b>${t.name}</b><div class="text-[9px] text-slate-500">${t.cookies.map(c=>COOKIES_DB.find(x=>x.id===c.id)?.name.split(' ').slice(1).join(' ')||c.id).join(' · ')}</div></td><td class="text-emerald-300 font-bold">${t.wins}</td><td class="text-rose-300">${t.losses}</td><td class="text-sky-300">${t.streak}</td></tr>`).join(''):'<tr><td colspan="5" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr>';
         }
         function setLeagueStatus(text){const el=document.getElementById('league-status');if(el)el.textContent=text;}
         function startAutoLeague(){
             if(leagueMode)return;
-            leagueUsedTeamKeys=new Set();leagueTeams=new Map();leagueMatchCount=0;
+            leagueUsedTeamKeys=new Set();leagueTeams=new Map();leagueMatchCount=0;leagueRecentWinners=[];
             leagueChampion=makeLeagueTeam();leagueChallenger=makeLeagueTeam();
             if(!leagueChampion||!leagueChallenger){setLeagueStatus('NOT ENOUGH UNIQUE COOKIES');return;}
             leagueMode=true;leaguePaused=false;leagueCustomChallenge=false;leagueSpectating=false;leagueBattleSpeed=500;metaTestMode=false;battleSpeed=1;
@@ -4233,6 +4018,7 @@
         function challengeLeagueChampion(){
             if(!leagueMode||!leaguePaused||leagueCustomChallenge||!leagueChampion)return;
             if(metaTeamA.length!==5 || new Set(metaTeamA.map(x=>x.id)).size!==5){alert('Choose five different Cookies for Team A.');return;}
+            if(metaTeamA.filter(x=>COOKIES_DB.find(c=>c.id===x.id)?.role==='Ethereal').length>1){alert('Maximum one Ethereal per team.');return;}
             leagueCustomChallenge=true;
             if(leagueNextTimer){clearTimeout(leagueNextTimer);leagueNextTimer=null;}
             document.getElementById('league-pause').disabled=true;
@@ -4282,6 +4068,8 @@
             const winner=championActuallyWon?leagueChampion:leagueChallenger;
             const loser=championActuallyWon?leagueChallenger:leagueChampion;
             winner.wins++;winner.streak++;winner.bestStreak=Math.max(winner.bestStreak,winner.streak);
+            leagueRecentWinners=leagueRecentWinners.filter(id=>id!==winner.id);
+            leagueRecentWinners.unshift(winner.id);leagueRecentWinners=leagueRecentWinners.slice(0,10);
             loser.losses++;loser.streak=0;
             leagueChampion=winner;
             leagueChallenger=null;

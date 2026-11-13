@@ -2259,8 +2259,8 @@
             }
             const debuff=BUILDER_STATUS_CATALOG.find(x=>x[0]===stat)?.[1]==='debuff';
             if(debuff&&(e.debuffImmunity>0||e.ccImmunity>0&&CUSTOM_CC.includes(stat)))return;
-            if(!debuff&&e.buffProhibited>0)return;
-            const sourceKey=source.id+'_'+key+'_'+stat;
+            if(!debuff && stat!=='Revive' && (e.buffProhibited||0)>0)return;
+            const sourceKey=(source.uid||source.id)+'_'+key+'_'+stat;
             e._customStatus=e._customStatus||{};
             const previous=e._customStatus[sourceKey];
             const count=Math.min(stacks,(previous?.count||0)+1);
@@ -2293,6 +2293,8 @@
                 if(e.ccImmunity<=0)e.stun=Math.max(e.stun||0,Math.min(1.5,duration));
             }
             recomputeCustomStatus(target);
+            if(!leagueMode && (stat==='ATK Up'||stat==='DEF Up'||stat==='DMG Resist Up'||stat==='ATK Speed Up'||stat==='HP Shield'||stat==='Instant Healing'))
+                logBattleEvent('✨ '+source.name+' → '+target.name+': '+stat+' ('+Math.round(amount*100)+'%)');
         }
         const CUSTOM_STATUS_FIELDS={
           'ATK Up':'atk','DEF Up':'def','DMG Resist Up':'damageReduction','CRIT Chance Up':'critUp','CRIT DMG Up':'critDamageUp','ATK Speed Up':'atkSpeed','Move Speed Up':'moveSpeed','Amplify Buff':'buffAmp','Debuff Resist Up':'debuffResist','Invulnerability':'invulnerable','Debuff Immunity':'debuffImmunity','CC Immunity':'ccImmunity',
@@ -2303,7 +2305,10 @@
             const sums={};for(const x of statuses){const field=CUSTOM_STATUS_FIELDS[x.stat];if(field)sums[field]=(sums[field]||0)+x.value;}
             const last=e._customContribution||{};
             for(const field of new Set([...Object.keys(last),...Object.keys(sums)])){
-                e[field]=Math.max(0,(e._stacks?.[field]?Object.values(e._stacks[field]).reduce((n,x)=>n+x.value,0):Math.max(0,(e[field]||0)-(last[field]||0)))+(sums[field]||0));
+                // Never erase other buffs while refreshing a custom effect.
+                const nativeStacks=e._stacks?.[field];
+                const native=nativeStacks?Object.values(nativeStacks).reduce((n,x)=>n+x.value,0):Math.max(0,(e[field]||0)-(last[field]||0));
+                e[field]=Math.max(0,native+(sums[field]||0));
             }
             e._customContribution=sums;
             // Max HP injury changes effective HP, without destroying the base stat.
@@ -2384,7 +2389,7 @@
             if(!leagueMode)logBattleEvent('🎬 '+unit.name+': '+(phase.name||'Phase '+(index+1)));
         }
         function castCustomBuild(unit,enemies,allies,isPlayer){
-            const foes=enemies.filter(x=>x.currentHp>0);if(!foes.length)return;
+            const foes=enemies.filter(x=>x.currentHp>0);
             const attack=unit.customAttack||{type:'instant',power:unit.customDamage||0};
             if(!['instant','execute'].includes(attack.type)){
                 unit._customAttackQueue=unit._customAttackQueue||[];
@@ -2430,8 +2435,9 @@
                     let safety=0;
                     while(job.clock<=0&&safety++<20){
                         const allies=job.isPlayer?playerUnits:enemyUnits,enemies=job.isPlayer?enemyUnits:playerUnits;
-                        const foes=enemies.filter(u=>u.currentHp>0);if(!foes.length)break;
+                        const foes=enemies.filter(u=>u.currentHp>0);
                         const a=job.attack,mode=a.type;
+                        if(!foes.length && !['healing','shield'].includes(mode))break;
                         const targets=chooseCustomTargets(mode==='random'?'random':unit.customVisualTarget||'single',unit.customVisualTargetCount||3,unit,allies,enemies);
                         const power=Math.max(0,Number(a.power)||0)/100;
                         if(mode==='healing')allies.filter(u=>u.currentHp>0).forEach(t=>healUnit(unit,t,unit.atk*power));
@@ -3101,9 +3107,9 @@
             spawnFloatingText(target.uid,'✦ LAST STAND','text-amber-200 text-xs');return true;
         }
         function tryCustomRevive(fallen){
-            if(!fallen || fallen.currentHp>0 || fallen.role==='Ethereal')return false;
+            if(!fallen || fallen.currentHp>0)return false;
             const team=playerUnits.includes(fallen)?playerUnits:enemyUnits;
-            if(!team || !team.includes(fallen))return false;
+            if(!team || !team.includes(fallen) || fallen._reviveInProgress)return false;
             // A Cookie with Revive may spend its own charge when knocked out.
             // Self-revive has priority, then living teammates may use theirs.
             const candidates=[fallen,...team.filter(u=>u!==fallen && u.currentHp>0)];
@@ -3114,12 +3120,14 @@
                 for(let i=0;i<passives.length;i++){
                     const passive=passives[i];
                     if(passive?.stat!=='Revive')continue;
+                    if(reviver!==fallen && passive.target==='self')continue;
                     const limit=Math.min(3,Math.max(1,Math.floor(Number(passive.charges)||1)));
                     if((reviver._revivePassiveUsed[i]||0)>=limit)continue;
                     if(!Number.isFinite(reviver._customRevivesRemaining))reviver._customRevivesRemaining=Math.min(3,passives.filter(p=>p.stat==='Revive').reduce((n,p)=>n+Math.max(1,Math.min(3,Math.floor(Number(p.charges)||1))),0));
                     if(reviver._customRevivesRemaining<=0)continue;
                     reviver._customRevivesRemaining--;
                     reviver._revivePassiveUsed[i]++;
+                    fallen._reviveInProgress=true;
                     fallen.currentHp=Math.max(1,Math.round(fallen.maxHp*.75));
                     fallen.shield=0;
                     if(!fallen.effects)fallen.effects={};
@@ -3129,6 +3137,9 @@
                     e._customStatus={};
                     recomputeCustomStatus(fallen);
                     fallen.cdTimer=0; // Revival makes the revived Cookie's skill ready immediately.
+                    fallen.basicTimer=Math.max(.1,fallen.basicTimer||0);
+                    fallen._customAttackQueue=[];
+                    fallen._reviveInProgress=false;
                     e.invulnerable=1;
                     e.invulnerableTimer=Math.max(1,Number(e.invulnerableTimer)||0);
                     spawnFloatingText(fallen.uid,'REVIVED · 75% HP · 1s IMMUNE','text-emerald-300 text-xs');

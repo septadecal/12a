@@ -327,7 +327,7 @@
                 </div>
             </div>
         <section class="crk-panel rounded-xl p-4 my-3" id="treasure-panel">
-          <div class="flex flex-wrap justify-between items-center gap-2 mb-2"><h2 class="text-lg font-extrabold text-amber-300">🏺 TREASURE VAULT</h2><span class="text-xs text-slate-300">1% bonus Treasure per Cookie summon · 3 equipped · Max Lv.12</span></div>
+          <div class="flex flex-wrap justify-between items-center gap-2 mb-2"><h2 class="text-lg font-extrabold text-amber-300">🏺 TREASURE VAULT</h2><span class="text-xs text-slate-300">3% bonus Treasure per Cookie summon · 3 equipped · Max Lv.12</span></div>
           <p class="text-xs text-slate-400 mb-3">Duplicate Treasures grant upgrade shards. Tap Equip to choose up to three treasures for regular battles. Levels scale every Treasure's power.</p>
           <div class="flex flex-wrap gap-2 mb-3"><button id="treasure-attack-btn" onclick="setTreasureEditSide('attack')" class="rounded px-3 py-2 font-bold bg-amber-500 text-slate-950">⚔️ Attack Treasures</button><button id="treasure-defense-btn" onclick="setTreasureEditSide('defense')" class="rounded px-3 py-2 font-bold bg-slate-700 text-white">🛡️ Defense Treasures</button></div>
           <div id="treasure-collection" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2"></div>
@@ -355,6 +355,7 @@
                 </div>
             </div>
 
+            <div id="defense-squad-actions" class="hidden crk-panel p-3 rounded-xl border border-sky-700/60"><div class="flex flex-wrap items-center justify-between gap-2"><div><b class="text-sky-200 text-sm">🛡️ DEFENSE SQUAD TEST</b><p class="text-xs text-slate-400">Fight your saved Defense Squad using your Offense Squad.</p></div><button onclick="testMyDefenseSquad()" class="bg-sky-600 hover:bg-sky-500 rounded-lg px-4 py-2 font-bold text-xs">⚔️ TEST VS DEFENSE SQUAD</button></div></div>
             <div class="crk-panel p-4 rounded-2xl">
                 <div class="flex justify-between items-center mb-3">
                     <div>
@@ -432,7 +433,7 @@
                         <option value="intermediate" selected>⚔️ Intermediate (Rare/Epic, Lvl 25-50)</option>
                         <option value="pro">🔥 Pro (Epic/SuperEpic/Legendary, Lvl 50-75)</option>
                         <option value="elite">👑 Elite (Mystic/Eternal, Lvl 75-100)</option>
-                        <option value="defense_test">🛡️ TEST vs MY DEFENSE SQUAD</option>
+                        
                     </select>
 
                     <select id="battle-speed-select" onchange="setBattleSpeed(this.value)" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs font-bold rounded-lg px-2.5 py-2"><option value="0.5">0.5× Speed</option><option value="1">1× Speed</option><option value="2.5">2.5× Speed</option></select>
@@ -443,7 +444,7 @@
                 </div>
             </div>
 
-            <div class="crk-panel rounded-xl p-3"><h3 class="text-amber-300 font-extrabold mb-2">📖 DEFENSE LOGBOOK</h3><div id="defense-logbook"></div></div>
+            <div class="crk-panel rounded-xl p-3"><div class="flex justify-between items-center gap-2"><h3 class="text-amber-300 font-extrabold">📖 DEFENSE LOGBOOK</h3><button id="defense-log-toggle" onclick="toggleDefenseLogbook()" class="bg-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold" aria-expanded="false">👁 SHOW LOGBOOK</button></div><div id="defense-logbook" class="hidden mt-3"></div></div>
             <div class="crk-panel rounded-xl p-3 space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div><h3 class="font-extrabold text-slate-100 text-sm">🏆 CHOOSE AN OPPONENT</h3><p class="text-[11px] text-slate-400">1 dynamic team matched to your squad, 3 fully random teams, and 1 maxed-out Pro team using your saved meta drafts!</p></div>
@@ -559,7 +560,7 @@
                 <div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-lg font-black text-amber-200">🏆 AUTO META LEAGUE</h2><p class="text-xs text-slate-400">Super Epic+ teams, with Legendary+ every third match and occasional Mystic+/Eternal-only teams, fight at level 100 with skill level 100, no toppings or Beascuits. No duplicate team lineups.</p></div><span id="league-status" class="text-xs font-black text-slate-300">NOT RUNNING</span></div>
                 <div class="flex flex-wrap gap-2 mt-3"><button id="league-start" onclick="startAutoLeague()" class="crk-btn rounded-lg px-4 py-2 text-xs font-black text-slate-950">▶ START LEAGUE</button><button id="league-pause" onclick="toggleLeaguePause()" class="rounded-lg bg-amber-800 border border-amber-600 px-4 py-2 text-xs font-black text-white" disabled>⏸ PAUSE LEAGUE</button><button id="league-stop" onclick="stopAutoLeague()" class="rounded-lg bg-rose-900 border border-rose-700 px-4 py-2 text-xs font-black text-white" disabled>■ STOP</button><button id="league-watch" onclick="toggleLeagueSpectate()" class="rounded-lg bg-sky-800 border border-sky-600 px-4 py-2 text-xs font-black text-white" disabled>👁 SPECTATE AT 50×</button></div>
                 <div id="league-challenge-panel" class="hidden mt-3 rounded-xl border border-amber-600 bg-amber-950/40 p-3"><p class="text-xs text-amber-200 font-bold">⚔️ BUILD A CHALLENGER</p><p class="text-[11px] text-slate-300 mt-1">Use the TEAM A builder above to create a five-Cookie squad. The reigning champion is your opponent. Your custom challenger receives the next Team # and enters the league leaderboard. After the match, stay paused and create another challenger.</p><div id="league-champion-preview" class="text-xs text-sky-300 my-2"></div><button onclick="challengeLeagueChampion()" class="crk-btn rounded-lg px-4 py-2 text-xs font-black text-slate-950">⚔️ CHALLENGE CHAMPION</button></div><p id="league-matchup" class="text-xs text-slate-300 mt-3">Start the league to generate two unique teams. The winner keeps competing against a fresh challenger.</p>
-                <div class="mt-3 flex flex-wrap gap-2 items-center"><button onclick="copyTopLeagueTeamToMetaA()" class="bg-amber-700 hover:bg-amber-600 rounded-lg px-4 py-2 text-xs font-black text-white">🏆 COPY #1 TEAM TO META TEAM A</button><span id="league-copy-feedback" class="text-xs text-emerald-300"></span></div><div class="mt-4"><h3 class="font-black text-amber-300 text-sm mb-2">LAST 10 UNIQUE WINNING TEAMS</h3><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th class="py-2">#</th><th>TEAM</th><th>W</th><th>L</th><th>STREAK</th></tr></thead><tbody id="league-leaderboard"><tr><td colspan="5" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr></tbody></table></div></div>
+                <div class="mt-3 flex flex-wrap gap-2 items-center"><button onclick="copyTopLeagueTeamToMetaA()" class="bg-amber-700 hover:bg-amber-600 rounded-lg px-4 py-2 text-xs font-black text-white">🏆 COPY #1 TEAM TO META TEAM A</button><span id="league-copy-feedback" class="text-xs text-emerald-300"></span></div><div class="mt-4 rounded-xl border border-emerald-900/60 p-3"><h3 class="font-black text-emerald-300 text-sm mb-1">🍪 TOP 10 COOKIES · LEAGUE WIN RATE</h3><p class="text-[11px] text-slate-400 mb-2">Win percentage of matches each Cookie participated in (current league session). W = wins, L = losses, Matches = appearances.</p><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th>#</th><th>COOKIE</th><th>WIN RATE</th><th>W</th><th>L</th><th>MATCHES</th></tr></thead><tbody id="league-cookie-leaderboard"><tr><td colspan="6" class="py-3 text-slate-500">Run league matches to rank Cookies.</td></tr></tbody></table></div></div><div class="mt-4"><h3 class="font-black text-amber-300 text-sm mb-2">LAST 10 UNIQUE WINNING TEAMS</h3><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th class="py-2">#</th><th>TEAM</th><th>W</th><th>L</th><th>STREAK</th></tr></thead><tbody id="league-leaderboard"><tr><td colspan="5" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr></tbody></table></div></div>
                 <p class="text-[10px] text-slate-500 mt-2">Teams use Epic, Super Epic, Legendary, Mystic, and Eternal Cookies only. Each lineup contains five different Cookies. The league runs while this page remains open.</p>
             </div>
         </section>
@@ -1335,7 +1336,7 @@
         const CRK_SAVE_KEY = 'CRK_GAME_SAVE_V23_CUSTOM_ROSTER';
         function saveGame() {
             try {
-                const payload = JSON.stringify(gameState);
+                const payload = JSON.stringify({...gameState,defenseLogbook:[]});
                 localStorage.setItem(CRK_SAVE_KEY, payload);
                 if(typeof queueCloudSave==='function')queueCloudSave();
                 const status = document.getElementById('save-status');
@@ -1353,7 +1354,7 @@
         function exportCRKSave(){
             try{
                 saveGame();
-                const payload={format:'CRK_OFFLINE_BACKUP',version:38,createdAt:new Date().toISOString(),game:gameState,cookies:readBuiltCookies()};
+                const payload={format:'CRK_OFFLINE_BACKUP',version:38,createdAt:new Date().toISOString(),game:{...gameState,defenseLogbook:[]},cookies:readBuiltCookies()};
                 const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));
                 const a=document.createElement('a');a.href=url;a.download='CRK_Kingdom_Backup_'+new Date().toISOString().slice(0,10)+'.json';
                 document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
@@ -1390,7 +1391,7 @@
             if(!Array.isArray(gameState.equippedTreasures))gameState.equippedTreasures=[];
             if(!Array.isArray(gameState.defenseTreasures))gameState.defenseTreasures=gameState.equippedTreasures.slice();
             gameState.defenseTreasures=gameState.defenseTreasures.filter((id,i,a)=>a.indexOf(id)===i&&gameState.treasures[id]).slice(0,3);
-            if(!Array.isArray(gameState.defenseLogbook))gameState.defenseLogbook=[];
+            gameState.defenseLogbook=[]; // Session-only defense log; never restore stored history.
             gameState.equippedTreasures=gameState.equippedTreasures.filter((id,i,a)=>a.indexOf(id)===i&&gameState.treasures[id]).slice(0,3);
             if (!Array.isArray(gameState.toppings)) gameState.toppings = [];
             if (!Array.isArray(gameState.biscuits)) gameState.biscuits = [];
@@ -1777,6 +1778,21 @@
             if (tabName === 'builder') { renderCookieBuilder(); refreshPublicCookies(); }
         }
 
+        function toggleDefenseLogbook(){
+            const panel=document.getElementById('defense-logbook'),btn=document.getElementById('defense-log-toggle');
+            if(!panel||!btn)return;
+            const visible=panel.classList.toggle('hidden')===false;
+            btn.textContent=visible?'🙈 HIDE LOGBOOK':'👁 SHOW LOGBOOK';btn.setAttribute('aria-expanded',String(visible));
+        }
+        function testMyDefenseSquad(){
+            if(battleActive||leagueMode){alert('Finish the current battle first.');return;}
+            const def=(gameState.defenseTeam||[]).filter(Boolean);
+            if(!def.length){alert('Add Cookies to your Defense Squad first!');return;}
+            selectedOpponentIndex=-1;
+            document.getElementById('enemy-tier-select').value='defense_test';
+            switchTab('battle');startBattle();
+            document.getElementById('enemy-tier-select').value='intermediate';
+        }
         function setTeamEditMode(mode) {
             currentEditMode = mode;
             const btnOffense = document.getElementById('btn-mode-offense');
@@ -1792,6 +1808,7 @@
                 document.getElementById('loadout-team-icon').innerText = '🛡️';
                 document.getElementById('loadout-team-title').innerText = 'DEFENSE FORMATION';
             }
+            const defenseActions=document.getElementById('defense-squad-actions');if(defenseActions)defenseActions.classList.toggle('hidden',mode!=='defense');
             renderTeamSlots();
         }
 
@@ -2907,7 +2924,7 @@
             const treasureDrops=[];
             for(let i=0;i<pulls;i++){
                 results.push(rollSingleGacha());
-                if(Math.random()<.01)treasureDrops.push(awardTreasure());
+                if(Math.random()<.03)treasureDrops.push(awardTreasure());
             }
             if(treasureDrops.length)alert('🏺 TREASURE! '+treasureDrops.map(x=>x.treasure.icon+' '+x.treasure.name+(x.duplicate?' (+1 upgrade shard)':' (NEW!)')).join(', '));
             renderTreasures();
@@ -4716,10 +4733,10 @@
             const previous={playerUnits,enemyUnits,battleActive,battleTimeLeft,battleTickNumber,gearHeadlessBattle,gearHeadlessOutcome,gearHeadlessAllUnits,gearSimStep,pendingEnemyTreasures,pendingDefenseLog};
             try{
                 const make=(team,side)=>team.map((c,i)=>{
-                    const stats=side==='raid_def' ? getCookieScaledStats(c.id) : getCookieScaledStats(c.id,c.level,{stars:c.stars||0,skillLevel:c.skillLevel||100,atk:.45,crit:.15,cooldown:.10});
+                    const stats=side==='raid_def' ? getCookieScaledStats(c.id) : getCookieScaledStats(c.id,c.level,{stars:c.stars??0,skillLevel:c.skillLevel??100,atk:(c.toppings||[]).filter(t=>t.type==='atk').reduce((n,t)=>n+.01*(t.level||0),0),crit:(c.toppings||[]).filter(t=>t.type==='crit').reduce((n,t)=>n+.005*(t.level||0),0),cooldown:(c.toppings||[]).filter(t=>t.type==='cooldown').reduce((n,t)=>n+.005*(t.level||0),0)});
                     if(!stats)return null;
                     const unit=initCombatUnit(stats,side+'_'+i);
-                    unit.stars=c.stars||0;unit.skillLevel=c.skillLevel||100;
+                    unit.stars=c.stars??0;unit.skillLevel=c.skillLevel??100;
                     return unit;
                 }).filter(Boolean);
                 playerUnits=make(attackers,'raid_atk');enemyUnits=make(defenders,'raid_def');
@@ -4749,7 +4766,13 @@
             const candidates=COOKIES_DB.filter(c=>['Epic','SuperEpic','Legendary','Mystic','Eternal'].includes(c.rarity)&&c.role!=='Ethereal');
             if(candidates.length<5)return;
             const shuffled=candidates.slice().sort(()=>Math.random()-.5).slice(0,5);
-            const attackers=shuffled.map(c=>({id:c.id,name:c.name,rarity:c.rarity,role:c.role,level:Math.min(100,Math.max(40,Math.round((gameState.unlockedCookies[ids[0]]?.level||50)+(Math.random()-.5)*30))),stars:Math.floor(Math.random()*6),skillLevel:80,toppings:[{type:['atk','cooldown','resist','crit'][Math.floor(Math.random()*4)],level:12}],biscuits:[{lines:Array(4).fill({type:'atk',value:.05}),level:12}]}));
+            const toppingTypes=['atk','hp','def','cooldown','resist','crit','critDmg','atkSpeed','healing'];
+            const rand=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+            const attackers=shuffled.map(c=>({id:c.id,name:c.name,rarity:c.rarity,role:c.role,
+                level:rand(1,100),stars:rand(0,6),skillLevel:rand(1,100),
+                toppings:Array.from({length:rand(0,5)},()=>({type:toppingTypes[rand(0,toppingTypes.length-1)],level:rand(0,12),substats:Array.from({length:rand(0,3)},()=>({type:toppingTypes[rand(0,toppingTypes.length-1)],value:rand(1,12)/100}))})),
+                biscuits:[{level:rand(1,30),lines:Array.from({length:4},()=>({type:toppingTypes[rand(0,toppingTypes.length-1)],value:rand(1,20)/100}))}]
+            }));
             const defenders=ids.map(id=>snapshotOwnedCookie(id));
             const result=runIsolatedDefenseCombat(attackers,defenders);
             if(!result)return;
@@ -6302,15 +6325,15 @@
                         node.innerHTML=isPlayer?`
                           <div class="flex items-center gap-2 min-w-0 flex-1"><span class="unit-emoji text-2xl"></span><div class="min-w-0 flex-1">
                             <div class="unit-name text-[10px] font-bold text-slate-100 whitespace-normal break-words leading-tight"></div>
-                            <div class="combat-hp-track mt-1"><div class="combat-hp-fill hp-fill"></div></div>
-                            <div class="shield-wrap hidden mt-1"><div class="combat-shield-track"><div class="combat-shield-fill shield-fill"></div></div></div>
+                            <div class="combat-hp-track mt-1 relative overflow-hidden" style="height:17px"><div class="combat-hp-fill hp-fill"></div><span class="hp-bar-number absolute inset-0 flex items-center justify-center font-black text-white pointer-events-none" style="font-size:10px;text-shadow:0 1px 3px #000,0 0 3px #000"></span></div>
+                            <div class="shield-wrap hidden mt-1"><div class="combat-shield-track relative overflow-hidden" style="height:17px"><div class="combat-shield-fill shield-fill"></div><span class="shield-bar-number absolute inset-0 flex items-center justify-center font-black text-white pointer-events-none" style="font-size:10px;text-shadow:0 1px 3px #000,0 0 3px #000"></span></div></div>
                             <div class="status-row"></div><div class="unit-hp-label text-[8px] text-slate-400 mt-0.5"></div>
                           </div></div><div class="text-right shrink-0"><div class="unit-role"></div><div class="unit-cd mt-1"></div></div>`:`
                           <div class="text-left shrink-0"><div class="unit-role"></div><div class="text-[9px] text-rose-400 font-bold mt-1">Lvl ${u.level}</div><div class="unit-cd mt-1"></div></div>
                           <div class="flex items-center gap-2 text-right flex-row-reverse min-w-0 flex-1"><span class="unit-emoji text-2xl"></span><div class="min-w-0 flex-1">
                             <div class="unit-name text-[10px] font-bold text-slate-100 whitespace-normal break-words leading-tight"></div>
                             <div class="combat-hp-track mt-1"><div class="combat-hp-fill enemy-hp-fill hp-fill"></div></div>
-                            <div class="shield-wrap hidden mt-1"><div class="combat-shield-track"><div class="combat-shield-fill shield-fill"></div></div></div>
+                            <div class="shield-wrap hidden mt-1"><div class="combat-shield-track relative overflow-hidden" style="height:17px"><div class="combat-shield-fill shield-fill"></div><span class="shield-bar-number absolute inset-0 flex items-center justify-center font-black text-white pointer-events-none" style="font-size:10px;text-shadow:0 1px 3px #000,0 0 3px #000"></span></div></div>
                             <div class="status-row"></div><div class="unit-hp-label text-[8px] text-slate-400 mt-0.5"></div>
                           </div></div>`;
                         container.appendChild(node);
@@ -6338,6 +6361,8 @@
                     node.querySelector('.unit-emoji').textContent=u.name.split(' ')[0];
                     node.querySelector('.unit-name').textContent=u.name+' '+(u.stars===6?'🌟':('⭐'.repeat(u.stars||0)||'☆'));
                     node.querySelector('.hp-fill').style.width=`${hpPct}%`;
+                    node.querySelector('.hp-bar-number').textContent=`❤️ ${Math.ceil(Math.max(0,u.currentHp)).toLocaleString()} / ${Math.ceil(u.maxHp).toLocaleString()}`;
+                    node.querySelector('.shield-bar-number').textContent=`🛡 ${Math.ceil(Math.max(0,u.shield||0)).toLocaleString()}`;
                     const sw=node.querySelector('.shield-wrap'); sw.classList.toggle('hidden',!(u.shield>0));
                     node.querySelector('.shield-fill').style.width=`${shieldPct}%`;
                     node.querySelector('.status-row').innerHTML=getStatusChips(u);
@@ -6537,6 +6562,19 @@
                 return initCombatUnit(stats,`${prefix}_${i}`);
             });
         }
+        let leagueCookieRecords=new Map();
+        function recordLeagueCookieMatch(winner,loser){
+            const winIds=new Set(winner.cookies.map(c=>c.id));
+            const loseIds=new Set(loser.cookies.map(c=>c.id));
+            for(const id of winIds){const r=leagueCookieRecords.get(id)||{wins:0,losses:0};r.wins++;leagueCookieRecords.set(id,r);}
+            for(const id of loseIds){const r=leagueCookieRecords.get(id)||{wins:0,losses:0};r.losses++;leagueCookieRecords.set(id,r);}
+            renderLeagueCookieLeaderboard();
+        }
+        function renderLeagueCookieLeaderboard(){
+            const root=document.getElementById('league-cookie-leaderboard');if(!root)return;
+            const ranked=[...leagueCookieRecords].map(([id,r])=>({id,...r,total:r.wins+r.losses})).sort((a,b)=>(b.wins/b.total)-(a.wins/a.total)||b.wins-a.wins||b.total-a.total).slice(0,10);
+            root.innerHTML=ranked.length?ranked.map((r,i)=>{const cookie=COOKIES_DB.find(c=>c.id===r.id);return `<tr class="border-t border-slate-800"><td class="py-2 text-amber-300 font-black">${i+1}</td><td class="py-2 font-semibold">${cookie?.name||r.id}</td><td class="text-emerald-300 font-black">${(100*r.wins/r.total).toFixed(1)}%</td><td>${r.wins}</td><td>${r.losses}</td><td>${r.total}</td></tr>`}).join(''):'<tr><td colspan="6" class="py-3 text-slate-500">Run league matches to rank Cookies.</td></tr>';
+        }
         function renderLeagueLeaderboard(){
             const root=document.getElementById('league-leaderboard'); if(!root)return;
             const rows=leagueRecentWinners.map(id=>leagueTeams.get(id)).filter(Boolean);
@@ -6556,7 +6594,7 @@
         function setLeagueStatus(text){const el=document.getElementById('league-status');if(el)el.textContent=text;}
         function startAutoLeague(){
             if(leagueMode)return;
-            leagueUsedTeamKeys=new Set();leagueTeams=new Map();leagueMatchCount=0;leagueRecentWinners=[];
+            leagueUsedTeamKeys=new Set();leagueTeams=new Map();leagueMatchCount=0;leagueRecentWinners=[];leagueCookieRecords=new Map();renderLeagueCookieLeaderboard();
             leagueChampion=makeLeagueTeam();leagueChallenger=makeLeagueTeam((leagueMatchCount+1)%3===0);
             if(!leagueChampion||!leagueChallenger){setLeagueStatus('NOT ENOUGH UNIQUE COOKIES');return;}
             leagueMode=true;leaguePaused=false;leagueCustomChallenge=false;leagueSpectating=false;leagueBattleSpeed=500;metaTestMode=false;battleSpeed=1;
@@ -6639,6 +6677,7 @@
             leagueRecentWinners=leagueRecentWinners.filter(id=>id!==winner.id);
             leagueRecentWinners.unshift(winner.id);leagueRecentWinners=leagueRecentWinners.slice(0,10);
             loser.losses++;loser.streak=0;
+            recordLeagueCookieMatch(winner,loser);
             leagueChampion=winner;
             leagueChallenger=null;
             if(custom){

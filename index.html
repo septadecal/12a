@@ -1789,9 +1789,10 @@
             const def=(gameState.defenseTeam||[]).filter(Boolean);
             if(!def.length){alert('Add Cookies to your Defense Squad first!');return;}
             selectedOpponentIndex=-1;
-            document.getElementById('enemy-tier-select').value='defense_test';
-            switchTab('battle');startBattle();
-            document.getElementById('enemy-tier-select').value='intermediate';
+            // Explicitly request the defense opponent; do not assign an option
+            // that does not exist in the visible enemy tier dropdown.
+            switchTab('battle');
+            startBattle('defense_test');
         }
         function setTeamEditMode(mode) {
             currentEditMode = mode;
@@ -4781,7 +4782,7 @@
         }
         // More frequent local defense activity: one simulated challenger every 45 seconds while the game is open.
         setInterval(()=>{try{createLocalDefenseChallenge();}catch(err){console.warn('Local defense challenge:',err);}},45000);
-        function startBattle() {
+        function startBattle(forcedTier) {
             if(leagueMode){alert('Stop the Auto Meta League before starting a manual battle.');return;}
             metaTestMode=false; battleSpeed=1; document.getElementById('battle-speed-select').value='1';
             const activeTeam = gameState.team.filter(id => id !== null);
@@ -4792,7 +4793,7 @@
             }
 
 
-            const tier = document.getElementById('enemy-tier-select').value;
+            const tier = forcedTier === 'defense_test' ? 'defense_test' : document.getElementById('enemy-tier-select').value;
             pendingDefenseLog=null;
             let generatedEnemies;
             if (selectedOpponentIndex >= 0 && opponentOffers[selectedOpponentIndex]) {

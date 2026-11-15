@@ -6332,7 +6332,7 @@
                           <div class="text-left shrink-0"><div class="unit-role"></div><div class="text-[9px] text-rose-400 font-bold mt-1">Lvl ${u.level}</div><div class="unit-cd mt-1"></div></div>
                           <div class="flex items-center gap-2 text-right flex-row-reverse min-w-0 flex-1"><span class="unit-emoji text-2xl"></span><div class="min-w-0 flex-1">
                             <div class="unit-name text-[10px] font-bold text-slate-100 whitespace-normal break-words leading-tight"></div>
-                            <div class="combat-hp-track mt-1"><div class="combat-hp-fill enemy-hp-fill hp-fill"></div></div>
+                            <div class="combat-hp-track mt-1 relative overflow-hidden" style="height:17px"><div class="combat-hp-fill enemy-hp-fill hp-fill"></div><span class="hp-bar-number absolute inset-0 flex items-center justify-center font-black text-white pointer-events-none" style="font-size:10px;text-shadow:0 1px 3px #000,0 0 3px #000"></span></div>
                             <div class="shield-wrap hidden mt-1"><div class="combat-shield-track relative overflow-hidden" style="height:17px"><div class="combat-shield-fill shield-fill"></div><span class="shield-bar-number absolute inset-0 flex items-center justify-center font-black text-white pointer-events-none" style="font-size:10px;text-shadow:0 1px 3px #000,0 0 3px #000"></span></div></div>
                             <div class="status-row"></div><div class="unit-hp-label text-[8px] text-slate-400 mt-0.5"></div>
                           </div></div>`;
@@ -6361,7 +6361,7 @@
                     node.querySelector('.unit-emoji').textContent=u.name.split(' ')[0];
                     node.querySelector('.unit-name').textContent=u.name+' '+(u.stars===6?'🌟':('⭐'.repeat(u.stars||0)||'☆'));
                     node.querySelector('.hp-fill').style.width=`${hpPct}%`;
-                    node.querySelector('.hp-bar-number').textContent=`❤️ ${Math.ceil(Math.max(0,u.currentHp)).toLocaleString()} / ${Math.ceil(u.maxHp).toLocaleString()}`;
+                    node.querySelector('.hp-bar-number') && (node.querySelector('.hp-bar-number').textContent=`❤️ ${Math.ceil(Math.max(0,u.currentHp)).toLocaleString()} / ${Math.ceil(u.maxHp).toLocaleString()}`);
                     node.querySelector('.shield-bar-number').textContent=`🛡 ${Math.ceil(Math.max(0,u.shield||0)).toLocaleString()}`;
                     const sw=node.querySelector('.shield-wrap'); sw.classList.toggle('hidden',!(u.shield>0));
                     node.querySelector('.shield-fill').style.width=`${shieldPct}%`;

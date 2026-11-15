@@ -321,6 +321,7 @@
         <section class="crk-panel rounded-xl p-4 my-3" id="treasure-panel">
           <div class="flex flex-wrap justify-between items-center gap-2 mb-2"><h2 class="text-lg font-extrabold text-amber-300">🏺 TREASURE VAULT</h2><span class="text-xs text-slate-300">1% bonus Treasure per Cookie summon · 3 equipped · Max Lv.12</span></div>
           <p class="text-xs text-slate-400 mb-3">Duplicate Treasures grant upgrade shards. Tap Equip to choose up to three treasures for regular battles. Levels scale every Treasure's power.</p>
+          <div class="flex flex-wrap gap-2 mb-3"><button id="treasure-attack-btn" onclick="setTreasureEditSide('attack')" class="rounded px-3 py-2 font-bold bg-amber-500 text-slate-950">⚔️ Attack Treasures</button><button id="treasure-defense-btn" onclick="setTreasureEditSide('defense')" class="rounded px-3 py-2 font-bold bg-slate-700 text-white">🛡️ Defense Treasures</button></div>
           <div id="treasure-collection" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2"></div>
         </section>
         </section>
@@ -397,6 +398,7 @@
                             <option value="Ranged">Ranged</option>
                             <option value="Ambush">Ambush</option>
                             <option value="Statuser">Statuser</option>
+                            <option value="Ethereal">Ethereal</option>
                         </select>
                     </div>
                 </div>
@@ -433,6 +435,7 @@
                 </div>
             </div>
 
+            <div class="crk-panel rounded-xl p-3"><h3 class="text-amber-300 font-extrabold mb-2">📖 DEFENSE LOGBOOK</h3><div id="defense-logbook"></div></div>
             <div class="crk-panel rounded-xl p-3 space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div><h3 class="font-extrabold text-slate-100 text-sm">🏆 CHOOSE AN OPPONENT</h3><p class="text-[11px] text-slate-400">1 dynamic team matched to your squad, 3 fully random teams, and 1 maxed-out Pro team using your saved meta drafts!</p></div>
@@ -537,7 +540,7 @@
               <p class="text-xs text-slate-400 mt-1">Uses the five Cookies in Meta Team A. Complete each stage in order: Treasures → Toppings → Beascuits. Each stage uses a fast, deterministic stat-based comparison (no combat simulation), winner-stays rankings, and the previous stage's winning equipment. No equipment is randomly changed in a completed stage.</p>
               <div class="flex flex-wrap gap-2 mt-3 items-center"><label class="text-xs">Trials per stage <input id="gear-trials" type="number" min="10" max="10000" value="1000" class="w-24 bg-slate-950 border border-slate-600 rounded p-2 ml-2"></label></div>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
-                <div class="bg-slate-950 border border-amber-700 rounded-lg p-3"><h3 class="font-bold text-amber-300">1. 🏺 Treasure Tester</h3><p class="text-xs text-slate-400 my-2">Tests three level-12 Treasures. No Toppings or Beascuits.</p><button onclick="runEquipmentStage('treasure')" class="bg-amber-700 rounded-lg px-3 py-2 text-xs font-bold">▶ TEST TREASURES</button><div id="gear-treasure-results" class="text-xs mt-2 text-slate-300">Not tested yet.</div></div>
+                <div class="bg-slate-950 border border-amber-700 rounded-lg p-3"><h3 class="font-bold text-amber-300">1. 🏺 Treasure Tester</h3><p class="text-xs text-slate-400 my-2">Tests three level-12 Treasures. No Toppings or Beascuits.</p><button id="gear-treasure-run" onclick="runEquipmentStage('treasure')" class="bg-amber-700 rounded-lg px-3 py-2 text-xs font-bold disabled:opacity-40">▶ TEST TREASURES</button><div id="gear-treasure-results" class="text-xs mt-2 text-slate-300">Not tested yet.</div></div>
                 <div class="bg-slate-950 border border-pink-700 rounded-lg p-3"><h3 class="font-bold text-pink-300">2. 🍓 Topping Tester</h3><p class="text-xs text-slate-400 my-2">Requires completed Treasure Tester. Tests full ×5 sets for each Cookie with locked Treasures.</p><button id="gear-topping-run" onclick="runEquipmentStage('topping')" disabled class="bg-pink-700 disabled:opacity-40 rounded-lg px-3 py-2 text-xs font-bold">▶ TEST TOPPINGS</button><div id="gear-topping-results" class="text-xs mt-2 text-slate-300">Complete Treasures first.</div></div>
                 <div class="bg-slate-950 border border-violet-700 rounded-lg p-3"><h3 class="font-bold text-violet-300">3. 🍪 Beascuit Tester</h3><p class="text-xs text-slate-400 my-2">Requires completed Treasures AND Toppings. Tests full ×4 lines with both locked.</p><button id="gear-biscuit-run" onclick="runEquipmentStage('biscuit')" disabled class="bg-violet-700 disabled:opacity-40 rounded-lg px-3 py-2 text-xs font-bold">▶ TEST BEASCUITS</button><div id="gear-biscuit-results" class="text-xs mt-2 text-slate-300">Complete Toppings first.</div></div>
               </div>
@@ -545,10 +548,10 @@
               <div id="gear-test-results" class="mt-3 text-xs text-slate-300">Complete all three stages to save recommendations.</div>
             </div>
             <div class="crk-panel rounded-xl p-4 border border-fuchsia-900/60">
-                <div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-lg font-black text-amber-200">🏆 AUTO META LEAGUE</h2><p class="text-xs text-slate-400">Random Epic+ teams fight at level 100 with skill level 100, no toppings or Beascuits. No duplicate team lineups.</p></div><span id="league-status" class="text-xs font-black text-slate-300">NOT RUNNING</span></div>
+                <div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-lg font-black text-amber-200">🏆 AUTO META LEAGUE</h2><p class="text-xs text-slate-400">Random Super Epic+ teams fight at level 100 with skill level 100, no toppings or Beascuits. No duplicate team lineups.</p></div><span id="league-status" class="text-xs font-black text-slate-300">NOT RUNNING</span></div>
                 <div class="flex flex-wrap gap-2 mt-3"><button id="league-start" onclick="startAutoLeague()" class="crk-btn rounded-lg px-4 py-2 text-xs font-black text-slate-950">▶ START LEAGUE</button><button id="league-pause" onclick="toggleLeaguePause()" class="rounded-lg bg-amber-800 border border-amber-600 px-4 py-2 text-xs font-black text-white" disabled>⏸ PAUSE LEAGUE</button><button id="league-stop" onclick="stopAutoLeague()" class="rounded-lg bg-rose-900 border border-rose-700 px-4 py-2 text-xs font-black text-white" disabled>■ STOP</button><button id="league-watch" onclick="toggleLeagueSpectate()" class="rounded-lg bg-sky-800 border border-sky-600 px-4 py-2 text-xs font-black text-white" disabled>👁 SPECTATE AT 50×</button></div>
                 <div id="league-challenge-panel" class="hidden mt-3 rounded-xl border border-amber-600 bg-amber-950/40 p-3"><p class="text-xs text-amber-200 font-bold">⚔️ BUILD A CHALLENGER</p><p class="text-[11px] text-slate-300 mt-1">Use the TEAM A builder above to create a five-Cookie squad. The reigning champion is your opponent. Your custom challenger receives the next Team # and enters the league leaderboard. After the match, stay paused and create another challenger.</p><div id="league-champion-preview" class="text-xs text-sky-300 my-2"></div><button onclick="challengeLeagueChampion()" class="crk-btn rounded-lg px-4 py-2 text-xs font-black text-slate-950">⚔️ CHALLENGE CHAMPION</button></div><p id="league-matchup" class="text-xs text-slate-300 mt-3">Start the league to generate two unique teams. The winner keeps competing against a fresh challenger.</p>
-                <div class="mt-4"><h3 class="font-black text-amber-300 text-sm mb-2">LAST 10 UNIQUE WINNING TEAMS</h3><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th class="py-2">#</th><th>TEAM</th><th>W</th><th>L</th><th>STREAK</th></tr></thead><tbody id="league-leaderboard"><tr><td colspan="5" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr></tbody></table></div></div>
+                <div class="mt-3 flex flex-wrap gap-2 items-center"><button onclick="copyTopLeagueTeamToMetaA()" class="bg-amber-700 hover:bg-amber-600 rounded-lg px-4 py-2 text-xs font-black text-white">🏆 COPY #1 TEAM TO META TEAM A</button><span id="league-copy-feedback" class="text-xs text-emerald-300"></span></div><div class="mt-4"><h3 class="font-black text-amber-300 text-sm mb-2">LAST 10 UNIQUE WINNING TEAMS</h3><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th class="py-2">#</th><th>TEAM</th><th>W</th><th>L</th><th>STREAK</th></tr></thead><tbody id="league-leaderboard"><tr><td colspan="5" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr></tbody></table></div></div>
                 <p class="text-[10px] text-slate-500 mt-2">Teams use Epic, Super Epic, Legendary, Mystic, and Eternal Cookies only. Each lineup contains five different Cookies. The league runs while this page remains open.</p>
             </div>
         </section>
@@ -590,14 +593,14 @@
                 <button onclick="previewCookieVisual()" class="border border-fuchsia-600 text-fuchsia-200 rounded p-2 text-xs font-bold">▶ PREVIEW SKILL</button>
               </div>
               <div class="rounded-xl border border-indigo-600 bg-indigo-950/30 p-3 space-y-3">
-                <h3 class="font-bold text-indigo-200">⚔️ Skill Attack Studio</h3>
+                <h3 class="font-bold text-indigo-200">⚔️ Skill Attack Studio — choose Instant, Barrage, Healing Pulses or Shield Pulses</h3>
                 <p class="text-xs text-slate-300">Set attack power here. ATK Speed dynamically speeds up or slows down repeating damage, healing and shield pulses. Debuff Resist weakens negative effects; Buff Amp strengthens buffs received; Debuff Amp strengthens debuffs applied to enemies.</p>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  <label class="text-xs">Attack type<select id="cb-attack-type" onchange="updateAttackStudio()" class="block w-full bg-slate-950 rounded p-2 mt-1"><option value="instant">💥 Instant attack</option><option value="repeating">⚡ Repeating barrage</option><option value="channel">🌈 Channeled beam</option><option value="healing">💚 Healing pulses</option><option value="drain">🩸 Life-drain pulses</option><option value="shield">🛡️ Shield pulses</option><option value="random">🎯 Random-target volley</option><option value="execute">🗡️ Execution strike</option></select></label>
-                  <label class="text-xs attack-timed">Ability duration (seconds)<input id="cb-attack-duration" type="number" min="0.5" max="30" step="0.5" value="5" class="block w-full bg-slate-950 rounded p-2 mt-1"></label>
-                  <label class="text-xs attack-timed">Interval between attacks (seconds)<input id="cb-attack-interval" type="number" min="0.1" max="5" step="0.1" value="0.5" class="block w-full bg-slate-950 rounded p-2 mt-1"></label>
+                  <label class="text-xs">Attack type<select id="cb-attack-type" onchange="updateAttackStudio()" class="block w-full bg-slate-950 rounded p-2 mt-1"><option value="instant">💥 Instant attack</option><option value="repeating">⚡ Repeating barrage (damage every interval)</option><option value="channel">🌈 Channeled beam</option><option value="healing">💚 Healing pulses (heal allies repeatedly)</option><option value="drain">🩸 Life-drain pulses</option><option value="shield">🛡️ Shield pulses (shield allies repeatedly)</option><option value="random">🎯 Random-target volley</option><option value="execute">🗡️ Execution strike</option></select></label><div class="col-span-full bg-slate-900/70 rounded-xl p-3 border border-sky-800 space-y-2"><div class="flex justify-between items-center"><span class="font-bold text-sky-200 text-xs">⚔️ Additional attack types (up to 3 total)</span><button type="button" class="text-xs bg-sky-800 rounded p-2" onclick="addExtraAttack()">+ Add attack type</button></div><p class="text-[10px] text-slate-400">Combine instant damage, barrages, healing pulses and shield pulses. Each type has its own power, duration and interval.</p><div id="cb-extra-attacks" class="space-y-2"></div></div>
+                  <label class="text-xs attack-timed">Ability duration (seconds)<input id="cb-attack-duration" oninput="updateAttackStudio()" type="number" min="0.5" max="30" step="0.5" value="5" class="block w-full bg-slate-950 rounded p-2 mt-1"></label>
+                  <label class="text-xs attack-timed">Interval between attacks (seconds)<input id="cb-attack-interval" oninput="updateAttackStudio()" type="number" min="0.1" max="5" step="0.1" value="0.5" class="block w-full bg-slate-950 rounded p-2 mt-1"></label>
                   <label class="text-xs">Skill attack power (% ATK)<input id="cb-attack-power" type="number" min="0" max="5000" value="100" class="block w-full bg-slate-950 rounded p-2 mt-1"></label>
-                  <label class="text-xs">Effect application<select id="cb-attack-effects" class="block w-full bg-slate-950 rounded p-2 mt-1"><option value="first">First pulse only</option><option value="each">Every pulse</option></select></label>
+                  <label class="text-xs">Effect application<select id="cb-attack-effects" onchange="updateAttackStudio()" class="block w-full bg-slate-950 rounded p-2 mt-1"><option value="first">First pulse only</option><option value="each">Every pulse</option></select></label>
                 </div>
                 <p id="cb-attack-summary" class="text-xs text-cyan-200"></p>
               </div>
@@ -637,7 +640,7 @@
         </section>
 
         <!-- TAB 4: COLLECTION GALLERY -->
-        <section id="tab-collection" class="tab-content hidden flex-col gap-4">
+        <section id="tab-collection" class="tab-content hidden flex-col gap-4 pb-28" style="min-height:100dvh;overflow:visible">
             <div class="crk-panel p-4 rounded-2xl">
                 <div class="flex justify-between items-center mb-4">
                     <div>
@@ -651,7 +654,7 @@
                 </div>
 
                 <div class="flex flex-wrap gap-2 mb-3 items-center"><label class="text-xs text-slate-300">Effect filter</label><select id="gallery-effect-filter" onchange="renderCollectionTab()" class="bg-slate-900 border border-slate-700 text-white rounded-lg px-2 py-1 text-xs"><option value="">All effects</option></select><select id="gallery-effect-kind" onchange="renderCollectionTab()" class="bg-slate-900 border border-slate-700 text-white rounded-lg px-2 py-1 text-xs"><option value="">Buffs & Debuffs</option><option value="buff">Buffs</option><option value="debuff">Debuffs</option></select></div>
-                <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3 max-h-[70vh] overflow-y-auto overscroll-contain p-1"></div>
+                <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3 overflow-visible p-1 pb-24"></div>
             </div>
         </section>
 
@@ -927,6 +930,8 @@
             Mystic:{Charge:[6534,1211,1857],Defense:[6600,1150,1950],Magic:[5785,1463,1444],Ambush:[6412,1356,1460],Bomber:[5931,1460,1327],Ranged:[5500,1450,1350],Support:[5200,1200,1250],Healer:[4057,529,1049]},
             Eternal:{Charge:[6544,1153,1955],Defense:[6385,556,2777],Magic:[4500,1500,1250],Ambush:[4800,1510,1200],Ranged:[2375,1523,1229],Bomber:[4974,1526,1271],Support:[4200,1050,1400],Healer:[3447,545,997]}
         };
+        // High-rarity expansion: 9 new Cookies per tier.
+        COOKIE_DEFINITIONS.push(...[{"id":"expansion_superepic_1","name":"🌌 Stardust Éclair","rarity":"SuperEpic","role":"Magic","element":"Light","cd":12,"skill":"Stardust Dominion","desc":"Stardust Éclair invokes Stardust Blessing on allies and Stardust Hex on enemies.","custom":true,"customDamage":380,"customEffects":[{"stat":"Custom Status","customName":"Stardust Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Stardust Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Stardust Blessing","components":[{"stat":"CRIT Chance Up","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Stardust Hex","components":[{"stat":"ATK Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"DEF Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Stardust Persistence","stat":"ATK Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌌","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_superepic_2","name":"🍒 Crimson Chiffon","rarity":"SuperEpic","role":"Ambush","element":"Fire","cd":13,"skill":"Crimson Dominion","desc":"Crimson Chiffon invokes Crimson Blessing on allies and Crimson Hex on enemies.","custom":true,"customDamage":380,"customEffects":[{"stat":"Custom Status","customName":"Crimson Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Crimson Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Crimson Blessing","components":[{"stat":"CRIT Chance Up","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Crimson Hex","components":[{"stat":"DMG Resist Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Crimson Persistence","stat":"ATK Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🍒","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":13},{"id":"expansion_superepic_3","name":"🌊 Tidal Panna Cotta","rarity":"SuperEpic","role":"Healer","element":"Water","cd":14,"skill":"Tidal Dominion","desc":"Tidal Panna Cotta invokes Tidal Blessing on allies and Tidal Hex on enemies.","custom":true,"customDamage":0,"customEffects":[{"stat":"Custom Status","customName":"Tidal Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Tidal Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Tidal Blessing","components":[{"stat":"Healing Over Time","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Tidal Hex","components":[{"stat":"Healing Received Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Tidal Persistence","stat":"DEF Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🌊","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":14},{"id":"expansion_superepic_4","name":"🪵 Cedar Praline","rarity":"SuperEpic","role":"Defense","element":"Nature","cd":15,"skill":"Cedar Dominion","desc":"Cedar Praline invokes Cedar Blessing on allies and Cedar Hex on enemies.","custom":true,"customDamage":380,"customEffects":[{"stat":"Custom Status","customName":"Cedar Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Cedar Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Cedar Blessing","components":[{"stat":"DMG Resist Up","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Cedar Hex","components":[{"stat":"ATK Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"DEF Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Cedar Persistence","stat":"DEF Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🪵","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":15},{"id":"expansion_superepic_5","name":"⚡ Volt Meringue","rarity":"SuperEpic","role":"Ranged","element":"Electricity","cd":12,"skill":"Volt Dominion","desc":"Volt Meringue invokes Volt Blessing on allies and Volt Hex on enemies.","custom":true,"customDamage":380,"customEffects":[{"stat":"Custom Status","customName":"Volt Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Volt Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Volt Blessing","components":[{"stat":"ATK Speed Up","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Volt Hex","components":[{"stat":"ATK Speed Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Volt Persistence","stat":"ATK Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"⚡","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_superepic_6","name":"🧊 Polar Mochi","rarity":"SuperEpic","role":"Statuser","element":"Ice","cd":13,"skill":"Polar Dominion","desc":"Polar Mochi invokes Polar Blessing on allies and Polar Hex on enemies.","custom":true,"customDamage":380,"customEffects":[{"stat":"Custom Status","customName":"Polar Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Polar Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Polar Blessing","components":[{"stat":"Debuff Resist","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Polar Hex","components":[{"stat":"DMG Resist Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Polar Persistence","stat":"ATK Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🧊","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":13},{"id":"expansion_superepic_7","name":"🌹 Rose Ganache","rarity":"SuperEpic","role":"Support","element":"Nature","cd":14,"skill":"Rose Dominion","desc":"Rose Ganache invokes Rose Blessing on allies and Rose Hex on enemies.","custom":true,"customDamage":380,"customEffects":[{"stat":"Custom Status","customName":"Rose Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Rose Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Rose Blessing","components":[{"stat":"ATK Up","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Rose Hex","components":[{"stat":"DEF Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Rose Persistence","stat":"ATK Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🌹","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":14},{"id":"expansion_superepic_8","name":"🪨 Obsidian Nougat","rarity":"SuperEpic","role":"Charge","element":"Dark","cd":15,"skill":"Obsidian Dominion","desc":"Obsidian Nougat invokes Obsidian Blessing on allies and Obsidian Hex on enemies.","custom":true,"customDamage":380,"customEffects":[{"stat":"Custom Status","customName":"Obsidian Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Obsidian Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Obsidian Blessing","components":[{"stat":"DEF Up","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DMG Resist Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Obsidian Hex","components":[{"stat":"DEF Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Obsidian Persistence","stat":"ATK Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🪨","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":15},{"id":"expansion_superepic_9","name":"☄️ Comet Custard","rarity":"SuperEpic","role":"Bomber","element":"Light","cd":12,"skill":"Comet Dominion","desc":"Comet Custard invokes Comet Blessing on allies and Comet Hex on enemies.","custom":true,"customDamage":380,"customEffects":[{"stat":"Custom Status","customName":"Comet Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Comet Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Comet Blessing","components":[{"stat":"ATK Up","target":"team","amount":22,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Comet Hex","components":[{"stat":"DEF Down","target":"all","amount":19,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Comet Persistence","stat":"ATK Up","target":"self","amount":10,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"☄️","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_legendary_1","name":"🐉 Dragonfruit Eclipse","rarity":"Legendary","role":"Charge","element":"Fire","cd":12,"skill":"Dragonfruit Dominion","desc":"Dragonfruit Eclipse invokes Dragonfruit Blessing on allies and Dragonfruit Hex on enemies.","custom":true,"customDamage":480,"customEffects":[{"stat":"Custom Status","customName":"Dragonfruit Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Dragonfruit Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Dragonfruit Blessing","components":[{"stat":"DEF Up","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DMG Resist Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Dragonfruit Hex","components":[{"stat":"DEF Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Dragonfruit Persistence","stat":"ATK Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🐉","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_legendary_2","name":"🦚 Aurora Pavlova","rarity":"Legendary","role":"Support","element":"Light","cd":13,"skill":"Aurora Dominion","desc":"Aurora Pavlova invokes Aurora Blessing on allies and Aurora Hex on enemies.","custom":true,"customDamage":480,"customEffects":[{"stat":"Custom Status","customName":"Aurora Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Aurora Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Aurora Blessing","components":[{"stat":"ATK Up","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Aurora Hex","components":[{"stat":"DEF Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Aurora Persistence","stat":"ATK Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🦚","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":13},{"id":"expansion_legendary_3","name":"🪐 Saturn Soufflé","rarity":"Legendary","role":"Magic","element":"Dark","cd":14,"skill":"Saturn Dominion","desc":"Saturn Soufflé invokes Saturn Blessing on allies and Saturn Hex on enemies.","custom":true,"customDamage":480,"customEffects":[{"stat":"Custom Status","customName":"Saturn Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Saturn Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Saturn Blessing","components":[{"stat":"CRIT Chance Up","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Saturn Hex","components":[{"stat":"ATK Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"DEF Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Saturn Persistence","stat":"ATK Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🪐","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":14},{"id":"expansion_legendary_4","name":"🌺 Hibiscus Oracle","rarity":"Legendary","role":"Healer","element":"Nature","cd":15,"skill":"Hibiscus Dominion","desc":"Hibiscus Oracle invokes Hibiscus Blessing on allies and Hibiscus Hex on enemies.","custom":true,"customDamage":0,"customEffects":[{"stat":"Custom Status","customName":"Hibiscus Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Hibiscus Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Hibiscus Blessing","components":[{"stat":"Healing Over Time","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Hibiscus Hex","components":[{"stat":"Healing Received Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Hibiscus Persistence","stat":"DEF Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🌺","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":15},{"id":"expansion_legendary_5","name":"🗡️ Silver Nightfall","rarity":"Legendary","role":"Ambush","element":"Steel","cd":12,"skill":"Silver Dominion","desc":"Silver Nightfall invokes Silver Blessing on allies and Silver Hex on enemies.","custom":true,"customDamage":480,"customEffects":[{"stat":"Custom Status","customName":"Silver Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Silver Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Silver Blessing","components":[{"stat":"CRIT Chance Up","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Silver Hex","components":[{"stat":"DMG Resist Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Silver Persistence","stat":"ATK Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🗡️","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_legendary_6","name":"🔱 Oceanic Crown","rarity":"Legendary","role":"Defense","element":"Water","cd":13,"skill":"Oceanic Dominion","desc":"Oceanic Crown invokes Oceanic Blessing on allies and Oceanic Hex on enemies.","custom":true,"customDamage":480,"customEffects":[{"stat":"Custom Status","customName":"Oceanic Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Oceanic Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Oceanic Blessing","components":[{"stat":"DMG Resist Up","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Oceanic Hex","components":[{"stat":"ATK Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"DEF Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Oceanic Persistence","stat":"DEF Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🔱","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":13},{"id":"expansion_legendary_7","name":"🌩️ Thunder Roc","rarity":"Legendary","role":"Ranged","element":"Electricity","cd":14,"skill":"Thunder Dominion","desc":"Thunder Roc invokes Thunder Blessing on allies and Thunder Hex on enemies.","custom":true,"customDamage":480,"customEffects":[{"stat":"Custom Status","customName":"Thunder Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Thunder Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Thunder Blessing","components":[{"stat":"ATK Speed Up","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Thunder Hex","components":[{"stat":"ATK Speed Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Thunder Persistence","stat":"ATK Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌩️","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":14},{"id":"expansion_legendary_8","name":"🍄 Mycelium Witch","rarity":"Legendary","role":"Statuser","element":"Nature","cd":15,"skill":"Mycelium Dominion","desc":"Mycelium Witch invokes Mycelium Blessing on allies and Mycelium Hex on enemies.","custom":true,"customDamage":480,"customEffects":[{"stat":"Custom Status","customName":"Mycelium Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Mycelium Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Mycelium Blessing","components":[{"stat":"Debuff Resist","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Mycelium Hex","components":[{"stat":"DMG Resist Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Mycelium Persistence","stat":"ATK Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🍄","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":15},{"id":"expansion_legendary_9","name":"🔥 Phoenix Macaron","rarity":"Legendary","role":"Bomber","element":"Fire","cd":12,"skill":"Phoenix Dominion","desc":"Phoenix Macaron invokes Phoenix Blessing on allies and Phoenix Hex on enemies.","custom":true,"customDamage":480,"customEffects":[{"stat":"Custom Status","customName":"Phoenix Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Phoenix Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Phoenix Blessing","components":[{"stat":"ATK Up","target":"team","amount":29,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Phoenix Hex","components":[{"stat":"DEF Down","target":"all","amount":25,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Phoenix Persistence","stat":"ATK Up","target":"self","amount":13,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🔥","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_mystic_1","name":"🌠 Astral Lychee","rarity":"Mystic","role":"Magic","element":"Light","cd":12,"skill":"Astral Dominion","desc":"Astral Lychee invokes Astral Blessing on allies and Astral Hex on enemies.","custom":true,"customDamage":580,"customEffects":[{"stat":"Custom Status","customName":"Astral Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Astral Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Astral Blessing","components":[{"stat":"CRIT Chance Up","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Astral Hex","components":[{"stat":"ATK Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"DEF Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Astral Persistence","stat":"ATK Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌠","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_mystic_2","name":"🌫️ Fogbound Opal","rarity":"Mystic","role":"Statuser","element":"Ice","cd":13,"skill":"Fogbound Dominion","desc":"Fogbound Opal invokes Fogbound Blessing on allies and Fogbound Hex on enemies.","custom":true,"customDamage":580,"customEffects":[{"stat":"Custom Status","customName":"Fogbound Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Fogbound Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Fogbound Blessing","components":[{"stat":"Debuff Resist","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Fogbound Hex","components":[{"stat":"DMG Resist Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Fogbound Persistence","stat":"ATK Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌫️","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":13},{"id":"expansion_mystic_3","name":"🌿 Everdawn Nectar","rarity":"Mystic","role":"Healer","element":"Nature","cd":14,"skill":"Everdawn Dominion","desc":"Everdawn Nectar invokes Everdawn Blessing on allies and Everdawn Hex on enemies.","custom":true,"customDamage":0,"customEffects":[{"stat":"Custom Status","customName":"Everdawn Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Everdawn Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Everdawn Blessing","components":[{"stat":"Healing Over Time","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Everdawn Hex","components":[{"stat":"Healing Received Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Everdawn Persistence","stat":"DEF Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🌿","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":14},{"id":"expansion_mystic_4","name":"🌑 Midnight Lotus","rarity":"Mystic","role":"Ambush","element":"Dark","cd":15,"skill":"Midnight Dominion","desc":"Midnight Lotus invokes Midnight Blessing on allies and Midnight Hex on enemies.","custom":true,"customDamage":580,"customEffects":[{"stat":"Custom Status","customName":"Midnight Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Midnight Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Midnight Blessing","components":[{"stat":"CRIT Chance Up","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Midnight Hex","components":[{"stat":"DMG Resist Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Midnight Persistence","stat":"ATK Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌑","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":15},{"id":"expansion_mystic_5","name":"🦋 Dreamweaver Cream","rarity":"Mystic","role":"Support","element":"Light","cd":12,"skill":"Dreamweaver Dominion","desc":"Dreamweaver Cream invokes Dreamweaver Blessing on allies and Dreamweaver Hex on enemies.","custom":true,"customDamage":580,"customEffects":[{"stat":"Custom Status","customName":"Dreamweaver Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Dreamweaver Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Dreamweaver Blessing","components":[{"stat":"ATK Up","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Dreamweaver Hex","components":[{"stat":"DEF Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Dreamweaver Persistence","stat":"ATK Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🦋","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_mystic_6","name":"💎 Prismatic Bastion","rarity":"Mystic","role":"Defense","element":"Steel","cd":13,"skill":"Prismatic Dominion","desc":"Prismatic Bastion invokes Prismatic Blessing on allies and Prismatic Hex on enemies.","custom":true,"customDamage":580,"customEffects":[{"stat":"Custom Status","customName":"Prismatic Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Prismatic Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Prismatic Blessing","components":[{"stat":"DMG Resist Up","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Prismatic Hex","components":[{"stat":"ATK Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"DEF Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Prismatic Persistence","stat":"DEF Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"💎","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":13},{"id":"expansion_mystic_7","name":"🌋 Molten Amethyst","rarity":"Mystic","role":"Bomber","element":"Fire","cd":14,"skill":"Molten Dominion","desc":"Molten Amethyst invokes Molten Blessing on allies and Molten Hex on enemies.","custom":true,"customDamage":580,"customEffects":[{"stat":"Custom Status","customName":"Molten Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Molten Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Molten Blessing","components":[{"stat":"ATK Up","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Molten Hex","components":[{"stat":"DEF Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Molten Persistence","stat":"ATK Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌋","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":14},{"id":"expansion_mystic_8","name":"🌪️ Skyborne Truffle","rarity":"Mystic","role":"Ranged","element":"Wind","cd":15,"skill":"Skyborne Dominion","desc":"Skyborne Truffle invokes Skyborne Blessing on allies and Skyborne Hex on enemies.","custom":true,"customDamage":580,"customEffects":[{"stat":"Custom Status","customName":"Skyborne Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Skyborne Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Skyborne Blessing","components":[{"stat":"ATK Speed Up","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Skyborne Hex","components":[{"stat":"ATK Speed Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Skyborne Persistence","stat":"ATK Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌪️","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":15},{"id":"expansion_mystic_9","name":"🪷 Lotus Sovereign","rarity":"Mystic","role":"Charge","element":"Water","cd":12,"skill":"Lotus Dominion","desc":"Lotus Sovereign invokes Lotus Blessing on allies and Lotus Hex on enemies.","custom":true,"customDamage":580,"customEffects":[{"stat":"Custom Status","customName":"Lotus Blessing","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Lotus Hex","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Lotus Blessing","components":[{"stat":"DEF Up","target":"team","amount":36,"duration":8,"stacks":2},{"stat":"DMG Resist Up","target":"team","amount":12,"duration":7,"stacks":2}]},{"name":"Lotus Hex","components":[{"stat":"DEF Down","target":"all","amount":31,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":12,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Lotus Persistence","stat":"ATK Up","target":"self","amount":16,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🪷","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_eternal_1","name":"☀️ Solar Ascendant","rarity":"Eternal","role":"Magic","element":"Light","cd":12,"skill":"Solar Dominion","desc":"Solar Ascendant invokes Solar Ascendance on allies and Solar Anathema on enemies.","custom":true,"customDamage":680,"customEffects":[{"stat":"Custom Status","customName":"Solar Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Solar Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Solar Ascendance","components":[{"stat":"ATK Up","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Solar Anathema","components":[{"stat":"ATK Down","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"DEF Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Solar Persistence","stat":"ATK Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"☀️","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_eternal_2","name":"🌙 Lunar Sovereign","rarity":"Eternal","role":"Statuser","element":"Dark","cd":13,"skill":"Lunar Dominion","desc":"Lunar Sovereign invokes Lunar Ascendance on allies and Lunar Anathema on enemies.","custom":true,"customDamage":680,"customEffects":[{"stat":"Custom Status","customName":"Lunar Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Lunar Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Lunar Ascendance","components":[{"stat":"DEF Up","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DMG Resist Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Lunar Anathema","components":[{"stat":"DEF Down","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Lunar Persistence","stat":"ATK Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌙","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":13},{"id":"expansion_eternal_3","name":"🌳 Worldroot Empress","rarity":"Eternal","role":"Healer","element":"Nature","cd":14,"skill":"Worldroot Dominion","desc":"Worldroot Empress invokes Worldroot Ascendance on allies and Worldroot Anathema on enemies.","custom":true,"customDamage":0,"customEffects":[{"stat":"Custom Status","customName":"Worldroot Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Worldroot Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Worldroot Ascendance","components":[{"stat":"DMG Resist Up","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Worldroot Anathema","components":[{"stat":"DMG Resist Down","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Worldroot Persistence","stat":"DEF Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🌳","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":14},{"id":"expansion_eternal_4","name":"🌌 Voidglass Oracle","rarity":"Eternal","role":"Support","element":"Dark","cd":15,"skill":"Voidglass Dominion","desc":"Voidglass Oracle invokes Voidglass Ascendance on allies and Voidglass Anathema on enemies.","custom":true,"customDamage":680,"customEffects":[{"stat":"Custom Status","customName":"Voidglass Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Voidglass Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Voidglass Ascendance","components":[{"stat":"CRIT Chance Up","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Voidglass Anathema","components":[{"stat":"CRIT Chance Down","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Voidglass Persistence","stat":"ATK Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🌌","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":15},{"id":"expansion_eternal_5","name":"🔥 Ember Eternity","rarity":"Eternal","role":"Bomber","element":"Fire","cd":12,"skill":"Ember Dominion","desc":"Ember Eternity invokes Ember Ascendance on allies and Ember Anathema on enemies.","custom":true,"customDamage":680,"customEffects":[{"stat":"Custom Status","customName":"Ember Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Ember Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Ember Ascendance","components":[{"stat":"ATK Speed Up","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Ember Anathema","components":[{"stat":"ATK Speed Down","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Ember Persistence","stat":"ATK Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🔥","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12},{"id":"expansion_eternal_6","name":"❄️ Absolute Winter","rarity":"Eternal","role":"Defense","element":"Ice","cd":13,"skill":"Absolute Dominion","desc":"Absolute Winter invokes Absolute Ascendance on allies and Absolute Anathema on enemies.","custom":true,"customDamage":680,"customEffects":[{"stat":"Custom Status","customName":"Absolute Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Absolute Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Absolute Ascendance","components":[{"stat":"Cooldown Recovery","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Absolute Anathema","components":[{"stat":"Healing Received Down","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Absolute Persistence","stat":"DEF Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"❄️","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":13},{"id":"expansion_eternal_7","name":"⚡ Stormheart Regent","rarity":"Eternal","role":"Ranged","element":"Electricity","cd":14,"skill":"Stormheart Dominion","desc":"Stormheart Regent invokes Stormheart Ascendance on allies and Stormheart Anathema on enemies.","custom":true,"customDamage":680,"customEffects":[{"stat":"Custom Status","customName":"Stormheart Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Stormheart Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Stormheart Ascendance","components":[{"stat":"Amplify Buff","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Stormheart Anathema","components":[{"stat":"Cooldown Increase","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Stormheart Persistence","stat":"ATK Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"⚡","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":14},{"id":"expansion_eternal_8","name":"🌊 Abyssal Monarch","rarity":"Eternal","role":"Charge","element":"Water","cd":15,"skill":"Abyssal Dominion","desc":"Abyssal Monarch invokes Abyssal Ascendance on allies and Abyssal Anathema on enemies.","custom":true,"customDamage":680,"customEffects":[{"stat":"Custom Status","customName":"Abyssal Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Abyssal Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Abyssal Ascendance","components":[{"stat":"Debuff Resist","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Abyssal Anathema","components":[{"stat":"Amplify Debuff","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"ATK Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Abyssal Persistence","stat":"ATK Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"wave","customVisualEmoji":"🌊","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":15},{"id":"expansion_eternal_9","name":"🕊️ Celestial Mercy","rarity":"Eternal","role":"Ethereal","element":"Light","cd":12,"skill":"Celestial Dominion","desc":"Celestial Mercy invokes Celestial Ascendance on allies and Celestial Anathema on enemies.","custom":true,"customDamage":0,"customEffects":[{"stat":"Custom Status","customName":"Celestial Ascendance","target":"team","duration":8,"stacks":2},{"stat":"Custom Status","customName":"Celestial Anathema","target":"all","duration":7,"stacks":2}],"customComposites":[{"name":"Celestial Ascendance","components":[{"stat":"ATK Up","target":"team","amount":42,"duration":8,"stacks":2},{"stat":"DEF Up","target":"team","amount":19,"duration":7,"stacks":2}]},{"name":"Celestial Anathema","components":[{"stat":"ATK Down","target":"all","amount":38,"duration":7,"stacks":2},{"stat":"DEF Down","target":"all","amount":21,"duration":6,"stacks":2}]}],"customPassives":[{"name":"Celestial Persistence","stat":"DEF Up","target":"self","amount":19,"duration":10,"stacks":1,"trigger":"start"}],"customVisual":"shine","customVisualEmoji":"🕊️","customVisualColor":"#d8b4fe","customVisualDuration":1.15,"customVisualHits":1,"customVisualTarget":"all","customVisualTargetCount":5,"openingCD":3,"regularCD":12}]);
         let COOKIES_DB = COOKIE_DEFINITIONS.map((c, index) => {
             const mult = RARITY_MULTIPLIERS[c.rarity];
             const openingCD = Number((1.5 + ((index * 5) % 6) * 0.5).toFixed(1));
@@ -1031,32 +1036,45 @@
                 cookie.customPassives=passives;
             }
         })();
-
+        // Presentation groups preserve the original effect components and values.
+        // Only built-in Cookies are grouped; player-authored composites stay untouched.
+        // Status naming and grouping are finalized after rarity balancing below.
         // Rarity skill-effect minimums for the built-in roster.
         // Preserve every existing effect; only fill missing slots.
         (function ensureRaritySkillEffects(){
-            const templates={
-                Defense:[['DEF Up','team',12,8],['HP Shield','team',10,7]],
-                Healer:[['Instant Healing','team',35,1],['Healing Over Time','team',8,6]],
-                Support:[['ATK Up','team',12,8],['Cooldown Recovery','team',1,1]],
-                Statuser:[['DEF Down','enemy',12,7],['ATK Down','enemy',10,7]],
-                Magic:[['ATK Up','self',12,7],['DEF Down','enemy',10,7]],
-                Bomber:[['Burn','enemy',5,6],['DEF Down','enemy',10,6]],
-                Ambush:[['CRIT Chance Up','self',12,7],['DMG Resist Down','enemy',9,6]],
-                Charge:[['ATK Up','self',12,7],['DEF Up','self',12,7]],
-                Ranged:[['CRIT Chance Up','self',12,7],['ATK Speed Up','self',10,7]],
-                Ethereal:[['ATK Up','team',10,7],['Healing Over Time','team',6,6]]
+            const limits={Common:[0,0],Rare:[1,1],Epic:[2,2],SuperEpic:[3,Infinity],Legendary:[4,Infinity],Mystic:[5,Infinity],Eternal:[6,Infinity]};
+            const pools={
+                Defense:[['DMG Resist Up','team',35,15],['DEF Up','team',18,8],['HP Shield','team',14,8],['CRIT Resist Up','team',16,8],['HP Up','team',12,8],['Debuff Resist Up','team',15,7]],
+                Healer:[['Instant Healing','team',65,1],['Healing Over Time','team',10,7],['DMG Resist Up','team',16,9],['ATK Up','team',15,8],['HP Shield','team',12,8],['DEF Up','team',14,8]],
+                Support:[['ATK Up','team',18,8],['ATK Speed Up','team',16,8],['DEF Up','team',16,8],['DMG Resist Up','team',14,8],['HP Shield','team',10,8],['CRIT Chance Up','team',12,8]],
+                Statuser:[['DEF Down','enemy',18,7],['ATK Down','enemy',14,7],['ATK Speed Down','enemy',13,7],['Healing Received Down','enemy',17,7],['DMG Resist Down','enemy',13,7],['Amplify Debuff','enemy',12,7]],
+                Magic:[['ATK Up','self',18,8],['DEF Down','enemy',16,7],['CRIT Chance Up','self',13,7],['DMG Resist Down','enemy',12,7],['ATK Speed Up','self',13,8],['ATK Down','enemy',13,7]],
+                Bomber:[['Burn','enemy',6,6],['DEF Down','enemy',16,7],['ATK Up','self',16,8],['DMG Resist Down','enemy',12,7],['ATK Speed Down','enemy',12,7],['CRIT Chance Up','self',12,8]],
+                Ambush:[['CRIT Chance Up','self',17,8],['DMG Resist Down','enemy',14,7],['ATK Up','self',17,8],['DEF Down','enemy',13,7],['ATK Speed Up','self',12,8],['Healing Received Down','enemy',12,7]],
+                Charge:[['ATK Up','self',18,8],['DEF Up','self',18,8],['DMG Resist Up','self',15,8],['ATK Down','enemy',13,7],['HP Shield','self',12,8],['ATK Speed Up','self',12,8]],
+                Ranged:[['CRIT Chance Up','self',16,8],['ATK Speed Up','self',15,8],['ATK Up','self',17,8],['DEF Down','enemy',14,7],['CRIT DMG Up','self',16,8],['DMG Resist Down','enemy',12,7]],
+                Ethereal:[['ATK Up','team',14,8],['Healing Over Time','team',9,7],['DEF Up','team',15,8],['ATK Speed Up','team',13,8],['HP Shield','team',10,8],['CRIT Chance Up','team',12,8]]
             };
-            for(const cookie of COOKIES_DB){
-                const minimum=cookie.rarity==='Rare'?1:cookie.rarity==='Epic'?2:0;
-                if(!minimum)continue;
-                const effects=Array.isArray(cookie.customEffects)?cookie.customEffects.slice():[];
-                const choices=templates[cookie.role]||templates.Magic;
-                for(const [stat,target,amount,duration] of choices){
-                    if(effects.length>=minimum)break;
-                    if(!effects.some(e=>e.stat===stat))effects.push({stat,target,amount,duration,stacks:1});
+            for(const c of COOKIES_DB){
+                if(String(c.id||'').startsWith('user_'))continue;
+                const [min,max]=limits[c.rarity]||[0,Infinity];
+                // Count real components, never count a Custom Status wrapper as an effect.
+                const loose=(c.customEffects||[]).filter(e=>e&&e.stat&&e.stat!=='Custom Status');
+                const groups=(c.customComposites||[]).filter(g=>g&&Array.isArray(g.components));
+                let all=[...groups.flatMap(g=>g.components),...loose];
+                if(Number.isFinite(max))all=all.slice(0,max);
+                const pool=pools[c.role]||pools.Magic;
+                let cursor=0;
+                while(all.length<min){
+                    const [stat,target,amount,duration]=pool[cursor%pool.length];
+                    cursor++;
+                    if(all.some(e=>e.stat===stat)) {
+                        if(cursor<pool.length*2)continue;
+                    }
+                    all.push({stat,target,amount:amount+Math.max(0,min-3)*2,duration,stacks:1});
                 }
-                cookie.customEffects=effects;
+                c.customComposites=[];
+                c.customEffects=all;
             }
         })();
 
@@ -1076,18 +1094,34 @@
           ['crown','👑','Golden Crown','crit',4,25,'Team CRIT chance'],
           ['clover','🍀','Lucky Clover','critdmg',8,45,'Team CRIT damage'],
           ['chalice','🏆','Sun Chalice','heal',5,20,'Team healing every 15s (% Max HP)'],
-          ['anchor','⚓','Stone Anchor','def',10,40,'Team DEF'],
+          ['anchor','⚓','Stone Anchor','anchor',10,32,'Frontline takes less damage'],
           ['tome','📖','Arcane Tome','amp',5,30,'Team buff amplification'],
           ['vial','🧪','Antidote Vial','debuffresist',10,45,'Team debuff resistance'],
           ['prism','💎','Prism Lens','pierce',5,28,'Team DEF bypass'],
-          ['banner','🚩','Victory Banner','atk',12,48,'Team ATK'],
-          ['lotus','🪷','Lotus Blossom','shield',5,22,'Team HP shield every 16s'],
-          ['sundial','☀️','Sun Dial','regen',4,15,'Team healing every 5s (% caster ATK)'],
-          ['mask','🎭','Phantom Mask','speed',6,30,'Team ATK Speed']
+          ['banner','🚩','Victory Banner','banner',8,28,'Team gains ATK after an ally falls'],
+          ['lotus','🪷','Lotus Blossom','lotus',6,24,'Shield the lowest-HP ally every 9s'],
+          ['sundial','☀️','Sun Dial','sundial',3,12,'Heal the most injured ally every 4s (% max HP)'],
+          ['mask','🎭','Phantom Mask','mask',5,20,'Ambush and Ranged damage bonus'],
+          ['compass','🧭','Fate Compass','compass',4,18,'Allies gain CRIT after a skill cast'],
+          ['hourglass2','⌛','Echo Hourglass','echo',3,12,'Reduce cooldown of lowest-CD ally every 12s (sec)'],
+          ['seed','🌰','Life Seed','seed',5,18,'Emergency heal for lowest-HP ally every 8s (% max HP)'],
+          ['scepter','🪄','Storm Scepter','scepter',4,17,'Magic and Bomber damage bonus'],
+          ['bulwark','🧱','Royal Bulwark','bulwark',8,28,'Defense and Charge damage resistance'],
+          ['quill','🪶','Witch Quill','quill',4,20,'Statuser debuff strength bonus'],
+          ['hourglass3','🕰️','Stasis Clock','stasis',5,20,'Temporary team shield every 22s (% max HP)'],
+          ['lantern2','🪔','Spirit Lantern','spirit',4,18,'Healer and Support healing bonus'],
+          ['fang','🦷','Dragon Fang','fang',4,18,'Bonus damage against low-HP enemies'],
+          ['orb','🔮','Crystal Orb','orb',5,22,'Team shield strength bonus'],
+          ['boots','🥾','Windrunner Boots','boots',5,23,'Basic attack speed bonus'],
+          ['totem','🗿','Resolute Totem','totem',5,22,'Extra DEF for low-HP allies'],
+          ['harp','🎼','Serenity Harp','harp',4,17,'Team healing every 11s (% max HP)']
         ].map(([id,icon,name,type,min,max,desc])=>({id,icon,name,type,min,max,desc}));
         function treasureLevel(id){return Math.max(1,Math.min(12,Number(gameState.treasures?.[id]?.level)||1));}
         function treasureValue(t){return t.min+(t.max-t.min)*((t.testLevel||treasureLevel(t.id))-1)/11;}
-        function equippedTreasures(){return (gameState.equippedTreasures||[]).map(id=>TREASURES.find(t=>t.id===id)).filter(t=>t&&gameState.treasures?.[t.id]);}
+        function equippedTreasures(side='attack'){
+            const ids=side==='defense'?gameState.defenseTreasures:gameState.equippedTreasures;
+            return (ids||[]).map(id=>TREASURES.find(t=>t.id===id)).filter(t=>t&&gameState.treasures?.[t.id]);
+        }
         function awardTreasure(){
             const t=TREASURES[Math.floor(Math.random()*TREASURES.length)];
             gameState.treasures=gameState.treasures||{};
@@ -1102,25 +1136,31 @@
             if(e.level>=12||e.shards<cost)return;
             e.shards-=cost;e.level++;saveGame();renderTreasures();
         }
-        function toggleTreasure(id){
+        function toggleTreasure(id,side=treasureEditSide){
             if(!gameState.treasures?.[id])return;
-            const a=gameState.equippedTreasures=gameState.equippedTreasures||[];
+            const key=side==='defense'?'defenseTreasures':'equippedTreasures';
+            const a=gameState[key]=gameState[key]||[];
             if(a.includes(id))a.splice(a.indexOf(id),1);
             else if(a.length<3)a.push(id);
             else {alert('Maximum 3 equipped Treasures. Unequip one first.');return;}
             saveGame();renderTreasures();
         }
+        let treasureEditSide='attack';
+        function setTreasureEditSide(side){treasureEditSide=side==='defense'?'defense':'attack';renderTreasures();}
         function renderTreasures(){
             const el=document.getElementById('treasure-collection');if(!el)return;
+            const a=document.getElementById('treasure-attack-btn'),d=document.getElementById('treasure-defense-btn');
+            if(a)a.className='rounded px-3 py-2 font-bold '+(treasureEditSide==='attack'?'bg-amber-500 text-slate-950':'bg-slate-700 text-white');
+            if(d)d.className='rounded px-3 py-2 font-bold '+(treasureEditSide==='defense'?'bg-amber-500 text-slate-950':'bg-slate-700 text-white');
             el.innerHTML=TREASURES.map(t=>{
                 const e=gameState.treasures?.[t.id];const level=treasureLevel(t.id);
-                const equipped=(gameState.equippedTreasures||[]).includes(t.id);
+                const equipped=(gameState[treasureEditSide==='defense'?'defenseTreasures':'equippedTreasures']||[]).includes(t.id);
                 const cost=Math.ceil(level/3);
                 return `<div class="rounded-xl border ${equipped?'border-amber-400':'border-slate-700'} bg-slate-900 p-3 text-xs">
                     <div class="font-bold text-sm">${t.icon} ${t.name} ${equipped?'⭐':''}</div>
                     <div class="text-slate-400 my-1">${t.desc}: <b class="text-amber-300">${treasureValue(t).toFixed(1)}${['cooltick'].includes(t.type)?'s':'%'}</b></div>
                     <div class="text-slate-300">${e?'Lv. '+level+' / 12 · Shards '+(e.shards||0):'🔒 Not discovered'}</div>
-                    ${e?`<div class="flex gap-2 mt-2"><button class="bg-amber-500 text-slate-950 rounded px-3 py-1 font-bold" onclick="toggleTreasure('${t.id}')">${equipped?'Unequip':'Equip'}</button><button class="bg-slate-700 text-white rounded px-3 py-1 ${level>=12||e.shards<cost?'opacity-40':''}" onclick="upgradeTreasure('${t.id}')" ${level>=12||e.shards<cost?'disabled':''}>Upgrade (${cost} shards)</button></div>`:''}
+                    ${e?`<div class="flex gap-2 mt-2"><button class="bg-amber-500 text-slate-950 rounded px-3 py-1 font-bold" onclick="toggleTreasure('${t.id}','${treasureEditSide}')">${equipped?'Unequip':'Equip'}</button><button class="bg-slate-700 text-white rounded px-3 py-1 ${level>=12||e.shards<cost?'opacity-40':''}" onclick="upgradeTreasure('${t.id}')" ${level>=12||e.shards<cost?'disabled':''}>Upgrade (${cost} shards)</button></div>`:''}
                 </div>`;
             }).join('');
         }
@@ -1143,6 +1183,18 @@
                     if(t.type==='cooldown')u.maxCD*=1-v;
                     if(t.type==='reflect')e.reflect=(e.reflect||0)+v;
                     if(t.type==='revive')u._treasureReviveHP=v;
+                    if(t.type==='anchor' && ['Defense','Charge'].includes(u.role))applyStackEffect(u,'damageReduction',v,190,t.name,'buff');
+                    if(t.type==='mask' && ['Ambush','Ranged'].includes(u.role))applyStackEffect(u,'atk',v,190,t.name,'buff');
+                    if(t.type==='scepter' && ['Magic','Bomber'].includes(u.role))applyStackEffect(u,'atk',v,190,t.name,'buff');
+                    if(t.type==='bulwark' && ['Defense','Charge'].includes(u.role))applyStackEffect(u,'damageReduction',v,190,t.name,'buff');
+                    if(t.type==='spirit' && ['Healer','Support'].includes(u.role))e.healAmp=(e.healAmp||0)+v;
+                    if(t.type==='orb')e.shieldAmp=(e.shieldAmp||0)+v;
+                    if(t.type==='boots')applyStackEffect(u,'atkSpeed',v,190,t.name,'buff');
+                    if(t.type==='quill' && u.role==='Statuser')e.debuffAmp=(e.debuffAmp||0)+v;
+                    if(t.type==='fang')u._treasureExecuteBonus=v;
+                    if(t.type==='banner')u._treasureBanner=v;
+                    if(t.type==='compass')e.critUp=(e.critUp||0)+v;
+                    if(t.type==='totem' && u.currentHp/u.maxHp<.5)applyStackEffect(u,'def',v,190,t.name,'buff');
                 }
             }
             team._treasureClocks={};
@@ -1150,7 +1202,7 @@
         function tickTreasures(team,dt){
             if(leagueMode||!team._treasureClocks)return;
             for(const t of (team._treasures||[])){
-                const interval={cleanse:13,regen:5,cooltick:10,shield:16,heal:15}[t.type];
+                const interval={cleanse:13,regen:5,cooltick:10,shield:16,heal:15,lotus:9,sundial:4,echo:12,seed:8,stasis:22,harp:11}[t.type];
                 if(!interval)continue;
                 const clock=team._treasureClocks;
                 clock[t.id]=(clock[t.id]??interval)-dt;
@@ -1168,7 +1220,16 @@
                     if(t.type==='heal')healUnit(caster,u,u.maxHp*v);
                     if(t.type==='shield')addShield(u,u.maxHp*v);
                     if(t.type==='cooltick')u.cdTimer=Math.max(0,u.cdTimer-treasureValue(t));
+                    if(t.type==='stasis')addShield(u,u.maxHp*v);
+                    if(t.type==='harp')healUnit(caster,u,u.maxHp*v);
                 }
+                const weakest=living.slice().sort((a,b)=>a.currentHp/a.maxHp-b.currentHp/b.maxHp)[0];
+                if(weakest){
+                    if(t.type==='lotus')addShield(weakest,weakest.maxHp*v);
+                    if(t.type==='sundial'||t.type==='seed')healUnit(caster,weakest,weakest.maxHp*v);
+                }
+                if(t.type==='echo'&&living.length){const ready=living.slice().sort((a,b)=>b.cdTimer-a.cdTimer)[0];ready.cdTimer=Math.max(0,ready.cdTimer-treasureValue(t));}
+                /* treasure pulse complete */
             }
         }
         const CRK_SAVE_KEY = 'CRK_GAME_SAVE_V23_CUSTOM_ROSTER';
@@ -1227,6 +1288,9 @@
             if (!gameState.unlockedCookies || typeof gameState.unlockedCookies !== 'object') gameState.unlockedCookies = {};
             if(!gameState.treasures||typeof gameState.treasures!=='object')gameState.treasures={};
             if(!Array.isArray(gameState.equippedTreasures))gameState.equippedTreasures=[];
+            if(!Array.isArray(gameState.defenseTreasures))gameState.defenseTreasures=gameState.equippedTreasures.slice();
+            gameState.defenseTreasures=gameState.defenseTreasures.filter((id,i,a)=>a.indexOf(id)===i&&gameState.treasures[id]).slice(0,3);
+            if(!Array.isArray(gameState.defenseLogbook))gameState.defenseLogbook=[];
             gameState.equippedTreasures=gameState.equippedTreasures.filter((id,i,a)=>a.indexOf(id)===i&&gameState.treasures[id]).slice(0,3);
             if (!Array.isArray(gameState.toppings)) gameState.toppings = [];
             if (!Array.isArray(gameState.biscuits)) gameState.biscuits = [];
@@ -1918,6 +1982,7 @@
             }[ch]));
         }
         function renderBattleTeamPresets() {
+            renderDefenseLogbook();
             const root=document.getElementById('battle-team-presets');
             if(!root)return;
             if(!opponentOffers.length){
@@ -1941,7 +2006,7 @@
                 const treasureLabel=document.createElement('div');
                 treasureLabel.className='text-[9px] text-amber-200';
                 treasureLabel.textContent=offer.treasures?.length?'🏺 '+offer.treasures.map(t=>t.icon+' '+t.name).join(' · '):'🏺 No treasures';
-                card.append(title,lineup,treasureLabel,strategy,power,action);card.onclick=()=>{selectedOpponentIndex=i;document.getElementById('enemy-tier-select').value='intermediate';renderBattleTeamPresets();};root.appendChild(card);
+                card.append(title,lineup,treasureLabel,strategy,power,action);card.onclick=()=>{selectedOpponentIndex=selectedOpponentIndex===i?-1:i;if(selectedOpponentIndex>=0)document.getElementById('enemy-tier-select').value='intermediate';renderBattleTeamPresets();};root.appendChild(card);
             });
         }
 
@@ -2143,7 +2208,22 @@
             if(ids.has('scroll'))total*=1.42;
             if(ids.has('watch'))total*=1.19;
             if(ids.has('monocle'))total*=1.17;
-            total*=1+treasures.reduce((sum,t)=>sum+(t.max||0)*.0015,0);
+            const roleCounts={};team.forEach(e=>{const r=COOKIES_DB.find(c=>c.id===e.id)?.role||'Unknown';roleCounts[r]=(roleCounts[r]||0)+1;});
+            const roleFactor=t=>{
+                switch(t.type){
+                    case 'scepter':return ((roleCounts.Magic||0)+(roleCounts.Bomber||0))/5;
+                    case 'mask':return ((roleCounts.Ambush||0)+(roleCounts.Ranged||0))/5;
+                    case 'quill':return (roleCounts.Statuser||0)/5;
+                    case 'bulwark':return ((roleCounts.Defense||0)+(roleCounts.Charge||0))/5;
+                    case 'spirit':return ((roleCounts.Healer||0)+(roleCounts.Support||0))/5;
+                    case 'orb':case 'shield':case 'stasis':return .6+(roleCounts.Defense||0)*.08;
+                    case 'regen':case 'harp':case 'seed':case 'heal':return .7+(roleCounts.Healer||0)*.05;
+                    case 'fang':return 1.12;
+                    case 'boots':return 1.05;
+                    default:return 1;
+                }
+            };
+            total*=1+treasures.reduce((sum,t)=>sum+(t.max||0)*.0015*roleFactor(t),0);
             return total;
         }
         // Equipment championship: deterministic stat-based matchups.
@@ -2317,6 +2397,7 @@
         function equipmentTeamSignature(){return metaTeamA.map(x=>x.id).join('|');}
         function equipmentStageUI(){
             const valid=equipmentStages.signature===equipmentTeamSignature();
+            document.getElementById('gear-treasure-run').disabled=equipmentChampionshipRunning;
             document.getElementById('gear-topping-run').disabled=!valid||!equipmentStages.treasure||equipmentChampionshipRunning;
             document.getElementById('gear-biscuit-run').disabled=!valid||!equipmentStages.topping||equipmentChampionshipRunning;
         }
@@ -2360,7 +2441,7 @@
         async function runEquipmentStage(mode){
             if(equipmentChampionshipRunning){alert('A tester is already running.');return;}
             const ids=metaTeamA.map(x=>x.id),signature=equipmentTeamSignature();
-            if(ids.length!==5||new Set(ids).size!==5||ids.some(id=>!COOKIES_DB.some(c=>c.id===id))){alert('Choose five different Cookies in Meta Team A.');return;}
+            if(ids.length!==5||new Set(ids).size!==5||ids.some(id=>!COOKIES_DB.some(c=>c.id===id))){const box=document.getElementById('gear-'+mode+'-results');if(box)box.textContent='⚠️ Select five different Cookies in Meta Team A first (above this tester).';alert('Choose five different Cookies in Meta Team A.');return;}
             if(ids.filter(id=>COOKIES_DB.find(c=>c.id===id)?.role==='Ethereal').length>1){alert('Only one Ethereal is allowed.');return;}
             if(equipmentStages.signature!==signature)resetEquipmentStages();
             if(mode==='topping'&&!equipmentStages.treasure){alert('Complete Treasure Tester first.');return;}
@@ -2370,6 +2451,8 @@
             const output=document.getElementById('gear-'+mode+'-results');output.replaceChildren();
             const status=document.createElement('p');status.className='text-emerald-300 font-semibold';output.appendChild(status);
             gearStatScoreCache.clear();equipmentChampionshipRunning=true;equipmentStageUI();
+            status.textContent='⏳ Starting '+mode+' test: 0/'+n+' trials…';
+            await new Promise(resolve=>setTimeout(resolve,25));
             const scores=ids.map(()=>Object.fromEntries(OPT_GEAR_KEYS.map(k=>[k,0]))),treasureScores={};
             const candidateCache=new Map();
             const candidateFor=trial=>{
@@ -2395,7 +2478,7 @@
                     else if(result>0)award(champion,2);
                     else{award(champion,1);award(challenger,1);}
                     completed=i;
-                    if(i===n||((i&15)===0&&performance.now()-lastYield>=45)){
+                    if(i===n||(i%10===0)||(performance.now()-lastYield>=45)){
                         const now=performance.now();
                         const elapsed=Math.max(.001,(now-started)/1000);
                         status.textContent=`${i.toLocaleString()}/${n.toLocaleString()} matches · ${(i/elapsed).toFixed(1)}/sec · ${changes} champion changes`;
@@ -2824,15 +2907,372 @@
             }
         }
 
+        // Ethereal-exclusive bonus: one additional ACTIVE skill component at every rarity.
+        // Insert before named-effect grouping so it is shown and applied as part of the skill.
+        (function grantEtherealExtraSkillEffect(){
+            const bonus={Common:8,Rare:11,Epic:15,SuperEpic:19,Legendary:24,Mystic:29,Eternal:35};
+            COOKIES_DB.forEach(c=>{
+                if(c.role!=='Ethereal'||String(c.id||'').startsWith('user_')||c._etherealExtraEffect)return;
+                c.customEffects=Array.isArray(c.customEffects)?c.customEffects:[];
+                const n=bonus[c.rarity]||8;
+                const choices=[
+                    {stat:'DEF Up',target:'team',amount:n,duration:7,stacks:1},
+                    {stat:'ATK Up',target:'team',amount:n,duration:7,stacks:1},
+                    {stat:'HP Shield',target:'team',amount:Math.round(n*.8),duration:6,stacks:1},
+                    {stat:'DMG Resist Up',target:'team',amount:Math.round(n*.65),duration:7,stacks:1},
+                    {stat:'ATK Down',target:'enemy',amount:n,duration:6,stacks:1}
+                ];
+                const hash=Array.from(String(c.id)).reduce((v,ch)=>v+ch.charCodeAt(0),0);
+                c.customEffects.push({...choices[hash%choices.length],_etherealBonus:true});
+                c._etherealExtraEffect=true;
+            });
+        })();
+        // Skill timing is described using the same per-hit power, interval and
+        // duration fields consumed by castCustomBuildSingle/tickCustomStacks.
+        // Convert overly strong per-pulse damage into a reasonable total spread.
+        // Ranged: original power / (number of pulses / 2).
+        // Other damage roles: original instant power spread across 4 quick ticks.
+        function normalizeDamageSkillTiming(cookie){
+            if(!cookie || cookie._damageTimingNormalized)return;
+            const dpsRoles=new Set(['Charge','Ambush','Ranged','Magic','Bomber']);
+            if(!dpsRoles.has(cookie.role))return;
+            const attacks=Array.isArray(cookie.customAttacks)&&cookie.customAttacks.length?cookie.customAttacks:(cookie.customAttack?[cookie.customAttack]:[]);
+            const first=attacks[0]||{type:'instant',power:cookie.customDamage||120,effects:'cast'};
+            const originalPower=Math.max(0,Number(first.power)||Number(cookie.customDamage)||120);
+            let replacement;
+            if(cookie.role==='Ranged'){
+                const interval=Math.max(.1,Math.min(5,Number(first.interval)||.5));
+                const duration=Math.max(.5,Math.min(30,Number(first.duration)||3));
+                const pulses=Math.max(1,Math.ceil(duration/interval));
+                replacement={...first,type:'barrage',power:Math.round(originalPower/Math.max(1,pulses/2)*100)/100,interval,duration};
+            }else if(['Charge','Ambush','Magic','Bomber'].includes(cookie.role)){
+                // Deterministic 4–12 hit burst over 0.5–1.5s; total damage stays originalPower.
+                const hash=Array.from(String(cookie.id||cookie.name)).reduce((h,ch)=>((h*33+ch.charCodeAt(0))>>>0),5381);
+                const hits=4+(hash%9);
+                // Previous release already divided instant damage into four ticks.
+                const totalPower=(first.type==='barrage' && Math.abs(Number(first.duration)-.7)<.001 && Math.abs(Number(first.interval)-.175)<.001)?originalPower*4:originalPower;
+                const duration=Math.round((.5+((hash>>>5)%11)*.1)*100)/100;
+                const interval=duration/hits;
+                replacement={...first,type:'barrage',power:Math.round(totalPower/hits*100)/100,interval,duration,_burstHits:hits};
+            }
+            if(replacement){cookie.customAttack=replacement;cookie.customAttacks=[replacement,...attacks.slice(1,3)];}
+            cookie._damageTimingNormalized=true;
+        }
+        function ensureRangedBarrage(cookie){
+            if(!cookie||cookie.role!=='Ranged')return;
+            normalizeDamageSkillTiming(cookie);
+        }
+        // Applies to built-in DPS; custom user creations retain their chosen attack.
+        COOKIES_DB.forEach(c=>{if(!c.custom)normalizeDamageSkillTiming(c);});
+        function skillTimingRows(cookie){
+            const attacks=Array.isArray(cookie.customAttacks)&&cookie.customAttacks.length?cookie.customAttacks:(cookie.customAttack?[cookie.customAttack]:[]);
+            const rows=[];
+            const titles={barrage:'Repeating Barrage',beam:'Channeled Beam',healing:'Healing Pulses',shield:'Shield Pulses',drain:'Life Drain',random:'Random Volley',instant:'Instant Attack',execute:'Execution Strike'};
+            attacks.forEach((a,i)=>{
+                const type=a.type||'instant';
+                const power=Math.max(0,Number(a.power)||0);
+                const timed=!['instant','execute'].includes(type);
+                const interval=Math.max(.1,Math.min(5,Number(a.interval)||.5));
+                const duration=Math.max(.5,Math.min(30,Number(a.duration)||5));
+                const count=timed?(Number(a._burstHits)||Math.ceil(duration/interval)):1;
+                const label=(attacks.length>1?'Attack '+(i+1)+' · ':'')+(titles[type]||type);
+                const value=type==='shield'?`${(power/10).toFixed(1)}% MAX HP / pulse`:type==='healing'?`${power.toFixed(1)}% ATK / pulse`:`${power.toFixed(1)}% ATK / hit`;
+                rows.push({label,value,note:timed?`Every ${interval.toFixed(2)}s · ${duration.toFixed(2)}s duration · approximately ${count} pulses (before ATK Speed modifiers). Effects: ${a.effects==='each'?'every pulse':'first pulse only'}.`:'Instant application; no repeated pulse interval.'});
+            });
+            return rows;
+        }
+        // Apply to the original roster and later imported custom Cookies.
+        COOKIES_DB.forEach(ensureRangedBarrage);
         function customAbilityRows(cookie){
             const rows=[{label:'Skill graphic',value:`${cookie.customVisual||'slash'} · ${cookie.customVisualHits||1} hits · ${cookie.customVisualTarget||'single'} target(s)`,note:'Visual color: '+(cookie.customVisualColor||'#c084fc')}, {label:'Custom skill damage' ,value:`${cookie.customAttack?.power??cookie.customDamage??0}% ATK`,note:'Deals damage to the selected target group, then applies the configured effects.'}];
-            (cookie.customEffects||[]).forEach((e,i)=>rows.push({label:`Effect ${i+1}: ${e.stat}`,value:`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability"].includes(e.stat)?"Control / protection":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?e.amount+"s cooldown":e.amount+"%")} · ${e.duration}s · up to ${e.stacks} stack(s)`,note:`Target: ${e.target}. Stacks refresh on subsequent casts.`}));
+            (cookie.customEffects||[]).forEach((e,i)=>{
+                if(e.stat==='Custom Status'){
+                    const group=(cookie.customComposites||[]).find(g=>g.name===e.customName);
+                    const parts=(group?.components||[]).map(x=>`${x.stat||'Unknown effect'}: ${Number.isFinite(Number(x.amount))?x.amount:'—'}${['Cooldown Increase','Cooldown Recovery'].includes(x.stat)?'s':'%'} · ${Number(x.duration)||0}s · ${Number(x.stacks)||1} stack(s)`);
+                    rows.push({label:e.customName||'Named status',value:`${parts.length} effects · ${Number(e.duration)||0}s`,note:parts.join(' | ')||'No configured components'});
+                }else rows.push({label:`Effect ${i+1}: ${e.stat||'Unknown effect'}`,value:`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability"].includes(e.stat)?"Control / protection":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?(e.amount??0)+"s cooldown":(e.amount??0)+"%")} · ${Number(e.duration)||0}s · up to ${Number(e.stacks)||1} stack(s)`,note:`Target: ${e.target||'unspecified'}. Stacks refresh on subsequent casts.`});
+            });
+            rows.push(...skillTimingRows(cookie));
             rows.push({label:'Opening cooldown',value:`${cookie.openingCD}s`,note:'Cooldown toppings also reduce this opening timer.'});
             rows.push({label:'Regular cooldown',value:`${cookie.regularCD}s`,note:'Reduced by equipped cooldown toppings.'});
             return rows;
         }
 
 
+        // Final normalization happens AFTER rarity minimums are added, so new
+        // Rare/Epic effects are also included in their named positive/negative groups.
+        (function normalizeNamedSkillEffects(){
+            const negative=new Set(['ATK Down','DEF Down','DMG Resist Down','CRIT Chance Down','ATK Speed Down','Healing Received Down','Cooldown Increase','Cooldown Pause','Stun','Freeze','Silence','Poison','Burn','Amplify Debuff','Injury','Buff Prohibited','Fear','Sleep','Charm','Shackles','Bleed','Corruption','Overcurrent','Ruin Sigil','Fractured Ward']);
+            const positiveSuffix=['Bloom','Covenant','Grace','Harmony','Awakening','Oath','Sanctuary','Chorus','Ascension','Miracle','Legacy','Resonance','Aegis','Promise','Crown','Radiance','Reverie','Embrace','Triumph','Eclipse','Serenity','Flourish','Rhapsody','Blessing','Solstice','Dawn','Valor','Fortitude','Halo','Nectar','Renewal','Providence','Lullaby','Constellation','Aurora','Vitality','Haven','Symphony','Gleam','Wellspring','Benediction','Transcendence','Momentum','Majesty','Waltz','Whisper','Unity','Glimmer','Rebirth','Starlight'];
+            const negativeSuffix=['Hex','Ruin','Withering','Judgment','Curse','Shatter','Nightfall','Bane','Torment','Fracture','Doom','Blight','Erosion','Silence','Desolation','Collapse','Dread','Fate','Sunder','Affliction','Malediction','Oblivion','Decay','Rift','Nightmare','Ashes','Sorrow','Venom','Misfortune','Scourge','Dissonance','Cataclysm','Dusk','Rot','Penance','Frostbite','Void','Dissonance','Woe','Ravage','Despair','Shroud','Vortex','Tarnish','Rupture','Eclipse','Thorns','Tempest','Gloom','Reckoning'];
+            const positivePrefix=['','Golden','Celestial','Luminous','Eternal','Gentle','Prismatic','Sacred','Radiant','Dreaming','Verdant','Stellar','Hallowed','Glorious','Whispering','Crystalline','Harmonic','Blooming','Soaring','Serene','Enchanted','Twilight','Moonlit','Sunlit','Opaline','Brilliant','Boundless','Resplendent','Dancing','Empyrean'];
+            const negativePrefix=['','Fallen','Cursed','Shadowed','Abyssal','Twisted','Dreadful','Shattered','Hollow','Withered','Forsaken','Ominous','Bleak','Umbral','Ravaging','Wicked','Ashen','Bitter','Fractured','Haunting','Crimson','Unholy','Corrupted','Eclipsed','Ruthless','Searing','Frozen','Waning','Tainted','Grim'];
+            const tiers={Common:0,Rare:1,Epic:2,SuperEpic:3,Legendary:4,Mystic:5,Eternal:6};
+            const used=new Set();
+            for(const c of COOKIES_DB){
+                if(String(c.id||'').startsWith('user_'))continue;
+                const base=(String(c.name||'Cookie').replace(/^[^\p{L}\p{N}]+/gu,'').trim().match(/^[\p{L}\p{N}]+/u)||['Cookie'])[0];
+                const hash=Array.from(String(c.id||base)).reduce((h,ch)=>((h*31+ch.charCodeAt(0))>>>0),7);
+                (c.customPassives||[]).forEach((p,i)=>{
+                    if(!p.name)p.name=base+' '+['Instinct','Vow','Secret','Resolve','Inheritance','Will','Echo','Guard'][((hash+i)%8)];
+                });
+                const effects=(c.customEffects||[]).filter(e=>e&&e.stat&&e.stat!=='Custom Status');
+                const previous=(c.customComposites||[]).flatMap(g=>g.components||[]);
+                const combined=[...previous,...effects];
+                const buckets=[combined.filter(e=>!negative.has(e.stat)),combined.filter(e=>negative.has(e.stat))];
+                c.customComposites=[];
+                c.customEffects=[];
+                buckets.forEach((parts,isNegative)=>{
+                    if(!parts.length)return;
+                    const suffixes=isNegative?negativeSuffix:positiveSuffix;
+                    const prefixes=isNegative?negativePrefix:positivePrefix;
+                    const offset=(hash+(tiers[c.rarity]||0)*7+(isNegative?13:0))%suffixes.length;
+                    const prefixOffset=(hash>>>4)%prefixes.length;
+                    let name='';
+                    // Deterministic, finite search through thousands of meaningful
+                    // prefix/suffix combinations. Never append serial numbers.
+                    outer: for(let pi=0;pi<prefixes.length;pi++){
+                        const prefix=prefixes[(prefixOffset+pi)%prefixes.length];
+                        for(let si=0;si<suffixes.length;si++){
+                            const suffix=suffixes[(offset+si)%suffixes.length];
+                            const candidate=[prefix,base,suffix].filter(Boolean).join(' ');
+                            if(!used.has(candidate)){name=candidate;break outer;}
+                        }
+                    }
+                    // Extremely defensive fallback for more than 1,000 collisions:
+                    // use the Cookie's complete name, never numeric gibberish.
+                    if(!name){
+                        const full=String(c.name||base).replace(/^[^\p{L}\p{N}]+/gu,'').trim()||base;
+                        name=full+' '+suffixes[offset];
+                    }
+                    used.add(name);
+                    c.customComposites.push({name,components:parts});
+                    c.customEffects.push({stat:'Custom Status',customName:name,target:isNegative?'enemy':'team',duration:Math.max(1,...parts.map(e=>Number(e.duration)||1)),stacks:1});
+                });
+            }
+        })();
+        // Final role-specific tuning of BUILT-IN Cookies only. Keep Builder creations unchanged.
+        (function specializeBuiltInCookieRoles(){
+            const tier={Common:0,Rare:1,Epic:2,SuperEpic:3,Legendary:4,Mystic:5,Eternal:6};
+            const harmful=/\b(Down|Decrease|Increase|Pause|Silence|Stun|Freeze|Poison|Burn|Bleed|Injury|Prohibited|Debuff|Shackles|Fear|Charm|Sleep|Ruin|Corruption|Fractured|Overcurrent)\b/i;
+            const healing=/Healing|Heal|Shield|Regen|Revive|Invulnerability|Resist|Immunity|DEF Up|HP Up|Cleanse/i;
+            const defensive=/Shield|Resist|DEF Up|HP Up|Invulnerability|Immunity|Healing|Cleanse/i;
+            const offense=/ATK Up|ATK Speed Up|CRIT|DMG Up|Cooldown Recovery|Amplify Buff/i;
+            const pool={
+                Support:[['ATK Up',17],['ATK Speed Up',15],['CRIT Chance Up',12],['DEF Down',15],['DMG Resist Down',12],['Instant Healing',28],['HP Shield',13],['Healing Over Time',8]],
+                Healer:[['Instant Healing',50],['Healing Over Time',12],['HP Shield',18],['DMG Resist Up',14],['DEF Up',17],['Debuff Immunity',0]],
+                Defense:[['DMG Resist Up',28],['HP Shield',24],['DEF Up',22],['CRIT Resist Up',16],['HP Up',13],['Debuff Immunity',0]],
+                Statuser:[['DEF Down',23],['DMG Resist Down',20],['ATK Down',21],['Healing Received Down',26],['ATK Speed Down',18],['Amplify Debuff',18],['Cooldown Increase',1.2]],
+                Magic:[['ATK Up',20],['DEF Down',19],['CRIT Chance Up',15],['DMG Resist Down',16],['ATK Speed Up',15],['ATK Down',17]],
+                Bomber:[['ATK Up',20],['DEF Down',20],['Burn',9],['DMG Resist Down',17],['ATK Speed Up',14],['ATK Down',15]],
+                Ranged:[['ATK Speed Up',20],['CRIT Chance Up',17],['ATK Up',23],['DEF Down',17],['CRIT DMG Up',18],['DMG Resist Down',14]],
+                Charge:[['ATK Up',19],['DEF Up',19],['DMG Resist Up',17],['DEF Down',17],['ATK Speed Up',14],['ATK Down',15]],
+                Ambush:[['CRIT Chance Up',21],['DMG Resist Down',20],['ATK Up',23],['DEF Down',19],['ATK Speed Up',15],['Healing Received Down',18]]
+            };
+            const isDebuff=e=>harmful.test(String(e.stat||''))&&!/Debuff Immunity|Debuff Resist Up|Cooldown Increase Resist/i.test(e.stat);
+            const isTeamBuff=e=>!isDebuff(e)&&['team','allallies'].includes(e.target);
+            for(const c of COOKIES_DB){
+                if(String(c.id||'').startsWith('user_')||c.role==='Ethereal')continue;
+                const t=tier[c.rarity]??2;
+                const min={Common:0,Rare:1,Epic:2,SuperEpic:3,Legendary:4,Mystic:5,Eternal:6}[c.rarity]??0;
+                const max={Common:0,Rare:1,Epic:2}[c.rarity]??Infinity;
+                const groups=Array.isArray(c.customComposites)?c.customComposites:[];
+                let effects=[...groups.flatMap(g=>g.components||[]),...(c.customEffects||[]).filter(e=>e.stat!=='Custom Status')].map(e=>({...e}));
+                const candidates=pool[c.role]||pool.Magic;
+                // Prioritize a role's identity instead of arbitrary effects inherited from generated templates.
+                const rank=e=>{
+                    if(c.role==='Support')return isDebuff(e)||isTeamBuff(e)?3:0;
+                    if(c.role==='Healer')return healing.test(e.stat)&&!isDebuff(e)?3:0;
+                    if(c.role==='Defense')return defensive.test(e.stat)&&!isDebuff(e)?3:0;
+                    if(c.role==='Statuser')return isDebuff(e)?3:0;
+                    return isTeamBuff(e)?0:2;
+                };
+                effects.sort((a,b)=>rank(b)-rank(a));
+                effects=effects.filter(e=>rank(e)>0);
+                if(Number.isFinite(max))effects=effects.slice(0,max);
+                let cursor=0;
+                while(effects.length<min && cursor<100){
+                    const [stat,amount]=candidates[cursor%candidates.length];cursor++;
+                    if(effects.some(e=>e.stat===stat)&&cursor<candidates.length*3)continue;
+                    const debuff=isDebuff({stat});
+                    effects.push({stat,amount:amount+(stat==='Cooldown Increase'?0:t*1.5),duration:stat==='Debuff Immunity'?2+Math.floor(t/2):stat==='Cooldown Increase'?1:stat==='Instant Healing'?1:8,stacks:1,target:debuff?'all':'team'});
+                }
+                // Support status effects affect every ally or every enemy, never one unit.
+                if(c.role==='Support')effects=effects.map(e=>({...e,target:isDebuff(e)?'all':'team'}));
+                // Non-support damage dealers can have at most one team buff; the rest target self/enemies.
+                if(['Magic','Bomber','Ranged','Charge','Ambush'].includes(c.role)){
+                    let teamBuffs=0;
+                    effects=effects.map(e=>{
+                        if(isDebuff(e))return {...e,target:'all'};
+                        if(isTeamBuff(e)){
+                            teamBuffs++;
+                            return {...e,target:teamBuffs===1?'team':'self'};
+                        }
+                        return {...e,target:e.target==='ally'?'self':e.target};
+                    });
+                }
+                if(c.role==='Statuser')effects=effects.map(e=>({...e,target:'all'}));
+                if(c.role==='Defense')effects=effects.map(e=>({...e,target:e.target==='enemy'?'team':e.target}));
+                if(c.role==='Healer')effects=effects.map(e=>({...e,target:'team'}));
+                // Keep the existing distinct names, but rebuild the components with the tuned effects.
+                const firstWord=(String(c.name||'Cookie').match(/[\p{L}]+/u)||['Cookie'])[0];
+                const oldPositive=groups.find(g=>(g.components||[]).some(e=>!isDebuff(e)))?.name||firstWord+' Grace';
+                const oldNegative=groups.find(g=>(g.components||[]).some(isDebuff))?.name||firstWord+' Ruin';
+                const positive=effects.filter(e=>!isDebuff(e)),negative=effects.filter(isDebuff);
+                c.customComposites=[];c.customEffects=[];
+                for(const [name,components,target] of [[oldPositive,positive,'team'],[oldNegative,negative,'all']]){
+                    if(!components.length)continue;
+                    c.customComposites.push({name,components});
+                    c.customEffects.push({stat:'Custom Status',customName:name,target,duration:Math.max(1,...components.map(e=>Number(e.duration)||1)),stacks:1});
+                }
+                // Built-in attack behavior: damage classes have reliable, recognizable targeting.
+                if(c.role==='Magic'){
+                    c.customVisualTarget=(Number(c.customVisualTargetCount)||3)%2===0?'weakest2':'all';
+                    c.customVisualTargetCount=3;
+                }else if(c.role==='Bomber'){
+                    c.customVisualTarget='all';c.customVisualTargetCount=5;
+                }else if(c.role==='Ranged'){
+                    c.customVisualTarget=(Number(c.customVisualTargetCount)||3)%2===0?'weakest2':'single';
+                    c.customVisualTargetCount=2;
+                    const power=Math.max(90,Number(c.customAttack?.power??c.customDamage)||120);
+                    c.customAttack={type:'barrage',power,interval:.5,duration:3,effects:'cast'};
+                    c.customAttacks=[c.customAttack];
+                }
+            }
+        })();
+
+        // Group built-in skill effects by BOTH polarity and recipient scope.
+        // Component targeting is preserved; each group is a single visible status.
+        (function groupNamedEffectsByRecipient(){
+            const negative=/\b(Down|Decrease|Increase|Pause|Silence|Stun|Freeze|Poison|Burn|Bleed|Injury|Prohibited|Shackles|Fear|Charm|Sleep|Ruin|Corruption|Fractured|Overcurrent|Amplify Debuff)\b/i;
+            const positiveWords=['Bloom','Grace','Covenant','Harmony','Aegis','Radiance','Sanctuary','Solstice','Reverie','Promise','Serenity','Ascension','Haven','Miracle','Resonance','Dawn','Chorus','Vitality','Oath','Flourish','Aurora','Legacy','Embrace','Crown'];
+            const selfWords=['Resolve','Spirit','Instinct','Focus','Will','Vigor','Awakening','Heart','Fortitude','Valor','Essence','Determination','Momentum','Soul'];
+            const allyWords=['Gift','Blessing','Bond','Guard','Mercy','Ward','Devotion','Favor','Protection','Solace','Lifeline'];
+            const enemyWords=['Hex','Curse','Ruin','Withering','Nightfall','Dread','Torment','Blight','Shatter','Judgment','Desolation','Scourge','Reckoning','Fracture'];
+            const targetedWords=['Mark','Snare','Bane','Brand','Fetter','Omen','Sunder','Grasp','Affliction','Hunt'];
+            const prefixes=['','Celestial','Verdant','Radiant','Crystalline','Golden','Luminous','Moonlit','Stellar','Sacred','Eternal','Prismatic','Whispering','Dancing','Hallowed','Opaline','Dreaming','Twilight','Boundless','Enchanted'];
+            const used=new Set();
+            const classify=e=>{
+                const target=String(e.target||'team').toLowerCase();
+                const bad=negative.test(String(e.stat||''))&&!/Debuff Immunity|Debuff Resist/i.test(e.stat);
+                if(bad)return ['all','enemy','enemies','team-enemy','all-enemies'].includes(target)?'enemyAll':'enemySpecific';
+                if(target==='self')return 'self';
+                if(['team','all','allies','allallies','all-allies'].includes(target))return 'team';
+                return 'allySpecific';
+            };
+            const targets={team:'team',self:'self',enemyAll:'all',allySpecific:'ally',enemySpecific:'enemy'};
+            const words={team:positiveWords,self:selfWords,enemyAll:enemyWords,allySpecific:allyWords,enemySpecific:targetedWords};
+            for(const c of COOKIES_DB){
+                if(String(c.id||'').startsWith('user_'))continue;
+                const all=[...(c.customComposites||[]).flatMap(g=>g.components||[]),...(c.customEffects||[]).filter(e=>e&&e.stat!=='Custom Status')];
+                if(!all.length){c.customComposites=[];c.customEffects=[];continue;}
+                const first=(String(c.name||'Cookie').replace(/^[^\p{L}\p{N}]+/gu,'').match(/^[\p{L}\p{N}]+/u)||['Cookie'])[0];
+                const hash=[...String(c.id||c.name)].reduce((h,ch)=>(Math.imul(h,31)+ch.charCodeAt(0))>>>0,11);
+                const buckets=new Map();
+                for(const effect of all){
+                    const group=classify(effect);
+                    if(!buckets.has(group))buckets.set(group,[]);
+                    buckets.get(group).push(effect);
+                }
+                c.customComposites=[];c.customEffects=[];
+                for(const [category,components] of buckets){
+                    const suffixes=words[category];let name='';
+                    const prefixStart=(hash>>>5)%prefixes.length;
+                    const suffixStart=(hash+category.length*13)%suffixes.length;
+                    outer:for(let a=0;a<prefixes.length;a++)for(let b=0;b<suffixes.length;b++){
+                        const prefix=prefixes[(prefixStart+a)%prefixes.length];
+                        const suffix=suffixes[(suffixStart+b)%suffixes.length];
+                        const candidate=[prefix,first,suffix].filter(Boolean).join(' ');
+                        if(!used.has(candidate)){name=candidate;break outer;}
+                    }
+                    if(!name)name=String(c.name||first).replace(/^[^\p{L}\p{N}]+/gu,'').trim()+' '+suffixes[suffixStart];
+                    used.add(name);
+                    const target=targets[category];
+                    c.customComposites.push({name,category,components});
+                    c.customEffects.push({stat:'Custom Status',customName:name,target,duration:Math.max(1,...components.map(e=>Number(e.duration)||1)),stacks:1});
+                }
+            }
+        })();
+
+        // Cooldown Increase / Recovery amounts are SECONDS, not percentages.
+        // Older generated high-rarity skills accidentally used percentage-like values (e.g. 38 seconds).
+        (function normalizeCooldownSkillValues(){
+            for(const c of COOKIES_DB){
+                if(String(c.id||'').startsWith('user_'))continue;
+                const normalize=e=>{
+                    if(!e||!['Cooldown Increase','Cooldown Recovery'].includes(e.stat))return;
+                    const raw=Number(e.amount)||0;
+                    // Keep legitimate small values, scale mistakenly generated 10-100 "percent" values.
+                    e.amount=Math.round(Math.max(0,Math.min(3.5,raw>10?raw/20:raw))*10)/10;
+                };
+                (c.customEffects||[]).forEach(normalize);
+                (c.customComposites||[]).forEach(g=>(g.components||[]).forEach(normalize));
+                (c.customPassives||[]).forEach(normalize);
+            }
+        })();
+        // Every built-in Super Epic+ non-Healer/non-Ethereal gets one distinct survival mechanic.
+        // Each eligible built-in Cookie receives ONE survival ability.  All abilities
+        // use existing combat statuses/passive triggers, not simulated display-only perks.
+        (function grantHighRaritySurvival(){
+            const tiers={SuperEpic:0,Legendary:1,Mystic:2,Eternal:3};
+            const types=[
+                {label:'Renewal',stat:'Instant Healing',amount:[25,35,45,55],duration:[1,1,1,1]},
+                {label:'Second Dawn',stat:'Revive',amount:[30,45,60,75],duration:[1,1,1,1]},
+                {label:'Final Sanctuary',stat:'Invulnerability',amount:[0,0,0,0],duration:[1.5,2.5,3,3]},
+                {label:'Last Bastion',stat:'HP Shield',amount:[30,45,60,75],duration:[5,6,7,9]},
+                {label:'Iron Resolve',stat:'DMG Resist Up',amount:[15,22,30,40],duration:[4,5,7,9]},
+                {label:'Guardian Mantle',stat:'DEF Up',amount:[20,30,42,55],duration:[5,6,8,10]},
+                {label:'Restorative Aura',stat:'Healing Over Time',amount:[7,10,14,18],duration:[4,5,6,8]},
+                {label:'Unbroken Spirit',stat:'Debuff Immunity',amount:[0,0,0,0],duration:[2,3,4,5]}
+            ];
+            for(const c of COOKIES_DB){
+                if(!(c.rarity in tiers)||['Healer','Ethereal'].includes(c.role)||String(c.id||'').startsWith('user_'))continue;
+                c.customPassives=Array.isArray(c.customPassives)?c.customPassives:[];
+                // Avoid duplicates on reinitialization.
+                c.customPassives=c.customPassives.filter(p=>!p._highRaritySurvival);
+                const hash=Array.from(String(c.id)).reduce((h,x)=>(Math.imul(h,33)+x.charCodeAt(0))>>>0,19);
+                const type=types[hash%types.length],tier=tiers[c.rarity];
+                const threshold=[15,20,25,30][tier];
+                const word=(String(c.name||'Cookie').match(/[\p{L}]+/u)||['Cookie'])[0];
+                const p={name:word+' '+type.label,stat:type.stat,target:'self',amount:type.amount[tier],duration:type.duration[tier],stacks:1,trigger:'lowhp',every:threshold,charges:1,_highRaritySurvival:true};
+                if(type.stat==='Revive'){p.every=1;}
+                c.customPassives.push(p);
+            }
+        })();
+        function survivalPassiveInspector(cookie){
+            const passives=(cookie?.customPassives||[]).filter(p=>p._highRaritySurvival);
+            if(!passives.length)return '';
+            const safe=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+            const describe=p=>{
+                const threshold=`at ${p.every}% HP`;
+                switch(p.stat){
+                    case 'Revive':return `Revives itself once at ${p.amount}% HP after being defeated, resets cooldown and gains 1s protection`;
+                    case 'Invulnerability':return `${p.duration}s invulnerability ${threshold}; healing still works`;
+                    case 'Instant Healing':return `Self-heals for ${p.amount}% of ATK ${threshold}`;
+                    case 'HP Shield':return `Gains a shield equal to ${p.amount}% of maximum HP ${threshold}`;
+                    case 'DMG Resist Up':return `Gains ${p.amount}% damage resistance for ${p.duration}s ${threshold}`;
+                    case 'DEF Up':return `Gains ${p.amount}% DEF for ${p.duration}s ${threshold}`;
+                    case 'Healing Over Time':return `Regenerates ${p.amount}% of ATK each second for ${p.duration}s ${threshold}`;
+                    case 'Debuff Immunity':return `Immune to debuffs for ${p.duration}s ${threshold}`;
+                    default:return `${p.stat} ${p.amount}% for ${p.duration}s ${threshold}`;
+                }
+            };
+            return '<div class="my-3 rounded-xl border border-emerald-700/60 bg-emerald-950/30 p-3"><div class="text-xs font-bold text-emerald-300 mb-2">🛡️ SURVIVAL PASSIVE</div>'+passives.map(p=>`<div class="text-xs text-slate-200"><b>${safe(p.name)}</b><div class="mt-1 text-slate-300">${safe(describe(p))} · ${safe(p.charges||1)} charge(s)</div></div>`).join('')+'</div>';
+        }
+        // Stable per-Cookie roster number derived from its ID. Collisions are
+        // resolved deterministically across the full catalog, including custom Cookies.
+        function cookieRosterNumber(cookieId){
+            const ids=[...new Set(COOKIES_DB.map(c=>String(c.id)))].sort();
+            return ids.indexOf(String(cookieId))+1;
+        }
+        function cookieNumberInspector(cookie){
+            return `<div class="text-center text-[11px] text-amber-300 font-bold my-2">🍪 Cookie No. ${cookieRosterNumber(cookie.id)}</div>`;
+        }
+        function namedEffectInspector(cookie){
+            if(!cookie?.customComposites?.length)return '';
+            const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+            return `<div class="my-3 text-left"><div class="text-xs font-bold text-amber-300 mb-2">✨ NAMED BUFFS & DEBUFFS · CLICK TO EXPAND</div>${cookie.customComposites.map(group=>`<details class="rounded-lg border border-slate-700 p-2 mb-2 bg-slate-950 min-w-0"><summary class="cursor-pointer text-xs font-bold text-cyan-300 break-words whitespace-normal">${esc(group.name)} · ${(group.components||[]).length} effects</summary><div class="mt-2 space-y-1 max-h-64 overflow-y-auto break-words whitespace-normal">${(group.components||[]).map(x=>`<p class="text-[11px] text-slate-300 break-words whitespace-normal">${esc(x.stat||'Unknown effect')} · ${Number.isFinite(Number(x.amount))?esc(x.amount):'—'}${['Cooldown Increase','Cooldown Recovery'].includes(x.stat)?'s':'%'} · ${esc(x.duration||0)}s · up to ${esc(x.stacks||1)} stack(s) · ${esc(x.target||'team')}</p>`).join('')}</div></details>`).join('')}</div>`;
+        }
         // Offline-first: game progress is always localStorage only. The public
         // Cookie library uses anonymous Supabase auth solely to enforce owner-only
         // publishing. No username, password, or progress is sent to Supabase.
@@ -3047,7 +3487,7 @@
         const builderKinds=BUILDER_STATUS_NAMES;
         function escapeCookieHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
         function readBuiltCookies(){try{const data=JSON.parse(localStorage.getItem(BUILT_COOKIE_KEY)||'[]');return Array.isArray(data)?data.filter(c=>c&&c.custom&&typeof c.id==='string').slice(0,150):[];}catch{return [];}}
-        function loadBuiltCookies(){readBuiltCookies().forEach(c=>{if(!COOKIES_DB.some(x=>x.id===c.id))COOKIES_DB.push(c);});}
+        function loadBuiltCookies(){readBuiltCookies().forEach(c=>{ensureRangedBarrage(c);if(!COOKIES_DB.some(x=>x.id===c.id))COOKIES_DB.push(c);});}
         function unlockCookieBuilder(){if(document.getElementById('builder-password').value!=='072313'){alert('Incorrect builder password.');return;}builderUnlocked=true;try{localStorage.setItem(BUILDER_DEVICE_UNLOCK_KEY,'yes');}catch(e){}renderCookieBuilder();}
         let editingBuiltCookieId=null;
         function renderCookieBuilder(){
@@ -3058,11 +3498,23 @@
             const elem=document.getElementById('cb-element');if(!elem.options.length)elem.innerHTML=ELEMENTS.map(e=>`<option>${e}</option>`).join('');
             document.getElementById('cb-created').innerHTML=readBuiltCookies().map(c=>`<div class="flex items-center justify-between gap-2 bg-slate-900 p-2 rounded-xl"><span class="text-xs">${escapeCookieHtml(c.name)} · ${c.rarity} ${c.role}</span><button class="bg-amber-700 rounded p-2 text-xs" onclick="editBuiltCookie('${c.id}')">✏️ EDIT</button><button class="text-rose-300 text-xs border border-rose-800 rounded p-2" onclick="deleteBuiltCookie('${c.id}')">DELETE</button><button class="bg-sky-700 rounded p-2 text-xs" onclick="publishBuiltCookie('${c.id}')">🌎 PUBLISH</button></div>`).join('')||'<p class="text-xs text-slate-500">No created Cookies yet.</p>';
         }
+        const EXTRA_ATTACK_OPTIONS=[['instant','💥 Instant attack'],['repeating','⚡ Repeating barrage'],['channel','🌈 Channeled beam'],['healing','💚 Healing pulses'],['shield','🛡️ Shield pulses'],['drain','🩸 Life-drain pulses'],['random','🎯 Random-target volley'],['execute','🗡️ Execution strike']];
+        function addExtraAttack(initial=null){
+            const root=document.getElementById('cb-extra-attacks');if(!root||root.children.length>=2)return;
+            const row=document.createElement('div');row.className='extra-attack grid grid-cols-2 md:grid-cols-5 gap-2 bg-slate-950 p-2 rounded-lg';
+            row.innerHTML=`<label class="text-[10px]">Type<select class="ea-type w-full bg-slate-800 rounded p-1">${EXTRA_ATTACK_OPTIONS.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select></label><label class="text-[10px]">Power (% ATK)<input type="number" class="ea-power w-full bg-slate-800 rounded p-1" min="0" max="5000" value="100"></label><label class="text-[10px]">Duration (s)<input type="number" class="ea-duration w-full bg-slate-800 rounded p-1" min=".5" max="30" step=".5" value="5"></label><label class="text-[10px]">Interval (s)<input type="number" class="ea-interval w-full bg-slate-800 rounded p-1" min=".1" max="5" step=".1" value="1"></label><button type="button" class="text-rose-300 text-xs" onclick="this.closest('.extra-attack').remove()">✕ Remove</button>`;
+            root.appendChild(row);
+            if(initial)for(const [key,cl] of [['type','ea-type'],['power','ea-power'],['duration','ea-duration'],['interval','ea-interval']])if(initial[key]!=null)row.querySelector('.'+cl).value=initial[key];
+        }
+        function collectExtraAttacks(){return [...document.querySelectorAll('#cb-extra-attacks .extra-attack')].map(row=>({type:row.querySelector('.ea-type').value,power:Math.max(0,Math.min(5000,Number(row.querySelector('.ea-power').value)||0)),duration:Math.max(.5,Math.min(30,Number(row.querySelector('.ea-duration').value)||5)),interval:Math.max(.1,Math.min(5,Number(row.querySelector('.ea-interval').value)||1)),effects:'cast'}));}
         function updateAttackStudio(){
             const type=document.getElementById('cb-attack-type')?.value||'instant';
             document.querySelectorAll('.attack-timed').forEach(el=>el.classList.toggle('hidden',type==='instant'||type==='execute'));
             const d=Number(document.getElementById('cb-attack-duration')?.value)||5,i=Math.max(.1,Number(document.getElementById('cb-attack-interval')?.value)||.5);
-            const out=document.getElementById('cb-attack-summary');if(out)out.textContent=type==='instant'||type==='execute'?'One attack when the skill is cast.':`${Math.ceil(d/i)} attacks over ${d}s, once every ${i}s. Each attack has independent power.`;
+            const out=document.getElementById('cb-attack-summary');
+            const modeLabels={repeating:'damage',channel:'beam damage',healing:'healing',shield:'shielding',drain:'damage and self-healing',random:'random-target damage'};
+            const application=document.getElementById('cb-attack-effects')?.value==='each'?'every pulse':'the first pulse only';
+            if(out)out.textContent=type==='instant'||type==='execute'?'One instant strike when the skill is cast; effects apply once.':`${Math.ceil(d/i)} ${modeLabels[type]||'attack'} pulses over ${d}s (every ${i}s). Buffs and debuffs apply on ${application}.`;
         }
         function collectAttackStudio(){return {type:document.getElementById('cb-attack-type').value,duration:Math.max(.5,Math.min(30,Number(document.getElementById('cb-attack-duration').value)||5)),interval:Math.max(.1,Math.min(5,Number(document.getElementById('cb-attack-interval').value)||.5)),power:Math.max(0,Math.min(5000,Number(document.getElementById('cb-attack-power').value)||0)),effects:document.getElementById('cb-attack-effects').value};}
         function addBuilderEffect(group='skill',initial=null,mount=null){
@@ -3137,7 +3589,7 @@
             editingBuiltCookieId=null;
             for(const id of ['cb-name','cb-emoji','cb-visual-emoji'])document.getElementById(id).value=id==='cb-emoji'?'🍪':id==='cb-visual-emoji'?'✨':'';
             for(const id of ['cb-effects','cb-passives','cb-composites'])document.getElementById(id).innerHTML='';
-            document.getElementById('cb-attack-type').value='instant';updateAttackStudio();
+            document.getElementById('cb-attack-type').value='instant';document.getElementById('cb-extra-attacks').innerHTML='';updateAttackStudio();
             document.getElementById('cb-save-button').textContent='🍪 CREATE COOKIE';
             document.getElementById('cb-editing-status').textContent='';
         }
@@ -3150,7 +3602,7 @@
             set('cb-name',match?match[2]:c.name);set('cb-emoji',match?match[1]:'🍪');
             for(const [id,key] of [['cb-rarity','rarity'],['cb-role','role'],['cb-element','element'],['cb-opening','openingCD'],['cb-cooldown','regularCD'],['cb-visual','customVisual'],['cb-visual-color','customVisualColor'],['cb-visual-emoji','customVisualEmoji'],['cb-visual-duration','customVisualDuration'],['cb-visual-hits','customVisualHits'],['cb-visual-target','customVisualTarget'],['cb-target-count','customVisualTargetCount'],['cb-particles','customParticles'],['cb-glow','customGlow'],['cb-trail','customTrail']])set(id,c[key]);
             for(const id of ['cb-particles','cb-glow'])document.getElementById(id+'-value').textContent=document.getElementById(id).value;
-            const attack=c.customAttack||{};for(const [id,key] of [['cb-attack-type','type'],['cb-attack-duration','duration'],['cb-attack-interval','interval'],['cb-attack-power','power'],['cb-attack-effects','effects']])if(attack[key]!=null)set(id,attack[key]);if(attack.power==null)set('cb-attack-power',c.customDamage??350);updateAttackStudio();
+            const attack=c.customAttack||{};for(const [id,key] of [['cb-attack-type','type'],['cb-attack-duration','duration'],['cb-attack-interval','interval'],['cb-attack-power','power'],['cb-attack-effects','effects']])if(attack[key]!=null)set(id,attack[key]);if(attack.power==null)set('cb-attack-power',c.customDamage??350);document.getElementById('cb-extra-attacks').innerHTML='';(c.customAttacks||[]).slice(1,3).forEach(a=>addExtraAttack(a));updateAttackStudio();
             (c.customEffects||[]).forEach(e=>addBuilderEffect('skill',e));
             (c.customPassives||[]).forEach(e=>addBuilderEffect('passive',e));
             (c.customComposites||[]).forEach(e=>addBuilderComposite(e));
@@ -3184,14 +3636,14 @@
             if(role==='Ethereal')document.getElementById('cb-attack-power').value=0;
             const effects=[...document.querySelectorAll('#cb-effects .builder-effect')].map(collectBuilderEffect);
             const passives=[...document.querySelectorAll('#cb-passives .builder-effect')].map(collectBuilderEffect);
-            const attack=collectAttackStudio();
+            const attack=collectAttackStudio();const customAttacks=[attack,...collectExtraAttacks()];
             if(effects.some(x=>x.stat==='Revive')){alert('Revive is a passive effect. Add it under Passives instead.');return;}
             const composites=[...document.querySelectorAll('#cb-composites .builder-composite')].map(row=>({name:row.querySelector('.bc-name').value.trim().slice(0,45),components:[...row.querySelectorAll('.bc-component')].map(collectBuilderEffect)})).filter(x=>x.name&&x.components.length);
             if(composites.some(x=>x.components.some(e=>e.stat==='Revive'))){alert('Revive must be a direct passive, not inside a named status.');return;}
             if(effects.length>30||passives.length>20||composites.length>15){alert('Limit: 30 skill effects, 20 passives, 15 custom statuses.');return;}
             const id=editingBuiltCookieId||('user_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7));
             const avg=role==='Ethereal'?[2800,650,1000]:(ROLE_RARITY_AVERAGES[rarity]?.[role]||[3000,800,900]);
-            const c={id,name:(document.getElementById('cb-emoji').value.trim()||'🍪')+' '+name,rarity,role,element,elementIcon:ELEMENT_ICONS[element]||'✨',skill:'Custom Creation',desc:'Created in the Cookie Builder. '+effects.length+' skill effects, '+passives.length+' passives and '+composites.length+' named statuses.',custom:true,customVisual:document.getElementById('cb-visual').value,customVisualColor:document.getElementById('cb-visual-color').value,customVisualEmoji:document.getElementById('cb-visual-emoji').value.slice(0,8),customVisualDuration:clamp('cb-visual-duration',.3,3),customVisualHits:clamp('cb-visual-hits',1,20),customVisualTarget:document.getElementById('cb-visual-target').value,customVisualTargetCount:clamp('cb-target-count',1,5),customParticles:clamp('cb-particles',1,12),customGlow:clamp('cb-glow',0,30),customTrail:document.getElementById('cb-trail').value,customDamage:attack.power,customEffects:effects,customAttack:attack,customPhases:[],customPassives:passives,customComposites:composites,openingCD:clamp('cb-opening',.5,60),regularCD:clamp('cb-cooldown',1,60),cd:clamp('cb-cooldown',1,60),baseHp:avg[0],baseAtk:avg[1],baseDef:avg[2]};
+            const c={id,name:(document.getElementById('cb-emoji').value.trim()||'🍪')+' '+name,rarity,role,element,elementIcon:ELEMENT_ICONS[element]||'✨',skill:'Custom Creation',desc:'Created in the Cookie Builder. '+effects.length+' skill effects, '+passives.length+' passives and '+composites.length+' named statuses.',custom:true,customVisual:document.getElementById('cb-visual').value,customVisualColor:document.getElementById('cb-visual-color').value,customVisualEmoji:document.getElementById('cb-visual-emoji').value.slice(0,8),customVisualDuration:clamp('cb-visual-duration',.3,3),customVisualHits:clamp('cb-visual-hits',1,20),customVisualTarget:document.getElementById('cb-visual-target').value,customVisualTargetCount:clamp('cb-target-count',1,5),customParticles:clamp('cb-particles',1,12),customGlow:clamp('cb-glow',0,30),customTrail:document.getElementById('cb-trail').value,customDamage:attack.power,customEffects:effects,customAttack:attack,customAttacks,customPhases:[],customPassives:passives,customComposites:composites,openingCD:clamp('cb-opening',.5,60),regularCD:clamp('cb-cooldown',1,60),cd:clamp('cb-cooldown',1,60),baseHp:avg[0],baseAtk:avg[1],baseDef:avg[2]};
             const list=readBuiltCookies();if(!editingBuiltCookieId&&list.length>=150){alert('Maximum of 150 created Cookies.');return;}if(editingBuiltCookieId){const idx=list.findIndex(x=>x.id===id);if(idx<0){alert('Cookie not found.');return;}list[idx]=c;}else list.push(c);try{localStorage.setItem(BUILT_COOKIE_KEY,JSON.stringify(list));}catch{alert('Browser storage is full.');return;}
             const idx=COOKIES_DB.findIndex(x=>x.id===id);if(idx>=0)COOKIES_DB[idx]=c;else COOKIES_DB.push(c);gameState.unlockedCookies[id]??={level:1,xp:0,skillLevel:0};const edited=!!editingBuiltCookieId;editingBuiltCookieId=null;document.getElementById('cb-save-button').textContent='🍪 CREATE COOKIE';document.getElementById('cb-editing-status').textContent='';saveGame();renderCookieBuilder();renderCollectionTab();document.getElementById('cb-message').textContent=name+(edited?' updated! Publish again to share changes.':' created and unlocked!');
             queueCloudSave();
@@ -3242,7 +3694,7 @@
             const requestedAmount=Math.max(0,Math.min(500,Number(entry.amount)||0))/100;
             const amount=stat==='DMG Resist Up' && ['Healer','Support','Ethereal'].includes(source?.role)
                 ? Math.min(source.role==='Ethereal'?.45:.30,requestedAmount) : requestedAmount;
-            const duration=Math.max(.25,Math.min(stat==='Invulnerability'?3:180,Number(entry.duration)||5));
+            const duration=Math.max(.25,Math.min(stat==='Invulnerability'?(entry._highRaritySurvival?5:3):180,Number(entry.duration)||5));
             const stacks=Math.max(1,Math.min(stat==='Invulnerability'?1:20,Number(entry.stacks)||1));
             const e=target.effects;
             if(stat==='Revive')return; // Revive is handled only by the fatal-damage passive handler.
@@ -3253,7 +3705,14 @@
                     const targets=context && component.target
                         ? customTargets(component,source,context.allies,context.enemies)
                         : [target];
-                    targets.forEach((t,j)=>customApplyStatus(source,t,{...component,stacks:component.stacks||stacks,element:component.element||entry.element},key+'_'+i+'_'+j,depth+1,context));
+                    targets.forEach((t,j)=>{
+                        customApplyStatus(source,t,{...component,stacks:component.stacks||stacks,element:component.element||entry.element,_displayGroup:composite.name},key+'_'+i+'_'+j,depth+1,context);
+                        if(t.effects){
+                            t.effects._namedGroups=t.effects._namedGroups||{};
+                            const gkey=(source.uid||source.id)+'_'+composite.name;
+                            t.effects._namedGroups[gkey]={name:composite.name,sourceId:source.id,sourceName:source.name,time:Math.max(.25,Number(component.duration)||5),mode:BUILDER_STATUS_CATALOG.find(x=>x[0]===component.stat)?.[1]==='debuff'?'debuff':'buff'};
+                        }
+                    });
                 });
                 return;
             }
@@ -3285,11 +3744,11 @@
                 if((source._customInvulnChargesUsed[chargeKey]||0)>=limit)return;
                 target._customInvulnBudget=target._customInvulnBudget??6;
                 if(target._customInvulnBudget<=0)return;
-                const allotted=Math.min(3,lifetime,target._customInvulnBudget);
+                const allotted=Math.min(entry._highRaritySurvival?5:3,lifetime,target._customInvulnBudget);
                 source._customInvulnChargesUsed[chargeKey]=(source._customInvulnChargesUsed[chargeKey]||0)+1;
                 target._customInvulnBudget=Math.max(0,target._customInvulnBudget-allotted);
-                e._customStatus[sourceKey]={stat,count:1,time:allotted,value:1,element:entry.element||source.element,sourceId:source.id,tick:1};
-            }else if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,value,element:entry.element||source.element,sourceId:source.id,tick:1};
+                e._customStatus[sourceKey]={stat,count:1,time:allotted,value:1,element:entry.element||source.element,sourceId:source.id,tick:1,displayGroup:entry._displayGroup||null};
+            }else if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,value,element:entry.element||source.element,sourceId:source.id,tick:1,displayGroup:entry._displayGroup||null};
             // Three linked, conditional status effects are available to every Builder cookie.
             // The third application consumes the marks instead of stacking forever.
             if(['Ruin Sigil','Fractured Ward','Resonance'].includes(stat)){
@@ -3446,7 +3905,7 @@
                     targets.forEach((target,targetIndex)=>customApplyStatus(unit,target,effect,
                         'named_'+groupIndex+'_'+effectIndex+'_'+targetIndex,0,{allies,enemies}));
                 });
-                if(!leagueMode)logBattleEvent('🧬 '+unit.name+' activates '+group.name);
+                if(!leagueMode && !(unit._customAttackQueue||[]).length)logBattleEvent('🧬 '+unit.name+' activates '+group.name);
             });
         }
         function applyCustomSkillEffects(unit,allies,enemies,keyPrefix,perPulse=false){
@@ -3468,29 +3927,34 @@
                     customApplyStatus(unit,target,effect,keyPrefix+'_'+i+'_'+j,0,{allies,enemies}));
             });
         }
-        function castCustomBuild(unit,enemies,allies,isPlayer){
+        function castCustomBuildSingle(unit,enemies,allies,isPlayer,attack,primary){
             const foes=enemies.filter(x=>x.currentHp>0&&x.role!=='Ethereal');
-            const attack=unit.customAttack||{type:'instant',power:unit.customDamage||0};
-            applyUnreferencedNamedStatuses(unit,allies,enemies);
-            // Skill effects apply on cast, regardless of attack type.
-            if(attack.effects!=='each')applyCustomSkillEffects(unit,allies,enemies,'skill');
+            if(primary&&attack.effects!=='each')applyUnreferencedNamedStatuses(unit,allies,enemies);
+            // Skill effects apply on cast for first-pulse mode, or on each pulse otherwise.
+            if(primary&&attack.effects!=='each')applyCustomSkillEffects(unit,allies,enemies,'skill');
             if(!['instant','execute'].includes(attack.type)){
                 unit._customAttackQueue=unit._customAttackQueue||[];
                 const interval=Math.max(.1,Math.min(5,Number(attack.interval)||.5));
                 const duration=Math.max(.5,Math.min(30,Number(attack.duration)||5));
                 // Each cast has an independent timed attack sequence.
-                unit._customAttackQueue.push({attack,remaining:duration,interval,clock:0,isPlayer,pulses:0});
-                triggerCustomPassives(unit,'skill');return;
+                unit._customAttackQueue.push({attack,remaining:duration,interval,clock:0,isPlayer,pulses:0,applyEffects:primary});
+                return;
             }
             const weakest=foes.slice().sort((a,b)=>a.currentHp/a.maxHp-b.currentHp/b.maxHp)[0];
             skillVisual(unit,isPlayer);
             const hitCount=Math.max(1,Math.min(20,Math.round(Number(unit.customVisualHits)||1)));
             const targets=chooseCustomTargets(unit.customVisualTarget||'single',unit.customVisualTargetCount||3,unit,allies,enemies);
-            const hitPower=unit.customAttack?Math.max(0,Number(attack.power)||0):unit.customDamage;
-            if(hitPower>0)targets.forEach(t=>{
+            const hitPower=Math.max(0,Number(attack.power)||0);
+            if(attack.type==='healing')allies.filter(u=>u.currentHp>0).forEach(t=>healUnit(unit,t,unit.atk*hitPower/100));
+            else if(attack.type==='shield')allies.filter(u=>u.currentHp>0).forEach(t=>addShield(t,t.maxHp*Math.min(.5,hitPower/1000)));
+            else if(hitPower>0)targets.forEach(t=>{
                 for(let i=0;i<hitCount&&t.currentHp>0;i++)applyDamage(unit,t,unit.atk*hitPower/100/hitCount,'text-amber-200 text-xs',isPlayer,false,.08);
             });
-            if(attack.effects==='each')applyCustomSkillEffects(unit,allies,enemies,'skill');
+            if(primary&&attack.effects==='each')applyCustomSkillEffects(unit,allies,enemies,'skill');
+        }
+        function castCustomBuild(unit,enemies,allies,isPlayer){
+            const attacks=Array.isArray(unit.customAttacks)&&unit.customAttacks.length?unit.customAttacks:[unit.customAttack||{type:'instant',power:unit.customDamage||0,effects:'cast'}];
+            attacks.slice(0,3).forEach((a,i)=>castCustomBuildSingle(unit,enemies,allies,isPlayer,a,i===0));
             triggerCustomPassives(unit,'skill');
         }
         function tickCustomStacks(unit,dt){
@@ -3515,12 +3979,12 @@
                         if(mode==='healing')allies.filter(u=>u.currentHp>0).forEach(t=>healUnit(unit,t,unit.atk*power));
                         else if(mode==='shield')allies.filter(u=>u.currentHp>0).forEach(t=>addShield(t,t.maxHp*Math.min(.5,power*.1)));
                         else targets.forEach(t=>{if(t.currentHp>0){const before=t.currentHp;applyDamage(unit,t,unit.atk*power,'text-amber-200 text-xs',job.isPlayer,false,.08);if(mode==='drain')healUnit(unit,unit,Math.max(0,before-t.currentHp)*.35);}});
-                        if(a.effects==='each')applyCustomSkillEffects(unit,allies,enemies,'pulse',true);
+                        if(job.applyEffects&&a.effects==='each'){applyCustomSkillEffects(unit,allies,enemies,'pulse',true);applyUnreferencedNamedStatuses(unit,allies,enemies);}
 
                         skillVisual(unit,job.isPlayer);job.pulses++;job.clock+=job.interval;
-                        if(job.pulses>=300)break; // runaway protection, not a cooldown lockout
+                        if(job.pulses>=300 || (a._burstHits && job.pulses>=a._burstHits))break; // exact burst hit count
                     }
-                    if(job.remaining>0&&job.pulses<300)next.push(job);
+                    if(job.remaining>0&&job.pulses<300&&(!job.attack._burstHits||job.pulses<job.attack._burstHits))next.push(job);
                 }
                 unit._customAttackQueue=next;
             }
@@ -3566,14 +4030,15 @@
         }
 
         function getCookieDetailedCombatInfo(cookie) {
-            if(cookie.custom)return customAbilityRows(cookie);
+            if(cookie.custom){ensureRangedBarrage(cookie);return customAbilityRows(cookie);}
             const kit = getSkillKit(cookie);
-            const damageRole = { Healer: .35, Support: .45, Defense: .5, Statuser: .22 };
+            const damageRole = { Healer: .5, Support: .5, Defense: .5, Statuser: .5, Charge: .5, Ambush: .5, Magic: .5, Bomber: .5, Ranged: .5 };
             const basicMultiplier = damageRole[cookie.role] ?? 1;
             
             const pct = n => `${(n*100).toFixed(Number.isInteger(n*100)?0:1)}%`;
             const rows = [];
             const add = (label, value, note='') => rows.push({label,value,note});
+            if(cookie.customAttack||cookie.customAttacks?.length)rows.push(...skillTimingRows(cookie));
             add('Basic attack damage', `${pct(basicMultiplier)} ATK`, 'Before DEF, damage modifiers, and active buffs. No automatic rarity damage multiplier.');
             if (cookie.role === 'Statuser') add('Statuser profile','Low damage · durable','Higher HP and DEF than Magic and Bomber Cookies; applies at least four mild debuff types per skill.');
             if (cookie.role === 'Healer') add('Basic attack healing', '55% ATK', 'Instantly heals the lowest-HP living ally on every basic attack; selected skills can instead apply healing over time.');
@@ -3587,10 +4052,10 @@
                 add('Remembrance of Yearning','Once per battle','At fatal damage, restores 70% HP, 2.5s invulnerability and halves remaining cooldown.');
             }
             if(cookie.custom){
-                add('Custom Skill',`${cookie.customAttack?.power??cookie.customDamage??0}% ATK per attack`,`${(cookie.customEffects||[]).length} skill components · ${cookie.customAttack?.type||'instant'} attack`);
-                (cookie.customEffects||[]).forEach((e,i)=>add(`Skill ${i+1} · ${e.stat}`,`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability"].includes(e.stat)?"Duration-based":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?e.amount+"s cooldown":e.amount+"%")} · ${e.duration}s · max ${e.stacks} stacks`,e.stat==='Custom Status'?'Custom status: '+e.customName:'Target: '+e.target));
-                (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,e.stat==='Revive'?`${e.charges||1} charges · 75% HP · 1s immune`:`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability","Revive"].includes(e.stat)?"Duration-based":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?e.amount+"s cooldown":e.amount+"%")} · ${e.duration}s`,e.stat==='Revive'?'Automatic on self or ally KO':`${e.trigger} trigger · ${e.every||5}`));
-                (cookie.customComposites||[]).forEach(e=>add('🧬 '+e.name,`${e.components.length} effects`,e.components.map(c=>`${c.stat} (${c.amount||0}${['Cooldown Increase','Cooldown Recovery'].includes(c.stat)?'s':'%'})`).join(', ')));
+                add('Custom Skill',`${cookie.customAttack?.power??cookie.customDamage??0}% ATK per attack`,`${(cookie.customComposites||[]).reduce((n,g)=>n+(g.components||[]).length,0)+(cookie.customEffects||[]).filter(e=>e.stat!=='Custom Status').length} skill effects · ${cookie.customAttack?.type||'instant'} attack`);
+                (cookie.customEffects||[]).filter(e=>e.stat!=='Custom Status').forEach((e,i)=>add(`Skill ${i+1} · ${e.stat}`,`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability"].includes(e.stat)?"Duration-based":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?e.amount+"s cooldown":e.amount+"%")} · ${e.duration}s · max ${e.stacks} stacks`,e.stat==='Custom Status'?'Custom status: '+e.customName:'Target: '+e.target));
+                (cookie.customPassives||[]).forEach((e,i)=>add(`Passive ${i+1} · ${e.stat}`,e.stat==='Revive'?`${e.charges||1} charges · ${e.amount||75}% HP · 1s immune`:`${["Shackles","Fear","Freeze","Silence","Stun","Charm","Sleep","Debuff Immunity","CC Immunity","Buff Prohibited","Cooldown Pause","Invulnerability","Revive"].includes(e.stat)?"Duration-based":(["Cooldown Increase","Cooldown Recovery"].includes(e.stat)?e.amount+"s cooldown":e.amount+"%")} · ${e.duration}s`,e.stat==='Revive'?'Automatic on self or ally KO':`${e.trigger} trigger · ${e.every||5}`));
+                (cookie.customComposites||[]).forEach(e=>add('🧬 '+e.name,`${e.components.length} effects`,e.components.map(c=>`${c.stat} (${Number.isFinite(Number(c.amount))?c.amount:'—'}${['Cooldown Increase','Cooldown Recovery'].includes(c.stat)?'s':'%'})`).join(' · ')));
             }
             if(cookie.id==='et15'){
                 add('River of Tartrus','81.3% ATK + missing HP scaling + 3% Max HP','Cleanses allies and grants periodic healing: 84.9% ATK every 0.5s for 4s.');
@@ -3667,7 +4132,7 @@
             const unlocked=!!gameState.unlockedCookies[cookieId];
             if(!unlocked){
                 container.innerHTML=`<div class="text-center"><div class="text-xs font-bold text-slate-300">${c.rarity} · 🔒 LOCKED</div><div class="text-5xl my-3">${c.name.split(' ')[0]}</div><h3 class="text-xl font-extrabold text-slate-100">${c.name.substring(c.name.indexOf(' ')+1)}</h3><p class="text-xs text-cyan-300 my-2">${c.elementIcon} ${c.element} · ${c.role}</p><p class="text-xs text-slate-400 mb-3">${c.desc}</p><div class="grid grid-cols-3 gap-2 bg-slate-900 p-3 rounded-xl"><div><div class="text-[9px] text-slate-500">HP</div><b class="text-emerald-300">${c.hp.toLocaleString()}</b></div><div><div class="text-[9px] text-slate-500">ATK</div><b class="text-rose-300">${c.atk.toLocaleString()}</b></div><div><div class="text-[9px] text-slate-500">DEF</div><b class="text-sky-300">${c.def.toLocaleString()}</b></div></div><div class="mt-3 bg-slate-950/80 p-3 rounded-xl text-left"><b class="text-cyan-300 text-xs">DETAILED ABILITY STATS · PREVIEW</b><div class="space-y-2 mt-2">${getCookieDetailedCombatInfo(c).map(row=>`<div class="border-b border-slate-800 pb-1"><b class="text-amber-200 text-[11px]">${row.label}</b> <span class="text-emerald-300 text-[11px]">${row.value}</span><p class="text-[10px] text-slate-400">${row.note||''}</p></div>`).join('')}</div></div><div class="mt-3 text-xs text-yellow-300">🔒 Unlock this Cookie to train, equip, or use it in battle.</div><button onclick="closeDetailModal()" class="mt-3 w-full rounded-xl bg-slate-700 p-2 text-xs font-bold">CLOSE</button></div>`;
-                document.getElementById('modal-cookie-detail').classList.remove('hidden');document.getElementById('modal-cookie-detail').classList.add('flex');return;
+                container.insertAdjacentHTML('beforeend',cookieNumberInspector(c)+namedEffectInspector(c)+survivalPassiveInspector(c));document.getElementById('modal-cookie-detail').classList.remove('hidden');document.getElementById('modal-cookie-detail').classList.add('flex');return;
             }
             container.innerHTML = `
                 <div class="text-center">
@@ -3721,6 +4186,7 @@
                     </button>
                 </div>
             `;
+            container.insertAdjacentHTML('beforeend',cookieNumberInspector(c)+namedEffectInspector(c)+survivalPassiveInspector(c));
             document.getElementById('modal-cookie-detail').classList.remove('hidden');
         }
 
@@ -3820,6 +4286,114 @@
             return [...TREASURES].sort(()=>Math.random()-.5).slice(0,Math.min(3,count))
                 .map(t=>({...t,testLevel:level}));
         }
+        let pendingDefenseLog=null;
+        function snapshotTreasures(ids){return (ids||[]).map(id=>{const t=TREASURES.find(x=>x.id===id);return t?{id,name:t.name,level:treasureLevel(id)}:null;}).filter(Boolean);}
+        function snapshotOwnedCookie(id){
+            const c=COOKIES_DB.find(x=>x.id===id)||{};
+            const owned=gameState.unlockedCookies?.[id]||{};
+            const toppings=(gameState.toppings||[]).filter(t=>t.equippedTo===id||t.cookieId===id||t.equipped===id).map(t=>({type:t.type,level:t.level||1,stats:t.stats||null}));
+            const biscuits=(gameState.biscuits||[]).filter(b=>b.equippedTo===id||b.cookieId===id||b.equipped===id).map(b=>({lines:b.lines,level:b.level||1}));
+            return {id,name:c.name||id,rarity:c.rarity||'Unknown',role:c.role||'Unknown',level:owned.level||1,stars:owned.stars||0,skillLevel:owned.skillLevel||0,toppings,biscuits};
+        }
+        function renderDefenseLogbook(){
+            const root=document.getElementById('defense-logbook');if(!root)return;
+            const logs=gameState.defenseLogbook||[];
+            const wins=logs.filter(x=>x.result==='WIN').length;
+            root.innerHTML='<div class="text-xs text-slate-300 mb-3">'+wins+' defense wins · '+(logs.length-wins)+' defense losses · '+logs.length+' local defense tests recorded</div>';
+            if(!logs.length){root.innerHTML+='<p class="text-sm text-slate-400">No defenses recorded yet. Choose TEST vs MY DEFENSE SQUAD in Battle to record a local defense test. Online attacks from other players cannot be recorded without a server endpoint.</p>';return;}
+            logs.forEach((entry,i)=>{
+                const details=document.createElement('details');details.className='rounded-xl border border-slate-700 bg-slate-900 p-3 mb-2';
+                const summary=document.createElement('summary');summary.className='cursor-pointer font-bold text-sm';summary.textContent=(entry.result==='WIN'?'🏆 DEFENSE WON':'💔 DEFENSE LOST')+' · '+new Date(entry.at).toLocaleString()+' · '+(entry.opponentName||'Opponent')+(entry.fullCombat?' · FULL COMBAT':entry.simulated?' · ESTIMATED':'');details.appendChild(summary);
+                const section=(title,team,treasures)=>{
+                    const wrap=document.createElement('div');wrap.className='mt-3 text-xs';
+                    const h=document.createElement('h4');h.className='font-bold text-amber-300 mb-1';h.textContent=title;wrap.appendChild(h);
+                    const formatLine=l=>{if(typeof l==='string')return l;if(!l||typeof l!=='object')return String(l??'');const k=l.type||l.stat||l.name||'Stat';const v=Number(l.value);return `${k}: ${Number.isFinite(v)?(Math.abs(v)<1?(v*100).toFixed(1)+'%':v.toFixed(1)):String(l.value??'—')}`;};
+                    for(const c of team||[]){
+                        const card=document.createElement('div');card.className='rounded-lg border border-slate-700 bg-slate-950/80 p-3 mb-2';
+                        const title=document.createElement('div');title.className='font-bold text-sm text-white mb-1';title.textContent=`${c.name} · ${c.rarity} ${c.role}`;card.appendChild(title);
+                        const meta=document.createElement('div');meta.className='text-slate-300 mb-2';meta.textContent=`Level ${c.level} · ${c.stars}★ · Skill Lv.${c.skillLevel}`;card.appendChild(meta);
+                        const equipment=document.createElement('div');equipment.className='grid grid-cols-1 sm:grid-cols-2 gap-2';
+                        const top=document.createElement('div');top.className='rounded bg-slate-900 p-2';const th=document.createElement('div');th.className='text-pink-300 font-bold mb-1';th.textContent='🍓 Toppings';top.appendChild(th);
+                        (c.toppings||[]).forEach(t=>{const line=document.createElement('div');line.className='text-slate-300';line.textContent=`${t.type||'Unknown'} · Lv.${t.level||1}${t.stats?' · '+(Array.isArray(t.stats)?t.stats.map(formatLine).join(', '):Object.entries(t.stats).map(([k,v])=>`${k}: ${v}`).join(', ')):''}`;top.appendChild(line);});if(!(c.toppings||[]).length)top.append('None');equipment.appendChild(top);
+                        const bis=document.createElement('div');bis.className='rounded bg-slate-900 p-2';const bh=document.createElement('div');bh.className='text-violet-300 font-bold mb-1';bh.textContent='🍪 Beascuits';bis.appendChild(bh);
+                        (c.biscuits||[]).forEach((b,j)=>{const line=document.createElement('div');line.className='text-slate-300';line.textContent=`Beascuit ${j+1} · Lv.${b.level||1}`;bis.appendChild(line);(b.lines||[]).forEach(l=>{const sub=document.createElement('div');sub.className='text-slate-400 pl-2';sub.textContent='• '+formatLine(l);bis.appendChild(sub);});});if(!(c.biscuits||[]).length)bis.append('None');equipment.appendChild(bis);card.appendChild(equipment);wrap.appendChild(card);
+                    }
+                    const tr=document.createElement('p');tr.className='mt-2 text-amber-200';tr.textContent='🏺 Treasures: '+((treasures||[]).map(t=>t.name+' Lv.'+t.level).join(' · ')||'None');wrap.appendChild(tr);return wrap;
+                };
+                details.appendChild(section('🛡️ Defense',entry.defenseTeam,entry.defenseTreasures));
+                details.appendChild(section('⚔️ Attacker',entry.attackTeam,entry.attackTreasures));
+                const replay=document.createElement('button');replay.type='button';replay.className='mt-3 rounded-lg bg-sky-700 hover:bg-sky-600 px-3 py-2 text-xs font-bold';
+                replay.textContent='🔁 Replay as rematch';replay.onclick=()=>replayDefenseBattle(i);
+                details.appendChild(replay);root.appendChild(details);
+            });
+        }
+        function replayDefenseBattle(index){
+            if(battleActive||leagueMode){alert('Finish the current battle first.');return;}
+            const entry=(gameState.defenseLogbook||[])[index];
+            if(!entry?.attackTeam?.length||!entry?.defenseTeam?.length){alert('This entry has no saved teams.');return;}
+            const restore=(data,side)=>data.map((c,i)=>{
+                const template=COOKIES_DB.find(x=>x.id===c.id);if(!template)return null;
+                const unit=initCombatUnit(getCookieScaledStats(c.id,c.level,{stars:c.stars||0,skillLevel:c.skillLevel||100}),side+'_'+i);
+                unit.stars=c.stars||0;unit.skillLevel=c.skillLevel||0;
+                return unit;
+            }).filter(Boolean);
+            const attack=restore(entry.attackTeam,'player'),defense=restore(entry.defenseTeam,'enemy');
+            if(!attack.length||!defense.length){alert('Some Cookies are no longer available.');return;}
+            pendingDefenseLog=null;pendingEnemyTreasures=(entry.defenseTreasures||[]).map(t=>t.id);
+            metaTestMode=false;document.getElementById('btn-start-battle').disabled=true;
+            beginBattleWithTeams(attack,defense,'DEFENSE REMATCH · '+(entry.opponentName||'Attacker'));
+            // Replay is a new battle with the recorded roster, not a frame-by-frame recording.
+        }
+        // Local automatic defense challengers; no claim of actual online attacks.
+        // Fully simulated background battle, isolated from the visible arena.
+        // Uses the same skill, passive, status, treasure and revive functions.
+        function runIsolatedDefenseCombat(attackers,defenders){
+            if(battleActive||leagueMode||metaTestMode||gearHeadlessBattle)return null;
+            const previous={playerUnits,enemyUnits,battleActive,battleTimeLeft,battleTickNumber,gearHeadlessBattle,gearHeadlessOutcome,gearHeadlessAllUnits,gearSimStep,pendingEnemyTreasures,pendingDefenseLog};
+            try{
+                const make=(team,side)=>team.map((c,i)=>{
+                    const stats=side==='raid_def' ? getCookieScaledStats(c.id) : getCookieScaledStats(c.id,c.level,{stars:c.stars||0,skillLevel:c.skillLevel||100,atk:.45,crit:.15,cooldown:.10});
+                    if(!stats)return null;
+                    const unit=initCombatUnit(stats,side+'_'+i);
+                    unit.stars=c.stars||0;unit.skillLevel=c.skillLevel||100;
+                    return unit;
+                }).filter(Boolean);
+                playerUnits=make(attackers,'raid_atk');enemyUnits=make(defenders,'raid_def');
+                if(!validateEtherealSquad(playerUnits)||!validateEtherealSquad(enemyUnits))return null;
+                const selected=randomTreasures(3,12);
+                playerUnits._treasures=selected;
+                enemyUnits._treasures=equippedTreasures('defense').slice(0,3);
+                gearHeadlessBattle=true;gearHeadlessOutcome=null;gearHeadlessAllUnits=playerUnits.concat(enemyUnits);
+                gearSimStep=.5;battleActive=true;battleTimeLeft=180;battleTickNumber=0;
+                applyTreasureStart(playerUnits);applyTreasureStart(enemyUnits);
+                for(const u of gearHeadlessAllUnits){applyIodineOpening(u);netherOpening(u);triggerCustomPassives(u,'start');wiltedOpening(u);}
+                for(let ticks=0;ticks<360&&battleActive;ticks++)gearFastBattleTick();
+                const outcome=gearHeadlessOutcome;
+                const attackerFraction=playerUnits.reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
+                const defenderFraction=enemyUnits.reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
+                const attackerWon=outcome?outcome.win:attackerFraction>defenderFraction;
+                return {defenseWon:!attackerWon,duration:Math.round(180-battleTimeLeft),attackTreasures:selected.map(t=>({id:t.id,name:t.name,level:12})),defenseTreasures:snapshotTreasures(gameState.defenseTreasures)};
+            }catch(err){console.warn('Background defense combat failed; no estimated result recorded:',err);return null;}
+            finally{
+                ({playerUnits,enemyUnits,battleActive,battleTimeLeft,battleTickNumber,gearHeadlessBattle,gearHeadlessOutcome,gearHeadlessAllUnits,gearSimStep,pendingEnemyTreasures,pendingDefenseLog}=previous);
+            }
+        }
+        function createLocalDefenseChallenge(){
+            if(!gameState||battleActive||leagueMode||metaTestMode)return;
+            const ids=(gameState.defenseTeam||[]).filter(Boolean);
+            if(!ids.length||!ids.some(id=>COOKIES_DB.find(c=>c.id===id)?.role!=='Ethereal'))return;
+            const candidates=COOKIES_DB.filter(c=>['Epic','SuperEpic','Legendary','Mystic','Eternal'].includes(c.rarity)&&c.role!=='Ethereal');
+            if(candidates.length<5)return;
+            const shuffled=candidates.slice().sort(()=>Math.random()-.5).slice(0,5);
+            const attackers=shuffled.map(c=>({id:c.id,name:c.name,rarity:c.rarity,role:c.role,level:Math.min(100,Math.max(40,Math.round((gameState.unlockedCookies[ids[0]]?.level||50)+(Math.random()-.5)*30))),stars:Math.floor(Math.random()*6),skillLevel:80,toppings:[{type:['atk','cooldown','resist','crit'][Math.floor(Math.random()*4)],level:12}],biscuits:[{lines:Array(4).fill({type:'atk',value:.05}),level:12}]}));
+            const defenders=ids.map(id=>snapshotOwnedCookie(id));
+            const result=runIsolatedDefenseCombat(attackers,defenders);
+            if(!result)return;
+            const entry={at:new Date().toISOString(),opponentName:'Local Auto Challenger',result:result.defenseWon?'WIN':'LOSS',simulated:false,fullCombat:true,attackTeam:attackers,defenseTeam:defenders,attackTreasures:result.attackTreasures,defenseTreasures:result.defenseTreasures,durationSeconds:result.duration};
+            gameState.defenseLogbook=gameState.defenseLogbook||[];gameState.defenseLogbook.unshift(entry);gameState.defenseLogbook=gameState.defenseLogbook.slice(0,100);saveGame();renderDefenseLogbook();
+        }
+        // More frequent local defense activity: one simulated challenger every 45 seconds while the game is open.
+        setInterval(()=>{try{createLocalDefenseChallenge();}catch(err){console.warn('Local defense challenge:',err);}},45000);
         function startBattle() {
             if(leagueMode){alert('Stop the Auto Meta League before starting a manual battle.');return;}
             metaTestMode=false; battleSpeed=1; document.getElementById('battle-speed-select').value='1';
@@ -3832,6 +4406,7 @@
 
 
             const tier = document.getElementById('enemy-tier-select').value;
+            pendingDefenseLog=null;
             let generatedEnemies;
             if (selectedOpponentIndex >= 0 && opponentOffers[selectedOpponentIndex]) {
                 const offer=opponentOffers[selectedOpponentIndex];
@@ -3846,6 +4421,13 @@
                 pendingEnemyTreasures=Math.random()<.35?randomTreasures(1+Math.floor(Math.random()*3),6):[];
             }
             if (!generatedEnemies) return;
+            if(tier==='defense_test'&&selectedOpponentIndex<0){
+                pendingDefenseLog={at:new Date().toISOString(),opponentName:'My Attack Squad',
+                    attackTeam:activeTeam.map(id=>snapshotOwnedCookie(id)),
+                    defenseTeam:gameState.defenseTeam.filter(Boolean).map(id=>snapshotOwnedCookie(id)),
+                    attackTreasures:snapshotTreasures(gameState.equippedTreasures),
+                    defenseTreasures:snapshotTreasures(gameState.defenseTreasures)};
+            }
 
             document.getElementById('btn-start-battle').disabled = true;
             battleActive = true;
@@ -3985,7 +4567,7 @@
             document.getElementById('enemy-team-label').innerText=label || 'RIVAL SQUAD (5)';
             playerUnits=teamA;enemyUnits=teamB;
             playerUnits._treasures=metaTestMode?(metaGearMode?metaSelectedTreasures('a'):[]):equippedTreasures().slice(0,3);
-            enemyUnits._treasures=metaTestMode?(metaGearMode?metaSelectedTreasures('b'):[]):(pendingEnemyTreasures||[]);
+            enemyUnits._treasures=metaTestMode?(metaGearMode?metaSelectedTreasures('b'):[]):(pendingDefenseLog?equippedTreasures('defense').slice(0,3):(pendingEnemyTreasures||[]));
             pendingEnemyTreasures=[];
             applyTreasureStart(playerUnits);applyTreasureStart(enemyUnits);
             [...playerUnits,...enemyUnits].forEach(applyIodineOpening);
@@ -4506,7 +5088,7 @@
             attacker.basicAttacksMade=(attacker.basicAttacksMade||0)+1;
             triggerCustomPassives(attacker,'basic');
             // Healers, supports, and defenders trade basic-attack damage for utility.
-            const roleDamage={Healer:.35,Support:.45,Defense:.5};
+            const roleDamage={Healer:.5,Support:.5,Defense:.5,Statuser:.5,Charge:.5,Ambush:.5,Magic:.5,Bomber:.5,Ranged:.5};
             const atk=attacker.atk*(1+(attacker.effects?.atk||0))*(1-(attacker.effects?.atkDown||0))*(roleDamage[attacker.role]||1);
             applyDamage(attacker,target,atk,isPlayer?'text-rose-400 text-xs':'text-amber-400 text-xs',isPlayer);
             // Healers provide a small 45% ATK heal with every basic attack.
@@ -4634,7 +5216,7 @@
                     if((reviver._revivePassiveUsed[i]||0)>=limit)continue;
                     reviver._revivePassiveUsed[i]=(reviver._revivePassiveUsed[i]||0)+1;
                     fallen._reviveInProgress=true;
-                    fallen.currentHp=Math.max(1,Math.round(fallen.maxHp*.75));
+                    fallen.currentHp=Math.max(1,Math.round(fallen.maxHp*Math.min(1,Math.max(.01,(Number(p.amount)||75)/100))));
                     fallen.cdTimer=0;
                     fallen.effects.invulnerable=1;fallen.effects.invulnerableTimer=1;
                     fallen.revivesUsed=(fallen.revivesUsed||0)+1;
@@ -5096,7 +5678,15 @@
                 chips.push(`<span class="status-chip ${mode==='debuff'?'text-rose-300':'text-emerald-300'}" title="${tooltip}">${icon} ${escapeText(label)}${pct}${duration}${source?' · '+escapeText(source):''}</span>`);
                 shown.add(key);
             };
-            Object.values(e._customStatus||{}).filter(x=>x.time>0).forEach(x=>{
+            for(const [groupKey,g] of Object.entries(e._namedGroups||{})){
+                const active=Object.values(e._customStatus||{}).filter(x=>x.displayGroup===g.name&&x.sourceId===g.sourceId&&x.time>0);
+                if(active.length)g.time=Math.max(...active.map(x=>x.time));
+                else delete e._namedGroups[groupKey];
+            }
+            Object.values(e._namedGroups||{}).filter(x=>x.time>0).forEach(x=>{
+                chips.push(`<span class="status-chip ${x.mode==='debuff'?'text-rose-300':'text-emerald-300'}" title="${escapeText(x.name+' · '+x.sourceName)}">${x.mode==='debuff'?'💔':'✨'} ${escapeText(x.name)} · ${escapeText(x.sourceName)}</span>`);
+            });
+            Object.values(e._customStatus||{}).filter(x=>x.time>0&&!x.displayGroup).forEach(x=>{
                 const origin=[...playerUnits,...enemyUnits].find(u=>u.id===x.sourceId);
                 const name=origin?.name||x.sourceId||'Unknown';
                 const isDebuff=BUILDER_STATUS_CATALOG.find(t=>t[0]===x.stat)?.[1]==='debuff';
@@ -5252,6 +5842,14 @@
             if (startBtn) startBtn.disabled = false;
             renderBattleArena();
 
+            if(pendingDefenseLog&&!metaTestMode){
+                const entry={...pendingDefenseLog,result:isWin?'LOSS':'WIN',durationSeconds:Math.round(180-battleTimeLeft)};
+                gameState.defenseLogbook=gameState.defenseLogbook||[];
+                gameState.defenseLogbook.unshift(entry);
+                gameState.defenseLogbook=gameState.defenseLogbook.slice(0,100);
+                pendingDefenseLog=null;
+                saveGame();renderDefenseLogbook();
+            }
             // Sandbox battles are strictly non-progressing: no XP, currency, or save writes.
             if (!metaTestMode) {
                 const adventureProgress=getAdventureData();
@@ -5272,15 +5870,15 @@
             showBattleStatsModal(isWin, message);
         }
 
-        // Endless auto league: the reigning winner stays on and faces a fresh, unique Epic+ team.
+        // Endless auto league: every third challenger is Legendary+; others Super Epic+.
         let leaguePaused=false, leagueCustomChallenge=false;
         let leagueMode=false, leagueSpectating=false, leagueChampion=null, leagueChallenger=null;
         let leagueUsedTeamKeys=new Set(), leagueTeams=new Map(), leagueMatchCount=0, leagueNextTimer=null;
         let leagueRecentWinners=[];
         let leagueBattleSpeed=500, leagueRenderCounter=0; // 5ms ticks with 2.5s simulation steps = ~500x background speed
-        function makeLeagueTeam(){
-            const superEpicOnly=(leagueUsedTeamKeys.size>0 && (leagueUsedTeamKeys.size+1)%3===0);
-            const pool=COOKIES_DB.filter(c=>c&&(superEpicOnly?['SuperEpic','Legendary','Mystic','Eternal'].includes(c.rarity):!['Common','Rare'].includes(c.rarity)) && c.id!=='a10'); // Velvet Phantom is currently out of the Meta Finder pool; Lotus Blossom remains eligible
+        function makeLeagueTeam(legendaryOnly=false){
+            const allowed=legendaryOnly?['Legendary','Mystic','Eternal']:['SuperEpic','Legendary','Mystic','Eternal'];
+            const pool=COOKIES_DB.filter(c=>c&&allowed.includes(c.rarity) && c.id!=='a10'); // Velvet Phantom is currently out of the Meta Finder pool; Lotus Blossom remains eligible
             if(pool.length<5) return null;
             for(let attempt=0;attempt<500;attempt++){
                 const shuffled=[...pool].sort(()=>Math.random()-.5);
@@ -5307,11 +5905,22 @@
             const rows=leagueRecentWinners.map(id=>leagueTeams.get(id)).filter(Boolean);
             root.innerHTML=rows.length?rows.map((t,i)=>`<tr class="border-t border-slate-800"><td class="py-2 font-black text-amber-300">${i+1}</td><td class="py-2"><b>${t.name}</b><div class="text-[9px] text-slate-500">${t.cookies.map(c=>COOKIES_DB.find(x=>x.id===c.id)?.name.split(' ').slice(1).join(' ')||c.id).join(' · ')}</div></td><td class="text-emerald-300 font-bold">${t.wins}</td><td class="text-rose-300">${t.losses}</td><td class="text-sky-300">${t.streak}</td></tr>`).join(''):'<tr><td colspan="5" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr>';
         }
+        function copyTopLeagueTeamToMetaA(){
+            const top=leagueRecentWinners.map(id=>leagueTeams.get(id)).find(Boolean) || leagueChampion;
+            const feedback=document.getElementById('league-copy-feedback');
+            if(!top || !Array.isArray(top.cookies) || top.cookies.length!==5){if(feedback)feedback.textContent='Run the league first to create a #1 team.';return;}
+            metaTeamA=top.cookies.map(entry=>({id:entry.id,level:100}));
+            if(typeof metaGearSettings!=='undefined')metaGearSettings.a={cookies:metaTeamA.map(()=>({topping:'none',biscuit:'none'})),treasures:[]};
+            if(typeof equipmentStages!=='undefined' && !equipmentChampionshipRunning){equipmentStages={signature:null,treasure:null,topping:null,biscuit:null};latestTreasureTest=null;}
+            renderMetaBuilder();
+            if(typeof equipmentStageUI==='function')equipmentStageUI();
+            if(feedback)feedback.textContent='✅ '+top.name+' copied to Meta Team A! Scroll up to run a test.';
+        }
         function setLeagueStatus(text){const el=document.getElementById('league-status');if(el)el.textContent=text;}
         function startAutoLeague(){
             if(leagueMode)return;
             leagueUsedTeamKeys=new Set();leagueTeams=new Map();leagueMatchCount=0;leagueRecentWinners=[];
-            leagueChampion=makeLeagueTeam();leagueChallenger=makeLeagueTeam();
+            leagueChampion=makeLeagueTeam();leagueChallenger=makeLeagueTeam((leagueMatchCount+1)%3===0);
             if(!leagueChampion||!leagueChallenger){setLeagueStatus('NOT ENOUGH UNIQUE COOKIES');return;}
             leagueMode=true;leaguePaused=false;leagueCustomChallenge=false;leagueSpectating=false;leagueBattleSpeed=500;metaTestMode=false;battleSpeed=1;
             document.getElementById('league-start').disabled=true;document.getElementById('league-pause').disabled=false;document.getElementById('league-stop').disabled=false;document.getElementById('league-watch').disabled=false;
@@ -5333,7 +5942,7 @@
                 renderMetaBuilder();
             }else{
                 setLeagueStatus('RUNNING');
-                leagueChallenger=makeLeagueTeam();
+                leagueChallenger=makeLeagueTeam((leagueMatchCount+1)%3===0);
                 runNextLeagueMatch();
             }
         }
@@ -5373,10 +5982,10 @@
         }
         function runNextLeagueMatch(){
             if(!leagueMode||leaguePaused)return;
-            if(!leagueChallenger)leagueChallenger=makeLeagueTeam();
+            if(!leagueChallenger)leagueChallenger=makeLeagueTeam((leagueMatchCount+1)%3===0);
             if(!leagueChallenger){setLeagueStatus('UNIQUE TEAMS EXHAUSTED');stopAutoLeague();return;}
             const label=`LEAGUE · ${leagueChampion.name} vs ${leagueChallenger.name} · 500×`;
-            const matchup=document.getElementById('league-matchup');if(matchup)matchup.textContent=`Match ${leagueMatchCount+1}: ${leagueChampion.name} (champion) vs ${leagueChallenger.name} · 500× silent background speed · ${(leagueChallenger.cookies.every(x=>['SuperEpic','Legendary','Mystic','Eternal'].includes(COOKIES_DB.find(c=>c.id===x.id)?.rarity)))?'Super Epic+':'Epic+'}`;
+            const matchup=document.getElementById('league-matchup');if(matchup)matchup.textContent=`Match ${leagueMatchCount+1}: ${leagueChampion.name} (champion) vs ${leagueChallenger.name} · 500× silent background speed · ${(leagueMatchCount+1)%3===0?'Legendary+ challenger':'Super Epic+'}`;
             setLeagueStatus(`RUNNING · MATCH ${leagueMatchCount+1}`);
             battleSpeed=1; // speed boost is local to battleTick; never changes normal battle speed
             beginBattleWithTeams(buildLeagueCombatTeam(leagueChampion,'league_a'),buildLeagueCombatTeam(leagueChallenger,'league_b'),label);
@@ -5412,7 +6021,7 @@
             setLeagueStatus(`RUNNING · ${winner.name} WON`);
             const matchup=document.getElementById('league-matchup');if(matchup)matchup.textContent=`Match ${leagueMatchCount}: ${winner.name} defeated ${loser.name}. ${winner.name} stays on and will face a brand-new team.`;
             if(leagueSpectating){renderBattleArena();const timer=document.getElementById('battle-timer');if(timer)timer.textContent=`${winner.name} WINS · NEXT MATCH SOON`;}
-            leagueNextTimer=setTimeout(()=>{if(!leagueMode)return;if(leaguePaused){leagueChallenger=makeLeagueTeam();setLeagueStatus('PAUSED · CHAMPION READY');return;}leagueChallenger=makeLeagueTeam();if(!leagueChallenger){setLeagueStatus('UNIQUE TEAMS EXHAUSTED');stopAutoLeague();return;}runNextLeagueMatch();},650);
+            leagueNextTimer=setTimeout(()=>{if(!leagueMode)return;if(leaguePaused){leagueChallenger=makeLeagueTeam((leagueMatchCount+1)%3===0);setLeagueStatus('PAUSED · CHAMPION READY');return;}leagueChallenger=makeLeagueTeam((leagueMatchCount+1)%3===0);if(!leagueChallenger){setLeagueStatus('UNIQUE TEAMS EXHAUSTED');stopAutoLeague();return;}runNextLeagueMatch();},650);
         }
 
         let battleStatsFilter = 'all';
@@ -5538,7 +6147,7 @@
             for(const [name,fn] of startupTasks){try{fn();}catch(err){console.error(name+' failed:',err);showStartupFailure(err);}}
             window.addEventListener('beforeunload', saveGame);
             document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveGame(); });
-            setInterval(triggerBackgroundDefenseRaid, 60000);
+            // Automatic defense results are produced by createLocalDefenseChallenge with real combat.
           }catch(err){showStartupFailure(err);}
         };
     </script>

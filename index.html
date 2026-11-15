@@ -1032,6 +1032,34 @@
             }
         })();
 
+        // Rarity skill-effect minimums for the built-in roster.
+        // Preserve every existing effect; only fill missing slots.
+        (function ensureRaritySkillEffects(){
+            const templates={
+                Defense:[['DEF Up','team',12,8],['HP Shield','team',10,7]],
+                Healer:[['Instant Healing','team',35,1],['Healing Over Time','team',8,6]],
+                Support:[['ATK Up','team',12,8],['Cooldown Recovery','team',1,1]],
+                Statuser:[['DEF Down','enemy',12,7],['ATK Down','enemy',10,7]],
+                Magic:[['ATK Up','self',12,7],['DEF Down','enemy',10,7]],
+                Bomber:[['Burn','enemy',5,6],['DEF Down','enemy',10,6]],
+                Ambush:[['CRIT Chance Up','self',12,7],['DMG Resist Down','enemy',9,6]],
+                Charge:[['ATK Up','self',12,7],['DEF Up','self',12,7]],
+                Ranged:[['CRIT Chance Up','self',12,7],['ATK Speed Up','self',10,7]],
+                Ethereal:[['ATK Up','team',10,7],['Healing Over Time','team',6,6]]
+            };
+            for(const cookie of COOKIES_DB){
+                const minimum=cookie.rarity==='Rare'?1:cookie.rarity==='Epic'?2:0;
+                if(!minimum)continue;
+                const effects=Array.isArray(cookie.customEffects)?cookie.customEffects.slice():[];
+                const choices=templates[cookie.role]||templates.Magic;
+                for(const [stat,target,amount,duration] of choices){
+                    if(effects.length>=minimum)break;
+                    if(!effects.some(e=>e.stat===stat))effects.push({stat,target,amount,duration,stacks:1});
+                }
+                cookie.customEffects=effects;
+            }
+        })();
+
         // All Treasure effects are game-native and apply only to normal player battles.
         const TREASURES=[
           ['scroll','📜','Pilgrim Scroll','atk',30,75,'Team ATK'],
@@ -3421,14 +3449,21 @@
                 if(!leagueMode)logBattleEvent('🧬 '+unit.name+' activates '+group.name);
             });
         }
-        function applyCustomSkillEffects(unit,allies,enemies,keyPrefix){
+        function applyCustomSkillEffects(unit,allies,enemies,keyPrefix,perPulse=false){
             (unit.customEffects||[]).forEach((entry,i)=>{
                 const aliases={'ATK':entry.kind==='Debuff'?'ATK Down':'ATK Up',
                     'DEF':entry.kind==='Debuff'?'DEF Down':'DEF Up','Shield':'HP Shield',
                     'Healing':'Instant Healing','DMG Resist':entry.kind==='Debuff'?'DMG Resist Down':'DMG Resist Up',
                     'Healing Down':'Healing Received Down','CRIT Chance':entry.kind==='Debuff'?'CRIT Chance Down':'CRIT Chance Up',
                     'Cooldown':entry.kind==='Debuff'?'Cooldown Increase':'Cooldown Recovery'};
-                const effect=aliases[entry.stat]?{...entry,stat:aliases[entry.stat]}:entry;
+                const normalized=aliases[entry.stat]?{...entry,stat:aliases[entry.stat]}:entry;
+                // A one-stack default means 'no accumulation'. For Every pulse,
+                // allow repeated timed buffs/debuffs to accumulate up to 20 stacks.
+                // Explicit limits above 1 remain respected.
+                const instant=new Set(['Instant Healing','HP Shield','Cooldown Increase','Cooldown Recovery','Invulnerability','Revive']);
+                const effect=perPulse && !instant.has(normalized.stat)
+                    ? {...normalized,stacks:Math.max(2,Math.min(20,Number(normalized.stacks)>1?Number(normalized.stacks):20))}
+                    : normalized;
                 customTargets(effect,unit,allies,enemies).forEach((target,j)=>
                     customApplyStatus(unit,target,effect,keyPrefix+'_'+i+'_'+j,0,{allies,enemies}));
             });
@@ -3470,7 +3505,7 @@
                     const speedFactor=Math.max(.05,Math.min(8,(1+speedUp)*(1-slow)));
                     job.clock-=dt*speedFactor;job.remaining-=dt;
                     let safety=0;
-                    while(job.clock<=0&&safety++<20){
+                    while(job.clock<=0&&safety++<20 && (job.pulses===0 || job.remaining+dt>0)){
                         const allies=job.isPlayer?playerUnits:enemyUnits,enemies=job.isPlayer?enemyUnits:playerUnits;
                         const foes=enemies.filter(u=>u.currentHp>0&&u.role!=='Ethereal');
                         const a=job.attack,mode=a.type;
@@ -3480,17 +3515,8 @@
                         if(mode==='healing')allies.filter(u=>u.currentHp>0).forEach(t=>healUnit(unit,t,unit.atk*power));
                         else if(mode==='shield')allies.filter(u=>u.currentHp>0).forEach(t=>addShield(t,t.maxHp*Math.min(.5,power*.1)));
                         else targets.forEach(t=>{if(t.currentHp>0){const before=t.currentHp;applyDamage(unit,t,unit.atk*power,'text-amber-200 text-xs',job.isPlayer,false,.08);if(mode==='drain')healUnit(unit,unit,Math.max(0,before-t.currentHp)*.35);}});
-                        if(a.effects==='each')applyCustomSkillEffects(unit,allies,enemies,'pulse');
-                        else if(job.pulses>0){
-                            // Repeat only the stacking signature mark on subsequent pulses.
-                            // Other buffs, CC and healing remain once per cast, preventing
-                            // huge unintended repeated heals or perma-stuns.
-                            (unit.customEffects||[]).forEach((effect,i)=>{
-                                if(!['Ruin Sigil','Fractured Ward','Resonance'].includes(effect.stat))return;
-                                customTargets(effect,unit,allies,enemies).forEach((t,j)=>
-                                    customApplyStatus(unit,t,effect,'skill_'+i+'_'+j,0,{allies,enemies}));
-                            });
-                        }
+                        if(a.effects==='each')applyCustomSkillEffects(unit,allies,enemies,'pulse',true);
+
                         skillVisual(unit,job.isPlayer);job.pulses++;job.clock+=job.interval;
                         if(job.pulses>=300)break; // runaway protection, not a cooldown lockout
                     }

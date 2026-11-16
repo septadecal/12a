@@ -568,6 +568,11 @@
                 <div class="flex flex-wrap gap-2 mt-3"><button id="league-start" onclick="startAutoLeague()" class="crk-btn rounded-lg px-4 py-2 text-xs font-black text-slate-950">▶ START LEAGUE</button><button id="league-pause" onclick="toggleLeaguePause()" class="rounded-lg bg-amber-800 border border-amber-600 px-4 py-2 text-xs font-black text-white" disabled>⏸ PAUSE LEAGUE</button><button id="league-stop" onclick="stopAutoLeague()" class="rounded-lg bg-rose-900 border border-rose-700 px-4 py-2 text-xs font-black text-white" disabled>■ STOP</button><button id="league-watch" onclick="toggleLeagueSpectate()" class="rounded-lg bg-sky-800 border border-sky-600 px-4 py-2 text-xs font-black text-white" disabled>👁 SPECTATE AT 50×</button></div>
                 <div id="league-challenge-panel" class="hidden mt-3 rounded-xl border border-amber-600 bg-amber-950/40 p-3"><p class="text-xs text-amber-200 font-bold">⚔️ BUILD A CHALLENGER</p><p class="text-[11px] text-slate-300 mt-1">Use the TEAM A builder above to create a five-Cookie squad. The reigning champion is your opponent. Your custom challenger receives the next Team # and enters the league leaderboard. After the match, stay paused and create another challenger.</p><div id="league-champion-preview" class="text-xs text-sky-300 my-2"></div><button onclick="challengeLeagueChampion()" class="crk-btn rounded-lg px-4 py-2 text-xs font-black text-slate-950">⚔️ CHALLENGE CHAMPION</button></div><p id="league-matchup" class="text-xs text-slate-300 mt-3">Start the league to generate two unique teams. The winner keeps competing against a fresh challenger.</p>
                 <div class="mt-3 flex flex-wrap gap-2 items-center"><button onclick="copyTopLeagueTeamToMetaA()" class="bg-amber-700 hover:bg-amber-600 rounded-lg px-4 py-2 text-xs font-black text-white">🏆 COPY #1 TEAM TO META TEAM A</button><span id="league-copy-feedback" class="text-xs text-emerald-300"></span></div><div class="mt-4"><h3 class="font-black text-amber-300 text-sm mb-2">LAST 10 UNIQUE WINNING TEAMS</h3><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th class="py-2">#</th><th>TEAM</th><th>W</th><th>L</th><th>WIN RATE</th><th>STREAK</th></tr></thead><tbody id="league-leaderboard"><tr><td colspan="6" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr></tbody></table></div></div>
+                <div class="mt-4 rounded-xl border border-emerald-700/40 bg-slate-900/60 p-3">
+                  <div class="font-bold text-emerald-300 text-sm mb-1">🍪 TOP 10 COOKIES · HIGHEST WIN RATES</div>
+                  <p class="text-[10px] text-slate-400 mb-2">Counts every league match a Cookie participates in. Ranked by win rate (minimum 5 matches); ties favor more wins. Stats reset when you start a new league.</p>
+                  <div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-400"><tr><th>#</th><th>COOKIE</th><th>W</th><th>L</th><th>MATCHES</th><th>WIN RATE</th></tr></thead><tbody id="league-cookie-winrates"><tr><td colspan="6" class="py-2 text-slate-400">Run league matches to collect Cookie stats.</td></tr></tbody></table></div>
+                </div>
                 <p class="text-[10px] text-slate-500 mt-2">Teams use Epic, Super Epic, Legendary, Mystic, and Eternal Cookies only. Each lineup contains five different Cookies. The league runs while this page remains open.</p>
             </div>
         </section>
@@ -578,7 +583,7 @@
  <h2 class="text-2xl font-black text-rose-300">🐉 BOSS RAIDS</h2>
  <p class="text-xs text-slate-300">Choose one of 10 bosses, set its HP from 25,000 to 350,000,000, and fight using your equipped Attack Squad. Bosses have unique attacks and status mechanics.</p>
  <div class="flex flex-wrap gap-2 items-center"><button onclick="refreshRaidBosses()" class="bg-violet-700 hover:bg-violet-600 rounded-lg px-4 py-2 font-bold text-xs">🔄 REFRESH 10 BOSSES</button><span id="raid-status" class="text-xs text-amber-200"></span></div>
- <div id="raid-boss-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+ <div class="rounded-lg border border-violet-700/50 bg-slate-900/70 p-3 mb-3 text-xs text-slate-300"><b class="text-violet-300">⚗️ ELEMENTAL REACTIONS</b><br>Burn + Frost → Thermal Shock · Solar Burn + Freeze → Solar Shatter · Zap + Tear → Conductive Surge · Overcurrent + Shackles → Circuit Break · Poison + Bleed → Toxic Wound · Corruption + Solar Burn → Eclipse · Decay + Frost → Withering Chill · Shackles + Burn → Searing Bind.<br><span class="text-amber-300">Bosses:</span> 35% resistance to their own element, 25% vulnerability to their weak element. Each of the ten bosses has its own 18-second mechanic and unique 50% HP phase. Only Thornheart and Plague Empress summon minions (every 25s; max 2).</div>\n          <div id="raid-boss-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
  <label class="block text-xs font-bold text-amber-200">Boss HP: <span id="raid-hp-label">1,000,000</span></label>
  <input id="raid-hp-slider" type="range" min="0" max="1000" value="500" oninput="raidUpdateHP()" class="w-full accent-amber-400" />
  <div class="flex gap-2 flex-wrap"><input id="raid-hp-input" type="number" min="25000" max="350000000" value="1000000" onchange="raidSetHP(this.value)" class="bg-slate-950 border border-slate-600 rounded-lg p-2 w-44 text-sm"/><button onclick="startRaidBoss()" class="crk-btn px-5 py-2 rounded-lg font-black text-slate-950">⚔️ FIGHT BOSS</button><button onclick="endBattleEarly()" class="bg-rose-900 border border-rose-600 px-4 py-2 rounded-lg font-bold text-xs">■ END RAID EARLY</button></div>
@@ -5411,7 +5416,7 @@
             }
             if (battleTimeLeft <= 0) {
                 const hpA=playerUnits.reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
-                const hpB=enemyUnits.reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
+                const hpB=(raidActive?[raidBoss]:enemyUnits).reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
                 // Small HP differences are a genuine draw, not an automatic loss.
                 const margin=.015;
                 if(Math.abs(hpA-hpB)<margin)endBattle(false,'Draw · nearly equal remaining HP');
@@ -5483,7 +5488,7 @@
                 u.effects.invulnerable=Math.max(u.effects.invulnerable||0,1);
                 logBattleEvent('🪶 Phoenix Feather revives '+u.name);
             });
-            if (enemyUnits.every(u=>u.currentHp<=0 || u.role==='Ethereal')) { endBattle(true,'VICTORY!'); return; }
+            if (raidActive ? (raidBoss?.currentHp<=0) : enemyUnits.every(u=>u.currentHp<=0 || u.role==='Ethereal')) { endBattle(true,'VICTORY!'); return; }
             if (playerUnits.every(u=>u.currentHp<=0 || u.role==='Ethereal')) { endBattle(false,'DEFEAT!'); return; }
             if(gearHeadlessBattle){ /* no rendering during equipment simulation */ }
             else if(!leagueMode){
@@ -5558,6 +5563,42 @@
             else {te.dmgTakenUp=Math.min(.25,(te.dmgTakenUp||0)+.02);te.dmgTakenUpTimer=Math.max(te.dmgTakenUpTimer||0,3);}
           }
         }
+        const ELEMENT_REACTIONS=[
+          {a:'Burn',b:'Frost',name:'🌡️ Thermal Shock',kind:'burst'},
+          {a:'Solar Burn',b:'Freeze',name:'☀️ Solar Shatter',kind:'burst'},
+          {a:'Zap',b:'Tear',name:'⚡ Conductive Surge',kind:'burst'},
+          {a:'Overcurrent',b:'Shackles',name:'⛓️ Circuit Break',kind:'control'},
+          {a:'Poison',b:'Bleed',name:'☠️ Toxic Wound',kind:'burst'},
+          {a:'Corruption',b:'Solar Burn',name:'🌘 Eclipse',kind:'weaken'},
+          {a:'Decay',b:'Frost',name:'🥀 Withering Chill',kind:'weaken'},
+          {a:'Shackles',b:'Burn',name:'🔥 Searing Bind',kind:'control'}
+        ];
+        function activeReactionStatuses(target){
+          const e=target.effects||{},set=new Set();
+          for(const x of Object.values(e._customStatus||{}))if(x.time>0)set.add(x.stat);
+          if(e.burnTimer>0)set.add('Burn');
+          if(e.poisonTimer>0)set.add('Poison');
+          if(e.freeze>0)set.add('Freeze');
+          if(e.root>0)set.add('Shackles');
+          return set;
+        }
+        function triggerElementalReaction(attacker,target){
+          if(!attacker||!target||target.currentHp<=0||target._reactionBusy)return;
+          const now=180-battleTimeLeft;
+          if(now<(target._nextReactionTime||0))return;
+          const statuses=activeReactionStatuses(target);
+          const reaction=ELEMENT_REACTIONS.find(r=>statuses.has(r.a)&&statuses.has(r.b));
+          if(!reaction)return;
+          target._nextReactionTime=now+3;
+          target._reactionBusy=true;
+          try{
+            const strength=Math.max(1,Number(attacker.atk)||1);
+            if(reaction.kind==='burst')applyDamage(attacker,target,strength*.65,'text-fuchsia-300 text-xs',false,false,0,'reaction');
+            if(reaction.kind==='control')target.effects.stun=Math.max(target.effects.stun||0,.45);
+            if(reaction.kind==='weaken'){target.effects.dmgTakenUp=Math.max(target.effects.dmgTakenUp||0,.12);target.effects.dmgTakenUpTimer=Math.max(target.effects.dmgTakenUpTimer||0,3);}
+            if(!gearHeadlessBattle&&!leagueMode)spawnFloatingText(target.uid,reaction.name,'text-fuchsia-300 text-[10px]');
+          }finally{target._reactionBusy=false;}
+        }
         function applyDamage(attacker,target,rawDamage,color='text-rose-400 text-xs',isPlayer=false,ignoreDefense=false,defensePenetration=0,statusHit=null) {
             if(!target || target.currentHp<=0 || target.role==='Ethereal') return 0;
             if((target.effects?.invulnerable||0)>0 || (target.effects?.netherRingTimer||0)>0){target.dmgMitigated=(target.dmgMitigated||0)+Math.max(0,Math.round(rawDamage));spawnFloatingText(target.uid,'IMMUNE','text-fuchsia-300 text-xs');return 0;}
@@ -5574,6 +5615,10 @@
                 const input=Number(rawDamage);
                 if(!Number.isFinite(input) || input<0)rawDamage=0;
                 else if(input>attackBase*100)rawDamage=attackBase*100;
+            }
+            if(target.isRaidBoss && attacker?.element){
+                if(attacker.element===target.raidResistElement)rawDamage*=.65;
+                else if(attacker.element===target.raidWeakElement)rawDamage*=1.25;
             }
             rawDamage*=phaseMultiplier;
             const combatLevel=Math.min(Math.max(1,Number(attacker?.level)||1),Math.max(1,Number(target.level)||1));
@@ -5660,6 +5705,7 @@
             // Defense, damage-reduction effects, and shields all count as mitigation.
             target.dmgMitigated+=Math.max(0,Math.round(rawDamage-Math.max(damage,0)))+absorbed;
             if(absorbed>0)spawnCombatNumber(target.uid,absorbed,'shield-hit');
+            if(hpDamage>0)triggerElementalReaction(attacker,target);
             if(hpDamage>0)spawnCombatNumber(target.uid,hpDamage,statusHit|| (elementalCritical?'critical':'damage'));
             const hitNode=document.getElementById(`unit-node-${target.uid}`); if(hitNode){hitNode.classList.remove('hit-flash'); void hitNode.offsetWidth; hitNode.classList.add('hit-flash');}
             if(attacker && target.effects?.reflect>0 && hpDamage>0) {
@@ -6566,14 +6612,14 @@
           ['🪨','Obsidian Sentinel','Stonebreaker','defDown'],['🌊','Tidal Leviathan','Drowning Wave','healDown'],
           ['🌙','Dreamweaver Oracle','Endless Slumber','sleep'],['🔮','Chronos Devourer','Time Fracture','cooldownPause']
         ];
-        let raidSelection=0,raidRoster=RAID_BOSSES.slice(),raidActive=false,raidBoss=null,raidElapsed=0,raidAttackClock=0,raidSpecialClock=0;
+        let raidSelection=0,raidRoster=RAID_BOSSES.slice(),raidActive=false,raidBoss=null,raidElapsed=0,raidAttackClock=0,raidSpecialClock=0,raidMechanicClock=0,raidMinionClock=0,raidPhaseTriggered=false;
         function raidHP(){return Math.max(25000,Math.min(350000000,Math.round(Number(document.getElementById('raid-hp-input')?.value)||1000000)));}
         function raidSetHP(value){const hp=Math.max(25000,Math.min(350000000,Math.round(Number(value)||25000)));document.getElementById('raid-hp-input').value=hp;document.getElementById('raid-hp-label').textContent=hp.toLocaleString();document.getElementById('raid-hp-slider').value=Math.round(Math.log(hp/25000)/Math.log(350000000/25000)*1000);}
         function raidUpdateHP(){const n=Number(document.getElementById('raid-hp-slider').value)/1000;raidSetHP(Math.round(25000*Math.pow(350000000/25000,n)));}
         function refreshRaidBosses(){raidRoster=RAID_BOSSES.slice().sort(()=>Math.random()-.5);raidSelection=0;renderRaidBosses();}
         function renderRaidBosses(){
           const root=document.getElementById('raid-boss-list');if(!root)return;root.replaceChildren();
-          raidRoster.forEach((boss,i)=>{const btn=document.createElement('button');btn.type='button';btn.className='text-left rounded-xl p-3 border '+(i===raidSelection?'border-amber-400 bg-amber-900/30':'border-slate-700 bg-slate-900 hover:bg-slate-800');btn.textContent=`${boss[0]} ${boss[1]} · ${boss[2]}`;btn.onclick=()=>{raidSelection=i;renderRaidBosses();};root.appendChild(btn);});
+          raidRoster.forEach((boss,i)=>{const btn=document.createElement('button');btn.type='button';btn.className='text-left rounded-xl p-3 border '+(i===raidSelection?'border-amber-400 bg-amber-900/30':'border-slate-700 bg-slate-900 hover:bg-slate-800');btn.textContent=`${boss[0]} ${boss[1]} · ${boss[2]} · Unique mechanic · Elemental resist/weakness`;btn.onclick=()=>{raidSelection=i;renderRaidBosses();};root.appendChild(btn);});
           const best=document.getElementById('raid-best');if(best){const history=JSON.parse(localStorage.getItem('crkRaidRecordsV1')||'[]');best.textContent=history.length?`Recent raids: ${history.slice(0,4).map(r=>r.name+' ('+r.result+')').join(' · ')}`:'No raid results yet.';}
         }
         function startRaidBoss(){
@@ -6582,8 +6628,8 @@
           if(!ids.some(id=>COOKIES_DB.find(c=>c.id===id)?.role!=='Ethereal')){alert('Your squad needs a non-Ethereal Cookie.');return;}
           const boss=raidRoster[raidSelection],hp=raidHP();
           const stats={element:'Earth',baseHp:hp,baseAtk:100,baseDef:100,toppingBonuses:{},biscuitBonuses:{},customAttack:null,customAttacks:[],customDamage:0,customKit:null,kit:null,customVisualHits:0,customVisualDuration:0,id:'raid_boss',name:boss[0]+' '+boss[1],role:'Defense',rarity:'Eternal',level:100,hp,atk:Math.max(100,Math.round(80+Math.sqrt(hp)*1.8)),def:Math.max(0,Math.round(Math.sqrt(hp)*.16)),skill:'Boss: '+boss[2],customEffects:[],customPassives:[],customComposites:[],customSkillEffects:[],customStatusEffects:[],openingCD:999,regularCD:999};
-          const unit=initCombatUnit(stats,'enemy_raid_boss');unit.isRaidBoss=true;unit.bossKind=boss[3];unit.currentHp=hp;unit.maxHp=hp;unit.shield=0;unit.cdTimer=999;unit.basicTimer=999;
-          raidBoss=unit;raidActive=true;raidElapsed=0;raidAttackClock=0;raidSpecialClock=0;
+          const unit=initCombatUnit(stats,'enemy_raid_boss');unit.isRaidBoss=true;unit.bossKind=boss[3];unit.element=({burn:'Fire',freeze:'Ice',silence:'Dark',stun:'Electricity',root:'Nature',poison:'Nature',defDown:'Earth',healDown:'Water',sleep:'Dark',cooldownPause:'Light'})[boss[3]]||'Earth';unit.raidResistElement=unit.element;unit.raidWeakElement=({Fire:'Water',Ice:'Fire',Electricity:'Earth',Nature:'Fire',Dark:'Light',Earth:'Nature',Water:'Electricity',Light:'Dark'})[unit.element]||'Light';unit.currentHp=hp;unit.maxHp=hp;unit.shield=0;unit.cdTimer=999;unit.basicTimer=999;
+          raidBoss=unit;raidActive=true;raidElapsed=0;raidAttackClock=0;raidSpecialClock=0;raidMechanicClock=0;raidMinionClock=0;raidPhaseTriggered=false;
           metaTestMode=false;pendingDefenseLog=null;pendingEnemyTreasures=[];
           const team=ids.map((id,i)=>initCombatUnit(getCookieScaledStats(id),'player_'+i));
           switchTab('battle');
@@ -6596,6 +6642,68 @@
           if(!raidActive||!raidBoss||raidBoss.currentHp<=0)return;
           raidElapsed+=dt;raidAttackClock+=dt;raidSpecialClock+=dt;
           const alive=playerUnits.filter(u=>u.currentHp>0&&u.role!=='Ethereal');if(!alive.length)return;
+          // Each boss has a unique timed mechanic and a single 50% HP phase.
+          raidMechanicClock+=dt;raidMinionClock+=dt;
+          const kind=raidBoss.bossKind;
+          const living=playerUnits.filter(u=>u.currentHp>0&&u.role!=='Ethereal');
+          if(!raidPhaseTriggered && raidBoss.currentHp<=raidBoss.maxHp*.5){
+            raidPhaseTriggered=true;
+            const phaseNames={burn:'Inferno Unleashed',freeze:'Permafrost Armor',silence:'Abyssal Eclipse',stun:'Thunderstorm',root:'Ancient Awakening',poison:'Plague Mutation',defDown:'Obsidian Fortress',healDown:'Rising Tide',sleep:'Dream Collapse',cooldownPause:'Time Distortion'};
+            logBattleEvent('🌋 50% HP PHASE: '+(phaseNames[kind]||'Enraged')+'!');
+            if(['freeze','defDown'].includes(kind))raidBoss.shield=Math.min(raidBoss.maxHp*.075,(raidBoss.shield||0)+raidBoss.maxHp*.04);
+            if(['poison','healDown'].includes(kind))raidBoss.currentHp=Math.min(raidBoss.maxHp,raidBoss.currentHp+raidBoss.maxHp*.01);
+            if(['burn','stun','silence','cooldownPause'].includes(kind))raidBoss.atk*=1.15;
+            if(kind==='root')living.forEach(u=>{u.effects.root=Math.max(u.effects.root||0,2);});
+            if(kind==='sleep')living.forEach(u=>{u.effects.sleep=Math.max(u.effects.sleep||0,.7);});
+          }
+          if(raidMechanicClock>=18){
+            raidMechanicClock-=18;
+            if(kind==='burn'){
+              living.forEach(u=>{u.effects.burn=Math.max(u.effects.burn||0,raidBoss.atk*.03);u.effects.burnTimer=Math.max(u.effects.burnTimer||0,4);});
+              logBattleEvent('🔥 Embermaw ignites the entire squad!');
+            }else if(kind==='freeze'){
+              raidBoss.shield=Math.min(raidBoss.maxHp*.075,(raidBoss.shield||0)+raidBoss.maxHp*.025);
+              raidBoss.shieldTimer=5;logBattleEvent('❄️ Glacial Monarch conjures an ice barrier!');
+            }else if(kind==='silence'){
+              living.forEach(u=>{u.effects.silence=Math.max(u.effects.silence||0,2.5);});
+              logBattleEvent('🌑 Abyssal Sovereign silences the squad!');
+            }else if(kind==='stun'){
+              living.slice(0,2).forEach(u=>{u.effects.stun=Math.max(u.effects.stun||0,1);});
+              logBattleEvent('⚡ Thunder Colossus chains lightning through two Cookies!');
+            }else if(kind==='root'){
+              living.forEach(u=>{u.effects.root=Math.max(u.effects.root||0,2);});
+              logBattleEvent('🌿 Thornheart Ancient binds the squad in roots!');
+            }else if(kind==='poison'){
+              raidBoss.currentHp=Math.min(raidBoss.maxHp,raidBoss.currentHp+raidBoss.maxHp*.012);
+              logBattleEvent('☠️ Plague Empress regenerates 1.2% max HP!');
+            }else if(kind==='defDown'){
+              raidBoss.effects.def=Math.max(raidBoss.effects.def||0,.3);raidBoss.effects.defTimer=5;
+              logBattleEvent('🪨 Obsidian Sentinel hardens its armor for 5 seconds!');
+            }else if(kind==='healDown'){
+              living.forEach(u=>{u.effects.healDown=Math.max(u.effects.healDown||0,.35);u.effects.healDownTimer=5;});
+              logBattleEvent('🌊 Tidal Leviathan suppresses healing for 5 seconds!');
+            }else if(kind==='sleep'){
+              living.slice(0,2).forEach(u=>{u.effects.sleep=Math.max(u.effects.sleep||0,1.5);});
+              logBattleEvent('🌙 Dreamweaver Oracle puts two Cookies to sleep!');
+            }else if(kind==='cooldownPause'){
+              living.forEach(u=>{u.effects.cooldownPause=Math.max(u.effects.cooldownPause||0,2.5);});
+              logBattleEvent('🔮 Chronos Devourer pauses squad cooldowns!');
+            }
+          }
+          // Only Thornheart and Plague Empress summon minions.
+          if(['root','poison'].includes(kind)&&raidMinionClock>=25){
+            raidMinionClock-=25;
+            if(enemyUnits.filter(u=>u.isRaidMinion&&u.currentHp>0).length<2){
+              const mhp=Math.max(200,Math.round(raidBoss.maxHp*.001));
+              const minion=initCombatUnit({id:'raid_minion',name:kind==='root'?'🌿 Thornling':'🦠 Plague Spawn',role:'Charge',rarity:'Rare',level:raidBoss.level,
+                hp:mhp,atk:Math.max(10,Math.round(raidBoss.atk*.12)),def:Math.max(0,Math.round(raidBoss.def*.2)),
+                element:raidBoss.element,openingCD:999,regularCD:999,customEffects:[],customPassives:[],customComposites:[],toppingBonuses:{},biscuitBonuses:{}},'enemy_raid_minion_'+Math.floor(raidElapsed));
+              minion.isRaidMinion=true;minion.cdTimer=999;minion.maxCD=999;
+              enemyUnits.push(minion);
+              logBattleEvent('👾 '+raidBoss.name+' summons '+minion.name+'!');
+              if(!gearHeadlessBattle)renderBattleArena();
+            }
+          }
           if(raidAttackClock>=2.5){raidAttackClock=0;const target=alive[Math.floor(Math.random()*alive.length)];applyDamage(raidBoss,target,raidBoss.atk*.48,'text-orange-400 text-xs',false);logBattleEvent('🐉 '+raidBoss.name+' strikes '+target.name);}
           if(raidSpecialClock>=12){raidSpecialClock=0;const effect=raidBoss.bossKind;const victims=alive.slice();
             victims.forEach(u=>{applyDamage(raidBoss,u,raidBoss.atk*.32,'text-rose-400 text-xs',false);if(u.currentHp<=0)return;
@@ -6693,6 +6801,32 @@
         let leagueMode=false, leagueSpectating=false, leagueChampion=null, leagueChallenger=null;
         let leagueUsedTeamKeys=new Set(), leagueTeams=new Map(), leagueMatchCount=0, leagueNextTimer=null;
         let leagueRecentWinners=[];
+        let leagueCookieRecords=new Map();
+        function trackLeagueCookieResult(team,won){
+            if(!team||!Array.isArray(team.cookies))return;
+            const seen=new Set();
+            for(const entry of team.cookies){
+                const id=entry.id;
+                if(seen.has(id))continue;
+                seen.add(id);
+                const record=leagueCookieRecords.get(id)||{wins:0,losses:0};
+                if(won)record.wins++;else record.losses++;
+                leagueCookieRecords.set(id,record);
+            }
+        }
+        function renderLeagueCookieWinrates(){
+            const root=document.getElementById('league-cookie-winrates');
+            if(!root)return;
+            const rows=[...leagueCookieRecords.entries()].map(([id,r])=>({
+                id,...r,matches:r.wins+r.losses,rate:100*r.wins/Math.max(1,r.wins+r.losses)
+            })).filter(r=>r.matches>=5).sort((a,b)=>b.rate-a.rate||b.wins-a.wins||b.matches-a.matches).slice(0,10);
+            root.innerHTML=rows.length?rows.map((r,i)=>{
+                const cookie=COOKIES_DB.find(c=>c.id===r.id);
+                const name=cookie?.name||r.id;
+                return `<tr class="border-t border-slate-700/60"><td class="py-2 font-bold text-amber-300">${i+1}</td><td><b>${name}</b><div class="text-[10px] text-slate-400">${cookie?.rarity||''} · ${cookie?.role||''}</div></td><td class="text-emerald-300">${r.wins}</td><td class="text-rose-300">${r.losses}</td><td>${r.matches}</td><td class="font-bold text-amber-200">${r.rate.toFixed(1)}%</td></tr>`;
+            }).join(''):'<tr><td colspan="6" class="py-2 text-slate-400">No Cookies have reached 5 matches yet.</td></tr>';
+        }
+
         let leagueBattleSpeed=500, leagueRenderCounter=0; // 5ms ticks with 2.5s simulation steps = ~500x background speed
         function makeLeagueTeam(legendaryOnly=false){
             // Every third match Legendary+, with occasional Mystic+ and Eternal-only
@@ -6730,6 +6864,7 @@
         function renderLeagueLeaderboard(){
             const root=document.getElementById('league-leaderboard'); if(!root)return;
             const rows=leagueRecentWinners.map(id=>leagueTeams.get(id)).filter(Boolean);
+            renderLeagueCookieWinrates();
             root.innerHTML=rows.length?rows.map((t,i)=>`<tr class="border-t border-slate-800"><td class="py-2 font-black text-amber-300">${i+1}</td><td class="py-2"><b>${t.name}</b><div class="text-[9px] text-slate-500">${t.cookies.map(c=>COOKIES_DB.find(x=>x.id===c.id)?.name.split(' ').slice(1).join(' ')||c.id).join(' · ')}</div></td><td class="text-emerald-300 font-bold">${t.wins}</td><td class="text-rose-300">${t.losses}</td><td class="text-amber-200 font-bold">${(100*t.wins/Math.max(1,t.wins+t.losses)).toFixed(1)}%</td><td class="text-sky-300">${t.streak}</td></tr>`).join('') :'<tr><td colspan="6" class="py-3 text-center text-slate-500">No winning teams yet.</td></tr>';
         }
         function copyTopLeagueTeamToMetaA(){
@@ -6746,7 +6881,7 @@
         function setLeagueStatus(text){const el=document.getElementById('league-status');if(el)el.textContent=text;}
         function startAutoLeague(){
             if(leagueMode)return;
-            leagueUsedTeamKeys=new Set();leagueTeams=new Map();leagueMatchCount=0;leagueRecentWinners=[];
+            leagueUsedTeamKeys=new Set();leagueTeams=new Map();leagueMatchCount=0;leagueRecentWinners=[];leagueCookieRecords=new Map();
             leagueChampion=makeLeagueTeam();leagueChallenger=makeLeagueTeam((leagueMatchCount+1)%3===0);
             if(!leagueChampion||!leagueChallenger){setLeagueStatus('NOT ENOUGH UNIQUE COOKIES');return;}
             leagueMode=true;leaguePaused=false;leagueCustomChallenge=false;leagueSpectating=false;leagueBattleSpeed=500;metaTestMode=false;battleSpeed=1;
@@ -6825,6 +6960,8 @@
             const championActuallyWon=custom?!championWon:championWon;
             const winner=championActuallyWon?leagueChampion:leagueChallenger;
             const loser=championActuallyWon?leagueChallenger:leagueChampion;
+            trackLeagueCookieResult(winner,true);
+            trackLeagueCookieResult(loser,false);
             winner.wins++;winner.streak++;winner.bestStreak=Math.max(winner.bestStreak,winner.streak);
             leagueRecentWinners=leagueRecentWinners.filter(id=>id!==winner.id);
             leagueRecentWinners.unshift(winner.id);leagueRecentWinners=leagueRecentWinners.slice(0,10);

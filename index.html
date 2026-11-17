@@ -4,8 +4,2082 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Run Kingdom - Mini RPG</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bundled Tailwind utilities: styling works offline, without a CDN. -->
+    <style id="crk-offline-tailwind">
+/*! tailwindcss v4.1.10 | MIT License | https://tailwindcss.com */
+@layer properties;
+:root, :host {
+  --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  --color-red-200: oklch(88.5% 0.062 18.334);
+  --color-red-300: oklch(80.8% 0.114 19.571);
+  --color-red-400: oklch(70.4% 0.191 22.216);
+  --color-orange-300: oklch(83.7% 0.128 66.29);
+  --color-orange-400: oklch(75% 0.183 55.934);
+  --color-orange-700: oklch(55.3% 0.195 38.402);
+  --color-orange-950: oklch(26.6% 0.079 36.259);
+  --color-amber-200: oklch(92.4% 0.12 95.746);
+  --color-amber-300: oklch(87.9% 0.169 91.605);
+  --color-amber-400: oklch(82.8% 0.189 84.429);
+  --color-amber-500: oklch(76.9% 0.188 70.08);
+  --color-amber-600: oklch(66.6% 0.179 58.318);
+  --color-amber-700: oklch(55.5% 0.163 48.998);
+  --color-amber-800: oklch(47.3% 0.137 46.201);
+  --color-amber-900: oklch(41.4% 0.112 45.904);
+  --color-amber-950: oklch(27.9% 0.077 45.635);
+  --color-yellow-300: oklch(90.5% 0.182 98.111);
+  --color-lime-300: oklch(89.7% 0.196 126.665);
+  --color-green-200: oklch(92.5% 0.084 155.995);
+  --color-green-300: oklch(87.1% 0.15 154.449);
+  --color-emerald-200: oklch(90.5% 0.093 164.15);
+  --color-emerald-300: oklch(84.5% 0.143 164.978);
+  --color-emerald-400: oklch(76.5% 0.177 163.223);
+  --color-emerald-500: oklch(69.6% 0.17 162.48);
+  --color-emerald-600: oklch(59.6% 0.145 163.225);
+  --color-emerald-700: oklch(50.8% 0.118 165.612);
+  --color-emerald-800: oklch(43.2% 0.095 166.913);
+  --color-emerald-950: oklch(26.2% 0.051 172.552);
+  --color-teal-400: oklch(77.7% 0.152 181.912);
+  --color-teal-600: oklch(60% 0.118 184.704);
+  --color-teal-800: oklch(43.7% 0.078 188.216);
+  --color-cyan-200: oklch(91.7% 0.08 205.041);
+  --color-cyan-300: oklch(86.5% 0.127 207.078);
+  --color-cyan-400: oklch(78.9% 0.154 211.53);
+  --color-cyan-600: oklch(60.9% 0.126 221.723);
+  --color-cyan-700: oklch(52% 0.105 223.128);
+  --color-cyan-950: oklch(30.2% 0.056 229.695);
+  --color-sky-100: oklch(95.1% 0.026 236.824);
+  --color-sky-200: oklch(90.1% 0.058 230.902);
+  --color-sky-300: oklch(82.8% 0.111 230.318);
+  --color-sky-400: oklch(74.6% 0.16 232.661);
+  --color-sky-500: oklch(68.5% 0.169 237.323);
+  --color-sky-600: oklch(58.8% 0.158 241.966);
+  --color-sky-700: oklch(50% 0.134 242.749);
+  --color-sky-800: oklch(44.3% 0.11 240.79);
+  --color-sky-950: oklch(29.3% 0.066 243.157);
+  --color-blue-800: oklch(42.4% 0.199 265.638);
+  --color-indigo-200: oklch(87% 0.065 274.039);
+  --color-indigo-600: oklch(51.1% 0.262 276.966);
+  --color-indigo-800: oklch(39.8% 0.195 277.366);
+  --color-indigo-950: oklch(25.7% 0.09 281.288);
+  --color-violet-200: oklch(89.4% 0.057 293.283);
+  --color-violet-300: oklch(81.1% 0.111 293.571);
+  --color-violet-600: oklch(54.1% 0.281 293.009);
+  --color-violet-700: oklch(49.1% 0.27 292.581);
+  --color-violet-800: oklch(43.2% 0.232 292.759);
+  --color-purple-300: oklch(82.7% 0.119 306.383);
+  --color-purple-400: oklch(71.4% 0.203 305.504);
+  --color-purple-600: oklch(55.8% 0.288 302.321);
+  --color-purple-700: oklch(49.6% 0.265 301.924);
+  --color-purple-800: oklch(43.8% 0.218 303.724);
+  --color-purple-950: oklch(29.1% 0.149 302.717);
+  --color-fuchsia-200: oklch(90.3% 0.076 319.62);
+  --color-fuchsia-300: oklch(83.3% 0.145 321.434);
+  --color-fuchsia-600: oklch(59.1% 0.293 322.896);
+  --color-fuchsia-800: oklch(45.2% 0.211 324.591);
+  --color-fuchsia-900: oklch(40.1% 0.17 325.612);
+  --color-pink-300: oklch(82.3% 0.12 346.018);
+  --color-pink-400: oklch(71.8% 0.202 349.761);
+  --color-pink-700: oklch(52.5% 0.223 3.958);
+  --color-rose-200: oklch(89.2% 0.058 10.001);
+  --color-rose-300: oklch(81% 0.117 11.638);
+  --color-rose-400: oklch(71.2% 0.194 13.428);
+  --color-rose-500: oklch(64.5% 0.246 16.439);
+  --color-rose-600: oklch(58.6% 0.253 17.585);
+  --color-rose-700: oklch(51.4% 0.222 16.935);
+  --color-rose-800: oklch(45.5% 0.188 13.697);
+  --color-rose-900: oklch(41% 0.159 10.272);
+  --color-rose-950: oklch(27.1% 0.105 12.094);
+  --color-slate-100: oklch(96.8% 0.007 247.896);
+  --color-slate-200: oklch(92.9% 0.013 255.508);
+  --color-slate-300: oklch(86.9% 0.022 252.894);
+  --color-slate-400: oklch(70.4% 0.04 256.788);
+  --color-slate-500: oklch(55.4% 0.046 257.417);
+  --color-slate-600: oklch(44.6% 0.043 257.281);
+  --color-slate-700: oklch(37.2% 0.044 257.287);
+  --color-slate-800: oklch(27.9% 0.041 260.031);
+  --color-slate-900: oklch(20.8% 0.042 265.755);
+  --color-slate-950: oklch(12.9% 0.042 264.695);
+  --color-black: #000;
+  --color-white: #fff;
+  --spacing: 0.25rem;
+  --container-xs: 20rem;
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-xl: 36rem;
+  --container-3xl: 48rem;
+  --container-5xl: 64rem;
+  --container-6xl: 72rem;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: calc(1 / 0.75);
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(1.25 / 0.875);
+  --text-base: 1rem;
+  --text-base--line-height: calc(1.5 / 1);
+  --text-lg: 1.125rem;
+  --text-lg--line-height: calc(1.75 / 1.125);
+  --text-xl: 1.25rem;
+  --text-xl--line-height: calc(1.75 / 1.25);
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: calc(2 / 1.5);
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: calc(2.25 / 1.875);
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  --tracking-wide: 0.025em;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-relaxed: 1.625;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --blur-sm: 8px;
+  --blur-md: 12px;
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --default-font-family: var(--font-sans);
+  --default-mono-font-family: var(--font-mono);
+}
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  html, :host {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji');
+    font-feature-settings: var(--default-font-feature-settings, normal);
+    font-variation-settings: var(--default-font-variation-settings, normal);
+    -webkit-tap-highlight-color: transparent;
+  }
+  hr {
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
+  }
+  abbr:where([title]) {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+  b, strong {
+    font-weight: bolder;
+  }
+  code, kbd, samp, pre {
+    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: 1em;
+  }
+  small {
+    font-size: 80%;
+  }
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sub {
+    bottom: -0.25em;
+  }
+  sup {
+    top: -0.5em;
+  }
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+  :-moz-focusring {
+    outline: auto;
+  }
+  progress {
+    vertical-align: baseline;
+  }
+  summary {
+    display: list-item;
+  }
+  ol, ul, menu {
+    list-style: none;
+  }
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  button, input, select, optgroup, textarea, ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+  :where(select:is([multiple], [size])) optgroup {
+    font-weight: bolder;
+  }
+  :where(select:is([multiple], [size])) optgroup option {
+    padding-inline-start: 20px;
+  }
+  ::file-selector-button {
+    margin-inline-end: 4px;
+  }
+  ::placeholder {
+    opacity: 1;
+  }
+  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
+    ::placeholder {
+      color: currentcolor;
+      @supports (color: color-mix(in lab, red, red)) {
+        color: color-mix(in oklab, currentcolor 50%, transparent);
+      }
+    }
+  }
+  textarea {
+    resize: vertical;
+  }
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  ::-webkit-date-and-time-value {
+    min-height: 1lh;
+    text-align: inherit;
+  }
+  ::-webkit-datetime-edit {
+    display: inline-flex;
+  }
+  ::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
+    padding-block: 0;
+  }
+  :-moz-ui-invalid {
+    box-shadow: none;
+  }
+  button, input:where([type='button'], [type='reset'], [type='submit']), ::file-selector-button {
+    appearance: button;
+  }
+  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+    height: auto;
+  }
+  [hidden]:where(:not([hidden='until-found'])) {
+    display: none !important;
+  }
+}
+.pointer-events-none {
+  pointer-events: none;
+}
+.absolute {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+.relative {
+  position: relative;
+}
+.sticky {
+  position: sticky;
+}
+.inset-0 {
+  inset: calc(var(--spacing) * 0);
+}
+.-top-1 {
+  top: calc(var(--spacing) * -1);
+}
+.-top-2 {
+  top: calc(var(--spacing) * -2);
+}
+.top-0 {
+  top: calc(var(--spacing) * 0);
+}
+.top-1 {
+  top: calc(var(--spacing) * 1);
+}
+.top-1\/2 {
+  top: calc(1/2 * 100%);
+}
+.top-2 {
+  top: calc(var(--spacing) * 2);
+}
+.top-20 {
+  top: calc(var(--spacing) * 20);
+}
+.-right-1 {
+  right: calc(var(--spacing) * -1);
+}
+.-right-2 {
+  right: calc(var(--spacing) * -2);
+}
+.right-1 {
+  right: calc(var(--spacing) * 1);
+}
+.right-3 {
+  right: calc(var(--spacing) * 3);
+}
+.right-4 {
+  right: calc(var(--spacing) * 4);
+}
+.bottom-0 {
+  bottom: calc(var(--spacing) * 0);
+}
+.left-1\/2 {
+  left: calc(1/2 * 100%);
+}
+.z-10 {
+  z-index: 10;
+}
+.z-30 {
+  z-index: 30;
+}
+.z-40 {
+  z-index: 40;
+}
+.z-50 {
+  z-index: 50;
+}
+.col-span-full {
+  grid-column: 1 / -1;
+}
+.mx-auto {
+  margin-inline: auto;
+}
+.my-1 {
+  margin-block: calc(var(--spacing) * 1);
+}
+.my-2 {
+  margin-block: calc(var(--spacing) * 2);
+}
+.my-3 {
+  margin-block: calc(var(--spacing) * 3);
+}
+.mt-0\.5 {
+  margin-top: calc(var(--spacing) * 0.5);
+}
+.mt-1 {
+  margin-top: calc(var(--spacing) * 1);
+}
+.mt-2 {
+  margin-top: calc(var(--spacing) * 2);
+}
+.mt-3 {
+  margin-top: calc(var(--spacing) * 3);
+}
+.mt-4 {
+  margin-top: calc(var(--spacing) * 4);
+}
+.mt-6 {
+  margin-top: calc(var(--spacing) * 6);
+}
+.mb-1 {
+  margin-bottom: calc(var(--spacing) * 1);
+}
+.mb-2 {
+  margin-bottom: calc(var(--spacing) * 2);
+}
+.mb-3 {
+  margin-bottom: calc(var(--spacing) * 3);
+}
+.mb-4 {
+  margin-bottom: calc(var(--spacing) * 4);
+}
+.mb-6 {
+  margin-bottom: calc(var(--spacing) * 6);
+}
+.ml-2 {
+  margin-left: calc(var(--spacing) * 2);
+}
+.block {
+  display: block;
+}
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+.hidden {
+  display: none;
+}
+.inline-block {
+  display: inline-block;
+}
+.inline-flex {
+  display: inline-flex;
+}
+.h-2 {
+  height: calc(var(--spacing) * 2);
+}
+.h-3 {
+  height: calc(var(--spacing) * 3);
+}
+.h-4 {
+  height: calc(var(--spacing) * 4);
+}
+.h-10 {
+  height: calc(var(--spacing) * 10);
+}
+.h-24 {
+  height: calc(var(--spacing) * 24);
+}
+.h-auto {
+  height: auto;
+}
+.h-full {
+  height: 100%;
+}
+.max-h-24 {
+  max-height: calc(var(--spacing) * 24);
+}
+.max-h-64 {
+  max-height: calc(var(--spacing) * 64);
+}
+.max-h-\[48vh\] {
+  max-height: 48vh;
+}
+.max-h-\[55vh\] {
+  max-height: 55vh;
+}
+.max-h-\[60vh\] {
+  max-height: 60vh;
+}
+.max-h-\[92dvh\] {
+  max-height: 92dvh;
+}
+.min-h-0 {
+  min-height: calc(var(--spacing) * 0);
+}
+.min-h-11 {
+  min-height: calc(var(--spacing) * 11);
+}
+.min-h-44 {
+  min-height: calc(var(--spacing) * 44);
+}
+.min-h-\[26px\] {
+  min-height: 26px;
+}
+.min-h-\[70vh\] {
+  min-height: 70vh;
+}
+.min-h-\[110px\] {
+  min-height: 110px;
+}
+.min-h-\[112px\] {
+  min-height: 112px;
+}
+.min-h-\[520px\] {
+  min-height: 520px;
+}
+.min-h-\[700px\] {
+  min-height: 700px;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.w-4 {
+  width: calc(var(--spacing) * 4);
+}
+.w-10 {
+  width: calc(var(--spacing) * 10);
+}
+.w-24 {
+  width: calc(var(--spacing) * 24);
+}
+.w-28 {
+  width: calc(var(--spacing) * 28);
+}
+.w-44 {
+  width: calc(var(--spacing) * 44);
+}
+.w-full {
+  width: 100%;
+}
+.w-px {
+  width: 1px;
+}
+.max-w-3xl {
+  max-width: var(--container-3xl);
+}
+.max-w-5xl {
+  max-width: var(--container-5xl);
+}
+.max-w-6xl {
+  max-width: var(--container-6xl);
+}
+.max-w-\[1500px\] {
+  max-width: 1500px;
+}
+.max-w-md {
+  max-width: var(--container-md);
+}
+.max-w-sm {
+  max-width: var(--container-sm);
+}
+.max-w-xl {
+  max-width: var(--container-xl);
+}
+.max-w-xs {
+  max-width: var(--container-xs);
+}
+.min-w-0 {
+  min-width: calc(var(--spacing) * 0);
+}
+.min-w-11 {
+  min-width: calc(var(--spacing) * 11);
+}
+.flex-1 {
+  flex: 1;
+}
+.shrink-0 {
+  flex-shrink: 0;
+}
+.-translate-x-1\/2 {
+  --tw-translate-x: calc(calc(1/2 * 100%) * -1);
+  translate: var(--tw-translate-x) var(--tw-translate-y);
+}
+.-translate-y-1\/2 {
+  --tw-translate-y: calc(calc(1/2 * 100%) * -1);
+  translate: var(--tw-translate-x) var(--tw-translate-y);
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.grid-cols-10 {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+.grid-cols-\[minmax\(0\,1fr\)_70px\] {
+  grid-template-columns: minmax(0,1fr) 70px;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.items-center {
+  align-items: center;
+}
+.items-start {
+  align-items: flex-start;
+}
+.items-stretch {
+  align-items: stretch;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.gap-1 {
+  gap: calc(var(--spacing) * 1);
+}
+.gap-1\.5 {
+  gap: calc(var(--spacing) * 1.5);
+}
+.gap-2 {
+  gap: calc(var(--spacing) * 2);
+}
+.gap-2\.5 {
+  gap: calc(var(--spacing) * 2.5);
+}
+.gap-3 {
+  gap: calc(var(--spacing) * 3);
+}
+.gap-4 {
+  gap: calc(var(--spacing) * 4);
+}
+.space-y-0\.5 {
+  :where(& > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(calc(var(--spacing) * 0.5) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 0.5) * calc(1 - var(--tw-space-y-reverse)));
+  }
+}
+.space-y-1 {
+  :where(& > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(calc(var(--spacing) * 1) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 1) * calc(1 - var(--tw-space-y-reverse)));
+  }
+}
+.space-y-2 {
+  :where(& > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+  }
+}
+.space-y-3 {
+  :where(& > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(calc(var(--spacing) * 3) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 3) * calc(1 - var(--tw-space-y-reverse)));
+  }
+}
+.gap-x-3 {
+  column-gap: calc(var(--spacing) * 3);
+}
+.self-center {
+  align-self: center;
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-visible {
+  overflow: visible;
+}
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+.overflow-y-auto {
+  overflow-y: auto;
+}
+.overscroll-contain {
+  overscroll-behavior: contain;
+}
+.rounded {
+  border-radius: 0.25rem;
+}
+.rounded-2xl {
+  border-radius: var(--radius-2xl);
+}
+.rounded-full {
+  border-radius: calc(infinity * 1px);
+}
+.rounded-lg {
+  border-radius: var(--radius-lg);
+}
+.rounded-xl {
+  border-radius: var(--radius-xl);
+}
+.border {
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+}
+.border-0 {
+  border-style: var(--tw-border-style);
+  border-width: 0px;
+}
+.border-t {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
+.border-b {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+}
+.border-dashed {
+  --tw-border-style: dashed;
+  border-style: dashed;
+}
+.border-amber-400 {
+  border-color: var(--color-amber-400);
+}
+.border-amber-500\/40 {
+  border-color: color-mix(in srgb, oklch(76.9% 0.188 70.08) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-amber-500) 40%, transparent);
+  }
+}
+.border-amber-600 {
+  border-color: var(--color-amber-600);
+}
+.border-amber-700 {
+  border-color: var(--color-amber-700);
+}
+.border-amber-700\/40 {
+  border-color: color-mix(in srgb, oklch(55.5% 0.163 48.998) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-amber-700) 40%, transparent);
+  }
+}
+.border-amber-700\/60 {
+  border-color: color-mix(in srgb, oklch(55.5% 0.163 48.998) 60%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-amber-700) 60%, transparent);
+  }
+}
+.border-black {
+  border-color: var(--color-black);
+}
+.border-cyan-600 {
+  border-color: var(--color-cyan-600);
+}
+.border-cyan-700 {
+  border-color: var(--color-cyan-700);
+}
+.border-emerald-500 {
+  border-color: var(--color-emerald-500);
+}
+.border-emerald-500\/40 {
+  border-color: color-mix(in srgb, oklch(69.6% 0.17 162.48) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-emerald-500) 40%, transparent);
+  }
+}
+.border-emerald-600 {
+  border-color: var(--color-emerald-600);
+}
+.border-emerald-700 {
+  border-color: var(--color-emerald-700);
+}
+.border-emerald-700\/40 {
+  border-color: color-mix(in srgb, oklch(50.8% 0.118 165.612) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-emerald-700) 40%, transparent);
+  }
+}
+.border-emerald-700\/60 {
+  border-color: color-mix(in srgb, oklch(50.8% 0.118 165.612) 60%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-emerald-700) 60%, transparent);
+  }
+}
+.border-emerald-800\/70 {
+  border-color: color-mix(in srgb, oklch(43.2% 0.095 166.913) 70%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-emerald-800) 70%, transparent);
+  }
+}
+.border-fuchsia-600 {
+  border-color: var(--color-fuchsia-600);
+}
+.border-fuchsia-800 {
+  border-color: var(--color-fuchsia-800);
+}
+.border-fuchsia-900\/60 {
+  border-color: color-mix(in srgb, oklch(40.1% 0.17 325.612) 60%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-fuchsia-900) 60%, transparent);
+  }
+}
+.border-fuchsia-900\/70 {
+  border-color: color-mix(in srgb, oklch(40.1% 0.17 325.612) 70%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-fuchsia-900) 70%, transparent);
+  }
+}
+.border-indigo-600 {
+  border-color: var(--color-indigo-600);
+}
+.border-orange-700 {
+  border-color: var(--color-orange-700);
+}
+.border-pink-700 {
+  border-color: var(--color-pink-700);
+}
+.border-purple-700 {
+  border-color: var(--color-purple-700);
+}
+.border-rose-500\/40 {
+  border-color: color-mix(in srgb, oklch(64.5% 0.246 16.439) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-rose-500) 40%, transparent);
+  }
+}
+.border-rose-600 {
+  border-color: var(--color-rose-600);
+}
+.border-rose-700 {
+  border-color: var(--color-rose-700);
+}
+.border-rose-800 {
+  border-color: var(--color-rose-800);
+}
+.border-sky-500 {
+  border-color: var(--color-sky-500);
+}
+.border-sky-600 {
+  border-color: var(--color-sky-600);
+}
+.border-sky-700 {
+  border-color: var(--color-sky-700);
+}
+.border-sky-800 {
+  border-color: var(--color-sky-800);
+}
+.border-slate-500 {
+  border-color: var(--color-slate-500);
+}
+.border-slate-600 {
+  border-color: var(--color-slate-600);
+}
+.border-slate-700 {
+  border-color: var(--color-slate-700);
+}
+.border-slate-700\/60 {
+  border-color: color-mix(in srgb, oklch(37.2% 0.044 257.287) 60%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-slate-700) 60%, transparent);
+  }
+}
+.border-slate-800 {
+  border-color: var(--color-slate-800);
+}
+.border-slate-800\/80 {
+  border-color: color-mix(in srgb, oklch(27.9% 0.041 260.031) 80%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-slate-800) 80%, transparent);
+  }
+}
+.border-teal-600 {
+  border-color: var(--color-teal-600);
+}
+.border-violet-600 {
+  border-color: var(--color-violet-600);
+}
+.border-violet-700 {
+  border-color: var(--color-violet-700);
+}
+.border-violet-700\/50 {
+  border-color: color-mix(in srgb, oklch(49.1% 0.27 292.581) 50%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in oklab, var(--color-violet-700) 50%, transparent);
+  }
+}
+.border-violet-800 {
+  border-color: var(--color-violet-800);
+}
+.bg-amber-400 {
+  background-color: var(--color-amber-400);
+}
+.bg-amber-500 {
+  background-color: var(--color-amber-500);
+}
+.bg-amber-500\/20 {
+  background-color: color-mix(in srgb, oklch(76.9% 0.188 70.08) 20%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-amber-500) 20%, transparent);
+  }
+}
+.bg-amber-600 {
+  background-color: var(--color-amber-600);
+}
+.bg-amber-700 {
+  background-color: var(--color-amber-700);
+}
+.bg-amber-800 {
+  background-color: var(--color-amber-800);
+}
+.bg-amber-900\/30 {
+  background-color: color-mix(in srgb, oklch(41.4% 0.112 45.904) 30%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-amber-900) 30%, transparent);
+  }
+}
+.bg-amber-950\/40 {
+  background-color: color-mix(in srgb, oklch(27.9% 0.077 45.635) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-amber-950) 40%, transparent);
+  }
+}
+.bg-black\/20 {
+  background-color: color-mix(in srgb, #000 20%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-black) 20%, transparent);
+  }
+}
+.bg-black\/80 {
+  background-color: color-mix(in srgb, #000 80%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-black) 80%, transparent);
+  }
+}
+.bg-black\/90 {
+  background-color: color-mix(in srgb, #000 90%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-black) 90%, transparent);
+  }
+}
+.bg-blue-800 {
+  background-color: var(--color-blue-800);
+}
+.bg-cyan-950\/40 {
+  background-color: color-mix(in srgb, oklch(30.2% 0.056 229.695) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-cyan-950) 40%, transparent);
+  }
+}
+.bg-emerald-500 {
+  background-color: var(--color-emerald-500);
+}
+.bg-emerald-600 {
+  background-color: var(--color-emerald-600);
+}
+.bg-emerald-700 {
+  background-color: var(--color-emerald-700);
+}
+.bg-emerald-800 {
+  background-color: var(--color-emerald-800);
+}
+.bg-emerald-950\/30 {
+  background-color: color-mix(in srgb, oklch(26.2% 0.051 172.552) 30%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-emerald-950) 30%, transparent);
+  }
+}
+.bg-emerald-950\/40 {
+  background-color: color-mix(in srgb, oklch(26.2% 0.051 172.552) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-emerald-950) 40%, transparent);
+  }
+}
+.bg-indigo-800 {
+  background-color: var(--color-indigo-800);
+}
+.bg-indigo-950\/30 {
+  background-color: color-mix(in srgb, oklch(25.7% 0.09 281.288) 30%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-indigo-950) 30%, transparent);
+  }
+}
+.bg-orange-950\/40 {
+  background-color: color-mix(in srgb, oklch(26.6% 0.079 36.259) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-orange-950) 40%, transparent);
+  }
+}
+.bg-pink-700 {
+  background-color: var(--color-pink-700);
+}
+.bg-purple-600 {
+  background-color: var(--color-purple-600);
+}
+.bg-purple-800 {
+  background-color: var(--color-purple-800);
+}
+.bg-purple-950\/40 {
+  background-color: color-mix(in srgb, oklch(29.1% 0.149 302.717) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-purple-950) 40%, transparent);
+  }
+}
+.bg-rose-600 {
+  background-color: var(--color-rose-600);
+}
+.bg-rose-800 {
+  background-color: var(--color-rose-800);
+}
+.bg-rose-900 {
+  background-color: var(--color-rose-900);
+}
+.bg-rose-950 {
+  background-color: var(--color-rose-950);
+}
+.bg-rose-950\/40 {
+  background-color: color-mix(in srgb, oklch(27.1% 0.105 12.094) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-rose-950) 40%, transparent);
+  }
+}
+.bg-rose-950\/50 {
+  background-color: color-mix(in srgb, oklch(27.1% 0.105 12.094) 50%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-rose-950) 50%, transparent);
+  }
+}
+.bg-sky-500 {
+  background-color: var(--color-sky-500);
+}
+.bg-sky-700 {
+  background-color: var(--color-sky-700);
+}
+.bg-sky-800 {
+  background-color: var(--color-sky-800);
+}
+.bg-sky-950\/40 {
+  background-color: color-mix(in srgb, oklch(29.3% 0.066 243.157) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-sky-950) 40%, transparent);
+  }
+}
+.bg-slate-700 {
+  background-color: var(--color-slate-700);
+}
+.bg-slate-800 {
+  background-color: var(--color-slate-800);
+}
+.bg-slate-800\/80 {
+  background-color: color-mix(in srgb, oklch(27.9% 0.041 260.031) 80%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-800) 80%, transparent);
+  }
+}
+.bg-slate-900 {
+  background-color: var(--color-slate-900);
+}
+.bg-slate-900\/40 {
+  background-color: color-mix(in srgb, oklch(20.8% 0.042 265.755) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-900) 40%, transparent);
+  }
+}
+.bg-slate-900\/60 {
+  background-color: color-mix(in srgb, oklch(20.8% 0.042 265.755) 60%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-900) 60%, transparent);
+  }
+}
+.bg-slate-900\/70 {
+  background-color: color-mix(in srgb, oklch(20.8% 0.042 265.755) 70%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-900) 70%, transparent);
+  }
+}
+.bg-slate-900\/80 {
+  background-color: color-mix(in srgb, oklch(20.8% 0.042 265.755) 80%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-900) 80%, transparent);
+  }
+}
+.bg-slate-900\/90 {
+  background-color: color-mix(in srgb, oklch(20.8% 0.042 265.755) 90%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-900) 90%, transparent);
+  }
+}
+.bg-slate-950 {
+  background-color: var(--color-slate-950);
+}
+.bg-slate-950\/50 {
+  background-color: color-mix(in srgb, oklch(12.9% 0.042 264.695) 50%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-950) 50%, transparent);
+  }
+}
+.bg-slate-950\/60 {
+  background-color: color-mix(in srgb, oklch(12.9% 0.042 264.695) 60%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-950) 60%, transparent);
+  }
+}
+.bg-slate-950\/80 {
+  background-color: color-mix(in srgb, oklch(12.9% 0.042 264.695) 80%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-950) 80%, transparent);
+  }
+}
+.bg-slate-950\/85 {
+  background-color: color-mix(in srgb, oklch(12.9% 0.042 264.695) 85%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-950) 85%, transparent);
+  }
+}
+.bg-teal-800 {
+  background-color: var(--color-teal-800);
+}
+.bg-violet-700 {
+  background-color: var(--color-violet-700);
+}
+.bg-violet-800 {
+  background-color: var(--color-violet-800);
+}
+.p-1 {
+  padding: calc(var(--spacing) * 1);
+}
+.p-2 {
+  padding: calc(var(--spacing) * 2);
+}
+.p-2\.5 {
+  padding: calc(var(--spacing) * 2.5);
+}
+.p-3 {
+  padding: calc(var(--spacing) * 3);
+}
+.p-4 {
+  padding: calc(var(--spacing) * 4);
+}
+.p-6 {
+  padding: calc(var(--spacing) * 6);
+}
+.px-1 {
+  padding-inline: calc(var(--spacing) * 1);
+}
+.px-1\.5 {
+  padding-inline: calc(var(--spacing) * 1.5);
+}
+.px-2 {
+  padding-inline: calc(var(--spacing) * 2);
+}
+.px-2\.5 {
+  padding-inline: calc(var(--spacing) * 2.5);
+}
+.px-3 {
+  padding-inline: calc(var(--spacing) * 3);
+}
+.px-3\.5 {
+  padding-inline: calc(var(--spacing) * 3.5);
+}
+.px-4 {
+  padding-inline: calc(var(--spacing) * 4);
+}
+.px-5 {
+  padding-inline: calc(var(--spacing) * 5);
+}
+.px-6 {
+  padding-inline: calc(var(--spacing) * 6);
+}
+.py-0\.5 {
+  padding-block: calc(var(--spacing) * 0.5);
+}
+.py-1 {
+  padding-block: calc(var(--spacing) * 1);
+}
+.py-1\.5 {
+  padding-block: calc(var(--spacing) * 1.5);
+}
+.py-2 {
+  padding-block: calc(var(--spacing) * 2);
+}
+.py-2\.5 {
+  padding-block: calc(var(--spacing) * 2.5);
+}
+.py-3 {
+  padding-block: calc(var(--spacing) * 3);
+}
+.py-4 {
+  padding-block: calc(var(--spacing) * 4);
+}
+.py-6 {
+  padding-block: calc(var(--spacing) * 6);
+}
+.pt-3 {
+  padding-top: calc(var(--spacing) * 3);
+}
+.pr-10 {
+  padding-right: calc(var(--spacing) * 10);
+}
+.pb-1 {
+  padding-bottom: calc(var(--spacing) * 1);
+}
+.pb-1\.5 {
+  padding-bottom: calc(var(--spacing) * 1.5);
+}
+.pb-24 {
+  padding-bottom: calc(var(--spacing) * 24);
+}
+.pb-28 {
+  padding-bottom: calc(var(--spacing) * 28);
+}
+.pl-2 {
+  padding-left: calc(var(--spacing) * 2);
+}
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-2xl {
+  font-size: var(--text-2xl);
+  line-height: var(--tw-leading, var(--text-2xl--line-height));
+}
+.text-3xl {
+  font-size: var(--text-3xl);
+  line-height: var(--tw-leading, var(--text-3xl--line-height));
+}
+.text-5xl {
+  font-size: var(--text-5xl);
+  line-height: var(--tw-leading, var(--text-5xl--line-height));
+}
+.text-base {
+  font-size: var(--text-base);
+  line-height: var(--tw-leading, var(--text-base--line-height));
+}
+.text-lg {
+  font-size: var(--text-lg);
+  line-height: var(--tw-leading, var(--text-lg--line-height));
+}
+.text-sm {
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+}
+.text-xl {
+  font-size: var(--text-xl);
+  line-height: var(--tw-leading, var(--text-xl--line-height));
+}
+.text-xs {
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+}
+.text-\[7px\] {
+  font-size: 7px;
+}
+.text-\[8px\] {
+  font-size: 8px;
+}
+.text-\[9px\] {
+  font-size: 9px;
+}
+.text-\[10px\] {
+  font-size: 10px;
+}
+.text-\[11px\] {
+  font-size: 11px;
+}
+.leading-6 {
+  --tw-leading: calc(var(--spacing) * 6);
+  line-height: calc(var(--spacing) * 6);
+}
+.leading-none {
+  --tw-leading: 1;
+  line-height: 1;
+}
+.leading-relaxed {
+  --tw-leading: var(--leading-relaxed);
+  line-height: var(--leading-relaxed);
+}
+.leading-snug {
+  --tw-leading: var(--leading-snug);
+  line-height: var(--leading-snug);
+}
+.leading-tight {
+  --tw-leading: var(--leading-tight);
+  line-height: var(--leading-tight);
+}
+.font-black {
+  --tw-font-weight: var(--font-weight-black);
+  font-weight: var(--font-weight-black);
+}
+.font-bold {
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+}
+.font-extrabold {
+  --tw-font-weight: var(--font-weight-extrabold);
+  font-weight: var(--font-weight-extrabold);
+}
+.font-medium {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+}
+.font-semibold {
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+}
+.tracking-wide {
+  --tw-tracking: var(--tracking-wide);
+  letter-spacing: var(--tracking-wide);
+}
+.break-words {
+  overflow-wrap: break-word;
+}
+.whitespace-normal {
+  white-space: normal;
+}
+.text-amber-200 {
+  color: var(--color-amber-200);
+}
+.text-amber-300 {
+  color: var(--color-amber-300);
+}
+.text-amber-400 {
+  color: var(--color-amber-400);
+}
+.text-cyan-200 {
+  color: var(--color-cyan-200);
+}
+.text-cyan-300 {
+  color: var(--color-cyan-300);
+}
+.text-cyan-400 {
+  color: var(--color-cyan-400);
+}
+.text-emerald-200 {
+  color: var(--color-emerald-200);
+}
+.text-emerald-300 {
+  color: var(--color-emerald-300);
+}
+.text-emerald-400 {
+  color: var(--color-emerald-400);
+}
+.text-fuchsia-200 {
+  color: var(--color-fuchsia-200);
+}
+.text-fuchsia-300 {
+  color: var(--color-fuchsia-300);
+}
+.text-green-200 {
+  color: var(--color-green-200);
+}
+.text-green-300 {
+  color: var(--color-green-300);
+}
+.text-indigo-200 {
+  color: var(--color-indigo-200);
+}
+.text-lime-300 {
+  color: var(--color-lime-300);
+}
+.text-orange-300 {
+  color: var(--color-orange-300);
+}
+.text-orange-400 {
+  color: var(--color-orange-400);
+}
+.text-pink-300 {
+  color: var(--color-pink-300);
+}
+.text-pink-400 {
+  color: var(--color-pink-400);
+}
+.text-purple-300 {
+  color: var(--color-purple-300);
+}
+.text-purple-400 {
+  color: var(--color-purple-400);
+}
+.text-red-200 {
+  color: var(--color-red-200);
+}
+.text-red-300 {
+  color: var(--color-red-300);
+}
+.text-red-400 {
+  color: var(--color-red-400);
+}
+.text-rose-200 {
+  color: var(--color-rose-200);
+}
+.text-rose-300 {
+  color: var(--color-rose-300);
+}
+.text-rose-400 {
+  color: var(--color-rose-400);
+}
+.text-sky-100 {
+  color: var(--color-sky-100);
+}
+.text-sky-200 {
+  color: var(--color-sky-200);
+}
+.text-sky-300 {
+  color: var(--color-sky-300);
+}
+.text-sky-400 {
+  color: var(--color-sky-400);
+}
+.text-slate-100 {
+  color: var(--color-slate-100);
+}
+.text-slate-200 {
+  color: var(--color-slate-200);
+}
+.text-slate-300 {
+  color: var(--color-slate-300);
+}
+.text-slate-400 {
+  color: var(--color-slate-400);
+}
+.text-slate-500 {
+  color: var(--color-slate-500);
+}
+.text-slate-600 {
+  color: var(--color-slate-600);
+}
+.text-slate-950 {
+  color: var(--color-slate-950);
+}
+.text-teal-400 {
+  color: var(--color-teal-400);
+}
+.text-violet-200 {
+  color: var(--color-violet-200);
+}
+.text-violet-300 {
+  color: var(--color-violet-300);
+}
+.text-white {
+  color: var(--color-white);
+}
+.text-yellow-300 {
+  color: var(--color-yellow-300);
+}
+.accent-amber-400 {
+  accent-color: var(--color-amber-400);
+}
+.opacity-40 {
+  opacity: 40%;
+}
+.opacity-70 {
+  opacity: 70%;
+}
+.opacity-75 {
+  opacity: 75%;
+}
+.opacity-90 {
+  opacity: 90%;
+}
+.shadow-2xl {
+  --tw-shadow: 0 25px 50px -12px var(--tw-shadow-color, rgb(0 0 0 / 0.25));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.shadow-lg {
+  --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.shadow-xl {
+  --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.ring-2 {
+  --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.ring-amber-400 {
+  --tw-ring-color: var(--color-amber-400);
+}
+.ring-amber-400\/40 {
+  --tw-ring-color: color-mix(in srgb, oklch(82.8% 0.189 84.429) 40%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    --tw-ring-color: color-mix(in oklab, var(--color-amber-400) 40%, transparent);
+  }
+}
+.drop-shadow {
+  --tw-drop-shadow-size: drop-shadow(0 1px 2px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.1))) drop-shadow(0 1px 1px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.06)));
+  --tw-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow( 0 1px 1px rgb(0 0 0 / 0.06));
+  filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+}
+.backdrop-blur {
+  --tw-backdrop-blur: blur(8px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+}
+.backdrop-blur-md {
+  --tw-backdrop-blur: blur(var(--blur-md));
+  -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+}
+.backdrop-blur-sm {
+  --tw-backdrop-blur: blur(var(--blur-sm));
+  -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+}
+.transition {
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+.last\:border-0 {
+  &:last-child {
+    border-style: var(--tw-border-style);
+    border-width: 0px;
+  }
+}
+.hover\:-translate-y-0\.5 {
+  &:hover {
+    @media (hover: hover) {
+      --tw-translate-y: calc(var(--spacing) * -0.5);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+}
+.hover\:border-amber-500 {
+  &:hover {
+    @media (hover: hover) {
+      border-color: var(--color-amber-500);
+    }
+  }
+}
+.hover\:border-sky-400 {
+  &:hover {
+    @media (hover: hover) {
+      border-color: var(--color-sky-400);
+    }
+  }
+}
+.hover\:bg-amber-400 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-amber-400);
+    }
+  }
+}
+.hover\:bg-amber-500\/30 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: color-mix(in srgb, oklch(76.9% 0.188 70.08) 30%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-amber-500) 30%, transparent);
+      }
+    }
+  }
+}
+.hover\:bg-amber-600 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-amber-600);
+    }
+  }
+}
+.hover\:bg-emerald-600 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-emerald-600);
+    }
+  }
+}
+.hover\:bg-rose-800 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-rose-800);
+    }
+  }
+}
+.hover\:bg-sky-400 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-sky-400);
+    }
+  }
+}
+.hover\:bg-sky-600 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-sky-600);
+    }
+  }
+}
+.hover\:bg-sky-700 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-sky-700);
+    }
+  }
+}
+.hover\:bg-slate-600 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-slate-600);
+    }
+  }
+}
+.hover\:bg-slate-700 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-slate-700);
+    }
+  }
+}
+.hover\:bg-slate-800 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-slate-800);
+    }
+  }
+}
+.hover\:bg-violet-600 {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--color-violet-600);
+    }
+  }
+}
+.hover\:text-white {
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-white);
+    }
+  }
+}
+.hover\:opacity-90 {
+  &:hover {
+    @media (hover: hover) {
+      opacity: 90%;
+    }
+  }
+}
+.disabled\:cursor-not-allowed {
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+.disabled\:bg-slate-700 {
+  &:disabled {
+    background-color: var(--color-slate-700);
+  }
+}
+.disabled\:text-slate-400 {
+  &:disabled {
+    color: var(--color-slate-400);
+  }
+}
+.disabled\:opacity-40 {
+  &:disabled {
+    opacity: 40%;
+  }
+}
+.sm\:w-32 {
+  @media (width >= 40rem) {
+    width: calc(var(--spacing) * 32);
+  }
+}
+.sm\:w-auto {
+  @media (width >= 40rem) {
+    width: auto;
+  }
+}
+.sm\:grid-cols-2 {
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.sm\:grid-cols-3 {
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.sm\:grid-cols-4 {
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.sm\:grid-cols-5 {
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.sm\:flex-row {
+  @media (width >= 40rem) {
+    flex-direction: row;
+  }
+}
+.sm\:items-center {
+  @media (width >= 40rem) {
+    align-items: center;
+  }
+}
+.sm\:gap-2 {
+  @media (width >= 40rem) {
+    gap: calc(var(--spacing) * 2);
+  }
+}
+.sm\:gap-3 {
+  @media (width >= 40rem) {
+    gap: calc(var(--spacing) * 3);
+  }
+}
+.sm\:gap-4 {
+  @media (width >= 40rem) {
+    gap: calc(var(--spacing) * 4);
+  }
+}
+.sm\:gap-6 {
+  @media (width >= 40rem) {
+    gap: calc(var(--spacing) * 6);
+  }
+}
+.sm\:p-3 {
+  @media (width >= 40rem) {
+    padding: calc(var(--spacing) * 3);
+  }
+}
+.sm\:p-4 {
+  @media (width >= 40rem) {
+    padding: calc(var(--spacing) * 4);
+  }
+}
+.sm\:p-5 {
+  @media (width >= 40rem) {
+    padding: calc(var(--spacing) * 5);
+  }
+}
+.sm\:px-2 {
+  @media (width >= 40rem) {
+    padding-inline: calc(var(--spacing) * 2);
+  }
+}
+.sm\:px-6 {
+  @media (width >= 40rem) {
+    padding-inline: calc(var(--spacing) * 6);
+  }
+}
+.sm\:text-2xl {
+  @media (width >= 40rem) {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+}
+.sm\:text-3xl {
+  @media (width >= 40rem) {
+    font-size: var(--text-3xl);
+    line-height: var(--tw-leading, var(--text-3xl--line-height));
+  }
+}
+.sm\:text-sm {
+  @media (width >= 40rem) {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+}
+.sm\:text-xs {
+  @media (width >= 40rem) {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+}
+.md\:grid-cols-2 {
+  @media (width >= 48rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.md\:grid-cols-3 {
+  @media (width >= 48rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.md\:grid-cols-5 {
+  @media (width >= 48rem) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.md\:grid-cols-6 {
+  @media (width >= 48rem) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+.md\:text-base {
+  @media (width >= 48rem) {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
+  }
+}
+.md\:text-sm {
+  @media (width >= 48rem) {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+}
+.lg\:grid-cols-2 {
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.lg\:grid-cols-3 {
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.lg\:grid-cols-5 {
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.lg\:grid-cols-6 {
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+.lg\:grid-cols-7 {
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+.xl\:grid-cols-2 {
+  @media (width >= 80rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@property --tw-translate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-tracking {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-translate-z: 0;
+      --tw-space-y-reverse: 0;
+      --tw-border-style: solid;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-tracking: initial;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-color: initial;
+      --tw-shadow-alpha: 100%;
+      --tw-inset-shadow: 0 0 #0000;
+      --tw-inset-shadow-color: initial;
+      --tw-inset-shadow-alpha: 100%;
+      --tw-ring-color: initial;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-inset-ring-color: initial;
+      --tw-inset-ring-shadow: 0 0 #0000;
+      --tw-ring-inset: initial;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-blur: initial;
+      --tw-brightness: initial;
+      --tw-contrast: initial;
+      --tw-grayscale: initial;
+      --tw-hue-rotate: initial;
+      --tw-invert: initial;
+      --tw-opacity: initial;
+      --tw-saturate: initial;
+      --tw-sepia: initial;
+      --tw-drop-shadow: initial;
+      --tw-drop-shadow-color: initial;
+      --tw-drop-shadow-alpha: 100%;
+      --tw-drop-shadow-size: initial;
+      --tw-backdrop-blur: initial;
+      --tw-backdrop-brightness: initial;
+      --tw-backdrop-contrast: initial;
+      --tw-backdrop-grayscale: initial;
+      --tw-backdrop-hue-rotate: initial;
+      --tw-backdrop-invert: initial;
+      --tw-backdrop-opacity: initial;
+      --tw-backdrop-saturate: initial;
+      --tw-backdrop-sepia: initial;
+    }
+  }
+}
+
+    </style>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -324,6 +2398,10 @@
                         <span>10x SUMMON</span>
                         <span class="bg-black/20 px-2 py-0.5 rounded text-xs text-cyan-200">💎 3,000</span>
                     </button>
+                    <button onclick="performGacha(50)" class="crk-btn-purple px-6 py-2.5 rounded-xl font-bold text-sm text-white w-full sm:w-auto flex items-center justify-center gap-2">
+                        <span>50x SUMMON</span>
+                        <span class="bg-black/20 px-2 py-0.5 rounded text-xs text-cyan-200">💎 15,000</span>
+                    </button>
                 </div>
             </div>
         <section class="crk-panel rounded-xl p-4 my-3" id="treasure-panel">
@@ -451,7 +2529,7 @@
                 </div>
             </div>
 
-            <div class="crk-panel rounded-xl p-3"><h3 class="text-amber-300 font-extrabold mb-2">📖 DEFENSE LOGBOOK</h3><div id="defense-logbook"></div></div>
+            <div class="crk-panel rounded-xl p-3"><div class="flex items-center justify-between gap-2 mb-2"><h3 class="text-amber-300 font-extrabold">📖 DEFENSE LOGBOOK</h3><button id="defense-log-toggle" type="button" onclick="toggleDefenseLogbook()" class="rounded-lg bg-slate-700 px-3 py-1.5 text-xs font-bold hover:bg-slate-600">▼ CLOSE</button></div><div id="defense-logbook"></div><p class="text-[10px] text-slate-400 mt-2">Session-only: defense logs disappear when you close or reload this page. Your defense squad remains saved.</p></div>
             <div class="crk-panel rounded-xl p-3 space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div><h3 class="font-extrabold text-slate-100 text-sm">🏆 CHOOSE AN OPPONENT</h3><p class="text-[11px] text-slate-400">1 dynamic team matched to your squad, 3 fully random teams, and 1 maxed-out Pro team using your saved meta drafts!</p></div>
@@ -581,9 +2659,9 @@
 <section id="tab-boss" class="tab-content hidden flex-col gap-4">
  <div class="crk-panel rounded-xl p-4 space-y-3">
  <h2 class="text-2xl font-black text-rose-300">🐉 BOSS RAIDS</h2>
- <p class="text-xs text-slate-300">Choose one of 10 bosses, set its HP from 25,000 to 350,000,000, and fight using your equipped Attack Squad. Bosses have unique attacks and status mechanics.</p>
- <div class="flex flex-wrap gap-2 items-center"><button onclick="refreshRaidBosses()" class="bg-violet-700 hover:bg-violet-600 rounded-lg px-4 py-2 font-bold text-xs">🔄 REFRESH 10 BOSSES</button><span id="raid-status" class="text-xs text-amber-200"></span></div>
- <div class="rounded-lg border border-violet-700/50 bg-slate-900/70 p-3 mb-3 text-xs text-slate-300"><b class="text-violet-300">⚗️ ELEMENTAL REACTIONS</b><br>Burn + Frost → Thermal Shock · Solar Burn + Freeze → Solar Shatter · Zap + Tear → Conductive Surge · Overcurrent + Shackles → Circuit Break · Poison + Bleed → Toxic Wound · Corruption + Solar Burn → Eclipse · Decay + Frost → Withering Chill · Shackles + Burn → Searing Bind.<br><span class="text-amber-300">Bosses:</span> 35% resistance to their own element, 25% vulnerability to their weak element. Each of the ten bosses has its own 18-second mechanic and unique 50% HP phase. Only Thornheart and Plague Empress summon minions (every 25s; max 2).</div>\n          <div id="raid-boss-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+ <p class="text-xs text-slate-300">Choose one of 12 bosses, set its HP from 25,000 to 350,000,000, and fight using your equipped Attack Squad. Bosses have unique attacks and status mechanics.</p>
+ <div class="flex flex-wrap gap-2 items-center"><button onclick="refreshRaidBosses()" class="bg-violet-700 hover:bg-violet-600 rounded-lg px-4 py-2 font-bold text-xs">🔄 SHUFFLE 12 BOSSES</button><span id="raid-status" class="text-xs text-amber-200"></span></div>
+ <div class="rounded-lg border border-violet-700/50 bg-slate-900/70 p-3 mb-3 text-xs text-slate-300"><b class="text-violet-300">⚗️ ELEMENTAL REACTIONS</b><br>Burn + Frost → Thermal Shock · Solar Burn + Freeze → Solar Shatter · Zap + Tear → Conductive Surge · Overcurrent + Shackles → Circuit Break · Poison + Bleed → Toxic Wound · Corruption + Solar Burn → Eclipse · Decay + Frost → Withering Chill · Shackles + Burn → Searing Bind.<br><span class="text-amber-300">Bosses:</span> All 12 elements (Fire, Water, Earth, Electricity, Ice, Nature, Light, Dark, Steel, Chaos, Grass, Wind) are represented across boss strengths and weaknesses. Each boss takes 50% less damage from its strength and 50% more from its vulnerability. Each of the twelve bosses has its own 18-second mechanic and unique 50% HP phase. Only Thornheart and Plague Empress summon minions (every 25s; max 2).</div>\n          <div class="rounded-xl border border-amber-500/40 bg-slate-950/80 p-3 mb-3 text-xs text-slate-200"><div class="font-extrabold text-amber-300 mb-1">🐉 RAID COMBAT RULES</div><div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div>⚔️ Boss ATK = <b>3× strongest Cookie ATK</b>. Basic strikes deal <b>75% ATK every 2 seconds</b>; no raid time-based escalation.</div><div>🎭 Every <b>9 seconds</b>, the boss copies an actual skill from a Cookie on your attacking team.</div><div>🛡️ Boss strength: <b>−50%</b> elemental damage. Weakness: <b>+50%</b>.</div><div>🌋 Each boss keeps its unique mechanic and 50%-HP transformation.</div></div><div id="raid-live-mechanics" class="mt-2 text-fuchsia-300 font-bold">🎭 Copied skills will appear here during raids.</div></div><div id="raid-boss-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
  <label class="block text-xs font-bold text-amber-200">Boss HP: <span id="raid-hp-label">1,000,000</span></label>
  <input id="raid-hp-slider" type="range" min="0" max="1000" value="500" oninput="raidUpdateHP()" class="w-full accent-amber-400" />
  <div class="flex gap-2 flex-wrap"><input id="raid-hp-input" type="number" min="25000" max="350000000" value="1000000" onchange="raidSetHP(this.value)" class="bg-slate-950 border border-slate-600 rounded-lg p-2 w-44 text-sm"/><button onclick="startRaidBoss()" class="crk-btn px-5 py-2 rounded-lg font-black text-slate-950">⚔️ FIGHT BOSS</button><button onclick="endBattleEarly()" class="bg-rose-900 border border-rose-600 px-4 py-2 rounded-lg font-bold text-xs">■ END RAID EARLY</button></div>
@@ -689,6 +2767,14 @@
                 </div>
 
                 <div class="flex flex-wrap gap-2 mb-3 items-center"><label class="text-xs text-slate-300">Effect filter</label><select id="gallery-effect-filter" onchange="renderCollectionTab()" class="bg-slate-900 border border-slate-700 text-white rounded-lg px-2 py-1 text-xs"><option value="">All effects</option></select><select id="gallery-effect-kind" onchange="renderCollectionTab()" class="bg-slate-900 border border-slate-700 text-white rounded-lg px-2 py-1 text-xs"><option value="">Buffs & Debuffs</option><option value="buff">Buffs</option><option value="debuff">Debuffs</option></select></div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-3">
+<input id="gallery-name-search" oninput="renderCollectionTab()" placeholder="🔎 Search name or skill" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-xs text-white" />
+<select id="gallery-rarity" onchange="renderCollectionTab()" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-xs"><option value="">All rarities</option></select>
+<select id="gallery-role" onchange="renderCollectionTab()" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-xs"><option value="">All roles</option></select>
+<select id="gallery-element" onchange="renderCollectionTab()" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-xs"><option value="">All elements</option></select>
+<select id="gallery-owned" onchange="renderCollectionTab()" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-xs"><option value="">Owned + locked</option><option value="owned">Owned only</option><option value="locked">Locked only</option></select>
+<select id="gallery-sort" onchange="renderCollectionTab()" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-xs"><option value="rarity">Default order</option><option value="name">Name A–Z</option><option value="element">Element</option><option value="role">Role</option><option value="level">Owned level</option></select>
+</div><div id="gallery-match-count" class="text-xs text-slate-400 mb-2"></div>
                 <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3 overflow-visible p-1 pb-24"></div>
             </div>
         </section>
@@ -1381,7 +3467,8 @@
         const CRK_SAVE_KEY = 'CRK_GAME_SAVE_V23_CUSTOM_ROSTER';
         function saveGame() {
             try {
-                const payload = JSON.stringify(gameState);
+                const {defenseLogbook: _sessionOnlyDefenseLogs, ...persistentGameState}=gameState;
+                const payload = JSON.stringify(persistentGameState);
                 localStorage.setItem(CRK_SAVE_KEY, payload);
                 if(typeof queueCloudSave==='function')queueCloudSave();
                 const status = document.getElementById('save-status');
@@ -1436,7 +3523,7 @@
             if(!Array.isArray(gameState.equippedTreasures))gameState.equippedTreasures=[];
             if(!Array.isArray(gameState.defenseTreasures))gameState.defenseTreasures=gameState.equippedTreasures.slice();
             gameState.defenseTreasures=gameState.defenseTreasures.filter((id,i,a)=>a.indexOf(id)===i&&gameState.treasures[id]).slice(0,3);
-            if(!Array.isArray(gameState.defenseLogbook))gameState.defenseLogbook=[];
+            gameState.defenseLogbook=[]; // Session-only, including when restoring older saved files.
             gameState.equippedTreasures=gameState.equippedTreasures.filter((id,i,a)=>a.indexOf(id)===i&&gameState.treasures[id]).slice(0,3);
             if (!Array.isArray(gameState.toppings)) gameState.toppings = [];
             if (!Array.isArray(gameState.biscuits)) gameState.biscuits = [];
@@ -3000,6 +5087,8 @@
         function showGachaResults(results) {
             const grid = document.getElementById('gacha-pull-grid');
             grid.innerHTML = '';
+            grid.style.maxHeight = results.length>=50 ? '65vh' : '';
+            grid.style.overflowY = results.length>=50 ? 'auto' : '';
             results.forEach(res => {
                 const c = res.cookie;
                 const card = document.createElement('div');
@@ -3081,7 +5170,28 @@
             const allStats=[...new Set(COOKIES_DB.flatMap(c=>getEffects(c).map(e=>e.stat).filter(Boolean)))].sort();
             if(selector){const selected=selector.value;selector.replaceChildren(new Option('All effects',''),...allStats.map(x=>new Option(x,x)));selector.value=allStats.includes(selected)?selected:'';}
             const wanted=selector?.value||'';
-            COOKIES_DB.filter(c=>{const effects=getEffects(c);return (!wanted||effects.some(e=>e.stat===wanted))&&(!kind||effects.some(e=>BUILDER_STATUS_CATALOG.find(x=>x[0]===e.stat)?.[1]===kind));}).forEach(c=>{
+            const fillFilter=(id,values)=>{const el=document.getElementById(id);if(!el)return;const selected=el.value;const options=[...new Set(values.filter(Boolean))].sort();el.replaceChildren(new Option(id==='gallery-rarity'?'All rarities':id==='gallery-role'?'All roles':'All elements',''),...options.map(v=>new Option(v,v)));el.value=options.includes(selected)?selected:'';};
+            fillFilter('gallery-rarity',COOKIES_DB.map(c=>c.rarity));
+            fillFilter('gallery-role',COOKIES_DB.map(c=>c.role));
+            fillFilter('gallery-element',COOKIES_DB.map(c=>c.element));
+            const val=id=>document.getElementById(id)?.value||'';
+            const search=val('gallery-name-search').toLowerCase().trim();
+            const filtered=COOKIES_DB.filter(c=>{
+                const effects=getEffects(c),unlocked=!!owned[c.id];
+                return (!wanted||effects.some(e=>e.stat===wanted))&&(!kind||effects.some(e=>BUILDER_STATUS_CATALOG.find(x=>x[0]===e.stat)?.[1]===kind))
+                &&(!search||[c.name,c.skill,c.desc,c.element,c.role,...effects.map(e=>e.stat)].join(' ').toLowerCase().includes(search))
+                &&(!val('gallery-rarity')||c.rarity===val('gallery-rarity'))
+                &&(!val('gallery-role')||c.role===val('gallery-role'))
+                &&(!val('gallery-element')||c.element===val('gallery-element'))
+                &&(!val('gallery-owned')||(val('gallery-owned')==='owned'?unlocked:!unlocked));
+            });
+            const sort=val('gallery-sort');
+            if(sort==='name')filtered.sort((a,b)=>a.name.localeCompare(b.name));
+            if(sort==='element'||sort==='role')filtered.sort((a,b)=>String(a[sort]).localeCompare(String(b[sort]))||a.name.localeCompare(b.name));
+            if(sort==='level')filtered.sort((a,b)=>(owned[b.id]?.level||0)-(owned[a.id]?.level||0));
+            const countEl=document.getElementById('gallery-match-count');if(countEl)countEl.textContent=`Showing ${filtered.length} of ${COOKIES_DB.length} Cookies`;
+
+            filtered.forEach(c=>{
                 const unlocked=!!owned[c.id];
                 const card=document.createElement('button');
                 card.type='button';
@@ -3271,7 +5381,7 @@
               case 'mend':friends.forEach(t=>healUnit(unit,t,unit.atk*v));break;
               case 'purify':friends.forEach(t=>netherCleanse(t));break;
               case 'accelerate':friends.forEach(t=>t.cdTimer=Math.max(0,t.cdTimer-v));break;
-              case 'burn':foes.forEach(t=>{t.effects.burn=Math.max(t.effects.burn||0,v);t.effects.burnTimer=Math.max(t.effects.burnTimer||0,5);});break;
+              case 'burn':foes.forEach(t=>{applyNativeBurn(unit,t,v,5);});break;
               case 'poison':foes.forEach(t=>{t.effects.poison=Math.max(t.effects.poison||0,v);t.effects.poisonTimer=Math.max(t.effects.poisonTimer||0,6);});break;
               case 'silence':strong.effects.silence=Math.max(strong.effects.silence||0,v);break;
               case 'freeze':weakFoe.effects.freeze=Math.max(weakFoe.effects.freeze||0,v);break;
@@ -4158,10 +6268,10 @@
                 if(debuff)source.debuffsApplied=(source.debuffsApplied||0)+1;
                 else source.buffsApplied=(source.buffsApplied||0)+1;
             }
-            const sourceKey=(source.uid||source.id)+'_'+key+'_'+stat;
+            const sourceKey=CUSTOM_DOTS.includes(stat)?((source.uid||source.id)+'_dot_'+stat):((source.uid||source.id)+'_'+key+'_'+stat);
             e._customStatus=e._customStatus||{};
             const previous=e._customStatus[sourceKey];
-            const count=Math.min(stacks,(previous?.count||0)+1);
+            const count=CUSTOM_DOTS.includes(stat)?1:Math.min(stacks,(previous?.count||0)+1);
             // Amplification belongs to the caster for debuffs and the recipient for buffs.
             // Resistance weakens negative effect strength, not its duration.
             const amp=debuff?(stat==='Amplify Debuff'?1:1+Math.max(0,source.effects?.debuffAmp||0)):(stat==='Amplify Buff'?1:1+Math.max(0,e.buffAmp||0));
@@ -4182,8 +6292,8 @@
                 const allotted=Math.min(entry._highRaritySurvival?5:3,lifetime,target._customInvulnBudget);
                 source._customInvulnChargesUsed[chargeKey]=(source._customInvulnChargesUsed[chargeKey]||0)+1;
                 target._customInvulnBudget=Math.max(0,target._customInvulnBudget-allotted);
-                e._customStatus[sourceKey]={stat,count:1,time:allotted,value:1,element:entry.element||source.element,sourceId:source.id,tick:(CUSTOM_DOTS.includes(stat)?.2:1),displayGroup:entry._displayGroup||null};
-            }else if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,value,element:entry.element||source.element,sourceId:source.id,tick:(CUSTOM_DOTS.includes(stat)?.2:1),displayGroup:entry._displayGroup||null};
+                e._customStatus[sourceKey]={stat,count:1,time:allotted,value:1,element:entry.element||source.element,sourceId:source.id,sourceUid:source.uid,tick:(CUSTOM_DOTS.includes(stat)?(previous?.tick>0?previous.tick:.2):1),displayGroup:entry._displayGroup||null};
+            }else if(!instant.includes(stat))e._customStatus[sourceKey]={stat,count,time:lifetime,totalDuration:lifetime,value,element:entry.element||source.element,sourceId:source.id,sourceUid:source.uid,tick:(CUSTOM_DOTS.includes(stat)?(previous?.tick>0?previous.tick:.2):1),displayGroup:entry._displayGroup||null};
             // Three linked, conditional status effects are available to every Builder cookie.
             // The third application consumes the marks instead of stacking forever.
             if(['Ruin Sigil','Fractured Ward','Resonance'].includes(stat)){
@@ -4304,6 +6414,36 @@
             e._customElementBuff={};
             for(const x of statuses)if(x.stat==='Element ATK Up')e._customElementBuff[x.element]=(e._customElementBuff[x.element]||0)+x.value;
         }
+        // One Burn per caster per target. Reapplying refreshes that caster's Burn,
+        // while separate casters may each have their own independent Burn.
+        function applyNativeBurn(source,target,totalFraction,duration){
+            if(!target?.effects||!source)return;
+            const e=target.effects;
+            e._nativeBurns=e._nativeBurns||{};
+            const key=source.uid||source.id;
+            e._nativeBurns[key]={sourceId:key,sourceAtk:Math.max(0,Number(source.atk)||0),
+                totalFraction:Math.max(0,Number(totalFraction)||0),
+                duration:Math.max(.2,Number(duration)||5),
+                remaining:Math.max(.2,Number(duration)||5),tick:.2};
+            e.burnTimer=Math.max(e.burnTimer||0,Math.max(.2,Number(duration)||5));
+            e.burn=0; // Old max-HP based native burn must never run alongside source-based burns.
+        }
+        function tickNativeBurns(unit,dt){
+            const e=unit.effects;if(!e?._nativeBurns)return;
+            for(const [key,b] of Object.entries(e._nativeBurns)){
+                const elapsed=Math.min(dt,b.remaining);
+                b.remaining-=elapsed;b.tick-=elapsed;
+                let ticksRemaining=Math.max(0,Math.ceil((elapsed+0.000001)/.2));
+                while(b.tick<=.000001&&unit.currentHp>0&&ticksRemaining-->0){
+                    const source=[...playerUnits,...enemyUnits].find(u=>u.uid===b.sourceId||u.id===b.sourceId);
+                    const damage=b.sourceAtk*b.totalFraction*.2;
+                    if(damage>0)applyDamage(source||null,unit,damage,'text-orange-300 text-xs',!!source&&playerUnits.includes(source),true,0,'Burn');
+                    b.tick+=.2;
+                }
+                if(b.remaining<=.000001)delete e._nativeBurns[key];
+            }
+            e.burnTimer=Math.max(0,...Object.values(e._nativeBurns).map(b=>b.remaining));
+        }
         function tickCustomStatuses(unit,dt){
             const e=unit.effects;if(!e)return;
             if(unit._extraHealPulses?.length){
@@ -4321,7 +6461,7 @@
                     if(map[x.stat]&&!(e.ccImmunity>0))e[map[x.stat]]=Math.max(e[map[x.stat]]||0,Math.min(.3,x.time));
                 }
                 // Distinct effects: damage is only one part of each status.
-                const source=[...playerUnits,...enemyUnits].find(u=>u.id===x.sourceId)||unit;
+                const source=[...playerUnits,...enemyUnits].find(u=>u.uid===x.sourceUid)||[...playerUnits,...enemyUnits].find(u=>u.id===x.sourceId)||unit;
                 const v=Math.max(0,x.value||0);
                 if(x.stat==='Lifesteal Blessing'){
                     // Triggered by actual HP damage in applyDamage below.
@@ -4434,7 +6574,8 @@
                 const interval=Math.max(.1,Math.min(5,Number(attack.interval)||.5));
                 const duration=Math.max(.5,Math.min(30,Number(attack.duration)||5));
                 // Each cast has an independent timed attack sequence.
-                unit._customAttackQueue.push({attack,remaining:duration,interval,clock:0,isPlayer,pulses:0,applyEffects:primary});
+                const hitCount=Math.max(1,Math.min(300,Math.floor(Number(attack._burstHits)||Math.ceil(duration/interval))));
+                unit._customAttackQueue.push({attack,remaining:duration,interval,clock:0,isPlayer,pulses:0,hitCount,applyEffects:primary});
                 return;
             }
             const weakest=foes.slice().sort((a,b)=>a.currentHp/a.maxHp-b.currentHp/b.maxHp)[0];
@@ -4472,7 +6613,9 @@
                         const a=job.attack,mode=a.type;
                         if(!foes.length && !['healing','shield'].includes(mode))break;
                         const targets=chooseCustomTargets(mode==='random'?'random':unit.customVisualTarget||'single',unit.customVisualTargetCount||3,unit,allies,enemies);
-                        const power=Math.max(0,Number(a.power)||0)/100;
+                        // Builder power is total %ATK over the whole barrage/pulse sequence.
+                        // Previously it was applied on EVERY pulse, multiplying damage 10–30x.
+                        const power=Math.max(0,Number(a.power)||0)/100/Math.max(1,job.hitCount||1);
                         if(mode==='healing')allies.filter(u=>u.currentHp>0).forEach(t=>healUnit(unit,t,unit.atk*power));
                         else if(mode==='shield')allies.filter(u=>u.currentHp>0).forEach(t=>addShield(t,t.maxHp*Math.min(.5,power*.1)));
                         else targets.forEach(t=>{if(t.currentHp>0){const before=t.currentHp;applyDamage(unit,t,unit.atk*power,'text-amber-200 text-xs',job.isPlayer,false,.08);if(mode==='drain')healUnit(unit,unit,Math.max(0,before-t.currentHp)*.35);}});
@@ -4875,12 +7018,19 @@
             const biscuits=(gameState.biscuits||[]).filter(b=>b.equippedTo===id||b.cookieId===id||b.equipped===id).map(b=>({lines:b.lines,level:b.level||1}));
             return {id,name:c.name||id,rarity:c.rarity||'Unknown',role:c.role||'Unknown',level:owned.level||1,stars:owned.stars||0,skillLevel:owned.skillLevel||0,toppings,biscuits};
         }
+        function toggleDefenseLogbook(){
+            const root=document.getElementById('defense-logbook');
+            const btn=document.getElementById('defense-log-toggle');
+            if(!root||!btn)return;
+            root.classList.toggle('hidden');
+            btn.textContent=root.classList.contains('hidden')?'▶ OPEN':'▼ CLOSE';
+        }
         function renderDefenseLogbook(){
             const root=document.getElementById('defense-logbook');if(!root)return;
             const logs=gameState.defenseLogbook||[];
             const wins=logs.filter(x=>x.result==='WIN').length;
-            root.innerHTML='<div class="text-xs text-slate-300 mb-3">'+wins+' defense wins · '+(logs.length-wins)+' defense losses · '+logs.length+' local defense tests recorded</div>';
-            if(!logs.length){root.innerHTML+='<p class="text-sm text-slate-400">No defenses recorded yet. Choose TEST vs MY DEFENSE SQUAD under Team → Defense Squad to record a local defense test. Online attacks from other players cannot be recorded without a server endpoint.</p>';return;}
+            root.innerHTML='<div class="text-xs text-slate-300 mb-3">'+wins+' defense wins · '+(logs.length-wins)+' defense losses · '+logs.length+' session defense battles recorded</div>';
+            if(!logs.length){root.innerHTML+='<p class="text-sm text-slate-400">No defenses recorded yet. Random attackers start a full background defense match every 45 seconds while the game is open (20% chance of a Pro team). You can also test your defense from Team → Defense Squad. These are local simulations, not online players.</p>';return;}
             logs.forEach((entry,i)=>{
                 const details=document.createElement('details');details.className='rounded-xl border border-slate-700 bg-slate-900 p-3 mb-2';
                 const summary=document.createElement('summary');summary.className='cursor-pointer font-bold text-sm';summary.textContent=(entry.result==='WIN'?'🏆 DEFENSE WON':'💔 DEFENSE LOST')+' · '+new Date(entry.at).toLocaleString()+' · '+(entry.opponentName||'Opponent')+(entry.fullCombat?' · FULL COMBAT':entry.simulated?' · ESTIMATED':'');details.appendChild(summary);
@@ -4927,53 +7077,123 @@
         // Local automatic defense challengers; no claim of actual online attacks.
         // Fully simulated background battle, isolated from the visible arena.
         // Uses the same skill, passive, status, treasure and revive functions.
-        function runIsolatedDefenseCombat(attackers,defenders){
-            if(battleActive||leagueMode||metaTestMode||gearHeadlessBattle)return null;
-            const previous={playerUnits,enemyUnits,battleActive,battleTimeLeft,battleTickNumber,gearHeadlessBattle,gearHeadlessOutcome,gearHeadlessAllUnits,gearSimStep,pendingEnemyTreasures,pendingDefenseLog};
+        function defenseRandomInt(min,max){return min+Math.floor(Math.random()*(max-min+1));}
+        function buildRandomDefenseAttacker(isPro){
+            const eligible=COOKIES_DB.filter(c=>c.role!=='Ethereal'&&
+                (isPro?['SuperEpic','Legendary','Mystic','Eternal'].includes(c.rarity):
+                    ['Rare','Epic','SuperEpic','Legendary','Mystic','Eternal'].includes(c.rarity)));
+            const selected=[];
+            // PRO attackers use a random full team from the Teams page:
+            // saved team drafts and published/recommended teams, not invented compositions.
+            if(isPro){
+                const drafts=typeof getTeamDrafts==='function'?getTeamDrafts():[];
+                const saved=Array.isArray(recommendedTeams)?recommendedTeams:[];
+                const pool=[...drafts,...saved].filter(t=>
+                    Array.isArray(t?.cookie_ids)&&t.cookie_ids.length===5&&
+                    new Set(t.cookie_ids).size===5&&
+                    t.cookie_ids.every(id=>COOKIES_DB.some(c=>c.id===id))&&
+                    t.cookie_ids.filter(id=>COOKIES_DB.find(c=>c.id===id)?.role==='Ethereal').length<=1);
+                if(pool.length){
+                    const picked=pool[Math.floor(Math.random()*pool.length)];
+                    for(const id of picked.cookie_ids)selected.push(COOKIES_DB.find(c=>c.id===id));
+                }
+            }
+            // If no Teams-page presets exist, fall back to a randomized full squad.
+            if(!selected.length){
+                for(const c of eligible.slice().sort(()=>Math.random()-.5)){
+                    if(selected.length===5)break;
+                    if(!selected.some(x=>x.id===c.id))selected.push(c);
+                }
+            }
+            return selected.map(c=>{
+                const level=isPro?defenseRandomInt(85,100):defenseRandomInt(20,100);
+                const skillLevel=isPro?defenseRandomInt(85,100):defenseRandomInt(0,100);
+                const stars=isPro?defenseRandomInt(3,6):defenseRandomInt(0,6);
+                const toppingTypes=['atk','cooldown','resist','crit','hp','def'];
+                const toppings=Array.from({length:isPro?5:defenseRandomInt(1,5)},()=>({
+                    type:toppingTypes[defenseRandomInt(0,toppingTypes.length-1)],
+                    level:isPro?defenseRandomInt(9,12):defenseRandomInt(1,12)
+                }));
+                const biscuitTypes=['atk','cooldown','resist','crit','hp','def','bypass','critResist'];
+                const lines=Array.from({length:isPro?4:defenseRandomInt(1,4)},()=>({
+                    type:biscuitTypes[defenseRandomInt(0,biscuitTypes.length-1)],
+                    value:(isPro?defenseRandomInt(35,85):defenseRandomInt(10,75))/1000
+                }));
+                const biscuits=Math.random()<(isPro?1:.75)?[{level:isPro?12:defenseRandomInt(1,12),lines}]:[];
+                const bonuses={stars,skillLevel};
+                for(const t of toppings)bonuses[t.type]=(bonuses[t.type]||0)+(t.level*.008);
+                for(const b of biscuits)for(const line of b.lines)bonuses[line.type]=(bonuses[line.type]||0)+line.value;
+                return {id:c.id,name:c.name,rarity:c.rarity,role:c.role,level,skillLevel,stars,toppings,biscuits,bonuses};
+            });
+        }
+        function randomDefenseAttackTreasures(isPro){
+            const count=isPro?3:defenseRandomInt(0,3);
+            return TREASURES.slice().sort(()=>Math.random()-.5).slice(0,count)
+                .map(t=>({id:t.id,name:t.name,level:isPro?defenseRandomInt(9,12):defenseRandomInt(1,12)}));
+        }
+        // Simulate a fresh randomized attacker against the actual saved defense squad.
+        let backgroundDefenseMatch=null;
+        function defenseContextSnapshot(){return {playerUnits,enemyUnits,battleActive,battleTimeLeft,battleTickNumber,gearHeadlessBattle,gearHeadlessOutcome,gearHeadlessAllUnits,gearSimStep,pendingEnemyTreasures,pendingDefenseLog,battlePaused};}
+        function defenseRestoreContext(c){({playerUnits,enemyUnits,battleActive,battleTimeLeft,battleTickNumber,gearHeadlessBattle,gearHeadlessOutcome,gearHeadlessAllUnits,gearSimStep,pendingEnemyTreasures,pendingDefenseLog,battlePaused}=c);}
+        function defenseInContext(match,callback){
+            const foreground=defenseContextSnapshot();
+            try{defenseRestoreContext(match.context);return callback();}
+            finally{match.context=defenseContextSnapshot();defenseRestoreContext(foreground);}
+        }
+        function beginBackgroundDefense(attackers,defenders,attackerTreasures,isPro){
+            if(backgroundDefenseMatch)return;
+            const foreground=defenseContextSnapshot();
+            let match;
             try{
                 const make=(team,side)=>team.map((c,i)=>{
-                    const stats=side==='raid_def' ? getCookieScaledStats(c.id) : getCookieScaledStats(c.id,c.level,{stars:c.stars||0,skillLevel:c.skillLevel||100,atk:.45,crit:.15,cooldown:.10});
+                    const stats=getCookieScaledStats(c.id,c.level,{...c.bonuses,stars:c.stars||0,skillLevel:c.skillLevel||0});
                     if(!stats)return null;
-                    const unit=initCombatUnit(stats,side+'_'+i);
-                    unit.stars=c.stars||0;unit.skillLevel=c.skillLevel||100;
-                    return unit;
+                    const u=initCombatUnit(stats,side+'_'+i);
+                    u.stars=c.stars||0;u.skillLevel=c.skillLevel||0;
+                    return u;
                 }).filter(Boolean);
-                playerUnits=make(attackers,'raid_atk');enemyUnits=make(defenders,'raid_def');
-                if(!validateEtherealSquad(playerUnits)||!validateEtherealSquad(enemyUnits))return null;
-                const selected=randomTreasures(3,12);
-                playerUnits._treasures=selected;
+                playerUnits=make(attackers,'background_attacker');enemyUnits=make(defenders,'background_defender');
+                if(!playerUnits.length||!enemyUnits.length||!validateEtherealSquad(playerUnits)||!validateEtherealSquad(enemyUnits))return;
+                playerUnits._treasures=attackerTreasures.map(t=>({...TREASURES.find(x=>x.id===t.id),testLevel:t.level})).filter(t=>t.id);
                 enemyUnits._treasures=equippedTreasures('defense').slice(0,3);
-                gearHeadlessBattle=true;gearHeadlessOutcome=null;gearHeadlessAllUnits=playerUnits.concat(enemyUnits);
-                gearSimStep=.5;battleActive=true;battleTimeLeft=180;battleTickNumber=0;
+                gearHeadlessBattle=true;gearHeadlessOutcome=null;gearHeadlessAllUnits=[...playerUnits,...enemyUnits];
+                gearSimStep=.25;battleActive=true;battlePaused=false;battleTimeLeft=180;battleTickNumber=0;pendingDefenseLog=null;
                 applyTreasureStart(playerUnits);applyTreasureStart(enemyUnits);
                 for(const u of gearHeadlessAllUnits){applyIodineOpening(u);netherOpening(u);triggerCustomPassives(u,'start');wiltedOpening(u);}
-                for(let ticks=0;ticks<360&&battleActive;ticks++)gearFastBattleTick();
-                const outcome=gearHeadlessOutcome;
-                const attackerFraction=playerUnits.reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
-                const defenderFraction=enemyUnits.reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
-                const attackerWon=outcome?outcome.win:attackerFraction>defenderFraction;
-                return {defenseWon:!attackerWon,duration:Math.round(180-battleTimeLeft),attackTreasures:selected.map(t=>({id:t.id,name:t.name,level:12})),defenseTreasures:snapshotTreasures(gameState.defenseTreasures)};
-            }catch(err){console.warn('Background defense combat failed; no estimated result recorded:',err);return null;}
-            finally{
-                ({playerUnits,enemyUnits,battleActive,battleTimeLeft,battleTickNumber,gearHeadlessBattle,gearHeadlessOutcome,gearHeadlessAllUnits,gearSimStep,pendingEnemyTreasures,pendingDefenseLog}=previous);
-            }
+                match={context:defenseContextSnapshot(),attackers,defenders,attackerTreasures,isPro,started:Date.now()};
+            }catch(err){console.warn('Background defense setup failed:',err);}
+            finally{defenseRestoreContext(foreground);}
+            backgroundDefenseMatch=match||null;
+        }
+        function advanceBackgroundDefense(){
+            const match=backgroundDefenseMatch;if(!match)return;
+            try{defenseInContext(match,()=>{
+                // Same combat-unit skills, status ticks, treasure ticks, and victory
+                // conditions as normal battles. Four 0.25s ticks per update.
+                for(let i=0;i<4&&battleActive;i++)gearFastBattleTick();
+            });}catch(err){console.warn('Background defense match failed:',err);backgroundDefenseMatch=null;return;}
+            const c=match.context;
+            if(c.battleActive)return;
+            const a=c.playerUnits.reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
+            const d=c.enemyUnits.reduce((n,u)=>n+(u.role==='Ethereal'?0:Math.max(0,u.currentHp/u.maxHp)),0);
+            const attackerWon=c.gearHeadlessOutcome?c.gearHeadlessOutcome.win:a>d;
+            const entry={at:new Date().toISOString(),opponentName:match.isPro?'🌟 PRO Auto Challenger':'🎲 Random Auto Challenger',
+                result:attackerWon?'LOSS':'WIN',simulated:false,fullCombat:true,attackTeam:match.attackers,
+                defenseTeam:match.defenders,attackTreasures:match.attackerTreasures,
+                defenseTreasures:snapshotTreasures(gameState.defenseTreasures),durationSeconds:Math.round(180-c.battleTimeLeft)};
+            gameState.defenseLogbook.unshift(entry);gameState.defenseLogbook=gameState.defenseLogbook.slice(0,100);
+            backgroundDefenseMatch=null;renderDefenseLogbook();
         }
         function createLocalDefenseChallenge(){
-            if(!gameState||battleActive||leagueMode||metaTestMode)return;
+            if(!gameState||backgroundDefenseMatch)return;
             const ids=(gameState.defenseTeam||[]).filter(Boolean);
             if(!ids.length||!ids.some(id=>COOKIES_DB.find(c=>c.id===id)?.role!=='Ethereal'))return;
-            const candidates=COOKIES_DB.filter(c=>['Epic','SuperEpic','Legendary','Mystic','Eternal'].includes(c.rarity)&&c.role!=='Ethereal');
-            if(candidates.length<5)return;
-            const shuffled=candidates.slice().sort(()=>Math.random()-.5).slice(0,5);
-            const attackers=shuffled.map(c=>({id:c.id,name:c.name,rarity:c.rarity,role:c.role,level:Math.min(100,Math.max(40,Math.round((gameState.unlockedCookies[ids[0]]?.level||50)+(Math.random()-.5)*30))),stars:Math.floor(Math.random()*6),skillLevel:80,toppings:[{type:['atk','cooldown','resist','crit'][Math.floor(Math.random()*4)],level:12}],biscuits:[{lines:Array(4).fill({type:'atk',value:.05}),level:12}]}));
-            const defenders=ids.map(id=>snapshotOwnedCookie(id));
-            const result=runIsolatedDefenseCombat(attackers,defenders);
-            if(!result)return;
-            const entry={at:new Date().toISOString(),opponentName:'Local Auto Challenger',result:result.defenseWon?'WIN':'LOSS',simulated:false,fullCombat:true,attackTeam:attackers,defenseTeam:defenders,attackTreasures:result.attackTreasures,defenseTreasures:result.defenseTreasures,durationSeconds:result.duration};
-            gameState.defenseLogbook=gameState.defenseLogbook||[];gameState.defenseLogbook.unshift(entry);gameState.defenseLogbook=gameState.defenseLogbook.slice(0,100);saveGame();renderDefenseLogbook();
+            const isPro=Math.random()<.20;
+            beginBackgroundDefense(buildRandomDefenseAttacker(isPro),ids.map(id=>snapshotOwnedCookie(id)),randomDefenseAttackTreasures(isPro),isPro);
         }
-        // More frequent local defense activity: one simulated challenger every 45 seconds while the game is open.
-        setInterval(()=>{try{createLocalDefenseChallenge();}catch(err){console.warn('Local defense challenge:',err);}},45000);
+        // Each match runs independently in short slices, even while a foreground battle is active.
+        setInterval(()=>{try{createLocalDefenseChallenge();}catch(err){console.warn('Defense matchmaking:',err);}},45000);
+        setInterval(()=>{try{advanceBackgroundDefense();}catch(err){console.warn('Defense combat:',err);}},250);
         function startBattle(forcedTier=null) {
             if(leagueMode){alert('Stop the Auto Meta League before starting a manual battle.');return;}
             metaTestMode=false; battleSpeed=1; document.getElementById('battle-speed-select').value='1';
@@ -5269,7 +7489,7 @@
                 case 'teamAtk': livingAllies.forEach(a=>set(a,'atk',p,'atkTimer')); spawnFloatingText(unit.uid,'ATK RESONANCE','text-emerald-300 text-[9px]'); break;
                 case 'teamDef': livingAllies.forEach(a=>set(a,'def',p,'defTimer')); break;
                 case 'teamWard': livingAllies.forEach(a=>applyStackEffect(a,'damageReduction',p,duration,unit.name,'buff')); break;
-                case 'burn': if(target){target.effects.burn=Math.max(target.effects.burn||0,p*.45);target.effects.burnTimer=Math.max(target.effects.burnTimer||0,duration);spawnFloatingText(target.uid,'🔥 SIGNATURE','text-orange-300 text-[9px]');} break;
+                case 'burn': if(target){applyNativeBurn(unit,target,p*.45,duration);spawnFloatingText(target.uid,'🔥 SIGNATURE','text-orange-300 text-[9px]');} break;
                 case 'weaken': livingEnemies.forEach(e=>set(e,'atkDown',p,'atkDownTimer')); break;
                 case 'shatter': livingEnemies.forEach(e=>set(e,'defDown',p,'defDownTimer')); break;
                 case 'singleShield': if(ally)addShield(ally,ally.maxHp*p*1.8); break;
@@ -5277,7 +7497,7 @@
                 case 'stun': if(target)target.effects.stun=Math.max(target.effects.stun||0,.35+p*3); break;
                 case 'reflect': livingAllies.slice(0,2).forEach(a=>{a.effects.reflect=Math.max(a.effects.reflect||0,p);a.effects.reflectTimer=Math.max(a.effects.reflectTimer||0,duration);}); break;
                 case 'cooldown': livingAllies.forEach(a=>a.cdTimer=Math.max(0,a.cdTimer-(.35+p*5))); break;
-                case 'teamCleanse': livingAllies.forEach(a=>{a.effects.burn=0;a.effects.burnTimer=0;a.effects.atkDown=0;a.effects.atkDownTimer=0;a.effects.defDown=0;a.effects.defDownTimer=0;}); break;
+                case 'teamCleanse': livingAllies.forEach(a=>{a.effects.burn=0;a.effects.burnTimer=0;a.effects._nativeBurns={};a.effects.atkDown=0;a.effects.atkDownTimer=0;a.effects.defDown=0;a.effects.defDownTimer=0;}); break;
                 case 'vulnerability': if(target)set(target,'defDown',p*1.2,'defDownTimer'); break;
                 case 'regen': livingAllies.forEach(a=>applyHealOverTime(unit,a,unit.atk*p*1.2,4)); break;
                 case 'poison': if(target){target.effects.poison=(target.effects.poison||0)+p*.18;target.effects.poisonTimer=Math.max(target.effects.poisonTimer||0,5); } break;
@@ -5527,8 +7747,7 @@
             attacker.cdTimer=Math.max(0,(attacker.cdTimer||0)-.18);
             if(!leagueMode)spawnFloatingText(attacker.uid,'⚡ CRIT CHARGE','text-yellow-300 text-[9px]');
           }else if(element==='Fire'){
-            te.burn=Math.max(te.burn||0,Math.max(1,attacker.atk*.015));te._burnSourceAtk=Math.max(te._burnSourceAtk||0,attacker.atk||0);
-            te.burnTimer=Math.max(te.burnTimer||0,2.5);
+            applyNativeBurn(attacker,target,.015,2.5);
           }else if(element==='Water'&&weakest){
             const amount=Math.max(1,Math.round(attacker.atk*.035));
             weakest.currentHp=Math.min(weakest.maxHp,weakest.currentHp+amount);
@@ -5617,15 +7836,17 @@
                 else if(input>attackBase*100)rawDamage=attackBase*100;
             }
             if(target.isRaidBoss && attacker?.element){
-                if(attacker.element===target.raidResistElement)rawDamage*=.65;
-                else if(attacker.element===target.raidWeakElement)rawDamage*=1.25;
+                if(attacker.element===target.raidResistElement)rawDamage*=.50;
+                else if(attacker.element===target.raidWeakElement)rawDamage*=1.50;
             }
-            rawDamage*=phaseMultiplier;
+            rawDamage*=raidActive?1:phaseMultiplier;
             const combatLevel=Math.min(Math.max(1,Number(attacker?.level)||1),Math.max(1,Number(target.level)||1));
             rawDamage*=.35+.65*Math.min(1,(combatLevel-1)/49);
             if(attacker?.element && target?.element && ELEMENT_ADVANTAGE[attacker.element]===target.element) rawDamage*=1.12;
             if(attacker?.effects?._customElementBuff?.[attacker.element])rawDamage*=1+attacker.effects._customElementBuff[attacker.element];
             if(attacker?.effects?.elementSurge>0 && attacker.element===attacker.effects.elementSurgeElement) rawDamage*=1.18;
+            const elementBuff=attacker?.effects?._elementTeamBuffs?.[attacker.element];
+            if(elementBuff?.time>0)rawDamage*=1+elementBuff.strength;
             // 'Piercing' now penetrates 55% DEF instead of ignoring DEF entirely.
             const penetration=Math.max(0,Math.min(.75,defensePenetration|| (ignoreDefense?.55:0)));
             const effectiveDef=def*(1-penetration);
@@ -5664,8 +7885,8 @@
             // High-rarity mirrors can still hurt one another: mitigation has a hard floor.
             let damage=Math.max(0,Math.round(afterReduction));
             const critChance=Math.max(0,Math.min(1,(attacker?.toppingBonuses?.crit||0)+(attacker?.effects?.critUp||0)-(attacker?.effects?.critDown||0)-(target?.toppingBonuses?.critResist||0)));
-            const elementalCritical=critChance>0 && Math.random()<critChance;
-            if(elementalCritical) damage=Math.round(damage*(2+(attacker?.effects?.critDamageUp||0)-(target.effects?.critDamageDown||0)));
+            const elementalCritical=!statusHit && critChance>0 && Math.random()<critChance;
+            if(elementalCritical && !statusHit) damage=Math.round(damage*(2+(attacker?.effects?.critDamageUp||0)-(target.effects?.critDamageDown||0)));
             // Electricity SKILLS bypass shields, but still obey DEF and resistance.
             const electricPierce=!!(attacker && attacker._electricSkillActive);
             const absorbed=electricPierce?0:Math.min(target.shield||0,damage);
@@ -5687,8 +7908,9 @@
                     healUnit(attacker,attacker,Math.min(hpDamage,attacker.atk*3)*potency);
                 }
             }
-            applyElementIdentity(attacker,target,hpDamage,elementalCritical);
+            if(!statusHit)applyElementIdentity(attacker,target,hpDamage,elementalCritical);
             if(target.currentHp<=0 && hpDamage>0)tryCustomRevive(target);
+            if(target.currentHp<=0 && hpDamage>0)activateHealerLegacy(target);
             if(target.currentHp<=0 && hpDamage>0){
                 const foeSide=playerUnits.includes(target)?enemyUnits:playerUnits;
                 foeSide.filter(u=>u.id==='et15'&&u.currentHp>0).forEach(q=>q.netherFragments=Math.min(10,(q.netherFragments||0)+5));
@@ -5697,6 +7919,13 @@
             if(hpDamage>0 && target.effects?.sleep>0) target.effects.sleep=0;
             if(attacker) {
                 attacker.dmgDone+=damage;
+                // ELEMENT DMG is ONLY damage from damaging statuses (Burn, Zap, etc.),
+                // not ordinary skill/basic damage merely because a Cookie has an element.
+                if(statusHit && statusHit!=='reaction' && statusHit!=='shield-hit'){
+                    attacker.elementDamage=attacker.elementDamage||{};
+                    const statusName=String(statusHit);
+                    attacker.elementDamage[statusName]=(attacker.elementDamage[statusName]||0)+Math.max(0,hpDamage+absorbed);
+                }
                 // Count only the extra damage contributed by active ATK buffs, not skill multipliers.
                 const atkBuff=Math.max(0,attacker.effects?.atk||0);
                 if(atkBuff>0) attacker.dmgAmplified+=(rawDamage-rawDamage/(1+atkBuff));
@@ -5710,7 +7939,7 @@
             const hitNode=document.getElementById(`unit-node-${target.uid}`); if(hitNode){hitNode.classList.remove('hit-flash'); void hitNode.offsetWidth; hitNode.classList.add('hit-flash');}
             if(attacker && target.effects?.reflect>0 && hpDamage>0) {
                 const reflected=Math.round(hpDamage*target.effects.reflect);
-                attacker.currentHp=Math.max(0,attacker.currentHp-reflected); if(attacker.currentHp<=0)tryCustomRevive(attacker); attacker.dmgRecv+=reflected;
+                attacker.currentHp=Math.max(0,attacker.currentHp-reflected); if(attacker.currentHp<=0)tryCustomRevive(attacker);if(attacker.currentHp<=0)activateHealerLegacy(attacker); attacker.dmgRecv+=reflected;
                 spawnFloatingText(attacker.uid,`-${reflected} ↩`,'text-sky-300 text-xs');
             }
             return hpDamage;
@@ -5720,6 +7949,52 @@
         // shared healing and shields have diminishing returns when stacked.
         // Count the original lineup (not only living healers) to prevent the
         // penalty disappearing mid-battle when a healer is defeated.
+        const HEALER_LEGACY_BUFFS=[
+            {name:'Everlasting Courage',stat:'atk',amount:.12,label:'ATK +12%'},
+            {name:'Guardian Memory',stat:'damageReduction',amount:.12,label:'DMG Resist +12%'},
+            {name:'Lasting Focus',stat:'critUp',amount:.15,label:'CRIT +15%'},
+            {name:'Resilient Spirit',stat:'def',amount:.18,label:'DEF +18%'},
+            {name:'Parting Blessing',stat:'buffAmp',amount:.15,label:'Buff Amplify +15%'}
+        ];
+        function activateHealerLegacy(healer){
+            if(healer.role!=='Healer'||healer._legacyActivated)return;
+            healer._legacyActivated=true;
+            healer._legacyTick=.2;
+            const team=playerUnits.includes(healer)?playerUnits:enemyUnits.includes(healer)?enemyUnits:null;
+            if(!team)return;
+            const buff=HEALER_LEGACY_BUFFS[Math.floor(Math.random()*HEALER_LEGACY_BUFFS.length)];
+            healer._legacyBuff=buff;
+            for(const ally of team){
+                if(ally===healer)continue;
+                const e=ally.effects||(ally.effects={});
+                e._healerLegacyBuffs=e._healerLegacyBuffs||{};
+                e._healerLegacyBuffs[healer.uid]=buff;
+                // Permanent for this battle, including after the healer is revived.
+                e[buff.stat]=(Number(e[buff.stat])||0)+buff.amount;
+                e[buff.stat+'Timer']=Math.max(Number(e[buff.stat+'Timer'])||0,9999);
+                ally.buffsApplied=(ally.buffsApplied||0)+1;
+            }
+            if(!gearHeadlessBattle)logBattleEvent('✨ '+healer.name+' leaves '+buff.name+' ('+buff.label+') for the team!');
+        }
+        function tickHealerLegacy(healer,dt){
+            // Both offense and defense healers continue supporting their own team after defeat.
+            if(healer.role!=='Healer'||healer.currentHp>0)return;
+            activateHealerLegacy(healer);
+            const team=playerUnits.includes(healer)?playerUnits:enemyUnits.includes(healer)?enemyUnits:null;
+            if(!team)return;
+            healer._legacyTick=(healer._legacyTick??.2)-dt;
+            let ticks=0;
+            while(healer._legacyTick<=.000001&&ticks++<30){
+                healer._legacyTick+=.2;
+                const amount=Math.max(0,Number(healer.atk)||0)*.10;
+                for(const ally of team){
+                    if(ally===healer||ally.currentHp<=0)continue;
+                    // Uses the same healing pipeline for BOTH teams, preserving anti-heal counters.
+                    const actual=healUnit(healer,ally,amount,{legacy:true});
+                    healer._legacyTotalHealing=(healer._legacyTotalHealing||0)+actual;
+                }
+            }
+        }
         function healerStackCount(unit) {
             const team=playerUnits.includes(unit)?playerUnits:enemyUnits.includes(unit)?enemyUnits:null;
             return team ? team.filter(u=>u.role==='Healer').length : 0;
@@ -5729,18 +8004,18 @@
             const values=kind==='shield' ? [1,1,.85,.65,.5,.38] : [1,1,.78,.58,.42,.32];
             return values[Math.min(n,5)];
         }
-        function healUnit(source,target,amount) {
+        function healUnit(source,target,amount,options=null) {
             if(!target || target.currentHp<=0) return 0;
             if((target.effects?.healingPreventTimer||0)>0)return 0;
             // 2/3/4/5 healers: 78%/58%/42%/32% team healing.
             // Self-healing and healing from other roles still work normally.
-            if(source?.role==='Healer') amount*=healerStackMultiplier(source,'heal');
+            if(source?.role==='Healer'&&!options?.legacy) amount*=healerStackMultiplier(source,'heal');
             amount*=Math.max(0,1-(target.effects?.healDown||0));
             // Anti-stall: healing starts falling after 30 seconds, reaches
             // 45% at 90s and 20% by 135s. Both sides use the same rules.
             const elapsed=Math.max(0,180-battleTimeLeft);
             const healFactor=elapsed<30?1:elapsed<90?1-(elapsed-30)*(.55/60):elapsed<135?.45-(elapsed-90)*(.25/45):.20;
-            amount*=healFactor;
+            if(!options?.legacy)amount*=healFactor;
             const actual=Math.min(target.maxHp-target.currentHp,Math.max(0,Math.round(amount)));
             target.currentHp+=actual; if(source) source.healingDone+=actual;
             target.healingRecv=(target.healingRecv||0)+actual;
@@ -5848,6 +8123,10 @@
         }
 
         function tickUnitEffects(unit,dt) {
+            tickHealerLegacy(unit,dt);
+            if(unit.effects?._elementTeamBuffs)for(const [element,b] of Object.entries(unit.effects._elementTeamBuffs)){
+                b.time-=dt;if(b.time<=0)delete unit.effects._elementTeamBuffs[element];
+            }
             const e=unit.effects; if(!e) return;
             tickIodineEffects(unit,dt);
             tickNether(unit,dt);
@@ -5861,21 +8140,17 @@
                 if(unit.shieldTimer===0){unit.shield=0;spawnFloatingText(unit.uid,'🛡️ SHIELD EXPIRED','text-sky-300 text-[9px]');}
             }
             e.stun=Math.max(0,e.stun-dt); ['silence','sleep','fear','charm','freeze','root'].forEach(k=>e[k]=Math.max(0,(e[k]||0)-dt));
+            // Bosses and several skills set cooldownPause directly without a companion timer.
+            // Treat it as seconds remaining; otherwise it can freeze skills forever.
+            if((e.cooldownPause||0)>0 && !(e.cooldownPauseTimer>0))
+                e.cooldownPause=Math.max(0,e.cooldownPause-dt);
             [['buffProhibited','buffProhibitedTimer'],['cooldownPause','cooldownPauseTimer'],['buffAmp','buffAmpTimer'],['debuffResist','debuffResistTimer'],['critUp','critUpTimer'],['critDown','critDownTimer'],['attackSpeedDown','attackSpeedDownTimer'],['healDown','healDownTimer']].forEach(([k,t])=>{if(e[t]>0){e[t]=Math.max(0,e[t]-dt);if(e[t]===0)e[k]=0;}});
             Object.values(e._stacks||{}).forEach(group=>Object.keys(group).forEach(source=>{group[source].time=Math.max(0,group[source].time-dt);if(group[source].time<=0)delete group[source];}));
             Object.keys(e._stacks||{}).forEach(key=>{if(!Object.keys(e._stacks[key]).length)delete e._stacks[key];}); refreshStackAggregates(unit);
             [['reflect','reflectTimer'],['invulnerable','invulnerableTimer'],['damageReduction','damageReductionTimer']].forEach(([value,timer])=>{
                 if(e[timer]>0){e[timer]=Math.max(0,e[timer]-dt);if(e[timer]===0)e[value]=0;}
             });
-            if(e.burnTimer>0) {
-                e.burnTimer=Math.max(0,e.burnTimer-dt);
-                e._burnTick=(e._burnTick||0)-dt;
-                if(e._burnTick<=0 && unit.currentHp>0) {
-                    const dot=(unit.isRaidBoss?Math.max(1,(e._burnSourceAtk||100)*(e.burn||.025)):Math.max(1,unit.maxHp*(e.burn||.025)))*.2;
-                    applyDamage(null,unit,dot,'text-orange-300 text-xs',false,true,0,'Burn'); e._burnTick+=.2;
-                }
-                if(e.burnTimer===0) e.burn=0;
-            }
+            tickNativeBurns(unit,dt);
             if(e.poisonTimer>0) {e.poisonTimer=Math.max(0,e.poisonTimer-dt);e._poisonTick=(e._poisonTick||0)-dt;if(e._poisonTick<=0&&unit.currentHp>0){applyDamage(null,unit,unit.isRaidBoss?Math.max(1,(e._poisonSourceAtk||100)*(e.poison||.018))*.2:unit.maxHp*(e.poison||.018)*.2,'text-lime-300 text-xs',false,true,0,'Poison');e._poisonTick+=.2;}if(e.poisonTimer===0)e.poison=0;}
             if(e.regenTimer>0) {
                 e.regenTimer=Math.max(0,e.regenTimer-dt);
@@ -6195,6 +8470,19 @@
             if((unit.effects?.excessiveBiteTimer||0)>0)
                 unit.effects.vampireBiteStacks=Math.min(12,(unit.effects.vampireBiteStacks||0)+3);
             unit._electricSkillActive=unit.element==='Electricity';
+            // Selected Support Cookies amplify their own element for their entire team.
+            // Applies to all allied damage of that element; refreshes rather than stacking.
+            if(unit.role==='Support' && ['Epic','SuperEpic','Legendary','Mystic','Eternal'].includes(unit.rarity)){
+                const allies=isPlayer?playerUnits:enemyUnits;
+                const strength=unit.rarity==='Eternal'?.24:unit.rarity==='Mystic'?.21:unit.rarity==='Legendary'?.18:.15;
+                for(const ally of allies){
+                    if(!ally.effects)continue;
+                    ally.effects._elementTeamBuffs=ally.effects._elementTeamBuffs||{};
+                    const previous=ally.effects._elementTeamBuffs[unit.element];
+                    if(!previous||previous.strength<=strength||previous.time<=0)
+                        ally.effects._elementTeamBuffs[unit.element]={strength,time:8,source:unit.name};
+                }
+            }
             const kit=getSkillKit(unit);
             if(unit.id==='l15')iodineCure(unit);
             if(!leagueMode)logBattleEvent(`${isPlayer?'🔵':'🔴'} ${unit.name} casts ${unit.skill}`);
@@ -6234,7 +8522,7 @@
                 case 'counter': addShield(unit,unit.maxHp*kit.shield); unit.effects.reflect=Math.max(unit.effects.reflect,kit.reflect);unit.effects.reflectTimer=6; break;
                 case 'teamGuard': livingAllies.forEach(a=>{addShield(a,a.maxHp*kit.shield);buff(a,'def',kit.def);}); break;
                 case 'aoe': case 'chain': case 'meteor': case 'singularity': all(kit.mult); if(kit.stun) livingEnemies.forEach(t=>t.effects.stun=Math.max(t.effects.stun,kit.stun)); break;
-                case 'burn': case 'bombBurn': case 'bleedShot': all(kit.mult); livingEnemies.forEach(t=>{t.effects.burn=Math.max(t.effects.burn,kit.dot);t.effects.burnTimer=Math.max(t.effects.burnTimer,4);}); break;
+                case 'burn': case 'bombBurn': case 'bleedShot': all(kit.mult); livingEnemies.forEach(t=>{applyNativeBurn(unit,t,kit.dot,4);}); break;
                 case 'freeze': case 'bombStun': case 'frost': all(kit.mult); livingEnemies.forEach(t=>t.effects.stun=Math.max(t.effects.stun,kit.stun)); break;
                 case 'dark': case 'armorBreak': case 'cataclysm': all(kit.mult); livingEnemies.forEach(t=>applyStackEffect(t,'defDown',kit.defDown,6,unit.name,'debuff')); break;
                 case 'bomb': case 'overload': all(kit.mult); break;
@@ -6251,7 +8539,7 @@
                     }
                     allAllies.filter(a=>a.currentHp>0).forEach(a=>{
                         heal(a,kit.heal||.18);
-                        if(kit.type==='cleanseHeal') {a.effects.burn=0;a.effects.burnTimer=0;a.effects.atkDown=0;a.effects.defDown=0;if(kit.buff)applyStackEffect(a,'atk',kit.buff,5,unit.name,'buff');}
+                        if(kit.type==='cleanseHeal') {a.effects.burn=0;a.effects.burnTimer=0;a.effects._nativeBurns={};a.effects.atkDown=0;a.effects.defDown=0;if(kit.buff)applyStackEffect(a,'atk',kit.buff,5,unit.name,'buff');}
                         if(kit.shield) addShield(a,a.maxHp*kit.shield);
                         if(kit.immortality>0 && ['reviveHeal','fullHeal'].includes(kit.type)){a.effects.invulnerable=1;a.effects.invulnerableTimer=Math.max(a.effects.invulnerableTimer||0,kit.immortality);}
                     });
@@ -6281,7 +8569,7 @@
                 case 'arrowRain': { for(let shot=0;shot<5;shot++){const t=livingEnemies[shot%livingEnemies.length];hit(t,kit.mult*.42);spawnSkillVfx(unit,[t],kit,true,shot);} break; }
                 case 'ambushExecute': hit(weakest,kit.mult*(weakest.currentHp/weakest.maxHp<kit.threshold?1.8:1)); break;
                 case 'ambushDash': hit(weakest,kit.mult); livingAllies.forEach(a=>{a.effects.atkSpeed=.18;a.effects.atkSpeedTimer=3;}); break;
-                case 'ambushBleed': hit(weakest,kit.mult); weakest.effects.burn=Math.max(weakest.effects.burn||0,kit.dot);weakest.effects.burnTimer=5; break;
+                case 'ambushBleed': hit(weakest,kit.mult); applyNativeBurn(unit,weakest,kit.dot,5); break;
                 case 'ambushFeint': unit.effects.invulnerable=1;unit.effects.invulnerableTimer=.65;hit(weakest,kit.mult);break;
                 case 'ambushWeb': hit(weakest,kit.mult);weakest.effects.root=Math.max(weakest.effects.root||0,kit.stun);weakest.effects.stun=Math.max(weakest.effects.stun||0,kit.stun*.65);break;
                 case 'ambushMulti': for(let n=0;n<kit.hits;n++)hit(weakest,kit.mult);break;
@@ -6571,13 +8859,13 @@
                     node.classList.toggle('fx-regeneration',(u.effects?.regenTimer||0)>0);
                     node.classList.toggle('fx-shield',(u.shield||0)>0);
                     node.querySelector('.unit-emoji').textContent=u.name.split(' ')[0];
-                    node.querySelector('.unit-name').textContent=u.name+' '+(u.stars===6?'🌟':('⭐'.repeat(u.stars||0)||'☆'));
+                    node.querySelector('.unit-name').textContent=u.name+' '+(u.stars===6?'🌟':('⭐'.repeat(u.stars||0)||'☆'))+(u.role==='Healer'&&u.currentHp<=0&&u._legacyActivated?' 💚 LEGACY ACTIVE':'');
                     node.querySelector('.hp-fill').style.width=`${hpPct}%`;
                     node.querySelector('.hp-bar-number').textContent=`${Math.ceil(u.currentHp).toLocaleString()} / ${Math.ceil(u.maxHp).toLocaleString()}`;
                     const sw=node.querySelector('.shield-wrap'); sw.classList.toggle('hidden',!(u.shield>0));
                     node.querySelector('.shield-fill').style.width=`${shieldPct}%`;
                     node.querySelector('.shield-bar-number').textContent=Math.ceil(u.shield).toLocaleString();
-                    node.querySelector('.status-row').innerHTML=getStatusChips(u);
+                    node.querySelector('.status-row').innerHTML=getStatusChips(u)+(u.currentHp>0&&(isPlayer?playerUnits:enemyUnits).some(h=>h.role==='Healer'&&h.currentHp<=0&&h._legacyActivated&&h!==u)?'<span class="inline-block text-[9px] text-emerald-300 font-bold" title="A defeated allied Healer provides 5 healing pulses per second">💚 Legacy healing</span>':'');
                     node.querySelector('.unit-hp-label').textContent=`${Math.ceil(u.currentHp).toLocaleString()} / ${Math.ceil(u.maxHp).toLocaleString()} HP${u.shield>0?`  + ${Math.ceil(u.shield).toLocaleString()} shield`:''}`;
                     const rarityTint={Common:'rgba(148,163,184,.15)',Rare:'rgba(59,130,246,.17)',Epic:'rgba(168,85,247,.18)',SuperEpic:'rgba(244,114,182,.19)',Legendary:'rgba(245,158,11,.20)',Mystic:'rgba(34,211,238,.19)',Eternal:'rgba(251,113,133,.19)'};
                     node.style.backgroundColor=rarityTint[u.rarity]||'rgba(15,23,42,.65)';
@@ -6610,16 +8898,34 @@
           ['🌑','Abyssal Sovereign','Void Silence','silence'],['⚡','Thunder Colossus','Storm Crash','stun'],
           ['🌿','Thornheart Ancient','Entangling Roots','root'],['☠️','Plague Empress','Toxic Bloom','poison'],
           ['🪨','Obsidian Sentinel','Stonebreaker','defDown'],['🌊','Tidal Leviathan','Drowning Wave','healDown'],
-          ['🌙','Dreamweaver Oracle','Endless Slumber','sleep'],['🔮','Chronos Devourer','Time Fracture','cooldownPause']
+          ['🌙','Dreamweaver Oracle','Endless Slumber','sleep'],['🔮','Chronos Devourer','Time Fracture','cooldownPause'],
+          ['🌪️','Tempest Harbinger','Cyclone Prison','gale'],['🏔️','Worldbreaker Golem','Seismic Rupture','quakes']
         ];
-        let raidSelection=0,raidRoster=RAID_BOSSES.slice(),raidActive=false,raidBoss=null,raidElapsed=0,raidAttackClock=0,raidSpecialClock=0,raidMechanicClock=0,raidMinionClock=0,raidPhaseTriggered=false;
+        // Each raid boss has one explicit elemental strength and one vulnerability.
+        // Strength = 50% less damage; vulnerability = 50% more damage.
+        const RAID_ELEMENT_MATCHUPS={
+          burn:{strength:'Fire',weakness:'Water'},
+          freeze:{strength:'Ice',weakness:'Steel'},
+          silence:{strength:'Dark',weakness:'Light'},
+          stun:{strength:'Electricity',weakness:'Earth'},
+          root:{strength:'Grass',weakness:'Fire'},
+          poison:{strength:'Nature',weakness:'Wind'},
+          defDown:{strength:'Steel',weakness:'Chaos'},
+          healDown:{strength:'Water',weakness:'Electricity'},
+          sleep:{strength:'Chaos',weakness:'Grass'},
+          cooldownPause:{strength:'Light',weakness:'Dark'},
+          gale:{strength:'Wind',weakness:'Ice'},
+          quakes:{strength:'Earth',weakness:'Nature'}
+        };
+        let raidSelection=0,raidRoster=RAID_BOSSES.slice(),raidActive=false,raidBoss=null,raidElapsed=0,raidAttackClock=0,raidSpecialClock=0,raidMechanicClock=0,raidMinionClock=0,raidBorrowClock=0,raidBorrowedSkill=null,raidCopyPool=[],raidLastCopiedId=null,raidPhaseTriggered=false;
         function raidHP(){return Math.max(25000,Math.min(350000000,Math.round(Number(document.getElementById('raid-hp-input')?.value)||1000000)));}
         function raidSetHP(value){const hp=Math.max(25000,Math.min(350000000,Math.round(Number(value)||25000)));document.getElementById('raid-hp-input').value=hp;document.getElementById('raid-hp-label').textContent=hp.toLocaleString();document.getElementById('raid-hp-slider').value=Math.round(Math.log(hp/25000)/Math.log(350000000/25000)*1000);}
         function raidUpdateHP(){const n=Number(document.getElementById('raid-hp-slider').value)/1000;raidSetHP(Math.round(25000*Math.pow(350000000/25000,n)));}
         function refreshRaidBosses(){raidRoster=RAID_BOSSES.slice().sort(()=>Math.random()-.5);raidSelection=0;renderRaidBosses();}
         function renderRaidBosses(){
           const root=document.getElementById('raid-boss-list');if(!root)return;root.replaceChildren();
-          raidRoster.forEach((boss,i)=>{const btn=document.createElement('button');btn.type='button';btn.className='text-left rounded-xl p-3 border '+(i===raidSelection?'border-amber-400 bg-amber-900/30':'border-slate-700 bg-slate-900 hover:bg-slate-800');btn.textContent=`${boss[0]} ${boss[1]} · ${boss[2]} · Unique mechanic · Elemental resist/weakness`;btn.onclick=()=>{raidSelection=i;renderRaidBosses();};root.appendChild(btn);});
+          raidRoster.forEach((boss,i)=>{const btn=document.createElement('button');btn.type='button';btn.className='text-left rounded-xl p-3 border '+(i===raidSelection?'border-amber-400 bg-amber-900/30':'border-slate-700 bg-slate-900 hover:bg-slate-800');btn.textContent=`${boss[0]} ${boss[1]} · ${boss[2]} · 🛡️ ${RAID_ELEMENT_MATCHUPS[boss[3]].strength} −50% · 🎯 ${RAID_ELEMENT_MATCHUPS[boss[3]].weakness} +50%`;btn.onclick=()=>{raidSelection=i;renderRaidBosses();};root.appendChild(btn);});
+          const status=document.getElementById('raid-live-mechanics');if(status&&!raidActive)status.textContent='🎭 Select a boss to view its strengths and weaknesses. Bosses copy a rotating attacking Cookie actual skill whenever their 12-second skill bar fills.';
           const best=document.getElementById('raid-best');if(best){const history=JSON.parse(localStorage.getItem('crkRaidRecordsV1')||'[]');best.textContent=history.length?`Recent raids: ${history.slice(0,4).map(r=>r.name+' ('+r.result+')').join(' · ')}`:'No raid results yet.';}
         }
         function startRaidBoss(){
@@ -6628,19 +8934,102 @@
           if(!ids.some(id=>COOKIES_DB.find(c=>c.id===id)?.role!=='Ethereal')){alert('Your squad needs a non-Ethereal Cookie.');return;}
           const boss=raidRoster[raidSelection],hp=raidHP();
           const stats={element:'Earth',baseHp:hp,baseAtk:100,baseDef:100,toppingBonuses:{},biscuitBonuses:{},customAttack:null,customAttacks:[],customDamage:0,customKit:null,kit:null,customVisualHits:0,customVisualDuration:0,id:'raid_boss',name:boss[0]+' '+boss[1],role:'Defense',rarity:'Eternal',level:100,hp,atk:Math.max(100,Math.round(80+Math.sqrt(hp)*1.8)),def:Math.max(0,Math.round(Math.sqrt(hp)*.16)),skill:'Boss: '+boss[2],customEffects:[],customPassives:[],customComposites:[],customSkillEffects:[],customStatusEffects:[],openingCD:999,regularCD:999};
-          const unit=initCombatUnit(stats,'enemy_raid_boss');unit.isRaidBoss=true;unit.bossKind=boss[3];unit.element=({burn:'Fire',freeze:'Ice',silence:'Dark',stun:'Electricity',root:'Nature',poison:'Nature',defDown:'Earth',healDown:'Water',sleep:'Dark',cooldownPause:'Light'})[boss[3]]||'Earth';unit.raidResistElement=unit.element;unit.raidWeakElement=({Fire:'Water',Ice:'Fire',Electricity:'Earth',Nature:'Fire',Dark:'Light',Earth:'Nature',Water:'Electricity',Light:'Dark'})[unit.element]||'Light';unit.currentHp=hp;unit.maxHp=hp;unit.shield=0;unit.cdTimer=999;unit.basicTimer=999;
-          raidBoss=unit;raidActive=true;raidElapsed=0;raidAttackClock=0;raidSpecialClock=0;raidMechanicClock=0;raidMinionClock=0;raidPhaseTriggered=false;
+          const unit=initCombatUnit(stats,'enemy_raid_boss');unit.isRaidBoss=true;unit.bossKind=boss[3];unit.element=({burn:'Fire',freeze:'Ice',silence:'Dark',stun:'Electricity',root:'Nature',poison:'Nature',defDown:'Earth',healDown:'Water',sleep:'Dark',cooldownPause:'Light',gale:'Wind',quakes:'Earth'})[boss[3]]||'Earth';unit.raidResistElement=RAID_ELEMENT_MATCHUPS[boss[3]].strength;unit.raidWeakElement=RAID_ELEMENT_MATCHUPS[boss[3]].weakness;unit.currentHp=hp;unit.maxHp=hp;unit.shield=0;unit.cdTimer=12;unit.maxCD=12;unit.openingCDDisplay=12;unit.basicTimer=999;
+          raidBoss=unit;raidActive=true;raidElapsed=0;raidAttackClock=0;raidSpecialClock=0;raidMechanicClock=0;raidMinionClock=0;raidBorrowClock=0;raidBorrowedSkill=null;raidCopyPool=[];raidLastCopiedId=null;raidPhaseTriggered=false;
           metaTestMode=false;pendingDefenseLog=null;pendingEnemyTreasures=[];
           const team=ids.map((id,i)=>initCombatUnit(getCookieScaledStats(id),'player_'+i));
+          // Scale boss offense to the strongest Cookie in the actual raid lineup,
+          // not to boss HP. This includes each Cookie's equipped ATK bonuses.
+          const highestCookieAtk=Math.max(1,...team.filter(c=>c.role!=='Ethereal').map(c=>Math.max(0,Number(c.atk)||0)));
+          const bossAtkMultiplier=3.0;
+          unit.atk=Math.max(1,Math.round(highestCookieAtk*bossAtkMultiplier));
+          unit.baseAtk=unit.atk;
           switchTab('battle');
           beginBattleWithTeams(team,[unit],'🐉 RAID · '+boss[1].toUpperCase());
           battleTimeLeft=180;
-          logBattleEvent(`🐉 ${boss[1]} enters with ${hp.toLocaleString()} HP!`);
+          logBattleEvent('🎭 Boss copies a different skill from YOUR attacking squad when its 12-second skill cooldown is ready. Basic attack: 75% ATK every 2 seconds. No raid time multiplier.');
+          logBattleEvent(`🐉 ${boss[1]} enters with ${hp.toLocaleString()} HP! Boss ATK: ${unit.atk.toLocaleString()} (3× strongest Cookie ATK: ${highestCookieAtk.toLocaleString()}).`);
           document.getElementById('raid-status').textContent='Battle in progress: '+boss[1];
+        }
+        const RAID_COPIED_SKILL_FIELDS=['id','name','skill','skillName','role','element','rarity','custom','customDamage','customAttack','customAttacks','customEffects','customPassives','customComposites','customSkillEffects','customStatusEffects','customKit','kit','customVisual','customVisualEmoji','customVisualColor','customVisualDuration','customVisualHits','customVisualTarget','customVisualTargetCount','customParticles','customGlow','customTrail','openingCD','regularCD','skillLevel'];
+        function raidBorrowRandomSkill(){
+          if(!raidActive||!raidBoss||raidBoss.currentHp<=0)return;
+          const candidates=playerUnits.filter(u=>u.currentHp>0&&u.role!=='Ethereal'&&u.skill);
+          if(!candidates.length)return;
+          // Shuffle a fresh pool after every Cookie has been copied once.
+          // Do not repeat the previous Cookie across pool boundaries.
+          const available=new Set(candidates.map(u=>u.uid));
+          raidCopyPool=raidCopyPool.filter(uid=>available.has(uid));
+          if(!raidCopyPool.length){
+            raidCopyPool=candidates.map(u=>u.uid);
+            for(let i=raidCopyPool.length-1;i>0;i--){
+              const j=Math.floor(Math.random()*(i+1));
+              [raidCopyPool[i],raidCopyPool[j]]=[raidCopyPool[j],raidCopyPool[i]];
+            }
+            if(raidCopyPool.length>1 && raidCopyPool[raidCopyPool.length-1]===raidLastCopiedId){
+              [raidCopyPool[0],raidCopyPool[raidCopyPool.length-1]]=[raidCopyPool[raidCopyPool.length-1],raidCopyPool[0]];
+            }
+          }
+          const pickedUid=raidCopyPool.pop();
+          const source=candidates.find(u=>u.uid===pickedUid);
+          if(!source)return;
+          raidLastCopiedId=source.uid;
+          const boss=raidBoss;
+          const previous={};
+          for(const key of RAID_COPIED_SKILL_FIELDS)previous[key]=boss[key];
+          const oldCD=boss.cdTimer,oldMaxCD=boss.maxCD;
+          const originalAtk=boss.atk,originalBaseAtk=boss.baseAtk;
+          const originalSkillUses=boss.skillUses||0;
+          try{
+            // Execute the selected attacker's real skill implementation, not a role-based imitation.
+            // Temporarily give the boss the Cookie's skill definition, retaining boss ATK/HP/DEF.
+            for(const key of RAID_COPIED_SKILL_FIELDS)boss[key]=source[key];
+            boss.name=previous.name;boss.skillLevel=source.skillLevel||100;
+            boss.cdTimer=0;
+            castCookieSkill(boss,false);
+            raidBorrowedSkill={cookie:source.name,skill:source.skill,role:source.role};
+            logBattleEvent('🎭 '+previous.name+' COPIES '+source.name+' — '+source.skill+'!');
+            const display=document.getElementById('raid-live-mechanics');
+            if(display)display.textContent='🎭 Copied from your team: '+source.name+' — '+source.skill;
+          }catch(error){console.warn('Raid copied skill failed',error);}
+          finally{
+            for(const key of RAID_COPIED_SKILL_FIELDS)boss[key]=previous[key];
+            boss.atk=originalAtk;boss.baseAtk=originalBaseAtk;
+            boss.cdTimer=oldCD;boss.maxCD=oldMaxCD;
+            boss.skillUses=Math.max(originalSkillUses+1,boss.skillUses||0);
+          }
+        }
+        function raidApplyBossStatus(target,stat,amount,duration){
+          if(!target?.effects||target.currentHp<=0)return;
+          const e=target.effects;
+          if(stat==='Burn'){applyNativeBurn(raidBoss,target,amount,duration);return;}
+          if(stat==='Poison'){
+            // Source-based damage over time, no max-HP damage scaling.
+            e.poison=Math.max(e.poison||0,raidBoss.atk*amount);
+            e.poisonTimer=Math.max(e.poisonTimer||0,duration);
+            return;
+          }
+          if(stat==='Cooldown Pause'){
+            e.cooldownPause=Math.max(e.cooldownPause||0,duration);
+            e.cooldownPauseTimer=Math.max(e.cooldownPauseTimer||0,duration);
+            return;
+          }
+          if(stat==='Healing Received Down'){
+            e.healDown=Math.max(e.healDown||0,amount);
+            e.healDownTimer=Math.max(e.healDownTimer||0,duration);
+            return;
+          }
+          if(stat==='DEF Down'){
+            e.defDown=Math.max(e.defDown||0,amount);
+            e.defDownTimer=Math.max(e.defDownTimer||0,duration);
+            return;
+          }
+          const key=({Freeze:'freeze',Stun:'stun',Silence:'silence',Shackles:'root',Sleep:'sleep'})[stat];
+          if(key)e[key]=Math.max(e[key]||0,duration);
         }
         function raidBossTick(dt){
           if(!raidActive||!raidBoss||raidBoss.currentHp<=0)return;
-          raidElapsed+=dt;raidAttackClock+=dt;raidSpecialClock+=dt;
+          raidElapsed+=dt;raidAttackClock+=dt;raidSpecialClock+=dt;raidBoss.cdTimer=Math.max(0,12-raidSpecialClock);
           const alive=playerUnits.filter(u=>u.currentHp>0&&u.role!=='Ethereal');if(!alive.length)return;
           // Each boss has a unique timed mechanic and a single 50% HP phase.
           raidMechanicClock+=dt;raidMinionClock+=dt;
@@ -6648,18 +9037,20 @@
           const living=playerUnits.filter(u=>u.currentHp>0&&u.role!=='Ethereal');
           if(!raidPhaseTriggered && raidBoss.currentHp<=raidBoss.maxHp*.5){
             raidPhaseTriggered=true;
-            const phaseNames={burn:'Inferno Unleashed',freeze:'Permafrost Armor',silence:'Abyssal Eclipse',stun:'Thunderstorm',root:'Ancient Awakening',poison:'Plague Mutation',defDown:'Obsidian Fortress',healDown:'Rising Tide',sleep:'Dream Collapse',cooldownPause:'Time Distortion'};
+            const phaseNames={burn:'Inferno Unleashed',freeze:'Permafrost Armor',silence:'Abyssal Eclipse',stun:'Thunderstorm',root:'Ancient Awakening',poison:'Plague Mutation',defDown:'Obsidian Fortress',healDown:'Rising Tide',sleep:'Dream Collapse',cooldownPause:'Time Distortion',gale:'Eye of the Storm',quakes:'Continental Collapse'};
             logBattleEvent('🌋 50% HP PHASE: '+(phaseNames[kind]||'Enraged')+'!');
-            if(['freeze','defDown'].includes(kind))raidBoss.shield=Math.min(raidBoss.maxHp*.075,(raidBoss.shield||0)+raidBoss.maxHp*.04);
+            if(['freeze','defDown','quakes'].includes(kind))raidBoss.shield=Math.min(raidBoss.maxHp*.075,(raidBoss.shield||0)+raidBoss.maxHp*.04);
             if(['poison','healDown'].includes(kind))raidBoss.currentHp=Math.min(raidBoss.maxHp,raidBoss.currentHp+raidBoss.maxHp*.01);
-            if(['burn','stun','silence','cooldownPause'].includes(kind))raidBoss.atk*=1.15;
+            if(['burn','stun','silence','cooldownPause','gale'].includes(kind))raidBoss.atk*=1.15;
             if(kind==='root')living.forEach(u=>{u.effects.root=Math.max(u.effects.root||0,2);});
             if(kind==='sleep')living.forEach(u=>{u.effects.sleep=Math.max(u.effects.sleep||0,.7);});
+            if(kind==='gale')living.forEach(u=>{u.cdTimer=Math.max(u.cdTimer||0,3);});
+            if(kind==='quakes')living.forEach(u=>{u.effects.stun=Math.max(u.effects.stun||0,.65);});
           }
           if(raidMechanicClock>=18){
             raidMechanicClock-=18;
             if(kind==='burn'){
-              living.forEach(u=>{u.effects.burn=Math.max(u.effects.burn||0,raidBoss.atk*.03);u.effects.burnTimer=Math.max(u.effects.burnTimer||0,4);});
+              living.forEach(u=>{applyNativeBurn(raidBoss,u,.03,4);});
               logBattleEvent('🔥 Embermaw ignites the entire squad!');
             }else if(kind==='freeze'){
               raidBoss.shield=Math.min(raidBoss.maxHp*.075,(raidBoss.shield||0)+raidBoss.maxHp*.025);
@@ -6686,8 +9077,18 @@
               living.slice(0,2).forEach(u=>{u.effects.sleep=Math.max(u.effects.sleep||0,1.5);});
               logBattleEvent('🌙 Dreamweaver Oracle puts two Cookies to sleep!');
             }else if(kind==='cooldownPause'){
-              living.forEach(u=>{u.effects.cooldownPause=Math.max(u.effects.cooldownPause||0,2.5);});
+              living.forEach(u=>{u.effects.cooldownPause=Math.max(u.effects.cooldownPause||0,2.5);u.effects.cooldownPauseTimer=Math.max(u.effects.cooldownPauseTimer||0,2.5);});
               logBattleEvent('🔮 Chronos Devourer pauses squad cooldowns!');
+            }else if(kind==='gale'){
+              // Cyclone Prison disrupts three random skill rotations.
+              living.slice().sort(()=>Math.random()-.5).slice(0,3).forEach(u=>{u.cdTimer=(u.cdTimer||0)+2.5;});
+              logBattleEvent('🌪️ Tempest Harbinger traps three Cookies in a cyclone (+2.5s cooldown)!');
+            }else if(kind==='quakes'){
+              // Seismic Rupture stuns two random Cookies and shields the boss.
+              living.slice().sort(()=>Math.random()-.5).slice(0,2).forEach(u=>{u.effects.stun=Math.max(u.effects.stun||0,1.2);});
+              raidBoss.shield=Math.min(raidBoss.maxHp*.075,(raidBoss.shield||0)+raidBoss.maxHp*.015);
+              raidBoss.shieldTimer=5;
+              logBattleEvent('🏔️ Worldbreaker Golem causes a quake and raises stone armor!');
             }
           }
           // Only Thornheart and Plague Empress summon minions.
@@ -6704,15 +9105,13 @@
               if(!gearHeadlessBattle)renderBattleArena();
             }
           }
-          if(raidAttackClock>=2.5){raidAttackClock=0;const target=alive[Math.floor(Math.random()*alive.length)];applyDamage(raidBoss,target,raidBoss.atk*.48,'text-orange-400 text-xs',false);logBattleEvent('🐉 '+raidBoss.name+' strikes '+target.name);}
-          if(raidSpecialClock>=12){raidSpecialClock=0;const effect=raidBoss.bossKind;const victims=alive.slice();
-            victims.forEach(u=>{applyDamage(raidBoss,u,raidBoss.atk*.32,'text-rose-400 text-xs',false);if(u.currentHp<=0)return;
-              if(effect==='burn'||effect==='poison'){u.effects[effect]=Math.max(u.effects[effect]||0,raidBoss.atk*.05);u.effects[effect+'Timer']=Math.max(u.effects[effect+'Timer']||0,5);}
-              else if(effect==='defDown'||effect==='healDown'){u.effects[effect]=Math.max(u.effects[effect]||0,.25);u.effects[effect+'Timer']=Math.max(u.effects[effect+'Timer']||0,5);}
-              else u.effects[effect]=Math.max(u.effects[effect]||0,effect==='stun'||effect==='freeze'||effect==='sleep'?1.3:3);
-            });
-            raidBoss.skillUses=(raidBoss.skillUses||0)+1;
-            logBattleEvent('💥 '+raidBoss.name+' uses '+(RAID_BOSSES.find(x=>x[3]===effect)?.[2]||'Boss Skill')+' on your team!');
+          if(raidAttackClock>=2){raidAttackClock-=2;const target=alive[Math.floor(Math.random()*alive.length)];applyDamage(raidBoss,target,raidBoss.atk*.75,'text-orange-400 text-xs',false);logBattleEvent('🐉 '+raidBoss.name+' strikes '+target.name);}
+          // The visible boss skill bar is the copied Cookie skill cooldown.
+          // Once full (0 seconds remaining), copy and cast one different teammate's skill.
+          if(raidSpecialClock>=12){
+            raidSpecialClock-=12;
+            raidBorrowRandomSkill();
+            raidBoss.cdTimer=Math.max(0,12-raidSpecialClock);
           }
         }
         function raidFinish(isWin,message){
@@ -6998,6 +9397,7 @@
         function renderBattleStatsTeams() {
             const metrics = [
                 {key:'dmgDone',label:'DMG DONE',color:'#facc15'},
+                {key:'elementDmgTotal',label:'STATUS DMG',color:'#a78bfa'},
                 {key:'dmgRecv',label:'DMG RECEIVED',color:'#ef4444'},
                 {key:'dmgMitigated',label:'DMG MITIGATED',color:'#38bdf8'},
                 {key:'dmgAmplified',label:'DMG AMPLIFIED',color:'#c084fc'},
@@ -7007,6 +9407,7 @@
                 {key:'debuffsApplied',label:'DEBUFFS APPLIED',color:'#fb7185'},
                 {key:'skillUses',label:'SKILL CASTS',color:'#f59e0b'}
             ];
+            for(const u of [...playerUnits,...enemyUnits])u.elementDmgTotal=Object.values(u.elementDamage||{}).reduce((a,b)=>a+b,0);
             const renderTeam = (units, targetId) => {
                 const root=document.getElementById(targetId); if(!root) return;
                 const totals={}; metrics.forEach(m=>totals[m.key]=units.reduce((sum,u)=>sum+(u[m.key]||0),0));
@@ -7019,6 +9420,9 @@
                     const row=document.createElement('div'); row.className='battle-stat-row';
                     const cookie=document.createElement('div'); cookie.className='battle-stat-cookie flex items-center gap-2 min-w-0';
                     cookie.innerHTML=`<span class="text-2xl shrink-0">${u.name.split(' ')[0]}</span><span class="min-w-0"><b class="block text-[10px] sm:text-xs text-slate-100 truncate">${u.name.substring(u.name.indexOf(' ')+1)}</b><small class="text-[9px] text-slate-400">Lv. ${u.level} · ${u.role}</small></span>`;
+                    const breakdown=document.createElement('small');breakdown.className='block text-[9px] text-violet-300';
+                    breakdown.textContent=Object.entries(u.elementDamage||{}).sort((a,b)=>b[1]-a[1]).map(([element,value])=>`${element}: ${Math.round(value).toLocaleString()}`).join(' · ')||'No damaging status effects';
+                    cookie.lastElementChild?.appendChild(breakdown);
                     row.appendChild(cookie);
                     metrics.forEach(m=>{
                         const val=u[m.key]||0, pct=totals[m.key]>0?val/totals[m.key]*100:0;

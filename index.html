@@ -4252,6 +4252,57 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
             }
             return picked;
         }
+        const OPPONENT_RARITY_ORDER=['Common','Rare','Epic','SuperEpic','Legendary','Mystic','Eternal'];
+        function opponentPlayerProfile(){
+            const ids=[...new Set((gameState.team||[]).filter(Boolean))].slice(0,5);
+            const slots=ids.map(id=>({
+                id,template:COOKIES_DB.find(c=>c.id===id),
+                level:Math.max(1,Math.min(100,Number(gameState.unlockedCookies?.[id]?.level)||1)),
+                skillLevel:Math.max(0,Math.min(100,Number(gameState.unlockedCookies?.[id]?.skillLevel)||0)),
+                stars:cookieStars(id),
+                toppings:(gameState.toppings||[]).filter(t=>t.equippedTo===id),
+                biscuit:(gameState.biscuits||[]).find(b=>b.equippedTo===id)||null
+            })).filter(x=>x.template);
+            const avg=(key,fallback=1)=>slots.length?slots.reduce((n,x)=>n+x[key],0)/slots.length:fallback;
+            const treasures=equippedTreasures('attack');
+            return {slots,avgLevel:avg('level',50),avgSkill:avg('skillLevel',0),
+                avgStars:avg('stars',0),avgToppings:slots.length?slots.reduce((n,x)=>n+x.toppings.length,0)/slots.length:0,
+                avgBiscuits:slots.length?slots.filter(x=>x.biscuit).length/slots.length:0,
+                avgRarity:slots.length?slots.reduce((n,x)=>n+Math.max(0,OPPONENT_RARITY_ORDER.indexOf(x.template.rarity)),0)/slots.length:2,
+                treasures,avgTreasureLevel:treasures.length?treasures.reduce((n,t)=>n+treasureLevel(t.id),0)/treasures.length:1};
+        }
+        function uniqueOpponentTemplates(templates,pool=COOKIES_DB){
+            const result=[],used=new Set();
+            for(const candidate of (templates||[])){
+                if(candidate?.id&&!used.has(candidate.id)){
+                    if(candidate.role!=='Ethereal'||!result.some(x=>x.role==='Ethereal')){result.push(candidate);used.add(candidate.id);}
+                }
+            }
+            const fallback=pool.filter(c=>c?.id&&!used.has(c.id)).sort(()=>Math.random()-.5);
+            for(const candidate of fallback){
+                if(result.length>=5)break;
+                if(candidate.role==='Ethereal'&&result.some(x=>x.role==='Ethereal'))continue;
+                result.push(candidate);used.add(candidate.id);
+            }
+            return result.slice(0,5);
+        }
+        function dynamicOpponentTemplates(profile){
+            const selected=[],used=new Set();
+            const source=profile.slots.length?profile.slots:Array.from({length:5},()=>({template:{rarity:'Epic',role:'Magic'}}));
+            const targets=Array.from({length:5},(_,i)=>source[i%source.length]);
+            // Choose without replacement, preferring matching rarity and role.
+            for(const slot of targets){
+                const rarity=Math.max(0,OPPONENT_RARITY_ORDER.indexOf(slot.template.rarity));
+                const pool=COOKIES_DB.filter(c=>c?.id&&!used.has(c.id)&&!(c.role==='Ethereal'&&selected.some(x=>x.role==='Ethereal')));
+                if(!pool.length)break;
+                const weighted=pool.map(c=>({c,score:Math.abs(Math.max(0,OPPONENT_RARITY_ORDER.indexOf(c.rarity))-rarity)*9+
+                    (c.role===slot.template.role?0:3)+Math.random()*3}));
+                weighted.sort((a,b)=>a.score-b.score);
+                const chosen=weighted[0].c;
+                selected.push(chosen);used.add(chosen.id);
+            }
+            return uniqueOpponentTemplates(selected);
+        }
         function makeOpponentOffer(index) {
             const modes = [
                 {name:'Dynamic',kind:'dynamic'},
@@ -4262,39 +4313,34 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
                 {name:'Almost PRO',kind:'almostpro'}
             ];
             const mode=modes[index]||modes[1];
+            const playerProfile=opponentPlayerProfile();
             const proDraftPool=getTeamDrafts().filter(d=>Array.isArray(d.cookie_ids)&&d.cookie_ids.length===5&&d.cookie_ids.every(id=>COOKIES_DB.some(c=>c.id===id)));
             const proDraft=(['pro','almostpro'].includes(mode.kind)&&proDraftPool.length)?proDraftPool[Math.floor(Math.random()*proDraftPool.length)]:null;
             let chosenTemplates=proDraft?proDraft.cookie_ids.map(id=>COOKIES_DB.find(c=>c.id===id)):(['pro','almostpro'].includes(mode.kind)&&proRecommendedTemplates())||chooseStrategicOpponentCookies(COOKIES_DB.filter(c=>c&&c.id),index);
+            if(mode.kind==='dynamic')chosenTemplates=dynamicOpponentTemplates(playerProfile);
             if(proDraft?.alternatives?.length&&Math.random()<.28){
                 const alt=proDraft.alternatives[Math.floor(Math.random()*Math.min(2,proDraft.alternatives.length))];
                 const slot=chosenTemplates.findIndex(c=>c.id===alt.replaces_id);
                 const candidate=COOKIES_DB.find(c=>c.id===alt.id);
                 if(slot>=0&&candidate&&!chosenTemplates.some(c=>c.id===candidate.id)&&!(candidate.role==='Ethereal'&&chosenTemplates.some((c,i)=>i!==slot&&c.role==='Ethereal'))){chosenTemplates=chosenTemplates.slice();chosenTemplates[slot]=candidate;}
             }
-            const playerIds=(gameState.team||[]).filter(Boolean).slice(0,5);
+            chosenTemplates=uniqueOpponentTemplates(chosenTemplates);
+            const playerIds=playerProfile.slots.map(x=>x.id);
+            const dynamicSlots=playerProfile.slots;
             const team=chosenTemplates.filter(template=>template&&template.id).map((template,slot)=>{
                 let level, toppingBonuses, toppingLabel='';
                 if(mode.kind==='dynamic'){
-                    const playerId=playerIds[slot];
-                    const playerData=playerId ? (gameState.unlockedCookies[playerId]||{level:1}) : {level:50};
+                    const match=dynamicSlots.length?dynamicSlots[slot%dynamicSlots.length]:null;
+                    const playerId=match?.id;
+                    const playerData=match||{level:playerProfile.avgLevel};
                     level=Math.max(1,Math.min(100,Math.round(Number(playerData.level)||1)));
-                    const equipped=playerId ? (gameState.toppings||[]).filter(t=>t.equippedTo===playerId) : [];
+                    const equipped=match?.toppings||[];
                     toppingBonuses={atk:0,def:0,hp:0,resist:0,crit:0,cooldown:0,power:0};
                     equipped.forEach(t=>{
                         const value=(TOPPING_TYPES[t.type]?.values[0]||.006)*(Number(t.level)||1);
                         toppingBonuses[t.type]=(toppingBonuses[t.type]||0)+value;addToppingPower(toppingBonuses,t.type,value);
                         (t.substats||[]).forEach(sub=>{const v=Number(sub.value)||0;toppingBonuses[sub.type]=(toppingBonuses[sub.type]||0)+v;addToppingPower(toppingBonuses,sub.type,v);});
                     });
-                    if(playerId){
-                        const target=getCookieScaledStats(playerId,level).power;
-                        let best={level,delta:Infinity};
-                        for(let candidate=Math.max(1,level-18);candidate<=Math.min(100,level+18);candidate++){
-                            const stats=getCookieScaledStats(template.id,candidate,toppingBonuses);
-                            const delta=Math.abs((stats?.power||0)-target);
-                            if(delta<best.delta)best={level:candidate,delta};
-                        }
-                        level=best.level;
-                    }
                     toppingLabel=equipped.length ? `${equipped.length} MATCHED TOPPINGS` : 'MATCHED · NO TOPPINGS';
                 } else if(mode.kind==='pro'||mode.kind==='almostpro'){
                     level=mode.kind==='pro'?100:Math.max(91,100-Math.floor(Math.random()*10));
@@ -4319,9 +4365,14 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
                 } else {
                     level=1+Math.floor(Math.random()*100);toppingBonuses=makeEnemyToppingBonuses();toppingLabel=toppingBonuses.label;
                 }
-                const stars=mode.kind==='dynamic'?cookieStars(playerIds[slot]):['pro','almostpro'].includes(mode.kind)?(3+Math.floor(Math.random()*4)):Math.floor(Math.random()*7);
+                const stars=mode.kind==='dynamic'?(dynamicSlots.length?dynamicSlots[slot%dynamicSlots.length].stars:Math.round(playerProfile.avgStars)):['pro','almostpro'].includes(mode.kind)?(3+Math.floor(Math.random()*4)):Math.floor(Math.random()*7);
                 toppingBonuses.stars=stars;
-                const biscuit=makeEnemyBiscuit(template.role,['pro','almostpro'].includes(mode.kind) && (mode.kind==='pro'||Math.random()<.75));
+                let biscuit=makeEnemyBiscuit(template.role,['pro','almostpro'].includes(mode.kind) && (mode.kind==='pro'||Math.random()<.75));
+                if(mode.kind==='dynamic'){
+                    const match=dynamicSlots.length?dynamicSlots[slot%dynamicSlots.length]:null;
+                    biscuit=match?.biscuit?{id:'matched_enemy_'+slot,lines:(match.biscuit.lines||[]).map(line=>({...line}))}:null;
+                    toppingBonuses.skillLevel=match?.skillLevel??Math.round(playerProfile.avgSkill);
+                }
                 const draftSlot=proDraft?.cookie_ids?.indexOf(template.id)??-1;
                 const biscuitChoices=draftSlot>=0?proDraft?.top3?.[draftSlot]?.biscuits:[];
                 const preferredBiscuit=(biscuitChoices?.length&&Math.random()<.3?biscuitChoices[Math.min(1,biscuitChoices.length-1)]?.type:proDraft?.gear?.cookies?.[draftSlot]?.biscuit);
@@ -4330,8 +4381,10 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
                     if(Array.isArray(lines))for(const line of lines){if(line&&typeof line==='object'){if('type'in line)line.type=preferredBiscuit;}}
                 }
                 applyEnemyBiscuitBonuses(toppingBonuses,biscuit);
-                const toppingCount=mode.kind==='pro'?5:mode.kind==='almostpro'?2+Math.floor(Math.random()*4):mode.kind==='dynamic'?(gameState.toppings||[]).filter(t=>t.equippedTo===playerIds[slot]).length:Math.floor(Math.random()*6);
-                const enemyToppings=Array.from({length:toppingCount},(_,i)=>({type:['atk','def','hp','resist','crit','cooldown'][i%6],level:mode.kind==='pro'?12:mode.kind==='almostpro'?8+Math.floor(Math.random()*5):1+Math.floor(Math.random()*12)}));
+                const toppingCount=mode.kind==='pro'?5:mode.kind==='almostpro'?2+Math.floor(Math.random()*4):mode.kind==='dynamic'?(dynamicSlots.length?dynamicSlots[slot%dynamicSlots.length].toppings.length:Math.round(playerProfile.avgToppings)):Math.floor(Math.random()*6);
+                const enemyToppings=mode.kind==='dynamic'&&dynamicSlots.length?
+                    dynamicSlots[slot%dynamicSlots.length].toppings.map(t=>({type:t.type,level:t.level||1})):
+                    Array.from({length:toppingCount},(_,i)=>({type:['atk','def','hp','resist','crit','cooldown'][i%6],level:mode.kind==='pro'?12:mode.kind==='almostpro'?8+Math.floor(Math.random()*5):1+Math.floor(Math.random()*12)}));
                 return {id:template.id,level,stars,toppingBonuses,toppingLabel,biscuit,enemyToppings};
             });
             const power=team.reduce((sum,x)=>sum+(getCookieScaledStats(x.id,x.level,x.toppingBonuses)?.power||0),0);
@@ -4340,8 +4393,8 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
                 name:mode.name,
                 level:`Lv. ${Math.min(...team.map(x=>x.level))}–${Math.max(...team.map(x=>x.level))}`,
                 power,targetPower:power,maxedMaster:mode.kind==='pro',
-                toppingLabel:mode.kind==='pro'?'FULL TOPPINGS + BEASCUITS':mode.kind==='almostpro'?'ALMOST MAXED + BEASCUITS':mode.kind==='dynamic'?'MATCHED TO YOUR TEAM':'RANDOM LEVELS & TOPPINGS',
-                treasures:mode.kind==='pro'&&proDraft?.gear?.treasures?.length?proDraft.gear.treasures.slice(0,3).map(id=>({...TREASURES.find(t=>t.id===id),testLevel:12})).filter(t=>t.id):mode.kind==='pro'?((typeof recommendedTeams!=='undefined'&&recommendedTeams.length&&Math.random()<.5)?['scroll','watch','monocle'].map(id=>({...TREASURES.find(t=>t.id===id),testLevel:12})):randomTreasures(3,12)):
+                toppingLabel:mode.kind==='pro'?'FULL TOPPINGS + BEASCUITS':mode.kind==='almostpro'?'ALMOST MAXED + BEASCUITS':mode.kind==='dynamic'?'MATCHED LEVELS · RARITY · STARS · SKILLS · TOPPINGS · BEASCUITS · TREASURES':'RANDOM LEVELS & TOPPINGS',
+                treasures:mode.kind==='dynamic'?playerProfile.treasures.map(t=>({...t,testLevel:treasureLevel(t.id)})):mode.kind==='pro'&&proDraft?.gear?.treasures?.length?proDraft.gear.treasures.slice(0,3).map(id=>({...TREASURES.find(t=>t.id===id),testLevel:12})).filter(t=>t.id):mode.kind==='pro'?((typeof recommendedTeams!=='undefined'&&recommendedTeams.length&&Math.random()<.5)?['scroll','watch','monocle'].map(id=>({...TREASURES.find(t=>t.id===id),testLevel:12})):randomTreasures(3,12)):
                     (Math.random()<.35?randomTreasures(1+Math.floor(Math.random()*3),Math.max(1,Math.ceil((team.reduce((sum,c)=>sum+c.level,0)/Math.max(1,team.length))/10))):[]),
                 strategy:!hasHealer?'Aggressive · No healer':(team.filter(x=>['Charge','Defense'].includes(COOKIES_DB.find(c=>c.id===x.id)?.role)).length>=2?'Double frontline · Sustain':'Balanced · Healer'),
                 team

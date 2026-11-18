@@ -8049,7 +8049,7 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
             }
           }finally{target._reactionBusy=false;}
         }
-        function applyDamage(attacker,target,rawDamage,color='text-rose-400 text-xs',isPlayer=false,ignoreDefense=false,defensePenetration=0,statusHit=null) {
+        function applyDamage(attacker,target,rawDamage,color='text-rose-400 text-xs',isPlayer=false,ignoreDefense=false,defensePenetration=0,statusHit=null,raidAttackType=null) {
             if(!target || target.currentHp<=0 || target.role==='Ethereal') return 0;
             if((target.effects?.invulnerable||0)>0 || (target.effects?.netherRingTimer||0)>0){target.dmgMitigated=(target.dmgMitigated||0)+Math.max(0,Math.round(rawDamage));spawnFloatingText(target.uid,'IMMUNE','text-fuchsia-300 text-xs');return 0;}
             const def=Math.max(0,(target.def||0)*(1+(target.effects?.def||0))*(1-(target.effects?.defDown||0)));
@@ -8118,6 +8118,18 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
             const critChance=Math.max(0,Math.min(1,(attacker?.toppingBonuses?.crit||0)+(attacker?.effects?.critUp||0)-(attacker?.effects?.critDown||0)-(target?.toppingBonuses?.critResist||0)));
             const elementalCritical=!statusHit && critChance>0 && Math.random()<critChance;
             if(elementalCritical && !statusHit) damage=Math.round(damage*(2+(attacker?.effects?.critDamageUp||0)-(target.effects?.critDamageDown||0)));
+            // Adaptive Protection applies to raid-boss attacks against the attacking
+            // team only, AFTER armor/resistance/critical calculations but BEFORE shields.
+            // This caps damage per hit, not total damage over time; it cannot prevent
+            // a finishing blow against an already-injured Cookie.
+            if(raidActive && attacker?.isRaidBoss && playerUnits.includes(target)){
+                const capFraction=raidAttackType==='basic'?.35:.60;
+                const maxPerHit=Math.max(1,Math.floor(Math.max(1,target.maxHp||1)*capFraction));
+                if(damage>maxPerHit){
+                    target.dmgMitigated=(target.dmgMitigated||0)+(damage-maxPerHit);
+                    damage=maxPerHit;
+                }
+            }
             // Electricity SKILLS bypass shields, but still obey DEF and resistance.
             const electricPierce=!!(attacker && attacker._electricSkillActive);
             const absorbed=electricPierce?0:Math.min(target.shield||0,damage);
@@ -9170,11 +9182,14 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
           raidBoss=unit;raidActive=true;raidElapsed=0;raidAttackClock=0;raidSpecialClock=0;raidMechanicClock=0;raidMinionClock=0;raidBorrowClock=0;raidBorrowedSkill=null;raidCopyPool=[];raidLastCopiedId=null;raidPhaseTriggered=false;
           metaTestMode=false;pendingDefenseLog=null;pendingEnemyTreasures=[];
           const team=ids.map((id,i)=>initCombatUnit(getCookieScaledStats(id),'player_'+i));
-          // Scale boss offense to the strongest Cookie in the actual raid lineup,
-          // not to boss HP. This includes each Cookie's equipped ATK bonuses.
-          const highestCookieAtk=Math.max(1,...team.filter(c=>c.role!=='Ethereal').map(c=>Math.max(0,Number(c.atk)||0)));
+          // Weighted raid scaling: 30% strongest ATK + 70% mean ATK.
+          // Include all five equipped Cookies, including low-level allies.
+          const raidAttackStats=team.filter(c=>c.role!=='Ethereal').map(c=>Math.max(0,Number(c.atk)||0));
+          const highestCookieAtk=Math.max(1,...raidAttackStats);
+          const averageCookieAtk=raidAttackStats.length?raidAttackStats.reduce((sum,atk)=>sum+atk,0)/raidAttackStats.length:highestCookieAtk;
+          const weightedCookieAtk=.30*highestCookieAtk+.70*averageCookieAtk;
           const bossAtkMultiplier=2.25;
-          unit.atk=Math.max(1,Math.round(highestCookieAtk*bossAtkMultiplier));
+          unit.atk=Math.max(1,Math.round(weightedCookieAtk*bossAtkMultiplier));
           unit.baseAtk=unit.atk;
           switchTab('battle');
           beginBattleWithTeams(team,[unit],'🐉 RAID · '+boss[1].toUpperCase());
@@ -9337,7 +9352,7 @@ body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-mot
               if(!gearHeadlessBattle)renderBattleArena();
             }
           }
-          if(raidAttackClock>=2){raidAttackClock-=2;const target=alive[Math.floor(Math.random()*alive.length)];applyDamage(raidBoss,target,raidBoss.atk*.50,'text-orange-400 text-xs',false);logBattleEvent('🐉 '+raidBoss.name+' strikes '+target.name);}
+          if(raidAttackClock>=2){raidAttackClock-=2;const target=alive[Math.floor(Math.random()*alive.length)];applyDamage(raidBoss,target,raidBoss.atk*.50,'text-orange-400 text-xs',false,false,0,null,'basic');logBattleEvent('🐉 '+raidBoss.name+' strikes '+target.name);}
           // The visible boss skill bar is the copied Cookie skill cooldown.
           // Once full (0 seconds remaining), copy and cast one different teammate's skill.
           if(raidSpecialClock>=12){

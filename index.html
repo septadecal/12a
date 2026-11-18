@@ -2079,7 +2079,9 @@
   }
 }
 
-    </style>
+    
+body.crk-reduced-motion *,body.crk-reduced-motion *::before,body.crk-reduced-motion *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+</style>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -2332,6 +2334,11 @@
 @keyframes combat-number-rise{0%{opacity:0;transform:translate(-25%,9px) scale(.85)}15%{opacity:1;transform:translate(-25%,-2px) scale(1.12)}75%{opacity:1}100%{opacity:0;transform:translate(-25%,-43px) scale(.98)}}
 @media(prefers-reduced-motion:reduce){.combat-number{animation:none;opacity:1}}
 </style>
+<style>
+.element-reaction-hitmarker{position:fixed;transform:translate(-50%,-50%);z-index:2147483647;pointer-events:none;white-space:nowrap;font-size:19px;font-weight:1000;letter-spacing:.7px;color:var(--reaction-accent,#f9a8d4);text-shadow:0 1px 2px #000,0 0 10px var(--reaction-accent,#f9a8d4);animation:reactionPop 1.5s ease-out forwards;background:rgba(8,7,22,.97);border:3px solid var(--reaction-accent,#f9a8d4);padding:9px 15px;border-radius:14px;box-shadow:0 0 28px var(--reaction-accent,#f9a8d4),0 4px 24px #000;line-height:1.25;text-align:center;max-width:90vw}
+@keyframes reactionPop{0%{opacity:0;transform:translate(-50%,-15%) scale(.65)}15%{opacity:1;transform:translate(-50%,-55%) scale(1.24)}72%{opacity:1;transform:translate(-50%,-105%) scale(1.04)}100%{opacity:0;transform:translate(-50%,-145%) scale(.92)}}
+.element-reaction-flash{filter:drop-shadow(0 0 9px #e879f9)}
+</style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-slate-950 overflow-x-hidden relative">
 
@@ -2360,9 +2367,7 @@
                     <span id="user-gems" class="font-bold text-cyan-400 text-xs md:text-sm">3,000</span>
                 </div>
                 <div class="h-3 w-px bg-slate-800"></div>
-                <button onclick="addCheatCurrencies()" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded font-semibold transition border border-slate-700" title="Add 5,000 Gems + 50,000 Coins">
-                    + Free Resources
-                </button>
+                
             </div>
         </div>
     </header>
@@ -2412,7 +2417,7 @@
             <p class="text-xs text-slate-400 mb-2">Each pull guarantees one random Treasure. 💎 1,000 gems per pull; duplicates grant upgrade shards.</p>
             <div class="flex flex-wrap gap-2">
               <button onclick="performTreasureGacha(1)" class="bg-amber-500 text-slate-950 font-bold rounded-lg px-4 py-2 text-sm">🏺 PULL 1 · 💎 1,000</button>
-              <button onclick="performTreasureGacha(10)" class="bg-purple-600 text-white font-bold rounded-lg px-4 py-2 text-sm">🏺 PULL 10 · 💎 10,000</button>
+              <button onclick="performTreasureGacha(10)" class="bg-purple-600 text-white font-bold rounded-lg px-4 py-2 text-sm">🏺 PULL 10 · 💎 10,000</button><button onclick="performTreasureGacha(50)" class="bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-bold rounded-lg px-4 py-2 text-sm">🏺 PULL 50 · 💎 50,000</button>
             </div>
           </div>
           <div class="flex flex-wrap gap-2 mb-3"><button id="treasure-attack-btn" onclick="setTreasureEditSide('attack')" class="rounded px-3 py-2 font-bold bg-amber-500 text-slate-950">⚔️ Attack Treasures</button><button id="treasure-defense-btn" onclick="setTreasureEditSide('defense')" class="rounded px-3 py-2 font-bold bg-slate-700 text-white">🛡️ Defense Treasures</button></div>
@@ -2661,7 +2666,7 @@
  <h2 class="text-2xl font-black text-rose-300">🐉 BOSS RAIDS</h2>
  <p class="text-xs text-slate-300">Choose one of 12 bosses, set its HP from 25,000 to 350,000,000, and fight using your equipped Attack Squad. Bosses have unique attacks and status mechanics.</p>
  <div class="flex flex-wrap gap-2 items-center"><button onclick="refreshRaidBosses()" class="bg-violet-700 hover:bg-violet-600 rounded-lg px-4 py-2 font-bold text-xs">🔄 SHUFFLE 12 BOSSES</button><span id="raid-status" class="text-xs text-amber-200"></span></div>
- <div class="rounded-lg border border-violet-700/50 bg-slate-900/70 p-3 mb-3 text-xs text-slate-300"><b class="text-violet-300">⚗️ ELEMENTAL REACTIONS</b><br>Burn + Frost → Thermal Shock · Solar Burn + Freeze → Solar Shatter · Zap + Tear → Conductive Surge · Overcurrent + Shackles → Circuit Break · Poison + Bleed → Toxic Wound · Corruption + Solar Burn → Eclipse · Decay + Frost → Withering Chill · Shackles + Burn → Searing Bind.<br><span class="text-amber-300">Bosses:</span> All 12 elements (Fire, Water, Earth, Electricity, Ice, Nature, Light, Dark, Steel, Chaos, Grass, Wind) are represented across boss strengths and weaknesses. Each boss takes 50% less damage from its strength and 50% more from its vulnerability. Each of the twelve bosses has its own 18-second mechanic and unique 50% HP phase. Only Thornheart and Plague Empress summon minions (every 25s; max 2).</div>\n          <div class="rounded-xl border border-amber-500/40 bg-slate-950/80 p-3 mb-3 text-xs text-slate-200"><div class="font-extrabold text-amber-300 mb-1">🐉 RAID COMBAT RULES</div><div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div>⚔️ Boss ATK = <b>3× strongest Cookie ATK</b>. Basic strikes deal <b>75% ATK every 2 seconds</b>; no raid time-based escalation.</div><div>🎭 Every <b>9 seconds</b>, the boss copies an actual skill from a Cookie on your attacking team.</div><div>🛡️ Boss strength: <b>−50%</b> elemental damage. Weakness: <b>+50%</b>.</div><div>🌋 Each boss keeps its unique mechanic and 50%-HP transformation.</div></div><div id="raid-live-mechanics" class="mt-2 text-fuchsia-300 font-bold">🎭 Copied skills will appear here during raids.</div></div><div id="raid-boss-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+ <div class="rounded-lg border border-violet-700/50 bg-slate-900/70 p-3 mb-3 text-xs text-slate-300"><b class="text-violet-300">⚗️ ELEMENTAL REACTIONS</b><br>56 signature-status reactions! Only active status effects such as Burn, Poison, Zap, Bleed, Frost, Freeze, Shackles, Corruption, and Decay react. Element types alone do not trigger reactions. Each pairing has its own cooldown and displays a reaction hitmarker.<br><span class="text-amber-300">Bosses:</span> All 12 elements (Fire, Water, Earth, Electricity, Ice, Nature, Light, Dark, Steel, Chaos, Grass, Wind) are represented across boss strengths and weaknesses. Each boss takes 50% less damage from its strength and 50% more from its vulnerability. Each of the twelve bosses has its own 18-second mechanic and unique 50% HP phase. Only Thornheart and Plague Empress summon minions (every 25s; max 2).</div>\n          <div class="rounded-xl border border-amber-500/40 bg-slate-950/80 p-3 mb-3 text-xs text-slate-200"><div class="font-extrabold text-amber-300 mb-1">🐉 RAID COMBAT RULES</div><div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div>⚔️ Boss ATK = <b>3× strongest Cookie ATK</b>. Basic strikes deal <b>75% ATK every 2 seconds</b>; no raid time-based escalation.</div><div>🎭 Every <b>9 seconds</b>, the boss copies an actual skill from a Cookie on your attacking team.</div><div>🛡️ Boss strength: <b>−50%</b> elemental damage. Weakness: <b>+50%</b>.</div><div>🌋 Each boss keeps its unique mechanic and 50%-HP transformation.</div></div><div id="raid-live-mechanics" class="mt-2 text-fuchsia-300 font-bold">🎭 Copied skills will appear here during raids.</div></div><div id="raid-boss-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
  <label class="block text-xs font-bold text-amber-200">Boss HP: <span id="raid-hp-label">1,000,000</span></label>
  <input id="raid-hp-slider" type="range" min="0" max="1000" value="500" oninput="raidUpdateHP()" class="w-full accent-amber-400" />
  <div class="flex gap-2 flex-wrap"><input id="raid-hp-input" type="number" min="25000" max="350000000" value="1000000" onchange="raidSetHP(this.value)" class="bg-slate-950 border border-slate-600 rounded-lg p-2 w-44 text-sm"/><button onclick="startRaidBoss()" class="crk-btn px-5 py-2 rounded-lg font-black text-slate-950">⚔️ FIGHT BOSS</button><button onclick="endBattleEarly()" class="bg-rose-900 border border-rose-600 px-4 py-2 rounded-lg font-bold text-xs">■ END RAID EARLY</button></div>
@@ -2670,12 +2675,44 @@
  <div class="crk-panel rounded-xl p-4"><h3 class="font-bold text-amber-300 mb-2">📊 Raid Battle Analytics</h3><div id="raid-analytics" class="text-sm text-slate-300">Complete a raid to see your damage, healing, skill casts, damage prevented and contribution breakdown.</div></div>
 </section>
         <section id="tab-status-logbook" class="tab-content hidden flex-col gap-3"><div class="crk-panel rounded-xl p-4"><h2 class="text-xl font-black text-violet-200">📖 Status Effect Logbook</h2><p class="text-xs text-slate-400 mb-3">All builder statuses, their unique mechanics, and their battle effects.</p><input id="status-logbook-search" oninput="renderStatusLogbook()" placeholder="Search statuses…" class="bg-slate-950 border border-slate-700 rounded-lg p-2 w-full mb-3"/><div id="status-logbook-entries" class="grid grid-cols-1 md:grid-cols-2 gap-2"></div></div></section>
+
+        <section id="tab-settings" class="tab-content hidden flex-col gap-4">
+          <div class="crk-panel p-5 rounded-2xl space-y-4 max-w-3xl mx-auto w-full">
+            <h2 class="text-2xl font-black text-amber-300">⚙️ SETTINGS</h2>
+            <p class="text-xs text-slate-300">Customize your experience. Settings save on this device.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label class="text-sm font-bold">Default battle speed
+                <select id="setting-speed" onchange="updateCrkSetting('speed',this.value)" class="mt-1 w-full bg-slate-950 border border-slate-600 p-2 rounded-lg"><option value="1">1× Normal</option><option value="2">2×</option><option value="3">3×</option><option value="5">5×</option></select>
+              </label>
+              <label class="text-sm font-bold">Floating combat numbers
+                <select id="setting-numbers" onchange="updateCrkSetting('numbers',this.value)" class="mt-1 w-full bg-slate-950 border border-slate-600 p-2 rounded-lg"><option value="on">On</option><option value="off">Off (less clutter)</option></select>
+              </label>
+              <label class="text-sm font-bold">Background defense challengers
+                <select id="setting-defense" onchange="updateCrkSetting('defense',this.value)" class="mt-1 w-full bg-slate-950 border border-slate-600 p-2 rounded-lg"><option value="on">Enabled</option><option value="off">Disabled</option></select>
+              </label>
+              <label class="text-sm font-bold">Reduced animations
+                <select id="setting-motion" onchange="updateCrkSetting('motion',this.value)" class="mt-1 w-full bg-slate-950 border border-slate-600 p-2 rounded-lg"><option value="off">Full animations</option><option value="on">Reduced motion</option></select>
+              </label>
+            </div>
+            <div class="rounded-xl bg-slate-900 border border-slate-700 p-4 space-y-2">
+              <h3 class="text-emerald-300 font-black">💾 SAVE DATA</h3>
+              <p class="text-xs text-slate-300">Your Meta saved teams and Builder-created Cookies are stored separately and will be kept when resetting progress.</p>
+              <div class="flex flex-wrap gap-2"><button onclick="exportCRKSave()" class="bg-sky-700 hover:bg-sky-600 rounded-lg px-4 py-2 text-sm font-bold">📤 Export backup</button><button onclick="document.getElementById('settings-reset-confirm').classList.toggle('hidden')" class="bg-rose-900 border border-rose-600 hover:bg-rose-800 rounded-lg px-4 py-2 text-sm font-bold">🗑️ Delete progress…</button></div>
+              <div id="settings-reset-confirm" class="hidden bg-rose-950/60 border border-rose-600 rounded-lg p-3 space-y-3">
+                <p class="text-sm text-rose-200"><b>This resets:</b> owned Cookies, levels, stars, toppings, Beascuits, treasures, equipment, coins, stage, and active squads. Gems return to <b>3,000</b>. Your Meta saved teams and built Cookies remain.</p>
+                <p class="text-xs">Type <b>DELETE</b> to confirm:</p>
+                <input id="settings-reset-word" placeholder="DELETE" class="w-full bg-slate-950 border border-rose-600 rounded-lg p-2" autocomplete="off"/>
+                <div class="flex gap-2"><button onclick="resetCrkProgress()" class="bg-rose-600 rounded-lg px-4 py-2 text-sm font-bold">Permanently reset progress</button><button onclick="document.getElementById('settings-reset-confirm').classList.add('hidden')" class="bg-slate-700 rounded-lg px-4 py-2 text-sm">Cancel</button></div>
+              </div>
+            </div>
+          </div>
+        </section>
         <section id="tab-builder" class="tab-content hidden flex-col gap-3">
           <div class="crk-panel p-4 rounded-2xl max-w-3xl mx-auto w-full space-y-3">
             <h2 class="text-xl font-black text-amber-300">🧑‍🍳 Cookie Builder</h2>
             <button id="builder-relock-button" onclick="lockCookieBuilder()" class="hidden mb-3 border border-rose-700 bg-rose-950/50 text-rose-200 text-xs font-bold rounded-lg px-3 py-2">🔒 LOCK BUILDER ON THIS DEVICE</button><div id="builder-lock" class="space-y-2"><p class="text-xs text-slate-300">Enter the builder password to create Cookies on this device. This is a local access gate, not secure encryption.</p><input id="builder-password" type="password" placeholder="Builder password" class="bg-slate-950 border border-slate-700 p-3 rounded-xl w-full"/><button onclick="unlockCookieBuilder()" class="bg-amber-500 text-slate-950 font-black rounded-xl p-3 w-full">UNLOCK BUILDER</button></div>
-            <div id="builder-editor" class="hidden space-y-3"><div class="rounded-xl bg-slate-900 border border-cyan-700 p-3 space-y-2"><h3 class="font-bold text-cyan-300">🧑‍🍳 Quick Start</h3><p class="text-xs">Power (%) is effect strength; Duration (s) is how long it lasts; Max stacks is the stack limit. Skill damage is separate.</p><div class="flex flex-wrap gap-2"><button onclick="builderPreset('healer')" class="bg-emerald-800 rounded p-2 text-xs">💚 Healer</button><button onclick="builderPreset('tank')" class="bg-blue-800 rounded p-2 text-xs">🛡️ Tank</button><button onclick="builderPreset('damage')" class="bg-rose-800 rounded p-2 text-xs">⚔️ Damage</button><button onclick="builderPreset('control')" class="bg-purple-800 rounded p-2 text-xs">🔮 Control</button><button onclick="builderClearForm()" class="border border-slate-600 rounded p-2 text-xs">↺ New blank</button></div><p id="cb-editing-status" class="text-xs text-amber-300"></p></div>
-              <div class="grid grid-cols-2 gap-2"><label class="text-xs">Cookie name<input id="cb-name" maxlength="45" placeholder="My Cookie" class="block w-full bg-slate-950 rounded p-2 mt-1"/></label><label class="text-xs">Emoji<input id="cb-emoji" maxlength="8" value="🍪" class="block w-full bg-slate-950 rounded p-2 mt-1"/></label></div>
+            <div id="builder-editor" class="hidden space-y-3"><div class="rounded-xl bg-slate-900 border border-cyan-700 p-3 space-y-2"><h3 class="font-bold text-cyan-300">🧑‍🍳 Quick Start</h3><p class="text-xs">Power (%) is effect strength; Duration (s) is how long it lasts; Max stacks is the stack limit. Skill damage is separate.</p><div class="flex flex-wrap gap-2"><button onclick="builderPreset('healer')" class="bg-emerald-800 rounded p-2 text-xs">💚 Healer</button><button onclick="builderPreset('tank')" class="bg-blue-800 rounded p-2 text-xs">🛡️ Tank</button><button onclick="builderPreset('damage')" class="bg-rose-800 rounded p-2 text-xs">⚔️ Damage</button><button onclick="builderPreset('control')" class="bg-purple-800 rounded p-2 text-xs">🔮 Control</button><button onclick="builderPreset('elemental')" class="bg-teal-800 rounded p-2 text-xs">🌈 Elemental Support</button><button onclick="builderPreset('legacy')" class="bg-emerald-700 rounded p-2 text-xs">💚 Legacy Healer</button><button onclick="builderClearForm()" class="border border-slate-600 rounded p-2 text-xs">↺ New blank</button></div><p id="cb-editing-status" class="text-xs text-amber-300"></p></div>
+              <div class="rounded-xl bg-slate-900 border border-teal-700/70 p-3 text-xs text-slate-300 space-y-2"><h3 class="text-teal-300 font-bold">🧬 Newer combat mechanics in Builder</h3><p><b>12 elements:</b> choose Fire, Water, Earth, Electricity, Ice, Nature, Light, Dark, Steel, Chaos, Grass, or Wind. Choose a signature status in Skill Effects. Damage-over-time percentages are ATK per second and reapplying the same status from one caster refreshes it.</p><p><b>Healer Legacy:</b> all Healer-role Cookies automatically gain after-death team healing (50% ATK per second, 5 ticks/sec) and one permanent team buff. <b>Elemental reactions:</b> trigger automatically from compatible statuses. <b>Support elemental boosts:</b> add Element ATK Up as a team-targeted skill effect to boost elemental damage.</p><p><b>Available skill effects:</b> use the Skill Effects and Passive Effects editors for healing, revive charges, invulnerability, shields, cooldown manipulation, status effects, and named composites. Repeating barrage, pulses, target counts, visuals, and multiple attack stages are in the Attack/Graphics studios below.</p></div><div class="grid grid-cols-2 gap-2"><label class="text-xs">Cookie name<input id="cb-name" maxlength="45" placeholder="My Cookie" class="block w-full bg-slate-950 rounded p-2 mt-1"/></label><label class="text-xs">Emoji<input id="cb-emoji" maxlength="8" value="🍪" class="block w-full bg-slate-950 rounded p-2 mt-1"/></label></div>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <label class="text-xs">Rarity<select id="cb-rarity" class="block w-full bg-slate-950 rounded p-2 mt-1"><option>Common</option><option>Rare</option><option>Epic</option><option>SuperEpic</option><option>Legendary</option><option>Mystic</option><option>Eternal</option></select></label>
                 <label class="text-xs">Role<select id="cb-role" class="block w-full bg-slate-950 rounded p-2 mt-1"><option>Charge</option><option>Defense</option><option>Magic</option><option>Bomber</option><option>Ranged</option><option>Ambush</option><option>Healer</option><option>Support</option><option>Statuser</option><option>Ethereal</option></select></label>
@@ -2820,6 +2857,7 @@
             <button onclick="switchTab('boss')" id="nav-boss" class="nav-btn flex flex-col items-center py-1.5 px-1 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs border border-slate-700"><span class="text-base">🐉</span><span>BOSSES</span></button>
             <button onclick="switchTab('toppings')" id="nav-toppings" class="nav-btn flex flex-col items-center py-1.5 px-1 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition border border-slate-700"><span class="text-base">🍩</span><span>TOPPINGS</span></button>
             <button onclick="switchTab('builder')" id="nav-builder" class="nav-btn flex flex-col items-center py-1.5 px-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs border border-slate-700"><span class="text-base">🧑‍🍳</span><span>BUILDER</span></button><button onclick="switchTab('status-logbook')" class="nav-btn text-xs font-bold px-3 py-2 rounded-lg">📖 STATUS LOGBOOK</button>
+            <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn flex flex-col items-center py-1.5 px-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs border border-slate-700"><span class="text-base">⚙️</span><span>SETTINGS</span></button>
             <button onclick="switchTab('collection')" id="nav-collection" class="nav-btn flex flex-col items-center py-1.5 px-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs hover:bg-slate-700 transition border border-slate-700">
                 <span class="text-base">📖</span>
                 <span>GALLERY</span>
@@ -2827,6 +2865,7 @@
         </div>
     </footer>
 
+<div id="treasure-pull-results" class="hidden fixed inset-0 z-[9999] bg-black/85 flex items-center justify-center p-3"><div class="crk-panel rounded-2xl p-5 w-full max-w-2xl max-h-[85vh] flex flex-col gap-3"><div class="flex items-center justify-between gap-2"><h3 class="text-xl text-amber-300 font-black">🏺 Treasure Summons</h3><button onclick="document.getElementById('treasure-pull-results').classList.add('hidden')" class="bg-slate-700 rounded-lg px-3 py-2">✕ Close</button></div><p id="treasure-pull-summary" class="text-sm text-emerald-300"></p><div id="treasure-pull-list" class="grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-y-auto min-h-0"></div></div></div>
     <!-- MODAL: GACHA RESULTS -->
     <div id="modal-gacha-result" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-4">
         <div class="text-center mb-6">
@@ -3285,13 +3324,22 @@
             return {treasure:t,duplicate:!!entry};
         }
         function performTreasureGacha(pulls){
-            const count=Math.max(1,Math.min(10,Math.floor(Number(pulls)||1)));
+            const count=Math.max(1,Math.min(50,Math.floor(Number(pulls)||1)));
             const cost=count*1000;
             if(Number(gameState.gems||0)<cost){alert('Not enough gems! Treasure pulls cost 💎 1,000 each.');return;}
             gameState.gems-=cost;
             const results=Array.from({length:count},()=>awardTreasure());
             saveGame();updateCurrenciesUI();renderTreasures();
-            alert('🏺 TREASURE GACHA!\\n'+results.map(x=>x.treasure.icon+' '+x.treasure.name+(x.duplicate?' · +1 upgrade shard':' · NEW!')).join('\\n'));
+            showTreasurePullResults(results);
+        }
+        function showTreasurePullResults(results){
+            const modal=document.getElementById('treasure-pull-results');
+            const body=document.getElementById('treasure-pull-list');
+            if(!modal||!body)return;
+            const newCount=results.filter(r=>!r.duplicate).length;
+            body.innerHTML=results.map((r,i)=>`<div class="bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs"><span class="text-slate-400">${i+1}.</span> ${r.treasure.icon} ${escapeCookieHtml(r.treasure.name)} <span class="${r.duplicate?'text-amber-300':'text-emerald-300'}">${r.duplicate?'+1 shard':'NEW!'}</span></div>`).join('');
+            document.getElementById('treasure-pull-summary').textContent=`${results.length} pulls · ${newCount} new · ${results.length-newCount} duplicates`;
+            modal.classList.remove('hidden');
         }
         function upgradeTreasure(id){
             const e=gameState.treasures?.[id];if(!e)return;
@@ -3883,7 +3931,40 @@
           inv.innerHTML=list.map(t=>{const cfg=TOPPING_TYPES[t.type],owner=t.equippedTo?COOKIES_DB.find(c=>c.id===t.equippedTo)?.name:'Unassigned';const options=owned.map(c=>`<option value="${c.id}" ${t.equippedTo===c.id?'selected':''}>${escapeCookieHtml(c.name.replace(/^[^A-Za-z0-9]+/,''))} · ${c.role}</option>`).join('');return `<div class="rounded-lg border border-slate-700 bg-slate-800/80 p-2"><div class="flex justify-between"><b class="text-xs ${cfg.color}">${cfg.icon} ${cfg.label} Topping · Lv.${t.level}</b><span class="text-[10px] text-slate-400">+${toppingValue(t)}%</span></div><div class="text-[10px] text-slate-400 mb-2">${owner}${(t.substats||[]).map(x=>` · +${(x.value*100).toFixed(1)}% ${TOPPING_TYPES[x.type].label} substat`).join('')}</div><div class="flex gap-2"><select onchange="equipTopping('${t.id}',this.value)" class="min-w-0 flex-1 bg-slate-900 text-xs rounded p-2"><option value="">Unequipped</option>${options}</select>${focusId?`<button onclick="equipTopping('${t.id}','${focusId}')" class="bg-emerald-600 text-white text-[10px] font-black rounded px-2">EQUIP</button>`:''}<button onclick="upgradeTopping('${t.id}')" ${t.level>=12?'disabled':''} class="bg-amber-500 text-slate-950 text-[10px] font-black rounded px-2">UPGRADE</button></div></div>`;}).join('')||'<p class="text-xs text-slate-500">No toppings match this filter.</p>';
         }
 
+        const CRK_SETTINGS_KEY='CRK_RPG_UI_SETTINGS_V1';
+        let crkSettings={speed:'1',numbers:'on',defense:'on',motion:'off'};
+        try{crkSettings={...crkSettings,...JSON.parse(localStorage.getItem(CRK_SETTINGS_KEY)||'{}')};}catch(e){}
+        function updateCrkSetting(key,value){
+            if(!['speed','numbers','defense','motion'].includes(key))return;
+            crkSettings[key]=value;
+            try{localStorage.setItem(CRK_SETTINGS_KEY,JSON.stringify(crkSettings));}catch(e){}
+            applyCrkSettings();
+        }
+        function applyCrkSettings(){
+            for(const key of ['speed','numbers','defense','motion']){
+                const el=document.getElementById('setting-'+key);if(el)el.value=crkSettings[key];
+            }
+            document.body.classList.toggle('crk-reduced-motion',crkSettings.motion==='on');
+        }
+        function resetCrkProgress(){
+            if(document.getElementById('settings-reset-word')?.value!=='DELETE'){
+                alert('Type DELETE exactly to confirm.');return;
+            }
+            if(!confirm('Permanently reset your Cookie RPG progression? Built Cookies and Meta saved teams will remain.'))return;
+            // Keep separate Builder and Meta localStorage data untouched.
+            // Retain in-save recommended teams, team drafts and published builds if present.
+            const keep={};
+            for(const key of Object.keys(gameState))if(/recommended|published|meta.*team|team.*meta|builtcookie/i.test(key))keep[key]=gameState[key];
+            gameState={...keep,coins:10000,gems:3000,stage:1,unlockedCookies:{},team:[null,null,null,null,null],defenseTeam:[null,null,null,null,null],savedTeams:[null,null,null,null,null],toppings:[],biscuits:[],treasures:{},equippedTreasures:[],defenseTreasures:[],defenseLogbook:[]};
+            try{
+                // Remove progression backups, not saved team drafts or built-cookie keys.
+                localStorage.removeItem(CRK_SAVE_KEY+'_BACKUP_V31');
+                localStorage.setItem(CRK_SAVE_KEY,JSON.stringify(gameState));
+            }catch(e){alert('Could not reset save: '+e.message);return;}
+            location.reload();
+        }
         function switchTab(tabName) {
+            if(tabName==='settings')applyCrkSettings();
             if(tabName==='builder'){builderUnlocked=false;const pwd=document.getElementById('builder-password');if(pwd)pwd.value='';}
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.nav-btn').forEach(el => {
@@ -6153,7 +6234,7 @@
         }
         function builderPreset(type){
             if(!builderUnlocked)return;
-            const presets={healer:['Healer',0,'heal',[['Healing Over Time','team',18,8],['DMG Resist Up','team',15,10]]],tank:['Defense',80,'shine',[['HP Shield / Barrier','team',20,8],['DEF Up','self',30,12]]],damage:['Magic',450,'throw',[['ATK Up','self',20,10],['DEF Down','enemy',15,8]]],control:['Statuser',150,'vines',[['Stun','random2',1.5,1.5],['ATK Down','enemy',20,8]]]};
+            const presets={legacy:['Healer',0,'heal',[['Instant Healing','team',50,0.5],['Element ATK Up','team',15,8]]],elemental:['Support',0,'shine',[['Element ATK Up','team',15,8],['Amplify Buff','team',15,8]]],healer:['Healer',0,'heal',[['Healing Over Time','team',18,8],['DMG Resist Up','team',15,10]]],tank:['Defense',80,'shine',[['HP Shield / Barrier','team',20,8],['DEF Up','self',30,12]]],damage:['Magic',450,'throw',[['ATK Up','self',20,10],['DEF Down','enemy',15,8]]],control:['Statuser',150,'vines',[['Stun','random2',1.5,1.5],['ATK Down','enemy',20,8]]]};
             const p=presets[type];if(!p)return;
             document.getElementById('cb-role').value=p[0];document.getElementById('cb-attack-power').value=p[1];document.getElementById('cb-visual').value=p[2];
             p[3].forEach(([stat,target,amount,duration])=>addBuilderEffect('skill',{stat,target,amount,duration,stacks:1}));
@@ -7185,6 +7266,7 @@
             backgroundDefenseMatch=null;renderDefenseLogbook();
         }
         function createLocalDefenseChallenge(){
+            if(crkSettings.defense==='off')return;
             if(!gameState||backgroundDefenseMatch)return;
             const ids=(gameState.defenseTeam||[]).filter(Boolean);
             if(!ids.length||!ids.some(id=>COOKIES_DB.find(c=>c.id===id)?.role!=='Ethereal'))return;
@@ -7196,7 +7278,7 @@
         setInterval(()=>{try{advanceBackgroundDefense();}catch(err){console.warn('Defense combat:',err);}},250);
         function startBattle(forcedTier=null) {
             if(leagueMode){alert('Stop the Auto Meta League before starting a manual battle.');return;}
-            metaTestMode=false; battleSpeed=1; document.getElementById('battle-speed-select').value='1';
+            metaTestMode=false; battleSpeed=Number(crkSettings.speed)||1; document.getElementById('battle-speed-select').value=String(battleSpeed);
             const activeTeam = gameState.team.filter(id => id !== null);
             if (activeTeam.length === 0) { alert("Equip at least 1 cookie in Offense Squad!"); switchTab('loadout'); return; }
             if(!activeTeam.some(id=>COOKIES_DB.find(c=>c.id===id)?.role!=='Ethereal')){
@@ -7782,40 +7864,136 @@
             else {te.dmgTakenUp=Math.min(.25,(te.dmgTakenUp||0)+.02);te.dmgTakenUpTimer=Math.max(te.dmgTakenUpTimer||0,3);}
           }
         }
+        // Every elemental hit leaves a short-lived elemental imprint.
+        // Reactions are keyed individually; a target can trigger multiple distinct
+        // combinations, but each pairing has its own cooldown.
+        // Reactions require actual ACTIVE elemental signature statuses, never a Cookie's element.
         const ELEMENT_REACTIONS=[
-          {a:'Burn',b:'Frost',name:'🌡️ Thermal Shock',kind:'burst'},
-          {a:'Solar Burn',b:'Freeze',name:'☀️ Solar Shatter',kind:'burst'},
-          {a:'Zap',b:'Tear',name:'⚡ Conductive Surge',kind:'burst'},
+          {a:'Burn',b:'Frost',name:'💥 Thermal Shock',kind:'burst'},
+          {a:'Solar Burn',b:'Freeze',name:'💥 Solar Shatter',kind:'burst'},
+          {a:'Zap',b:'Tear',name:'⚡ Conductive Surge',kind:'chain'},
           {a:'Overcurrent',b:'Shackles',name:'⛓️ Circuit Break',kind:'control'},
-          {a:'Poison',b:'Bleed',name:'☠️ Toxic Wound',kind:'burst'},
-          {a:'Corruption',b:'Solar Burn',name:'🌘 Eclipse',kind:'weaken'},
-          {a:'Decay',b:'Frost',name:'🥀 Withering Chill',kind:'weaken'},
-          {a:'Shackles',b:'Burn',name:'🔥 Searing Bind',kind:'control'}
+          {a:'Poison',b:'Bleed',name:'☣️ Toxic Wound',kind:'dot'},
+          {a:'Corruption',b:'Solar Burn',name:'💔 Eclipse',kind:'weaken'},
+          {a:'Decay',b:'Frost',name:'💔 Withering Chill',kind:'weaken'},
+          {a:'Shackles',b:'Burn',name:'⛓️ Searing Bind',kind:'control'},
+          {a:'Burn',b:'Poison',name:'☣️ Toxic Flames',kind:'dot'},
+          {a:'Burn',b:'Zap',name:'⚡ Plasma Ignition',kind:'chain'},
+          {a:'Burn',b:'Bleed',name:'☣️ Scorched Wounds',kind:'dot'},
+          {a:'Burn',b:'Corruption',name:'💥 Cursed Inferno',kind:'burst'},
+          {a:'Solar Burn',b:'Decay',name:'💔 Ashen Eclipse',kind:'weaken'},
+          {a:'Solar Burn',b:'Zap',name:'⚡ Radiant Discharge',kind:'chain'},
+          {a:'Solar Burn',b:'Bleed',name:'💥 Searing Rupture',kind:'burst'},
+          {a:'Zap',b:'Poison',name:'⛓️ Neuroshock',kind:'control'},
+          {a:'Zap',b:'Freeze',name:'⛓️ Cryo Circuit',kind:'control'},
+          {a:'Zap',b:'Infection',name:'☣️ Viral Surge',kind:'dot'},
+          {a:'Zap',b:'Corruption',name:'💔 Blackout',kind:'weaken'},
+          {a:'Overcurrent',b:'Freeze',name:'💥 Absolute Zero',kind:'burst'},
+          {a:'Overcurrent',b:'Bleed',name:'☣️ Electro Hemorrhage',kind:'dot'},
+          {a:'Overcurrent',b:'Decay',name:'💔 System Failure',kind:'weaken'},
+          {a:'Poison',b:'Frost',name:'❄️ Venom Chill',kind:'slow'},
+          {a:'Poison',b:'Freeze',name:'☣️ Frozen Venom',kind:'dot'},
+          {a:'Poison',b:'Shackles',name:'⛓️ Venom Trap',kind:'control'},
+          {a:'Poison',b:'Corruption',name:'☣️ Pestilence',kind:'dot'},
+          {a:'Poison',b:'Infection',name:'☣️ Pandemic',kind:'dot'},
+          {a:'Bleed',b:'Frost',name:'❄️ Cold Blood',kind:'slow'},
+          {a:'Bleed',b:'Shackles',name:'⛓️ Blood Lock',kind:'control'},
+          {a:'Bleed',b:'Infection',name:'☣️ Sepsis',kind:'dot'},
+          {a:'Bleed',b:'Decay',name:'☣️ Hemorrhagic Rot',kind:'dot'},
+          {a:'Tear',b:'Freeze',name:'💥 Fractured Ice',kind:'burst'},
+          {a:'Tear',b:'Shackles',name:'💥 Ruptured Chains',kind:'burst'},
+          {a:'Tear',b:'Corruption',name:'💥 Void Tear',kind:'burst'},
+          {a:'Tear',b:'Decay',name:'💔 Unravel',kind:'weaken'},
+          {a:'Infection',b:'Frost',name:'❄️ Dormant Plague',kind:'slow'},
+          {a:'Infection',b:'Corruption',name:'☣️ Dark Plague',kind:'dot'},
+          {a:'Infection',b:'Decay',name:'💔 Terminal Blight',kind:'weaken'},
+          {a:'Frost',b:'Shackles',name:'⛓️ Permafrost Bind',kind:'control'},
+          {a:'Frost',b:'Corruption',name:'💔 Black Ice',kind:'weaken'},
+          {a:'Frost',b:'Decay',name:'☣️ Winter Rot',kind:'dot'},
+          {a:'Freeze',b:'Corruption',name:'⛓️ Shadow Prison',kind:'control'},
+          {a:'Freeze',b:'Decay',name:'💥 Brittle Decay',kind:'burst'},
+          {a:'Shackles',b:'Decay',name:'💔 Rusting Chains',kind:'weaken'},
+          {a:'Corruption',b:'Decay',name:'💥 Oblivion',kind:'burst'},
+          {a:'Solar Burn',b:'Poison',name:'💥 Purging Heat',kind:'burst'},
+          {a:'Overcurrent',b:'Infection',name:'⚡ Contagious Current',kind:'chain'},
+          {a:'Tear',b:'Infection',name:'☣️ Open Wound',kind:'dot'},
+          {a:'Freeze',b:'Bleed',name:'💥 Crimson Ice',kind:'burst'},
+          {a:'Solar Burn',b:'Shackles',name:'⛓️ Sunbound',kind:'control'},
+          {a:'Zap',b:'Frost',name:'❄️ Static Chill',kind:'slow'},
+          {a:'Overcurrent',b:'Poison',name:'💥 Venom Overload',kind:'burst'},
+          {a:'Tear',b:'Burn',name:'💥 Flame Rend',kind:'burst'},
+          {a:'Infection',b:'Burn',name:'☣️ Fever',kind:'dot'},
+          {a:'Decay',b:'Burn',name:'☣️ Cinder Rot',kind:'dot'},
+          {a:'Solar Burn',b:'Frost',name:'💥 Flash Thaw',kind:'burst'}
         ];
         function activeReactionStatuses(target){
           const e=target.effects||{},set=new Set();
-          for(const x of Object.values(e._customStatus||{}))if(x.time>0)set.add(x.stat);
+          for(const x of Object.values(e._customStatus||{}))if(x&&Number(x.time)>0&&x.stat)set.add(x.stat);
+          if(Object.values(e._nativeBurns||{}).some(x=>x&&Number(x.time)>0||x&&Number(x.remaining)>0))set.add('Burn');
           if(e.burnTimer>0)set.add('Burn');
           if(e.poisonTimer>0)set.add('Poison');
           if(e.freeze>0)set.add('Freeze');
           if(e.root>0)set.add('Shackles');
           return set;
         }
+        function showReactionHitmarker(target,reaction){
+          if(gearHeadlessBattle||(leagueMode&&!leagueSpectating))return;
+          const node=document.getElementById('unit-node-'+target.uid);
+          if(!node)return;
+          const mark=document.createElement('div');
+          mark.className='element-reaction-hitmarker';
+          mark.textContent='✦ '+reaction.name+' ✦';
+          mark.style.setProperty('--reaction-accent',reaction.kind==='control'?'#a5b4fc':reaction.kind==='dot'?'#86efac':reaction.kind==='chain'?'#fde68a':'#f9a8d4');
+          const rect=node.getBoundingClientRect();
+          mark.style.left=Math.max(90,Math.min(window.innerWidth-90,rect.left+rect.width/2))+'px';
+          mark.style.top=Math.max(55,rect.top+rect.height*.12)+'px';
+          document.body.appendChild(mark);
+          node.classList.remove('element-reaction-flash');void node.offsetWidth;
+          node.classList.add('element-reaction-flash');
+          setTimeout(()=>{mark.remove();node.classList.remove('element-reaction-flash');},1500);
+        }
         function triggerElementalReaction(attacker,target){
           if(!attacker||!target||target.currentHp<=0||target._reactionBusy)return;
-          const now=180-battleTimeLeft;
-          if(now<(target._nextReactionTime||0))return;
           const statuses=activeReactionStatuses(target);
-          const reaction=ELEMENT_REACTIONS.find(r=>statuses.has(r.a)&&statuses.has(r.b));
-          if(!reaction)return;
-          target._nextReactionTime=now+3;
+          const clocks=target._reactionClocks||(target._reactionClocks={});
+          // Use a monotonic simulation clock rather than a battle-time countdown.
+          const now=Date.now()/1000;
+          const ready=ELEMENT_REACTIONS.filter(r=>statuses.has(r.a)&&statuses.has(r.b)&&now>=(clocks[r.a+'|'+r.b]||0)).slice(0,2);
+          if(!ready.length)return;
           target._reactionBusy=true;
           try{
             const strength=Math.max(1,Number(attacker.atk)||1);
-            if(reaction.kind==='burst')applyDamage(attacker,target,strength*.65,'text-fuchsia-300 text-xs',false,false,0,'reaction');
-            if(reaction.kind==='control')target.effects.stun=Math.max(target.effects.stun||0,.45);
-            if(reaction.kind==='weaken'){target.effects.dmgTakenUp=Math.max(target.effects.dmgTakenUp||0,.12);target.effects.dmgTakenUpTimer=Math.max(target.effects.dmgTakenUpTimer||0,3);}
-            if(!gearHeadlessBattle&&!leagueMode)spawnFloatingText(target.uid,reaction.name,'text-fuchsia-300 text-[10px]');
+            const allies=(playerUnits.includes(attacker)?playerUnits:enemyUnits).filter(u=>u.currentHp>0);
+            for(const reaction of ready){
+              clocks[reaction.a+'|'+reaction.b]=now+4;
+              const e=target.effects||(target.effects={});
+              if(['burst','chain','dot'].includes(reaction.kind)){
+                const factor=reaction.kind==='burst'?.65:reaction.kind==='chain'?.40:.30;
+                const dealt=applyDamage(attacker,target,strength*factor,'text-fuchsia-300 text-xs',false,false,0,'reaction');
+                attacker.elementDamage=attacker.elementDamage||{};
+                attacker.elementDamage[reaction.name]=(attacker.elementDamage[reaction.name]||0)+dealt;
+                if(reaction.kind==='chain'){
+                  const others=(playerUnits.includes(target)?playerUnits:enemyUnits).filter(u=>u!==target&&u.currentHp>0);
+                  if(others.length){
+                    const other=others[Math.floor(Math.random()*others.length)];
+                    attacker.elementDamage[reaction.name]+=applyDamage(attacker,other,strength*.20,'text-fuchsia-300 text-xs',false,false,0,'reaction');
+                  }
+                }
+                if(reaction.kind==='dot'){
+                  e.dmgTakenUp=Math.max(e.dmgTakenUp||0,.08);
+                  e.dmgTakenUpTimer=Math.max(e.dmgTakenUpTimer||0,4);
+                }
+              }else if(reaction.kind==='control'){
+                e.stun=Math.max(e.stun||0,.55);
+              }else if(reaction.kind==='weaken'){
+                e.dmgTakenUp=Math.max(e.dmgTakenUp||0,.15);
+                e.dmgTakenUpTimer=Math.max(e.dmgTakenUpTimer||0,4);
+              }else if(reaction.kind==='slow'){
+                e.attackSpeedDown=Math.max(e.attackSpeedDown||0,.20);
+                e.attackSpeedDownTimer=Math.max(e.attackSpeedDownTimer||0,4);
+              }
+              showReactionHitmarker(target,reaction);
+            }
           }finally{target._reactionBusy=false;}
         }
         function applyDamage(attacker,target,rawDamage,color='text-rose-400 text-xs',isPlayer=false,ignoreDefense=false,defensePenetration=0,statusHit=null) {
@@ -8718,6 +8896,7 @@
 
         // Large, color-coded numbers with staggered lanes for rapid multi-hit skills.
         function spawnCombatNumber(uid,value,kind='damage',queued=false) {
+            if(crkSettings.numbers==='off')return;
             if(gearHeadlessBattle || (leagueMode && !leagueSpectating))return;
             const node=document.getElementById(`unit-node-${uid}`);if(!node)return;
             const num=Math.max(0,Math.round(Number(value)||0));if(!num)return;
@@ -8941,14 +9120,14 @@
           // Scale boss offense to the strongest Cookie in the actual raid lineup,
           // not to boss HP. This includes each Cookie's equipped ATK bonuses.
           const highestCookieAtk=Math.max(1,...team.filter(c=>c.role!=='Ethereal').map(c=>Math.max(0,Number(c.atk)||0)));
-          const bossAtkMultiplier=3.0;
+          const bossAtkMultiplier=2.25;
           unit.atk=Math.max(1,Math.round(highestCookieAtk*bossAtkMultiplier));
           unit.baseAtk=unit.atk;
           switchTab('battle');
           beginBattleWithTeams(team,[unit],'🐉 RAID · '+boss[1].toUpperCase());
           battleTimeLeft=180;
           logBattleEvent('🎭 Boss copies a different skill from YOUR attacking squad when its 12-second skill cooldown is ready. Basic attack: 75% ATK every 2 seconds. No raid time multiplier.');
-          logBattleEvent(`🐉 ${boss[1]} enters with ${hp.toLocaleString()} HP! Boss ATK: ${unit.atk.toLocaleString()} (3× strongest Cookie ATK: ${highestCookieAtk.toLocaleString()}).`);
+          logBattleEvent(`🐉 ${boss[1]} enters with ${hp.toLocaleString()} HP! Boss ATK: ${unit.atk.toLocaleString()} (2.25× strongest Cookie ATK: ${highestCookieAtk.toLocaleString()}).`);
           document.getElementById('raid-status').textContent='Battle in progress: '+boss[1];
         }
         const RAID_COPIED_SKILL_FIELDS=['id','name','skill','skillName','role','element','rarity','custom','customDamage','customAttack','customAttacks','customEffects','customPassives','customComposites','customSkillEffects','customStatusEffects','customKit','kit','customVisual','customVisualEmoji','customVisualColor','customVisualDuration','customVisualHits','customVisualTarget','customVisualTargetCount','customParticles','customGlow','customTrail','openingCD','regularCD','skillLevel'];
@@ -9105,7 +9284,7 @@
               if(!gearHeadlessBattle)renderBattleArena();
             }
           }
-          if(raidAttackClock>=2){raidAttackClock-=2;const target=alive[Math.floor(Math.random()*alive.length)];applyDamage(raidBoss,target,raidBoss.atk*.75,'text-orange-400 text-xs',false);logBattleEvent('🐉 '+raidBoss.name+' strikes '+target.name);}
+          if(raidAttackClock>=2){raidAttackClock-=2;const target=alive[Math.floor(Math.random()*alive.length)];applyDamage(raidBoss,target,raidBoss.atk*.50,'text-orange-400 text-xs',false);logBattleEvent('🐉 '+raidBoss.name+' strikes '+target.name);}
           // The visible boss skill bar is the copied Cookie skill cooldown.
           // Once full (0 seconds remaining), copy and cast one different teammate's skill.
           if(raidSpecialClock>=12){
